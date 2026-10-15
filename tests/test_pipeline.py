@@ -38,16 +38,46 @@ class PipelineTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 common.check_place(f)
 
-    def test_staging_different_from_production(self):
+    def make_manifest(self, root, staging_universe=123, production_universe=456, staging_path="staging.rbxlx", production_path="production.rbxlx"):
+        import json
+        cfg = root / "games/test/places/lobby/deploy.json"
+        cfg.parent.mkdir(parents=True)
+        for filename in set((staging_path, production_path)):
+            (root / filename).write_text('<roblox version="4">' + " " * 100 + '</roblox>')
+        data = {
+            "mode": "file",
+            "staging": {"file_path": staging_path, "universe_id": staging_universe, "place_id": 234},
+            "production": {"file_path": production_path, "universe_id": production_universe, "place_id": 567}
+        }
+        cfg.write_text(json.dumps(data))
+        return cfg
+
+    def test_staging_different_from_production_universe(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            cfg = root / "games/test/places/lobby/deploy.json"
-            cfg.parent.mkdir(parents=True)
-            (root / "place.rbxlx").write_text('<roblox version="4">' + " " * 100 + '</roblox>')
-            cfg.write_text('{"mode":"file","file_path":"place.rbxlx","staging":{"universe_id":123,"place_id":234},"production":{"universe_id":123,"place_id":456}}')
+            self.make_manifest(root, production_universe=123)
             with patch.object(common, "ROOT", root):
-                with self.assertRaises(ValueError):
+                with self.assertRaisesRegex(ValueError, "universe IDs must differ"):
                     common.load_manifest("test", "lobby")
+
+    def test_staging_different_from_production_source(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.make_manifest(root, production_path="staging.rbxlx")
+            with patch.object(common, "ROOT", root):
+                with self.assertRaisesRegex(ValueError, "distinct source"):
+                    common.load_manifest("test", "lobby")
+
+    def test_valid_separate_staging_and_production(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.make_manifest(root)
+            with patch.object(common, "ROOT", root):
+                mode, sources, ids = common.load_manifest("test", "lobby")
+            self.assertEqual(mode, "file")
+            self.assertEqual(sources["staging"].name, "staging.rbxlx")
+            self.assertEqual(sources["production"].name, "production.rbxlx")
+            self.assertEqual(ids["staging"]["universe_id"], "123")
 
 if __name__ == "__main__":
     unittest.main()

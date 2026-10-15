@@ -1,0 +1,6 @@
+{
+  "mode": "rojo",
+  "project_path": "games/YOUR-GAME/places/YOUR-PLACE/default.project.json",
+  "staging": {"universe_id": "REPLACE_ME", "place_id": "REPLACE_ME"},
+  "production": {"universe_id": "REPLACE_ME", "place_id": "REPLACE_ME"}
+}

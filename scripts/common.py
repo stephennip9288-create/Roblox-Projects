@@ -32,23 +32,30 @@ def load_manifest(game, place):
     mode = data.get("mode")
     if mode not in ("file", "rojo"):
         raise ValueError("mode must be file or rojo")
-    source = safe_path(data.get("file_path") if mode == "file" else data.get("project_path"))
-    if mode == "file" and source.suffix.lower() not in (".rbxl", ".rbxlx"):
-        raise ValueError("file mode expects .rbxl or .rbxlx")
-    if mode == "rojo" and not source.name.endswith(".project.json"):
-        raise ValueError("rojo mode expects .project.json")
+    path_field = "file_path" if mode == "file" else "project_path"
+    sources = {}
     ids = {}
     for env in ("staging", "production"):
-        entry = data.get(env, {})
+        entry = data.get(env)
+        if not isinstance(entry, dict):
+            raise ValueError("Missing environment: " + env)
         ids[env] = {"universe_id": numeric_id(entry.get("universe_id")), "place_id": numeric_id(entry.get("place_id"))}
+        source = safe_path(entry.get(path_field))
+        if mode == "file" and source.suffix.lower() not in (".rbxl", ".rbxlx"):
+            raise ValueError("file mode expects .rbxl or .rbxlx")
+        if mode == "rojo" and not source.name.endswith(".project.json"):
+            raise ValueError("rojo mode expects .project.json")
+        sources[env] = source
     if ids["staging"]["universe_id"] == ids["production"]["universe_id"]:
         raise ValueError("Staging and production universe IDs must differ")
-    return mode, source, ids
+    if sources["staging"] == sources["production"]:
+        raise ValueError("Staging and production require distinct source files/projects to prevent live teleport IDs in staging")
+    return mode, sources, ids
 
 def check_place(path):
     size = path.stat().st_size
     if size < 64 or size > MAX_OPEN_CLOUD_BYTES:
-        raise ValueError("Place must be at least 64 bytes and at most 10 MiB")
+        raise ValueError("Place must be at least 64 bytes and at most 10 MiB (conservative pipeline limit)")
     if path.suffix.lower() == ".rbxlx":
         import xml.etree.ElementTree as ET
         with path.open("rb") as handle:

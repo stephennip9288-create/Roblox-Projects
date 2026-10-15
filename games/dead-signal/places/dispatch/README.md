@@ -1,0 +1,1 @@
+Dispatch is the start place. Upload complete source as staging.rbxlx and production.rbxlx (or .rbxl equivalents). Once both are present and IDs checked, add deploy.json from examples/place.deploy.example.json. No deployment is configured yet.

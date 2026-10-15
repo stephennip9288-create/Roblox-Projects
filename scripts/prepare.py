@@ -6,9 +6,10 @@ from pathlib import Path
 from common import ROOT, load_manifest, check_place
 
 def prepare(game, place, target, output_dir):
-    mode, source, ids = load_manifest(game, place)
+    mode, sources, ids = load_manifest(game, place)
     if target not in ids:
         raise ValueError("Unsupported target")
+    source = sources[target]
     output = Path(output_dir).resolve()
     output.mkdir(parents=True, exist_ok=True)
     artifact = output / ("place" + (source.suffix if mode == "file" else ".rbxlx"))

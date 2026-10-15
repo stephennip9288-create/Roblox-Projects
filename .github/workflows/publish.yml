@@ -1,0 +1,87 @@
+name: Publish Roblox Place
+
+on:
+  workflow_dispatch:
+    inputs:
+      game:
+        description: "Game folder slug"
+        type: string
+        required: true
+      place:
+        description: "Place folder slug"
+        type: string
+        required: true
+      target:
+        description: "Isolated staging or live production"
+        type: choice
+        options:
+          - staging
+          - production
+        default: staging
+        required: true
+      confirm_production:
+        description: "Production only: type PUBLISH"
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: roblox-publish-${{ inputs.game }}-${{ inputs.place }}-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Require deliberate production authorization
+        env:
+          TARGET: ${{ inputs.target }}
+          CONFIRMATION: ${{ inputs.confirm_production }}
+          REF: ${{ github.ref }}
+        run: |
+          if [ "$TARGET" = "production" ]; then
+            if [ "$CONFIRMATION" != "PUBLISH" ] || [ "$REF" != "refs/heads/main" ]; then
+              echo "Production requires PUBLISH confirmation on main" >&2
+              exit 1
+            fi
+          fi
+      - name: Validate files
+        run: |
+          python -m unittest discover -s tests -v
+          python scripts/validate.py
+      - name: Set up Rojo toolchain
+        uses: CompeyDev/setup-rokit@v0.1.2
+      - name: Install pinned Rojo
+        run: rokit install
+      - name: Prepare complete place
+        run: python scripts/prepare.py --game "$GAME" --place "$PLACE" --target "$TARGET" --output-dir build
+        env:
+          GAME: ${{ inputs.game }}
+          PLACE: ${{ inputs.place }}
+          TARGET: ${{ inputs.target }}
+      - name: Archive upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: roblox-${{ inputs.game }}-${{ inputs.place }}-${{ inputs.target }}-${{ github.run_number }}
+          path: build/
+          retention-days: 30
+      - name: Publish staging
+        if: ${{ inputs.target == 'staging' }}
+        run: python scripts/publish.py --build-dir build
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_STAGING_API_KEY }}
+      - name: Publish production
+        if: ${{ inputs.target == 'production' }}
+        run: python scripts/publish.py --build-dir build
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_PRODUCTION_API_KEY }}
+          PRODUCTION_CONFIRMED: ${{ inputs.confirm_production }}

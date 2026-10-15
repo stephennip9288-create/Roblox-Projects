@@ -1,0 +1,6 @@
+{
+  "mode": "file",
+  "file_path": "games/YOUR-GAME/places/YOUR-PLACE/place.rbxlx",
+  "staging": {"universe_id": "REPLACE_ME", "place_id": "REPLACE_ME"},
+  "production": {"universe_id": "REPLACE_ME", "place_id": "REPLACE_ME"}
+}

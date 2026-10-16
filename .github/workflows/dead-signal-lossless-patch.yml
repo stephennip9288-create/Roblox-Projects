@@ -5,6 +5,8 @@ on:
     paths:
       - 'games/dead-signal/dev/Source/**'
       - 'scripts/patch_dead_signal_rbxl.py'
+      - 'games/dead-signal/full-baselines/**'
+      - 'tests/test_patch_dead_signal_rbxl.py'
       - 'scripts/audit_dead_signal_binary.py'
       - 'scripts/generate_dead_signal_place_configs.py'
       - '.github/workflows/dead-signal-lossless-patch.yml'
@@ -12,6 +14,8 @@ on:
     paths:
       - 'games/dead-signal/dev/Source/**'
       - 'scripts/patch_dead_signal_rbxl.py'
+      - 'games/dead-signal/full-baselines/**'
+      - 'tests/test_patch_dead_signal_rbxl.py'
       - 'scripts/audit_dead_signal_binary.py'
       - 'scripts/generate_dead_signal_place_configs.py'
       - '.github/workflows/dead-signal-lossless-patch.yml'
@@ -35,11 +39,24 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
           python scripts/validate.py
+      - name: Check native v1.8 Work binary baselines are imported
+        id: baseline
+        shell: bash
+        run: |
+          if [ -f games/dead-signal/full-baselines/v1.8.0/IMPORT-MANIFEST.json ]; then
+            echo 'ready=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+            echo '::warning title=Full v1.8 baseline import needed::Raw patcher tests passed, but four native Work place files must be imported before integration candidates can build.'
+          fi
       - name: Patch ONLY Script Source PROP chunks (no full-place serialization)
+        if: ${{ steps.baseline.outputs.ready == 'true' }}
         run: python scripts/patch_dead_signal_rbxl.py
       - name: Verify raw RBXL class/property fidelity
-        run: python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/staging
+        if: ${{ steps.baseline.outputs.ready == 'true' }}
+        run: python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/staging --baseline-dir games/dead-signal/full-baselines/v1.8.0
       - name: Verify patch reports and no unexpected output files
+        if: ${{ steps.baseline.outputs.ready == 'true' }}
         shell: bash
         run: |
           python - <<'PY'
@@ -59,6 +76,7 @@ jobs:
           print('Four binary source-only patch reports verified; no publish.')
           PY
       - name: Upload offline-patched staging candidates (REVIEW ONLY)
+        if: ${{ steps.baseline.outputs.ready == 'true' }}
         uses: actions/upload-artifact@v7
         with:
           name: dead-signal-lossless-staging-${{ github.run_number }}

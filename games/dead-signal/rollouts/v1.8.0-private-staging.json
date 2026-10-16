@@ -1,0 +1,7 @@
+{
+  "release": "dead-signal-v1.8.0-private-staging",
+  "operation": "deploy",
+  "confirmation": "DEPLOY-PRIVATE-STAGING",
+  "environment": "staging",
+  "production_allowed": false
+}

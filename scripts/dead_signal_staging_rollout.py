@@ -95,26 +95,48 @@ def validate_candidate(place, original, modified, configs):
     return {"patched_prop_chunks": changes, "script_paths": len(sources)}
 
 
+def verified_baselines():
+    """Rollback must remain usable even if candidate build/report is broken."""
+    ids = staging_manifest()
+    if set(ROLES) != set(ORDER):
+        raise ValueError("Unexpected number of staging places")
+    reviewed = {}
+    for place in ORDER:
+        mode, sources, targets = load_manifest("dead-signal", place)
+        if (mode != "file" or targets["staging"]["universe_id"] != STAGING_UNIVERSE
+                or targets["staging"]["place_id"] != ids["staging"]["places"][place]):
+            raise ValueError("Unexpected rollback place/universe: " + place)
+        baseline = sources["staging"]
+        if baseline != SOURCE_BASELINE / place / "staging.rbxl":
+            raise ValueError("Rollback file path changed: " + place)
+        nbytes = check_place(baseline)
+        texts = source_texts(baseline.read_bytes())
+        config = texts.get("ReplicatedStorage/DeadSignal/PlaceConfig")
+        if config is None:
+            raise ValueError("Rollback baseline missing PlaceConfig: " + place)
+        for live_id in ids["production"]["places"].values():
+            if live_id.encode("ascii") in config:
+                raise ValueError("Rollback baseline points to production: " + place)
+        reviewed[place] = {
+            "staging_place_id": targets["staging"]["place_id"],
+            "staging_universe_id": targets["staging"]["universe_id"],
+            "rollback_baseline_sha256": sha256(baseline.read_bytes()),
+            "rollback_baseline_bytes": nbytes,
+        }
+    return reviewed
+
+
 def preflight():
     ids = staging_manifest()
+    reviewed = verified_baselines()
     expected = set(ORDER)
-    if set(ROLES) != expected:
-        raise ValueError("Unexpected number of staging places")
     report = json.loads((CANDIDATES / "LOSSLESS-REPORT.json").read_text("utf-8"))
     fidelity = json.loads((CANDIDATES / "BINARY-FIDELITY-REPORT.json").read_text("utf-8"))
     if set(report) != expected or set(fidelity.get("places", {})) != expected:
         raise ValueError("Missing full four-place patch/fidelity reports")
     if not fidelity.get("all_property_signatures_preserved"):
         raise ValueError("Binary fidelity report was blocked")
-    reviewed = {}
     for place in ORDER:
-        mode, sources, targets = load_manifest("dead-signal", place)
-        if mode != "file" or targets["staging"]["universe_id"] != STAGING_UNIVERSE or targets["staging"]["place_id"] != ids["staging"]["places"][place]:
-            raise ValueError("Unexpected staging deployment target: " + place)
-        baseline = sources["staging"]
-        if baseline != SOURCE_BASELINE / place / "staging.rbxl":
-            raise ValueError("Rollback baseline path changed: " + place)
-        baseline_size = check_place(baseline)
         candidate = CANDIDATES / f"{place}.rbxl"
         check_place(candidate)
         native = ROOT / "games/dead-signal/full-baselines/v1.8.0" / f"{place}.rbxl"
@@ -129,15 +151,11 @@ def preflight():
         if not fidelity["places"][place]["passed"]:
             raise ValueError("Raw-property check failed: " + place)
         inspect = validate_candidate(place, native_bytes, candidate_bytes, ids)
-        reviewed[place] = {
-            "staging_place_id": targets["staging"]["place_id"],
-            "staging_universe_id": targets["staging"]["universe_id"],
-            "rollback_baseline_sha256": sha256(baseline.read_bytes()),
-            "rollback_baseline_bytes": baseline_size,
+        reviewed[place].update({
             "candidate_sha256": sha256(candidate_bytes),
             "candidate_bytes": candidate.stat().st_size,
             **inspect,
-        }
+        })
     return reviewed
 
 
@@ -186,10 +204,10 @@ def run(operation, confirmation):
         raise ValueError("Wrong GitHub repository")
     if not os.environ.get("ROBLOX_API_KEY"):
         raise ValueError("Missing staging-only Roblox API key")
-    # Always check every candidate and every rollback baseline before updating ANY place.
-    approved = preflight()
+    # Every publish is staged-only. Rollback works even when candidate CI is broken.
+    approved = preflight() if operation == "deploy" else verified_baselines()
     write_backup_manifest(approved)
-    print("STAGING preflight complete: 4 candidates checked, 4 rollback baselines recorded.")
+    print("STAGING preflight complete: 4 rollback baselines recorded; operation=" + operation, flush=True)
     uploaded = []
     results = {}
     try:

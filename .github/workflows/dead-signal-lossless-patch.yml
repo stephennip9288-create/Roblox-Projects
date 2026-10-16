@@ -49,7 +49,7 @@ jobs:
           report=json.loads((d/'LOSSLESS-REPORT.json').read_text())
           expected={'dispatch','blackwater','cinderworks','whiteout'}
           assert set(report)==expected
-          assert {p.name for p in d.iterdir() if p.is_file()} == {f'{p}.rbxl' for p in expected}|{'LOSSLESS-REPORT.json'}
+          assert {p.name for p in d.iterdir() if p.is_file()} == {f'{p}.rbxl' for p in expected}|{'LOSSLESS-REPORT.json','BINARY-FIDELITY-REPORT.json'}
           for name in expected:
               r=report[name]
               assert r['all_untouched_chunks_byte_identical']

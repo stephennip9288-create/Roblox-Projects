@@ -37,9 +37,9 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Require deliberate production authorization
@@ -58,10 +58,29 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
           python scripts/validate.py
-      - name: Set up Rojo toolchain
+      - name: Check selected place is configured
+        id: place_config
+        env:
+          GAME: ${{ inputs.game }}
+          PLACE: ${{ inputs.place }}
+        run: |
+          python - <<'PY'
+          import os
+          import sys
+          sys.path.insert(0, "scripts")
+          from common import load_manifest
+          game = os.environ["GAME"]
+          place = os.environ["PLACE"]
+          mode, sources, ids = load_manifest(game, place)
+          print(f"Configuration found: {game}/{place} (mode={mode})")
+          print(f"Staging: universe {ids['staging']['universe_id']}, place {ids['staging']['place_id']}")
+          print(f"Production: universe {ids['production']['universe_id']}, place {ids['production']['place_id']}")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+              f.write(f"mode={mode}\n")
+          PY
+      - name: Set up Rojo toolchain (Rojo projects only)
+        if: ${{ steps.place_config.outputs.mode == 'rojo' }}
         uses: CompeyDev/setup-rokit@v0.1.2
-      - name: Install pinned Rojo
-        run: rokit install
       - name: Prepare complete place
         run: python scripts/prepare.py --game "$GAME" --place "$PLACE" --target "$TARGET" --output-dir build
         env:

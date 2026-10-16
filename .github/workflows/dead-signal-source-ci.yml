@@ -1,0 +1,69 @@
+name: Dead Signal Work Source CI (No Publish)
+
+on:
+  push:
+    paths:
+      - 'games/dead-signal/dev/**'
+      - 'games/dead-signal/work-source/**'
+      - 'games/dead-signal/places/**/deploy.json'
+      - 'scripts/generate_dead_signal_place_configs.py'
+      - 'tests/test_dead_signal_configs.py'
+      - '.github/workflows/dead-signal-source-ci.yml'
+  pull_request:
+    paths:
+      - 'games/dead-signal/dev/**'
+      - 'games/dead-signal/work-source/**'
+      - 'games/dead-signal/places/**/deploy.json'
+      - 'scripts/generate_dead_signal_place_configs.py'
+      - 'tests/test_dead_signal_configs.py'
+      - '.github/workflows/dead-signal-source-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-tests:
+    name: Python checks, isolated configs and Lune suites
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source (no keys)
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Test publisher manifests and configuration isolation
+        run: |
+          python -m unittest discover -s tests -v
+          python scripts/validate.py
+      - name: Generate staging and production PlaceConfigs (no publish)
+        run: python scripts/generate_dead_signal_place_configs.py
+      - name: Install pinned Lune
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          path: games/dead-signal/dev
+      - name: Prepare temporary known-good staging fixtures for offline integration
+        run: |
+          mkdir -p games/dead-signal/dev/Places
+          cp games/dead-signal/places/dispatch/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Lobby.rbxl
+          cp games/dead-signal/places/blackwater/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Station.rbxl
+          cp games/dead-signal/places/cinderworks/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Foundry.rbxl
+          cp games/dead-signal/places/whiteout/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Frost.rbxl
+          echo "The 4 temporary place fixtures are the known-good staging binaries, NOT new v1.8 Work builds."
+      - name: Run imported Work runtime tests against existing staging baselines
+        working-directory: games/dead-signal/dev
+        run: |
+          lune --version
+          lune run Tests/syntax.luau
+          python Tests/run.py --lune lune
+      - name: Archive isolated configs and test report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-source-ci-${{ github.run_number }}
+          path: |
+            build/dead-signal-place-configs/
+            games/dead-signal/dev/Validation/Tests-Report.json
+          if-no-files-found: warn
+          retention-days: 14

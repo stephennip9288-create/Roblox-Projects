@@ -104,9 +104,6 @@ function L.new(parent)
             BackgroundTransparency=.89,BorderSizePixel=0,ZIndex=90})
     end
     self.image=U.make("ImageLabel",self.frame,{Name="MapArtwork",Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ScaleType=Enum.ScaleType.Crop,Visible=false,ZIndex=91})
-    self.image:GetPropertyChangedSignal("IsLoaded"):Connect(function()
-        if self.image.Parent then self.image.Visible=self.image.Image~="" and self.image.IsLoaded end
-    end)
     local shade=U.make("Frame",self.frame,{Name="EditorialShade",Size=UDim2.fromScale(1,1),BackgroundColor3=Color3.new(0,0,0),BorderSizePixel=0,ZIndex=92})
     -- Previously .08 transparency meant 92% *opaque* black on the left,
     -- swallowing the map art. Preserve readability without blacking it out.
@@ -153,15 +150,15 @@ function L:set(map,message,active)
         self.status.TextColor3=theme.accent
         local id=tostring(C.MapArtworkIds[map] or "")
         local validId=id:match("^rbxassetid://%d+$") and id or (tonumber(id) and tonumber(id)>0 and "rbxassetid://"..id or "")
-        self.image.Visible=false
         self.image.Image=validId
-        local expected=map
+        -- A hidden ImageLabel may never become render-ready, even after a
+        -- successful preload. Let valid artwork render while its texture loads;
+        -- the opaque, asset-independent scene stays underneath it throughout.
+        -- IsLoaded is diagnostic information, not permission to show the image.
+        self.image.Visible=validId~=""
         if validId~="" then
             task.spawn(function()
                 pcall(function() Content:PreloadAsync({self.image}) end)
-                if self.map==expected and self.image.Parent and self.image.Image==validId then
-                    self.image.Visible=self.image.IsLoaded
-                end
             end)
         end
     end

@@ -1,0 +1,13 @@
+{
+  "mode": "file",
+  "staging": {
+    "file_path": "games/dead-signal/places/dispatch/staging.rbxl",
+    "universe_id": "10771141095",
+    "place_id": "117710269155815"
+  },
+  "production": {
+    "file_path": "games/dead-signal/places/dispatch/production.rbxl",
+    "universe_id": "10770732078",
+    "place_id": "92751255902679"
+  }
+}

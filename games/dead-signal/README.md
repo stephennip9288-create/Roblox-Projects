@@ -1,6 +1,6 @@
 # Dead Signal — four-place onboarding
 
-**Status: prepared for import only.** No place files or Roblox IDs have been provided, no API credentials exist in this repository, and no Roblox publishing has been attempted.
+**Status: eight binary place files are in GitHub (staging and production copies for all four places).** Configuration is still incomplete: only inactive `deploy.example.json` templates are present, and no active `deploy.json` manifests have been committed. API-key secrets cannot be inspected here. The failed publish run stopped before any Roblox upload.
 
 ## Confirmed place layout
 
@@ -31,18 +31,18 @@ Use File > Save to File **again** after configuring each staging place; those fi
 
 Use one folder per place, with two *distinct complete-place files*:
 
-- `games/dead-signal/places/dispatch/staging.rbxlx` and `production.rbxlx`
-- `games/dead-signal/places/blackwater/staging.rbxlx` and `production.rbxlx`
-- `games/dead-signal/places/cinderworks/staging.rbxlx` and `production.rbxlx`
-- `games/dead-signal/places/whiteout/staging.rbxlx` and `production.rbxlx`
+- `games/dead-signal/places/dispatch/staging.rbxl` and `production.rbxl`
+- `games/dead-signal/places/blackwater/staging.rbxl` and `production.rbxl`
+- `games/dead-signal/places/cinderworks/staging.rbxl` and `production.rbxl`
+- `games/dead-signal/places/whiteout/staging.rbxl` and `production.rbxl`
 
-If you export in the binary `.rbxl` format instead, use `staging.rbxl` and `production.rbxl`, and update the manifests accordingly. Browser uploads on GitHub are limited to 25 MiB per file; check sizes before uploading. Do not commit generated secrets, access tokens, or keys.
+The current GitHub files use the binary `.rbxl` format, and the inactive `deploy.example.json` templates now reference that extension. Browser uploads on GitHub are limited to 25 MiB per file; check sizes before uploading. Do not commit generated secrets, access tokens, or keys.
 
 The current starter publishes **one place per manual run**; it does not automatically promote four places together or rewrite teleport IDs. Staging and production source files are intentionally different.
 
 ## Phase 3: four deployment manifests
 
-In each place directory, copy `../../../../examples/place.deploy.example.json` conceptually (or download from the root `examples/` folder) as **`deploy.json`**, and fill in BOTH environments' source paths, Universe ID, and Place ID for **that place**. Each staging entry shares one staging Universe ID; each production entry shares one production Universe ID. Place IDs differ between places.
+In each place directory, copy the **existing local `deploy.example.json`** into **`deploy.json`**, keeping the existing `staging.rbxl` and `production.rbxl` source paths and filling in both environments' Universe ID and Place ID for that place. Each staging entry shares one staging Universe ID; each production entry shares one production Universe ID. Place IDs differ between places.
 
 **Do not commit a `deploy.json` manifest until both complete source files exist and all IDs are verified.** The validation workflow will reject missing files and placeholder IDs.
 

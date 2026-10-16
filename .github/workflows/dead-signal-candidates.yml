@@ -6,12 +6,16 @@ on:
       - 'games/dead-signal/dev/**'
       - 'scripts/generate_dead_signal_place_configs.py'
       - 'scripts/check_dead_signal_candidates.py'
+      - 'scripts/audit_dead_signal_binary.py'
+      - 'tests/test_dead_signal_binary.py'
       - '.github/workflows/dead-signal-candidates.yml'
   pull_request:
     paths:
       - 'games/dead-signal/dev/**'
       - 'scripts/generate_dead_signal_place_configs.py'
       - 'scripts/check_dead_signal_candidates.py'
+      - 'scripts/audit_dead_signal_binary.py'
+      - 'tests/test_dead_signal_binary.py'
       - '.github/workflows/dead-signal-candidates.yml'
   workflow_dispatch:
 
@@ -54,6 +58,18 @@ jobs:
         run: lune run Tools/build-candidates.luau
       - name: Verify complete candidate artifact inventory
         run: python scripts/check_dead_signal_candidates.py
+      - name: Independently audit raw RBXL property signatures (fail closed)
+        run: python scripts/audit_dead_signal_binary.py
+      - name: Archive fidelity report even if blocked
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-binary-audit-${{ github.run_number }}
+          path: |
+            build/dead-signal-candidates/staging/BINARY-FIDELITY-REPORT.json
+            build/dead-signal-candidates/staging/CANDIDATE-REPORT.json
+          retention-days: 14
+          if-no-files-found: warn
       - name: Archive candidate artifacts for review only
         if: success()
         uses: actions/upload-artifact@v7

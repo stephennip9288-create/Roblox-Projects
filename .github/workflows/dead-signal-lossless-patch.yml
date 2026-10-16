@@ -1,0 +1,69 @@
+name: Dead Signal Lossless Source Patch (No Publish)
+
+on:
+  push:
+    paths:
+      - 'games/dead-signal/dev/Source/**'
+      - 'scripts/patch_dead_signal_rbxl.py'
+      - 'scripts/audit_dead_signal_binary.py'
+      - 'scripts/generate_dead_signal_place_configs.py'
+      - '.github/workflows/dead-signal-lossless-patch.yml'
+  pull_request:
+    paths:
+      - 'games/dead-signal/dev/Source/**'
+      - 'scripts/patch_dead_signal_rbxl.py'
+      - 'scripts/audit_dead_signal_binary.py'
+      - 'scripts/generate_dead_signal_place_configs.py'
+      - '.github/workflows/dead-signal-lossless-patch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  safe-source-patch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout known-good complete staging places and editable source
+        uses: actions/checkout@v5
+      - name: Python setup
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate manifests and established source tests
+        run: |
+          python -m unittest discover -s tests -v
+          python scripts/validate.py
+      - name: Patch ONLY Script Source PROP chunks (no full-place serialization)
+        run: python scripts/patch_dead_signal_rbxl.py
+      - name: Verify raw RBXL class/property fidelity
+        run: python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/staging
+      - name: Verify patch reports and no unexpected output files
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          d=Path('build/dead-signal-lossless/staging')
+          report=json.loads((d/'LOSSLESS-REPORT.json').read_text())
+          expected={'dispatch','blackwater','cinderworks','whiteout'}
+          assert set(report)==expected
+          assert {p.name for p in d.iterdir() if p.is_file()} == {f'{p}.rbxl' for p in expected}|{'LOSSLESS-REPORT.json'}
+          for name in expected:
+              r=report[name]
+              assert r['all_untouched_chunks_byte_identical']
+              assert r['expected_replacement_count']>=60
+              assert not r['publish_approved'] and not r['studio_tested']
+              assert (d/f'{name}.rbxl').stat().st_size>100_000
+          print('Four binary source-only patch reports verified; no publish.')
+          PY
+      - name: Upload offline-patched staging candidates (REVIEW ONLY)
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-lossless-staging-${{ github.run_number }}
+          path: build/dead-signal-lossless/staging/
+          retention-days: 14
+          if-no-files-found: error
+
+# No secrets, Roblox endpoints, scripts/publish.py, or write permissions used.

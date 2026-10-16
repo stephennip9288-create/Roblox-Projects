@@ -50,6 +50,50 @@ class StagingRolloutTests(unittest.TestCase):
             reviewed = rollout.verified_baselines()
             self.assertEqual(len(reviewed), 4)
 
+    def test_failed_publish_attempts_all_four_rollbacks(self):
+        with tempfile.TemporaryDirectory() as temp:
+            actions = []
+            def fake_prepare(place, operation, approved):
+                actions.append((operation, place))
+                return Path(temp)
+            calls = [None, RuntimeError("simulated second-map upload error")] + [None] * 4
+            with patch.dict(os.environ, {"GITHUB_REF": "refs/heads/main",
+                                          "GITHUB_REPOSITORY": "stephennip9288-create/Roblox-Projects",
+                                          "ROBLOX_API_KEY": "not-a-real-key"}), \
+                 patch.object(rollout, "OUTPUT", Path(temp)), \
+                 patch.object(rollout, "preflight", return_value={p: {} for p in rollout.ORDER}), \
+                 patch.object(rollout, "prepare_upload", side_effect=fake_prepare), \
+                 patch.object(rollout, "write_backup_manifest"), \
+                 patch.object(rollout, "publish", side_effect=calls) as uploader:
+                with self.assertRaisesRegex(RuntimeError, "four staging baselines"):
+                    rollout.run("deploy", "DEPLOY-PRIVATE-STAGING")
+                self.assertEqual(uploader.call_count, 6)
+                self.assertEqual(actions[:2], [("deploy", "blackwater"), ("deploy", "cinderworks")])
+                self.assertEqual(actions[2:], [("rollback", place) for place in rollout.ORDER])
+                result = json.loads((Path(temp) / "PUBLISH-RESULT.json").read_text("utf-8"))
+                self.assertEqual(result["updated_before_failure"], ["blackwater"])
+                self.assertEqual(result["rollback_failures"], [])
+
+    def test_manual_rollback_does_not_require_candidates(self):
+        with tempfile.TemporaryDirectory() as temp:
+            actions = []
+            def fake_prepare(place, operation, approved):
+                actions.append((operation, place))
+                return Path(temp)
+            with patch.dict(os.environ, {"GITHUB_REF": "refs/heads/main",
+                                          "GITHUB_REPOSITORY": "stephennip9288-create/Roblox-Projects",
+                                          "ROBLOX_API_KEY": "not-a-real-key"}), \
+                 patch.object(rollout, "OUTPUT", Path(temp)), \
+                 patch.object(rollout, "CANDIDATES", Path("/nonexistent")), \
+                 patch.object(rollout, "prepare_upload", side_effect=fake_prepare), \
+                 patch.object(rollout, "publish") as uploader:
+                rollout.run("rollback", "RESTORE-PRIVATE-STAGING")
+                self.assertEqual(uploader.call_count, 4)
+                self.assertEqual(actions, [("rollback", place) for place in rollout.ORDER])
+                report = json.loads((Path(temp) / "PUBLISH-RESULT.json").read_text("utf-8"))
+                self.assertEqual(report["operation"], "rollback")
+                self.assertEqual(set(report["places"]), set(rollout.ORDER))
+
     def test_no_production_key_name_is_used(self):
         text = (Path(__file__).resolve().parents[1] /
                 "scripts/dead_signal_staging_rollout.py").read_text("utf-8")

@@ -1,0 +1,11 @@
+Latest owner direction integrated for v1.8.0:
+- Postpone mobile controls testing.
+- Overhaul zombie routing and following between rooms; reassess difficulty after logic.
+- Overhaul zombies, hounds and crawlers; fix apparent backward movement.
+- Enable living NPC collision with each other and players.
+- Ragdoll every enemy elimination.
+- Improve guns and invisible gaps.
+- Fix moving/lingering/partially transparent map loading art.
+- Replace duplicate same-wall unlocks with substantially different routes and nonrectangular rooms.
+- Complete Black Ops-level graphics remains the quality target; it is not certified complete here.
+- Preserve all current progress and previously approved requirements, native place relationships and saves.

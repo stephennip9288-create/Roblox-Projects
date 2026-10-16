@@ -1,0 +1,46 @@
+name: Extract Dead Signal Sources (No Publish)
+
+on:
+  workflow_dispatch:
+    inputs:
+      place:
+        description: "Staging place to extract (READ ONLY)"
+        type: choice
+        options:
+          - dispatch
+          - blackwater
+          - cinderworks
+          - whiteout
+        default: dispatch
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout private repository
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate staging and production manifests
+        run: |
+          python -m unittest discover -s tests -v
+          python scripts/validate.py
+      - name: Install pinned Rojo via Rokit
+        uses: CompeyDev/setup-rokit@v0.1.2
+      - name: Extract source from staging place (no deployment)
+        env:
+          PLACE: ${{ inputs.place }}
+        run: python scripts/extract_dead_signal_sources.py --place "$PLACE"
+      - name: Archive extracted files for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: dead-signal-source-extraction-${{ inputs.place }}-${{ github.run_number }}
+          path: build/source-extraction/
+          retention-days: 30

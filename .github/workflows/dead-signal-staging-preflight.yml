@@ -1,0 +1,85 @@
+name: Dead Signal Private Staging Preflight (No Publish)
+
+on:
+  push:
+    paths:
+      - '.github/workflows/dead-signal-staging-preflight.yml'
+      - '.github/workflows/dead-signal-private-staging.yml'
+      - 'scripts/dead_signal_staging_rollout.py'
+      - 'tests/test_dead_signal_staging_rollout.py'
+      - 'games/dead-signal/dev/Source/**'
+  pull_request:
+    paths:
+      - '.github/workflows/dead-signal-staging-preflight.yml'
+      - '.github/workflows/dead-signal-private-staging.yml'
+      - 'scripts/dead_signal_staging_rollout.py'
+      - 'tests/test_dead_signal_staging_rollout.py'
+      - 'games/dead-signal/dev/Source/**'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    name: Verify four staging candidates and rollback binaries
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout private project
+        uses: actions/checkout@v5
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verify all repository and rollout safety tests
+        run: |
+          python -m unittest discover -s tests -v
+          python scripts/validate.py
+      - name: Generate staging and production ID configs
+        run: python scripts/generate_dead_signal_place_configs.py
+      - name: Install pinned Lune runtime
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          path: games/dead-signal/dev
+      - name: Prepare immutable native Work fixtures and run regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p games/dead-signal/dev/Places
+          cp games/dead-signal/full-baselines/v1.8.0/dispatch.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Lobby.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/blackwater.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Station.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/cinderworks.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Foundry.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/whiteout.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Frost.rbxl
+          cd games/dead-signal/dev
+          lune run Tests/syntax.luau
+          python Tests/run.py --lune lune
+      - name: Generate patched candidates with staging-only IDs
+        run: python scripts/patch_dead_signal_rbxl.py
+      - name: Verify independent raw binary property preservation
+        run: python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/staging --baseline-dir games/dead-signal/full-baselines/v1.8.0
+      - name: Verify staging-only routes and all rollback files
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, "scripts")
+          from dead_signal_staging_rollout import preflight, verified_baselines, write_backup_manifest
+          approved=preflight()
+          assert len(approved)==4
+          assert len(verified_baselines())==4
+          write_backup_manifest(approved)
+          for place, meta in approved.items():
+              print(f"READY (offline only): {place}, 61 scripts, stage place {meta['staging_place_id']}")
+          print("STAGING PREFLIGHT PASSED. No API keys, no publishing.")
+          PY
+      - name: Archive offline preflight and rollback verification
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-private-staging-preflight-${{ github.run_number }}
+          path: |
+            build/dead-signal-staging-rollout/ROLLBACK-MANIFEST.json
+            build/dead-signal-lossless/staging/LOSSLESS-REPORT.json
+            build/dead-signal-lossless/staging/BINARY-FIDELITY-REPORT.json
+          retention-days: 30
+          if-no-files-found: error
+
+# This workflow has read-only permissions and never accesses Roblox credentials.

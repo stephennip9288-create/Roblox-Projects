@@ -363,6 +363,7 @@ function UI:setState(state,displayMag)
     end
     self.round.Text=string.format("%02d",state.round)
     self.waveInfo.Text=(state.phase=="Intermission" or state.phase=="Preparing") and "NEXT ROUND / "..state.timer.."s" or (state.phase=="Exfil" and "RESCUE / "..state.timer.."s" or state.left.." INFECTED REMAINING")
+    if state.special then self.waveInfo.Text=state.special.name..(state.special.preparation>0 and " / PREPARE "..state.special.preparation.."s" or " / "..state.left.." CONTACTS") end
     self.points.Text=tostring(state.points).."  P"
     self.healthBar.Size=UDim2.fromScale(math.clamp(state.health/state.maxHealth,0,1),1)
     self.staminaBar.Size=UDim2.fromScale(math.clamp(state.stamina/state.maxStamina,0,1),1)

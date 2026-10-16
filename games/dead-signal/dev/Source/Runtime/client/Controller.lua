@@ -222,6 +222,7 @@ function Controller.start()
             if data.status=="Eliminated" then spectate(0) end
             if data.status=="Alive" then rebuild() end
             ui:setState(data,displayMag())
+            fx:event(data.special)
         elseif kind=="Profile" then s.profile=data fx.settings=data.settings mobile:setSettings(data.settings) ui:setProfile(data) s.vmKey="" rebuild()
         elseif kind=="Ammo" then ammo(data) if living() then rebuild() end
         elseif kind=="Deploy" then ui:close() resetInput() s.pending={} s.reloading=0
@@ -253,7 +254,22 @@ function Controller.start()
         elseif kind=="Explosion" then fx:burst(data.position,data.radius,Color3.fromRGB(255,179,74)) fx:sound("Grenade",data.position) local root=U.root(player) if root and (root.Position-data.position).Magnitude<35 then fx.shake=1.5 end
         elseif kind=="Shock" then fx:burst(data.position,data.radius,Color3.fromRGB(85,205,233)) local root=U.root(player) if root and (root.Position-data.position).Magnitude<35 then fx.shake=1 end
         elseif kind=="ShockWarning" then fx:warning(data) fx:sound("ShockCharge",data.position)
-        elseif kind=="EnemyAttack" then fx:sound("Attack",data.position)
+        elseif kind=="SpecialWave" then
+            fx:event(data.active==false and nil or data)
+            if data.active~=false then ui:banner(data.name.." / "..data.preparation.."s PREPARE","amber");ui:toast(data.hint,"amber") end
+        elseif kind=="EnemyTelegraph" then fx:telegraph(data)
+        elseif kind=="HazardWarning" then fx:hazardWarning(data)
+        elseif kind=="HazardBlast" then fx:hazardBlast(data)
+        elseif kind=="HazardCounter" then fx:hazardCounter(data)
+        elseif kind=="HazardClear" then fx:clearHazards()
+        elseif kind=="ArmorBreak" then fx:particles(data.position,fx.settings.lowEffects and 3 or 9,.5,.16,Color3.fromRGB(172,171,151),true);fx:sound("ArmorBreak",data.position)
+        elseif kind=="EliteHit" then
+            if os.clock()>=(s.eliteFeedbackAt or 0) or data.kind=="ArmorBreak" then
+                s.eliteFeedbackAt=os.clock()+1.2
+                ui:toast(data.kind=="Armor" and "ARMOR HIT" or data.kind=="ArmorBreak" and "PLATE BROKEN" or data.kind=="Reactor" and "PRESSURE RISING" or "WEAK POINT","amber")
+            end
+        elseif kind=="CounterActive" then fx:sound("Vent",data.position);fx:particles(data.position,fx.settings.lowEffects and 3 or 8,.9,.6,Color3.fromRGB(159,201,207),false)
+        elseif kind=="EnemyAttack" then fx:sound(data.kind=="Hound" and "Howl" or data.kind=="Stalker" and "Stalker" or data.enraged and "Redline" or "Attack",data.position)
         elseif kind=="ArcLink" then fx:tracer(data.origin,data.finish,true)
         elseif kind=="EnemyDeath" then fx:enemyDeath(data)
         elseif kind=="Melee" then if data.player==player.UserId then fx:sound("Click") end

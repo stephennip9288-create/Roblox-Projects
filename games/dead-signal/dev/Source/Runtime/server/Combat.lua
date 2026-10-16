@@ -110,7 +110,8 @@ function B:fire(player,args)
             if not hit then break end
             local e=self:enemyFor(hit.Instance)
             if e then
-                local isHead=hit.Instance.Name=="Head" or hit.Instance.Name=="Weakpoint" or hit.Instance:GetAttribute("HitZone")=="Head"
+                local armorZone=hit.Instance:GetAttribute("ArmorZone")
+                local isHead=not armorZone and (hit.Instance.Name=="Head" or hit.Instance.Name=="Weakpoint" or hit.Instance:GetAttribute("HitZone")=="Head" or hit.Instance:GetAttribute("HitZone")=="Weakpoint")
                 local damage=stats.damage*(isHead and (e.kind=="Warden" and C.Warden.weakpoint or def.head) or 1)
                 if e.kind=="Warden" then
                     damage=damage*(hit.Instance.Name=="Armor" and C.Warden.armor or .8)
@@ -118,7 +119,8 @@ function B:fire(player,args)
                 local falloff=1-R.clamp((hit.Position-origin).Magnitude/def.range-.45,0,.5)
                 damage=damage*falloff
                 if (self.ctx.run.effects.Instant or 0)>now and e.kind~="Warden" then damage=e.hp end
-                local before=e.hp local killed=self.ctx.enemies:damage(e,damage,player,isHead,attack,"Bullet")
+                local before=e.hp local killed=self.ctx.enemies:damage(e,damage,player,isHead,attack,"Bullet",hit.Instance)
+                if e.lastFeedback then self.ctx.feed:FireClient(player,"EliteHit",{kind=e.lastFeedback}) end
                 hitAny=true killAny=killAny or killed headAny=headAny or isHead hitTotal=hitTotal+before-e.hp
                 if not rewarded[e.id] then rewarded[e.id]=true self:hitReward(player,e,C.Economy.hit) end
                 ignore[e.id]=true

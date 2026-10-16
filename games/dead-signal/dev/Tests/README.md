@@ -13,3 +13,7 @@ Mobile testing is deferred. The preserved `touch.luau` suite is excluded from th
 `Support/RuntimeLoader.luau` provides offline authoring transforms and service doubles. Lune does not run Roblox physics, a native navmesh, real raycasts, teleports, animation replication or touch input. Tests of ragdoll construction are not tests of falling bodies.
 
 `Validation/Build-Report.json` records file reopening and graph counts. `Preservation-Report.json` compares original art/material data and configuration with v1.7.0. `Geometry-Report.json` is a projected ground-space audit, not an engine test. Follow `STUDIO-ACCEPTANCE.md` for the remaining engine work.
+
+## v1.9 coverage
+
+`evolution.luau` exercises scheduling/rarity, armor/reactor damage, telegraphed chain hazards, pack/ambush behavior, variant collision/ragdolls and safe counters on all maps. `events.luau` runs actual Game scheduling/spawn/reward/exfil methods. `presentation.luau` constructs and cleans client warning/smoke/fire effects at both quality levels. These are included in the existing runner and cloud workflows. Engine navigation/physics/rendering/audio and physical phone playtests remain separate acceptance checks.

@@ -1,3 +1,5 @@
+> v1.9 development: [integrated roadmap](../V1.9-ROADMAP.md) and [private staging acceptance plan](../V1.9-STAGING-PLAYTEST.md). Continue from verified v1.8; existing workflows and native baselines remain authoritative.
+
 # Dead Signal — editable development workspace
 
 This is the **active editable working tree** for Codex. Its initial 82 files were copied byte-for-byte from the reviewed Work v1.8.0 release. The archival import remains intact at `../work-source/v1.8.0/`.

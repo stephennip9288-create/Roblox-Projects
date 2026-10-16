@@ -24,12 +24,13 @@ function D:begin(now)
     local crew=self:crew()
     self.crewAtStart=math.max(1,crew) self.quotaCrew=self.crewAtStart self.changeAt=nil
 end
-function D:stats(kind)
+function D:stats(kind,mods)
     local crew,_,_,gear=self:crew() local run=self.ctx.run local threat=Rules.threat(crew,gear,run.round)
     local hp=R.enemyHealth(run.round,kind,C.Modes[run.mode],math.max(1,crew),C.Warden)
-    return {hp=kind=="Warden" and hp or math.floor(hp*threat.health),
+    local stats={hp=kind=="Warden" and hp or math.floor(hp*threat.health),
         speed=math.min(kind=="Hound" and 23 or kind=="Runner" and 22 or 16,R.enemySpeed(run.round,kind)*threat.speed),
         damage=math.floor(R.enemyDamage(run.round,kind,C.Modes[run.mode])*threat.damage+.5)}
+    return kind=="Warden" and stats or Rules.modifiers(stats,mods or {},C.Evolution)
 end
 function D:budget(now)
     local crew,downed,health=self:crew() local run=self.ctx.run
@@ -41,7 +42,7 @@ function D:budget(now)
     else self.changeAt=nil self.pendingCrew=nil end
     if run.phase=="Wave" then
         local total=R.waveCount(run.round,math.max(1,self.quotaCrew),C.Modes[run.mode])
-        if run.special then total=math.floor(total*.6) end
+        total=run.event and Rules.specialQuota(total,run.event) or run.special and math.floor(total*.6) or total
         run.spawnRemaining=Rules.quota(total,self.spawned) run.directorTotal=math.max(total,self.spawned)
     end
     local stage,interval,cap,recover=Rules.pacing(now-(self.started or now),health,downed,self.lastRecovery,now,run.phase)

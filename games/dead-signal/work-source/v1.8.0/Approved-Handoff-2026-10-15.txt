@@ -1,0 +1,301 @@
+DEAD SIGNAL — UPDATED DEVELOPMENT HANDOFF (MOBILE FIRING REDESIGN)
+Prepared: October 15, 2026
+Revision: 2 — supersedes the mobile-control recommendations in the earlier October 15 handoff
+Project: Dead Signal (Roblox cooperative first-person zombie survival)
+Purpose: Deliver the consolidated approved roadmap AND the owner's newly requested mobile-shooting design exploration to the EXISTING active Work thread. Do not interrupt/reset its current work.
+
+WHAT CHANGED IN THIS REVISION:
+The owner says the FIRE WEAPON control is the single biggest mobile usability problem. They are considering two specific alternatives:
+  A. Tap the screen where the player wants to shoot, inspired by the easy touch interaction they associate with Murder Mystery 2; eliminate the need to precisely juggle a traditional mobile ADS/reticle and a cramped fire button.
+  B. Put a much larger firing region on the LEFT, near or within the movement-joystick-side control box, leaving the right thumb free to move the camera/reticle.
+These are design directions to IMPLEMENT AS TESTABLE PROTOTYPES AND COMPARE, not claims about Murder Mystery 2's exact code/control behavior and not permission to replace all previously approved features with an untested guess.
+
+CRITICAL: Preserve the entire earlier gameplay, AI, map, Warden, extraction, reliability and replayability roadmap. The new, expanded mobile section below overrides any conflicting prior recommendation (such as assuming a conventional right-side Fire button must be the primary default). Implement a clean, genuinely mobile-friendly solution rather than simply relocating a tiny Fire icon.
+
+======================================================================
+1. INSTRUCTIONS TO THE ACTIVE WORK THREAD
+======================================================================
+
+Continue development from the latest real, working Dead Signal project state. This document adds and prioritizes requirements; it is NOT a request to discard completed work, rebuild from scratch, start a second incompatible project, or claim that the requirements below are already implemented.
+
+The project owner has explicitly APPROVED ALL recommendations in this handoff. Make reasonable design and technical decisions without repeatedly seeking permission for minor details. Retain the existing Dead Signal identity and gameplay structure (dispatch/lobby, cooperative zombie rounds, Warden, round-15 finale, extraction and return-to-dispatch). Integrate with existing place files, scripts, shared modules, assets and established game flows wherever possible.
+
+IMPORTANT STATUS DISTINCTION:
+- The items below are APPROVED REQUIREMENTS, not verified features.
+- Some may already be partially developed in the active Work thread. Inspect the CURRENT code/artifacts before modifying them; report what is actually present and what is incomplete.
+- Preserve recently completed fixes, maps, textures, published-place relationships, teleport flow, and other working systems.
+- If a latest .rbxl/.rbxlx project or source package is needed, use the latest available in the active thread; do not assume an older attachment represents the newest build.
+- If the active Work thread has a different immediate task in progress, finish it safely before merging these changes. Treat this as the agreed roadmap, not an instruction to interrupt a critical operation.
+- Do not publish, overwrite a live Roblox place, or modify external systems without the owner's explicit authorization. Deliver files and clear deployment/publishing instructions instead.
+- Prioritize a playable, tested Studio project over a design-only response. Identify implemented, validated, partially completed, and deferred work separately.
+
+OVERALL PRODUCT GOAL:
+A polished, scary, readable, replayable cooperative FPS zombies experience that feels great on PC AND mobile, with satisfying gunplay, smart relentless enemies, interconnected Black Ops-inspired maps, meaningful upgrades, a real boss/extraction finale, excellent performance, and a distinctive corrupted-radio/signal-horror identity.
+
+======================================================================
+2. PHASE 1 — NEXT DEVELOPMENT PASS (CORE PLAYABILITY & QUALITY)
+======================================================================
+
+2A. DYNAMIC DIFFICULTY & ADAPTIVE WAVE DIRECTOR [CRITICAL]
+
+- Spawn meaningfully MORE zombies than the current build and make them increasingly dangerous across rounds.
+- Scale enemy counts, concurrent pressure, health, damage, movement/aggression, and special-enemy composition to the number of ACTIVE participating players. Do not use total server population, spectators, disconnected players, or downed players without deliberate balance rules.
+- Balance solo survival and larger squads independently. Avoid either impossible solo openings or trivial full-squad rounds. Tune with live multiplayer tests; use configurable parameters rather than magic numbers scattered throughout scripts.
+- Increase challenge as rounds advance and as players acquire stronger weapons; maintain a fair chance to recover from mistakes.
+- Implement a server-side adaptive wave director: spawn pressure by area, enemy mixes, brief recovery intervals, escalating tension, and intelligent avoidance of extremely unfair near-player spawns. Variability is desirable, but the system should remain readable and predictable enough to feel fair.
+- Respect round objectives, boss encounters, special events and extraction sequencing. No waves should soft-lock because the last zombie cannot find a player or got stuck out of reach.
+- Gracefully handle active-player-count changes between/within rounds using defined rules; ensure late joiners, disconnects, revives, and spectators do not corrupt wave accounting.
+- Profile NPC count, physics, network and pathfinding so difficulty growth is not merely overwhelming mobile devices.
+
+2B. COMPLETE ZOMBIE AI/PATHFINDING OVERHAUL [CRITICAL]
+
+- Every live, eligible zombie must CONTINUOUSLY seek valid surviving player targets regardless of player distance across the map. No passive activation radius that leaves distant zombies idle indefinitely.
+- Use intelligent navigation to traverse the interconnected map: corridors, stairs, ramps, doors, obstacles and alternate routes. Recover when a target moves or the route changes.
+- Detect stuck/blocked states and recover via controlled path recomputation, alternate routing and failsafe logic; eliminate endless walking into walls or relying on accidental climbing to escape obstacles.
+- Separate target-selection cadence from expensive path calculations. Stagger pathfinding requests, limit recomputation budgets, use existing waypoints/navigation data where valuable, and keep AI server authoritative.
+- Select targets in a multiplayer-aware way; avoid having all enemies arbitrarily bunch on one player while others are always ignored. Still permit believable swarms when appropriate.
+- Ensure zombies can attack only from valid positions/ranges, cannot hit through geometry, and do not exploit map collisions. Test line of sight, target death/downing, target teleport, respawn, and player removal.
+- Improve animation/behavior responsiveness and recovery from NPC physics/network ownership issues.
+- Keep zombie AI active even when no player is nearby without using unlimited per-frame server work for distant hordes. Distant pursuit can use efficient scheduling/LOD, but zombies must not stop hunting.
+
+2C. REBUILD MAP FLOW AND REMOVE SAFE-SPOT EXPLOITS [CRITICAL]
+
+- Replace simple square/rectangular perimeter loops with intentionally crafted, interconnected Black Ops-inspired FPS zombies environments. These should have multiple traversable branches, cross-links, rooms, stairs, verticality, shortcuts, tactical chokepoints, and risk/reward choices.
+- Paths should support both strategic kiting and sudden flanking pressure, rather than a single guaranteed forever-loop.
+- Remove unreachable/untouchable player positions and unintentional camping exploits. Audit ledges, props, window geometry, collision, navmesh/path connections and elevated locations.
+- Include deliberate escape options so difficulty feels skill-based rather than unwinnable due to dead ends. Create visual landmarks that help players orient themselves.
+- Introduce interactive map elements: power switches, traps, shutters, breakable/repairable barricades, unlockable doors/shortcuts and environmental hazards. Use clear costs, timing, cooldowns and readable affordances.
+- Carefully reposition map objectives and prompts that currently overlap or spawn inside one another. Audit every objective/interaction position for reachability, visual clarity and collision safety.
+- Disable normal player jumping as previously requested; make all map routes traversable without requiring jumps. Keep downed and boss states compatible with this rule.
+- Preserve a high-quality visual atmosphere while optimizing geometry and streaming for phones.
+
+2D. MOBILE FPS CONTROLS — FIRING FIRST: PROTOTYPE AND REBUILD [HIGHEST UX PRIORITY]
+
+OWNER'S CURRENT FEEDBACK (DO NOT LOSE THIS CONTEXT):
+- Existing touch buttons are clustered, aiming is difficult, and actually FIRING is even worse.
+- The Fire button is the principal blocker. A simple button move/resize is NOT a sufficient fix.
+- Option A under consideration: tap/click on the screen WHERE YOU WANT TO SHOOT, so players do not need to separately line up a small mobile crosshair/ADS and then hit a hard-to-reach Fire button. The owner referenced Murder Mystery 2 as the kind of low-friction interaction they have in mind. This is an interaction inspiration, NOT a directive to copy that game's code, UI or assets.
+- Option B under consideration: make a much larger fire-sensitive area on the LEFT near the movement joystick, so the RIGHT thumb can remain dedicated to moving the camera and reticle.
+- Neither approach has yet been declared the final winner. Build working candidates, run genuine touch tests, compare usability, and make a well-supported recommendation with a selectable fallback.
+
+A. PRIMARY CANDIDATE — DIRECT SCREEN-TAP-TO-SHOOT
+- The player walks using the left joystick. The right side remains a large swipe/drag region for camera rotation. A distinct short tap on eligible gameplay space shoots toward the TAPPED SCREEN POSITION, without requiring a separate little Fire button or a perfectly centered crosshair.
+- A tap should feel immediate: show brief local impact/aim feedback or a subtle tap indicator, play appropriate gunfire feedback, and resolve the actual shot through the common server-validated combat pipeline.
+- Calculate the tapped screen-coordinate ray through the current camera/viewport to identify the aim point. Derive a physically valid bullet path from the weapon/character shooting origin toward that point; never allow the projectile to phase through nearby walls or hit a zombie the muzzle cannot legitimately reach.
+- Be explicit about what a tap means: one semi-auto shot per valid tap; automatic weapons may support press-and-hold continuous fire after a configurable, carefully tuned hold threshold; burst weapons use their ordinary legal burst. Enforce weapon cooldown, magazine, reload and ammo limitations.
+- Distinguish TAP from CAMERA SWIPE: small movement + short duration means a tap/fire; a drag past a deliberate threshold rotates the camera and does NOT fire accidentally. Test quick flicks, slightly moving taps, long presses, quick repeated taps and hand tremor.
+- Do not hijack touches starting over the move joystick, interactive world prompts, menus, HUD settings, Roblox system overlays or other reserved input regions. Right-side gameplay taps must reliably register even when the player is also moving with the left thumb.
+- Provide a clear rule for taps on zombies versus empty ground: the shot follows the touched SCREEN LOCATION/ray, not silent aim-bot snapping to a target elsewhere. Optional gentle assist can be applied only within a constrained cone/radius with visibility checks, if chosen in settings.
+- Conventional ADS should be OPTIONAL on mobile: offer quick toggle zoom/ADS for precision or certain weapon types, but never make ADS necessary to use this tap-to-shoot mode. Preserve proper ADS alignment for PC, classic mobile controls and supported weapons.
+- Keep the screen clear. Avoid forcing a large permanent reticle or gun model over the intended hit point.
+
+B. SECOND CANDIDATE — LARGE LEFT-SIDE FIRE REGION / JOYSTICK-SIDE FIRING
+- Prototype a generous adjustable FIRE PAD/ZONE on the left side adjacent to or surrounding (but logically separated from) the movement joystick. The right thumb is used only to steer the camera/reticle. This reduces competition between aiming and pressing Fire on the same side.
+- The region can register a tap for one shot or hold for sustained automatic firing; shots go toward the normal center-camera aim direction (unlike Option A, which shoots toward the tap position).
+- Important ergonomics constraint: one left thumb cannot both remain held on an independent movement joystick AND independently tap another region at the same time. Do not pretend merely putting Fire beside the joystick solves move + aim + shoot. Prove this mode works during simultaneous walking, turning and sustained fire with only two thumbs.
+- Explore an intentional SINGLE-THUMB COMBINED GESTURE if needed (for example, move via joystick displacement and intentionally enter/hold a distinct outer fire sector while retaining the movement vector, or a player-selectable firing toggle). Make the firing gesture unambiguous, show an obvious active-fire state, and provide a clear way to stop. Avoid involuntary shots simply because a user starts moving.
+- Use per-touch identity / touch capture and separate joystick, fire-pad and right-look gesture states. Support multiple simultaneous touches, cancellation on release or UI focus changes, and reclaim touch state on respawn.
+- Test a variant where any tap within an assigned LEFT fire box (EXCLUDING a captured joystick gesture and reserved HUD areas) shoots. Evaluate whether the "click anywhere in that box" idea improves access without accidentally firing during ordinary walking.
+- Offer draggable, resizable, mirrored/left-handed options and comfortable dead zones. The fire pad should be large enough to hit reliably but must not cover vital revive or objective prompts.
+
+C. RETAIN COMPATIBLE FALLBACKS (DO NOT MAKE ONE LAYOUT MANDATORY)
+- Conventional right-side Fire button + FIRE-AND-DRAG: preserve as a selectable Classic layout, but redesign size, placement and thumb reach. A held fire gesture should allow appropriate camera tracking, not trap the camera.
+- Assisted auto-fire may remain an OPTIONAL convenience mode that shoots only when a visible legitimate target satisfies aim/range/line-of-sight constraints; do not treat it as the same feature as tap-to-shoot.
+- Retain Manual and Advanced assist presets for players who prefer minimal assistance or explicit shooting.
+- Separate TWO independent settings: (1) FIRING CONTROL LAYOUT = Tap-to-Shoot / Left Fire Zone / Classic Right Fire; (2) AIM ASSIST = Assisted / Manual Light / Advanced Minimal (including optional auto-fire when configured). Clearly explain combinations and block ambiguous double-firing.
+- Suggested prototype order: implement and test Tap-to-Shoot first (best match for the owner's goal of removing tiny-button dependence); build Left Fire Zone second; keep a polished Classic option; then compare against optional Assisted auto-fire.
+- Do not select a universal winner by assumption. Record observed ease of use and tradeoffs, recommend a default based on results, and keep at least a fallback setting. The owner's current feedback takes precedence over the previous assumption that Assisted auto-fire must always be the default.
+
+D. ERGONOMICS, LOOK, MOVEMENT, ADS AND UI
+- LEFT: responsive floating or player-positionable movement joystick, with intentional sprint via displacement; no forced extra sprint button. Remove normal jumping as requested across gameplay controls.
+- RIGHT: broad unobstructed swipe-to-look surface with adjustable horizontal/vertical sensitivity and optional inversion. Avoid a permanent stack of fire/ADS/reload controls fighting for the same right-thumb space.
+- Keep reload, weapon swap, revive, map interactions, any ADS/zoom toggle and status indicators compact but reachable. Actions should not inadvertently fire the gun; show higher-priority revive/objective prompts clearly.
+- HUD editor: move and resize zones and buttons, adjust opacity, restore defaults, and save preferences appropriately. Visualize firing zones while customizing but keep them visually unobtrusive during play.
+- Offer separate look, ADS and scoped sensitivity controls, and optional supported-device gyroscope fine aiming. Retain device-safe inset handling and responsive scaling for tall small Android screens, ordinary phones and tablets.
+- When ADS is used, correct the existing blocking/incorrectly aligned gun viewmodel; don't regress accurate PC ADS to make touch aiming simpler.
+- Handle camera sensitivity changes without changing the screen-space meaning of an Option A tap; shot direction must use the exact current viewport/camera transform.
+
+E. ROBUST INPUT STATE AND GAMEPLAY SAFETY
+- Build one coherent input router/state machine rather than competing GUI buttons, ContextAction bindings or unrelated scripts that each fire their own weapon event.
+- Treat each contact as a touch with captured owner/role; reject gesture collisions, ghost taps, double-dispatch, stuck-fire loops, unintended held-fire across reload, respawn, downing, revive, teleports, inventory or menu focus changes.
+- Fire only when alive, equipped, not reloading/locked and legally allowed by the weapon state. Cancel firing on death, downed state, phase change and player leaving.
+- Validate the mobile client's requested shot on the server: equipment ownership, weapon fire rate, ammo, spread/accuracy policy, origin/direction plausibility, distance, occlusion, target legitimacy and damage. Do not let an arbitrary client-chosen touch coordinate translate into an arbitrary target or damage amount.
+- Reuse existing combat/damage code wherever possible so PC, gamepad and touch have the same authoritative weapon rules, effects, recoil, upgrades and progression. UI responsiveness can be client-predicted, but authoritative hits/damage are server-validated.
+- Do not lower overall game difficulty simply to mask difficult controls. Use conservative, configurable mobile aim assistance (visibility/range/angle limits) while retaining challenge, weapon identity and team fairness.
+- Test with first-person camera, all relevant weapon classes, automatic sustained fire, semi-auto repeated taps, recoil, moving targets, sprint, ADS/zoom optional, reload, revives, and multiplayer latency.
+
+F. DECISION CRITERIA FOR PICKING MOBILE DEFAULT
+Evaluate each candidate on a SMALL PHONE first, then a larger phone/tablet, with genuine simultaneous two-thumb use and zombie pressure:
+  1) Time/effort to make the FIRST accurate shot;
+  2) Ability to MOVE + TURN + FIRE continuously (without needing a third finger);
+  3) Accidental shots while swiping/walking and missed tap registration;
+  4) Sustained aim tracking and recoil/weapon feedback;
+  5) Ability to reload, revive or interact under pressure;
+  6) Screen clutter, thumb reach, hand comfort and left-handed adaptability;
+  7) Multiplayer/server correctness and performance.
+Deliver a concise option-by-option comparison and say which control mode you selected as recommended default, why, and how a player switches modes. If necessary, iterate the winner before full graphical polish.
+
+INTENT: MOBILE SHOOTING MUST FEEL NATURAL. This subtask is not complete merely because a new input script exists or because automated tests pass; it needs playability validation of actual touch gestures.
+
+2E. GUNPLAY, ANIMATIONS, WEAPON MODELS AND FEEDBACK [HIGH]
+
+- Resolve the current first-person ADS problem: weapon model must NOT block the actual sight line. Align iron sights/optics with the camera correctly across weapons and viewmodel animations.
+- Differentiate weapon classes through recoil, spread, sway, accuracy, reload duration, handling and audio, not just damage numbers.
+- Polish first-person animation: equip, idle, sprint, hip-fire, ADS, recoil, reload and transitions. Ensure third-person weapon poses and firing/reload animation replicate visibly to other players.
+- Add believable muzzle flashes, shell ejections, impact/hit effects, damage and headshot confirmation, zombie reaction animations and satisfying sound cues. Use effects budgets / pooling to avoid mobile lag.
+- Keep combat server-authoritative. The server must validate fire rate, ammunition, equipped weapon, target/hit legitimacy, damage and anti-exploit conditions. Client effects may be immediate for responsiveness without trusting client damage claims.
+- Ensure every weapon can be used effectively on mobile and PC; avoid UI and ADS regression after viewmodel changes.
+
+2F. WARDEN BOSS AND ROUND-15 EXTRACTION [CRITICAL]
+
+- Make the Warden a compelling multi-phase encounter with clear telegraphs, distinct attacks, area-denial behavior, temporary vulnerabilities, movement and audio cues.
+- Adjust boss health/damage/behavior for active player count and upgrades; do not rely on inflated health alone.
+- Make the round-15 sequence reliable end-to-end: trigger boss when intended, correctly resolve victory/defeat, present a conspicuous extraction zone, start a fair countdown/final assault, visibly signal departure and transition to distinct MISSION COMPLETE / CREW LOST results.
+- Ensure both successful extraction and full-party defeat return players reliably to dispatch/lobby. Handle partial extraction, disconnected players, downed players, retries/timeouts, and teleport-related errors gracefully.
+- Preserve multi-place configuration (dispatch and gameplay place IDs) and Roblox publish requirements. Note clearly when cross-place Studio simulation cannot prove production teleport behavior.
+- Provide developer test controls to jump to round 15 and force/replay key finale states IN STUDIO ONLY, without enabling exploit shortcuts in published gameplay.
+
+2G. TEAM REVIVE, SPECTATOR AND INTERACTION CLARITY [HIGH]
+
+- Downed player should visibly fall to the ground and enter a proper crawl/downed state (not stand upright while incapacitated).
+- Make downed teammates easy to locate via tasteful outlines/aura/markers, distance/occlusion-aware UI and clear revive/bleedout indications.
+- Provide predictable revive range/timing, progress feedback, interruption behavior and clear death/spectator transitions.
+- Redesign prompts for a consistent hierarchy (revive > critical objectives > nearby ordinary interactions, as appropriate). Avoid overlapping labels and screen clutter, especially on mobile.
+- Audit text sizes, contrast, world-space label distance and visibility so UI looks intentional rather than messy.
+
+2H. AUDIO, VISUAL AUTHENTICITY AND ATMOSPHERE [HIGH]
+
+- Make zombie models more believable/human-like, with varied silhouettes, materials, animation and reactions. Avoid generic static appearances.
+- Leave defeated zombie bodies on the ground for approximately 30 seconds, subject to sensible pooled/quality-scaled limits on low-end hardware; avoid severe ragdoll and physics accumulation.
+- Improve vehicle appearance in the dispatch lobby; aim for more realistic forms, materials, lighting and proportions.
+- Audit texture/material coverage because some earlier meshes/textures appeared updated while others did not, including concern about zombie and vehicle assets. Verify with the actual current place/project, not assumptions about asset imports.
+- Improve environmental lighting, materials, set dressing, fog, and audio atmosphere. Add directional zombie sounds, distant distress signals, environmental ambience, radio interference, round transitions and boss-specific sound design.
+- Offer scalable graphics profiles so stronger devices look excellent without making entry-level Android hardware unplayable.
+
+2I. PERFORMANCE, RELIABILITY AND VALIDATION [CRITICAL]
+
+- Favor robust server-authoritative state machines for rounds, spawn director, AI target management, damage, revive, boss, extraction and teleport flow. Avoid simultaneous scripts fighting over round state.
+- Profile with 1, 2, 3 and 4 players (or actual supported maximum) and representative NPC loads. Optimize pathfinding frequency, physics, replication, VFX, ragdolls, sounds, map streaming and memory.
+- Ensure consistent client HUD and weapon state when players die, respawn, revive, reconnect, switch device input and return from another place.
+- Add lightweight instrumentation and reproducible Studio diagnostics that clearly flag stuck AI, missing assets, invalid objective positions, stalled rounds and failed extraction transitions.
+- Perform automated or repeatable validation for rounds, boss states, squad wipes, extraction, teleport/return and all critical objectives. Fix actual errors and regressions before packaging.
+- No code-path-only verification presented as proof of live platform behavior. State what was tested in Studio versus in published multi-place sessions, and what still needs owner-side testing.
+
+======================================================================
+3. PHASE 2 — FOLLOWING PASS (GAMEPLAY DEPTH)
+======================================================================
+
+- Introduce enemy archetypes progressively: armored, fast sprinters, crawlers, toxic infected, and heavy enemies. Each must have behavior, counterplay, readable sound/visual cues and fair spawn frequency, not just altered HP.
+- Expand weapon upgrade tiers, roles and attachments. Give upgrades meaningful trade-offs and support a sustainable, fair ammo economy.
+- Expand the director with special waves and varying enemy compositions that respect pathfinding and encounter readability.
+- Add random match events: power outages, temporary lockdowns, corrupted signal/radio distortion, special pressure waves and other facility disruptions. Avoid constant interruptions that obscure combat.
+- Deepen environmental tactics through interactions, risk/reward side routes, situational hazards and map-specific mechanics.
+- Re-test mobile HUD readability and server performance with the extra gameplay complexity.
+
+======================================================================
+4. PHASE 3 — LATER PASS (IDENTITY, PROGRESSION, REPLAYABILITY)
+======================================================================
+
+- Persistent ranks and appropriately balanced player progression.
+- Weapon mastery and optional unlock paths that reward play without making new players ineffective.
+- Challenges, achievements and non-pay-to-win cosmetic rewards.
+- Leaderboards and career statistics: kills, headshots, revives, highest wave, completed extractions, solo records and team records. Design persistence and validation to resist exploitation.
+- Beginner-friendly interactive tutorial covering movement, shooting, objectives, weapon upgrades, revives, boss cues and extraction.
+- Signature SIGNAL ANOMALY SYSTEM: corrupted radio transmissions and strange phenomena that can trigger optional objectives, rewards, hazards, lore discoveries and temporary communications/environmental interference. This should give the experience an original thematic identity WITHOUT overwhelming or replacing the core zombies combat loop.
+- Additional fully themed maps with distinct geometry, atmosphere, route graphs, interactive objects and rich worldbuilding.
+
+======================================================================
+5. RECOMMENDED IMPLEMENTATION ORDER & ENGINEERING APPROACH
+======================================================================
+
+A. Audit the actual latest build; capture baseline bugs, existing systems, round states, current place structure, and which handoff items are already done.
+B. Stabilize round state, respawn, teleport/extraction contracts, AI lifecycle and combat server validation before layering on more content.
+C. Implement continuous pursuit/pathfinding, then player-count scaling and the director; profile actual NPC pressure before increasing enemy limits aggressively.
+D. Rework map route graph and safe spots in parallel with navigation testing. Do not visually polish an unplayable topology first.
+E. Make mobile firing an EARLY USER-EXPERIENCE MILESTONE: prototype A (screen tap-to-shoot) and B (joystick-side left Fire zone), test two-thumb simultaneous movement/look/fire, compare and select a configurable default. Integrate first-person ADS, input routing, recoil and server-authoritative firing as one coherent system. Preserve Classic and optional Assisted alternatives.
+F. Build/test Warden and extraction all the way through dispatch return.
+G. Improve downed/revive, interaction prompts, audio, zombie/vehicle quality, texture consistency and visual presentation.
+H. Optimize/test/pack the release, then proceed with Phase 2 and Phase 3 only after the core loop is demonstrably stable.
+
+Prefer modular, documented systems with tunable balance/data tables. Keep state transitions explicit and add defensive handling for missing player characters, network latency, enemy despawns, nil references and multi-place teleport failures. Avoid invasive renaming or deletions of existing working infrastructure without a migration plan.
+
+======================================================================
+6. REQUIRED ACCEPTANCE TESTS FOR NEXT BUILD
+======================================================================
+
+1. MULTIPLAYER DIFFICULTY:
+   - Solo and 2–4-player sessions show appropriately scaled counts, pressure and enemy threat.
+   - Difficulty rises across rounds, but there are no unexplained instant-kill spikes or unwinnable early solo waves.
+   - Joining/leaving/spectating/downing does not stall or corrupt director state.
+
+2. ENEMY INTELLIGENCE:
+   - Spawn zombies far away from player(s): they begin intentional pursuit and eventually navigate toward valid targets.
+   - Place obstacles, stairs, alternate routes, closed/changed paths: zombies recalculate and recover rather than forever colliding with geometry.
+   - No non-interactive off-map or trapped final zombie indefinitely blocks wave progression.
+
+3. MAPS:
+   - Teams have meaningful non-rectangular route choices and cannot reach untouchable positions.
+   - All objective/interactable prompts are reachable, unobstructed and not stacked inside other prompts.
+   - Jumping is disabled; intentional traversal remains possible.
+
+4. MOBILE INPUT / FIRING REDESIGN:
+   - On a small Android phone, ordinary phone, and tablet, all firing modes work without clustered controls or thumb obstruction.
+   - OPTION A: tap a zombie at an off-center screen position and fire toward the touched location; do NOT require a centered reticle. Tap empty space and verify a shot follows that screen ray without targeting unrelated zombies.
+   - OPTION A: swipe/drag to look without firing; tap rapidly without unintended look motion; perform left-joystick movement while right-side tapping; check tap-versus-swipe tolerance and semi/auto/burst weapons.
+   - OPTION A: shoot near a wall/door and verify muzzle obstruction prevents impossible through-wall damage. Weapon range, ammo, cooldown, spread, headshot rules and server validation remain intact.
+   - OPTION B: hold right-thumb camera tracking and fire with left-zone taps/holds. Independently verify move + turn + shoot with only TWO THUMBS, including sprinting and strafing. If this ergonomics goal is not met, explicitly state so and keep this as an alternative rather than forcing it as default.
+   - OPTION B: movement-stick touch must not silently fire; left fire-zone tap must not steal or reset joystick movement. Test intentional combined movement/fire gestures and cancellation.
+   - CLASSIC/ASSIST: redesigned right Fire + fire-and-drag, and optional target-validated auto-fire still work without duplicates or unintended bullets. UI exposes choice of firing layout separately from aim-assist preset.
+   - Recover from interrupted touches, reload, ADS/zoom, weapon swap, menus, downing, revives, death, respawn and teleport without ghost shooting, stuck fire or lost camera control.
+   - HUD layout editing, handedness/layout, resizing, opacity, sensitivity, reset settings and safe-screen insets behave predictably. Test low-end mobile performance.
+   - Report measured/practical comparative outcomes for A and B, the recommended default, and at least one selectable fallback.
+
+5. COMBAT:
+   - First-person sights are usable and properly aligned across representative weapons.
+   - Recoil/reload/impact feedback operates on mobile and PC; third-person firing poses and sounds are visible/audible to other clients.
+   - Server rejects invalid fire rates, impossible hits and illegitimate ammo/damage requests.
+
+6. TEAM STATE:
+   - Downed player crawls on the floor, teammates see a usable marker, revive works, bleedout transitions cleanly, spectating and respawn are correct.
+
+7. FINALE:
+   - Repeated tests of round-15 Warden defeat, extraction countdown/final assault, successful mission, failure/squad wipe, partial extraction and return to dispatch.
+   - No stuck results screens or abandoned participants; if a Roblox live teleport can't be reproduced in Studio, identify the exact production validation needed.
+
+8. PRESENTATION/PERFORMANCE:
+   - Realistic zombie/vehicle updates and texture coverage visually verified in current files.
+   - Zombie bodies disappear around 30 seconds without piling up and wrecking performance.
+   - Reasonable server/client performance at expected player and NPC load, including mobile graphics tiers.
+   - Output logs contain no new recurring errors/warnings from the updated systems.
+
+======================================================================
+7. EXPECTED WORK-THREAD DELIVERABLES
+======================================================================
+
+At the end of each meaningful implementation milestone, deliver:
+
+- An actual usable Roblox Studio place/project (.rbxl or .rbxlx as appropriate), or complete reproducible source/package compatible with the existing place setup; not merely a plan.
+- Required game places/configuration and explanation of what must be published separately (dispatch, maps, etc.), if applicable.
+- A concise changelog separating VERIFIED implemented features, PARTIAL features, and NOT YET STARTED work.
+- For the mobile milestone, a short demonstration/test checklist for all firing layouts, an option comparison and explicit recommended default; include UI screenshots or video if available, without substituting media for real project files.
+- A reproducible test checklist with exact Studio steps, multiplayer setup, and any owner-side live-place validation.
+- Important fixes/limitations, known issues, performance trade-offs and next recommended milestone.
+- If connected GitHub/Open Cloud staging infrastructure is available in the active thread, integrate with the actual configured repository/branch only after confirming its state. Do not presume the connection/publishing pipeline exists or publish automatically without approval.
+
+IMPORTANT: Preserve version compatibility and the owner's working game; do not assert that a generated .rbxl, texture package, asset import, or multi-place deployment has been validated without actually checking it. The priority is a FUN, PLAYABLE, CORRECT Dead Signal build.
+
+======================================================================
+8. FINAL AUTHORIZATION SUMMARY
+======================================================================
+
+The owner approves the entire scope in this handoff, with a staged implementation plan:
+
+NEXT PASS: MOBILE FIRING FIRST (test screen-tap-to-shoot and left joystick-side fire-zone prototypes, preserve configurable Classic/Assisted alternatives, choose a validated two-thumb default); tougher player-scaled zombies; always-active intelligent AI; adaptive director; intricate safe-spot-free maps; differentiated satisfying gunplay; Warden/extraction reliability; revives/prompts/atmosphere; graphics and performance polish.
+
+FOLLOWING PASS: distinctive zombie classes, weapon tiers/attachments/ammo, random events, additional tactical map interactions.
+
+LATER: ranks/mastery/challenges/achievements/cosmetics, stats/leaderboards/tutorial, signal anomalies and more rich maps.
+
+Continue the existing Work thread from its CURRENT checkpoint and implement as much as can be properly built and tested. Clearly separate verified work from the remaining backlog. Do not interrupt or discard ongoing progress.
+
+END OF HANDOFF

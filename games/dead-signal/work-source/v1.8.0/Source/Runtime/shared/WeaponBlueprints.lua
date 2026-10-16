@@ -1,0 +1,23 @@
+-- Distinct proportions and construction, not a common receiver recolored twenty times.
+return {
+    Kestrel={kind="Pistol",barrel=.82,mag=.5,sight=.29},
+    Carbine={kind="WoodCarbine",barrel=1.85,mag=.42,sight=.29},
+    Rook={kind="TubeSMG",barrel=1.15,mag=.85,sight=.31},
+    Trench={kind="Pump",barrel=2.05,mag=.4,sight=.29},
+    Vandal={kind="AR",barrel=1.75,mag=.9,sight=.35},
+    Harrier={kind="Bullpup",barrel=1.2,mag=.82,sight=.39},
+    Anchor={kind="Belt",barrel=2.1,mag=.65,sight=.35},
+    Longwatch={kind="WoodBolt",barrel=2.55,mag=.42,sight=.52,scope=true,aimFov=34},
+    Cyclone={kind="AutoShot",barrel=1.5,mag=.68,sight=.36},
+    Mantis={kind="TopPDW",barrel=.95,mag=.45,sight=.39},
+    Signal={kind="Signal",barrel=1.65,mag=.7,sight=.38},
+    Vigil={kind="Revolver",barrel=1.2,mag=.55,sight=.32},
+    Needle={kind="MachinePistol",barrel=.7,mag=.95,sight=.31},
+    Breaker={kind="Double",barrel=2.25,mag=.25,sight=.29},
+    Sable={kind="TacticalShot",barrel=1.85,mag=.45,sight=.34},
+    Meridian={kind="DMR",barrel=2.15,mag=.62,sight=.51,scope=true,aimFov=44},
+    Wasp={kind="Compact",barrel=.9,mag=.84,sight=.34},
+    Bulwark={kind="DrumLMG",barrel=2.25,mag=.85,sight=.37},
+    Halcyon={kind="Precision",barrel=2.8,mag=.57,sight=.54,scope=true,aimFov=34},
+    Arc={kind="Arc",barrel=1.75,mag=.72,sight=.44},
+}

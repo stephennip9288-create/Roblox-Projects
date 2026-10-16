@@ -1,0 +1,470 @@
+{
+  "source_package": "DeadSignal-v1.8.0-Pursuit-Overhaul-Kit.zip",
+  "upstream_package_sha256": "ea9179dd9df9c68dba1d995f3ccbf0b199190eee8eac24573abdcfd2e09bfb10",
+  "version": "1.8.0",
+  "source_status": "Development candidate; offline tested only",
+  "import_path": "games/dead-signal/work-source/v1.8.0/",
+  "origin": "Dead Signal Work thread package located in user file library",
+  "contents": [
+    "Source",
+    "Tests",
+    "Tools",
+    "selected documentation"
+  ],
+  "excluded": [
+    "Places .rbxl binaries",
+    "Rollback",
+    "Backup",
+    "Previews",
+    "large offline validation geometry and visual scene JSON"
+  ],
+  "notices": [
+    "Do not point existing publish manifests at this directory.",
+    "Files are NOT yet a complete Rojo build project.",
+    "Production place IDs appear in packaged PlaceConfig. Never publish them to staging.",
+    "Preserve existing staging and production .rbxl place files until full-source build parity checks pass.",
+    "Never claim Studio or live gameplay validation for this new v1.8 source."
+  ],
+  "files": [
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Accepted-Feedback-2026-10-16.txt",
+      "sha256": "b9b5b1048fad403421659a526114d0ca830cc396a91a42a08db9f520c20e53b8",
+      "size": 741
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Approved-Handoff-2026-10-15.txt",
+      "sha256": "bc6f2f599bcb65517e3d8fd63d40650901938a8dd3984dd4411fc94c5195b2be",
+      "size": 36844
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/CREDITS.md",
+      "sha256": "36fc3a010a27acec4566ea2af1ee85298077c35e5a66d7b65caacef653f4e73f",
+      "size": 2467
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/IMPLEMENTED-AND-REMAINING.md",
+      "sha256": "d8ec728fec143254eff058c971c240221bc3717ec7bcffd928141cc5527817cc",
+      "size": 9074
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/START-HERE.md",
+      "sha256": "fc2597c177375c5952d26a2a4ceb3fc0db9aa9d0ef4aa30a1914601d1f068b4f",
+      "size": 4574
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/STUDIO-ACCEPTANCE.md",
+      "sha256": "89cf4add4a56eb4103c40f075c7274dd8b14d053d6640376dfbe4a3d581148ba",
+      "size": 3292
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/STUDIO-AND-PHONE-TESTS.md",
+      "sha256": "9cf64ae42aebd7e9932968df15729d888d2152ca5833eabbd6423cff2044702a",
+      "size": 305
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Places/Foundry-PlaceConfig.lua",
+      "sha256": "0285e968b2deb9be77e68332b970772e2b90370f49f0ec1cce8a7ea0807f1426",
+      "size": 165
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Places/Frost-PlaceConfig.lua",
+      "sha256": "d07246f3baa97bd39efa6dd3c442790484711c2141e47e644ac0618155fa403b",
+      "size": 163
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Places/Lobby-PlaceConfig.lua",
+      "sha256": "9c6e8ba63a84001708cbf62e8144edaad1133a37ce7ed1ce13da3030a1c8a083",
+      "size": 165
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Places/Station-PlaceConfig.lua",
+      "sha256": "604f7dfd46b6e09f011f743b6b15be734dccf5ccbdc7c1619798192eed22dc6d",
+      "size": 165
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/client/AimAssist.lua",
+      "sha256": "27b9e853f84688f99937e9cc178048453c123649c18a2193f11f46182ffb3c4a",
+      "size": 1981
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/client/Bootstrap.client.lua",
+      "sha256": "6e4d58d43f187e8b5d2545a49c1996dfa4894be8e7fa6cc06698138cae67b6c0",
+      "size": 42
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/client/Controller.lua",
+      "sha256": "0f7a4b815825305605a1ec9059b8f92735da9e2950a6949730ec63547d37dc5b",
+      "size": 23593
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/client/Effects.lua",
+      "sha256": "4c43bbaf03e3c6e9bf01fe84d8bf9dd68297f70a6f94779a7757db3d7bd89410",
+      "size": 8368
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/client/MobileControls.lua",
+      "sha256": "1642f6935e8f4c830d2d5e6b143bc4c49256fdede75ea187067082281acf5c74",
+      "size": 18514
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/client/Scope.lua",
+      "sha256": "16da79091453bd258404d873d8fc36da7cdf9a6f06d0aa91c8c6d5a2f2484dd3",
+      "size": 2472
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/client/UI.lua",
+      "sha256": "c2a04226b34fae4fd3b491f838ba07423f3bcbd07f8781cf347e71365383442c",
+      "size": 41608
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Architecture.lua",
+      "sha256": "a9a33cee35ed36c9325d78a7b15226bc337962a686fcaa80f9bbf3655d191eb9",
+      "size": 14029
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Bootstrap.server.lua",
+      "sha256": "a464dae86e04ac0d5cf4ec6bdae8a79ee1079873bf77b36baf4c58996d5cc83f",
+      "size": 3033
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/BoundaryGuard.lua",
+      "sha256": "7cce0a3d7dbb1b0790281b00f300c5f7139ece47cfa0970103bf11d43f5ef8c5",
+      "size": 2552
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/CinematicWorld.lua",
+      "sha256": "e3b8406554ca61085f1ee37016d2aa5f4fc84a264a60d5c894c5891a78835b6d",
+      "size": 4704
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/CollisionPolicy.lua",
+      "sha256": "a6ff8e97dfaf3d0ddf3d62c01177b5915311a1c8dbcf16afbf39437fdd179ee2",
+      "size": 1052
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Combat.lua",
+      "sha256": "5a1ff11a29875640e0b40225d8be46fdabd0c1b0d7dd2372bc197f35db6c0b40",
+      "size": 15057
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Diagnostics.lua",
+      "sha256": "e8eb233e1e3145e6421b7c827b59435431dfbcdd5272629c80f56ed0d02b85d7",
+      "size": 5911
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Enemies.lua",
+      "sha256": "ff02f964591d5b5958cd2518500d739d220546bb38ccbd9520071ad7c9a61463",
+      "size": 14462
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/EnemyRigs.lua",
+      "sha256": "a8ded681668ba348c030830b57b013d69269428d9103daa0aacfccc8205d8e2f",
+      "size": 2809
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/ExtractionZone.lua",
+      "sha256": "2bb335006623fb7ccb626d48ad0ec23cd70092de574aa31cb89ad75aec0abd09",
+      "size": 2382
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Game.lua",
+      "sha256": "9f9d0e8e07a95f34465958140b96a291ae21ba8f4b5ebfb9f914d48770035b92",
+      "size": 42787
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/GraphicsService.lua",
+      "sha256": "908ca31e1fa25895d2d48630873bc3b8cf5e9bf51ac58383abe9c93ac04c7ee1",
+      "size": 2757
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/HoundRig.lua",
+      "sha256": "58f7e825e374c8403281d380c37c613295cb1f7842ab3e81d64e710231b03a2b",
+      "size": 158
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/InfectedWardrobe.lua",
+      "sha256": "1a463ce4a40ba9e0575e3db0d0788ad97ad228c9907661d5cd287b19abc0fd21",
+      "size": 3462
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Interactions.lua",
+      "sha256": "0bcfa0d33eddb39ab52a928deb520a0ab5e5dbb4763b246b32fa87e80a937f4b",
+      "size": 3198
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/LobbyService.lua",
+      "sha256": "7520795b03c2b44d70dda1790afbfea713250d1ddeb8db158f8f874db3d39f29",
+      "size": 10544
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/MapBuilder.lua",
+      "sha256": "f07bf591a69e259761dfe8c7fe254e549cd5c928b15dde9ea9866b4f559add48",
+      "size": 24634
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/MapDetail.lua",
+      "sha256": "e2da9c53f84d04fdbb1f788db56633ae9b6f599b43867c349081076230ad4a31",
+      "size": 18787
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/MapRoutes.lua",
+      "sha256": "64c94613238aa88bde4ba046b2f8de9a33b8659c7480e1a8094b15d1effd578a",
+      "size": 196
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Navigation.lua",
+      "sha256": "296e8251497d3b2905d357fd4489fd30aaf4de0e53d02dc6c880d54b9f5d6b58",
+      "size": 9241
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Network.lua",
+      "sha256": "32d4f1b1f4ef885361957da2261026fc73979e146697c0064fce3a1704215cb5",
+      "size": 4790
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/PerkMachines.lua",
+      "sha256": "9f7431b67b399dd704dccd9f888d59b1f6e4b6f8827f83954cabda46a5d5bea8",
+      "size": 5009
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Persistence.lua",
+      "sha256": "7beb14e318aeec0c72b23e39fa82c0c83f16142b2f794f28929e9180108e22ab",
+      "size": 9729
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/RigAnatomy.lua",
+      "sha256": "486afc94295448e68e916b63ffbdcce90247711e86d329152c6baa284a9aaf04",
+      "size": 16881
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Travel.lua",
+      "sha256": "583a21968a5b6022f080cd2f905d00e77851254701c1f37431a8f681ca8901b1",
+      "size": 15075
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/TripRegistry.lua",
+      "sha256": "bead898101148260689682d803edad962b8a21435ab3f79fcd5cd330c8d57547",
+      "size": 2255
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/Vehicles.lua",
+      "sha256": "e6a07f28b2380c11a2753c00442d1344a0c7a3a04e0007df44bf6207c6a744c2",
+      "size": 10965
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/VisualPass.lua",
+      "sha256": "670f5e03f64953d540ade32a543bc07e75f5fd6ba5ecfd14a2828de50a18759e",
+      "size": 7981
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/WaveDirector.lua",
+      "sha256": "4396e24b2ba4bac8a9486d5722ab161d2d7da582a79eb0c6cd123a6243979fe5",
+      "size": 4215
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/WorldArt.lua",
+      "sha256": "ae0a7f1f375a334b581dd3e76da0283c1a0a33fffc9451fef1d957f395a6d463",
+      "size": 6406
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/server/WorldFinish.lua",
+      "sha256": "84fae830e105a2915619b4cc83549a3ca2a158500774793ae241ad3793f5a16a",
+      "size": 6284
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/ArrivalRules.lua",
+      "sha256": "f07b78675b9fdf92c01c63562f7bda27c6306f75170903d3f8e795d4d706aa22",
+      "size": 606
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/ArtAssets.lua",
+      "sha256": "f760fe4d3a11ac90aefc78fa6d0798930f7f67cccb749120f5feab99cc6b6f21",
+      "size": 8775
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/Config.lua",
+      "sha256": "3af0684ff5abc7e65f97f0cd8908576e634c80d5a9e9dbc910806e5a17d23e7e",
+      "size": 12449
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/ControlSettings.lua",
+      "sha256": "8a327d1860868691fa0a623a5a08c21736f093416a5ffb946024793cedd5eb1d",
+      "size": 1941
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/DeploymentRules.lua",
+      "sha256": "3b20963f02268a2f33c98ebd3a9c801ac0a1ea14951e5737d2541bc93b0e2f0b",
+      "size": 1773
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/DirectorRules.lua",
+      "sha256": "eb63c66f6e906fd611d0fec7710210eef7545bfae92b51886d2f9ff76e4508f9",
+      "size": 1425
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/DownedPose.lua",
+      "sha256": "a1802ad3fe18edc3fe7fdf057a286028cfa3caf0f6e3457825bb8174dd5924b9",
+      "size": 5687
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/Extraction.lua",
+      "sha256": "985ad88b50657e823f5da0183e0855b636801b760cc4eee28ef402bb6c6b156b",
+      "size": 1745
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/LoadingScreen.lua",
+      "sha256": "099934c03170cf6aeb1dd64fac63749f1784274c37a0e697fb3e049ba27a3cb4",
+      "size": 6164
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/MapLayouts.lua",
+      "sha256": "35bb73b5bead3d7bdd37e8708e95f33c8f00f5e52e50f7f7d89e79ddb546c9f1",
+      "size": 3059
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/Movement.lua",
+      "sha256": "502c4ebe2e6e7c7e4dfcc56ae47c399108769876808563d00ad961c774f27169",
+      "size": 437
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/NPCPose.lua",
+      "sha256": "e448988e359af44b65f2d3eeb9703c148dd1270679b4adb9f3a6fc451997ef78",
+      "size": 3381
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/NavigationGraph.lua",
+      "sha256": "3eb72e1aaf491dc2a4469fc7b96ac8348757686d8637cfb12adcd5fdf6214341",
+      "size": 4040
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/PlaceConfig.lua",
+      "sha256": "9c6e8ba63a84001708cbf62e8144edaad1133a37ce7ed1ce13da3030a1c8a083",
+      "size": 165
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/Presentation.lua",
+      "sha256": "f0a13a5b9f15448b5e09a8da56df8f3cb2b6a01e9147f0a9811783bf0608c98f",
+      "size": 2522
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/Rules.lua",
+      "sha256": "0e99abe940d82915dbf07510625bdafe47724e837aa7fa7192da8322eb2eb789",
+      "size": 6248
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/ThirdPerson.lua",
+      "sha256": "5db093c04473ba13540367c7c0df6d9c237ce89338b53cdafe6d8851bddcbbb8",
+      "size": 4647
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/TouchInput.lua",
+      "sha256": "f1e784f33cd924ab8238dda2aedeb551d5069a99a1b2af8f9bd251cca56ebe1a",
+      "size": 5489
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/TouchLayout.lua",
+      "sha256": "a55b42a16a5faace3e2c69e83a4c9e29e4e3123e5ea2deab78c5b70331556c01",
+      "size": 2256
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/Util.lua",
+      "sha256": "cdc2811eda9ac577b0ee8760fbc9d24ba3fb6ce181ef422600d1407fac5e3ffa",
+      "size": 939
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/WeaponBlueprints.lua",
+      "sha256": "f7a8ff01ed99f82889d9f678d84a9638e2bb493d12830fe14e5aec54bce72cb7",
+      "size": 1327
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/WeaponDetail.lua",
+      "sha256": "66e45141bc82e50ded90ad671ef510fe341dec8c0fecdda2bd79dcd94c9f17da",
+      "size": 10939
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Source/Runtime/shared/WeaponModels.lua",
+      "sha256": "0a93e9499a14af6d524ef23138e652fb366bc64d1365c1ebef6d4fa2b8fca48f",
+      "size": 23218
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/README.md",
+      "sha256": "d29dbd9ef0ea6ea658e788bcead9bcb77078ddcf6a278168270081c3cd1dc891",
+      "size": 1238
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/Support/RuntimeLoader.luau",
+      "sha256": "91dd887e57343cfcb59798fa329d599fe532aa3223e5122c0af273bcf732dca6",
+      "size": 4029
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/arrival.luau",
+      "sha256": "758ecde4fb0e7df22b1b52ae9e8ff556945ecf9d77efb0fc5b5a07de55d89da0",
+      "size": 1451
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/director.luau",
+      "sha256": "928a217c117055bf16ef6ecacf1f9fdcdb690f24ce03adf574afcef49baba8a0",
+      "size": 1874
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/extraction.luau",
+      "sha256": "f9ecfb3f6e656f9b1706584901e8c24102a3547ad2898dd82344552c821709e0",
+      "size": 1930
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/navigation.luau",
+      "sha256": "75b25ee5e4d6f5901859848b1c8f9345223201066cc7bc88655c550dadd95dac",
+      "size": 3564
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/pursuit.luau",
+      "sha256": "1feb92a52721718e2d1b6b59fcf5729c718219f726c183889c5201db0e78008e",
+      "size": 6233
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/rigs.luau",
+      "sha256": "6ca239de7b057119bc216afbc8e2fad2f4f35fdd6be02c2caec1820e2865914c",
+      "size": 4307
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/run.py",
+      "sha256": "394e199d9553fc84a3aca4e88849e435b77bacd0a6aecba95ea4147e49bac04e",
+      "size": 2137
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/server.luau",
+      "sha256": "96d35a16192b759e5b7ce84f4ffb9643956ce071110587278a4983abbeda4b66",
+      "size": 9519
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/touch.luau",
+      "sha256": "0ab42e9270f5a148094707ac6de2b98e514343a3924d9ebb173c5575e4183bb5",
+      "size": 6865
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tests/weapons.luau",
+      "sha256": "084a3e9da9b53608f7345bb6cf4b3316408762f4ca2bb92316b8c3618144bea4",
+      "size": 2584
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tools/AnatomyMaterials.luau",
+      "sha256": "a1fbcdcf1a8690740ecd3d9c9b13ab71e1404adba1356f0c9d1bebd7513437aa",
+      "size": 1261
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tools/README.md",
+      "sha256": "a6bf2faa8e3f409604cc7070755d343c84e4fbdd8639ecb476af4070ec5671c1",
+      "size": 1060
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tools/build-places.luau",
+      "sha256": "2bf4b2a2825add9cb879ad1401455283af667b22b1413b8a04225d64347c7128",
+      "size": 3987
+    },
+    {
+      "path": "games/dead-signal/work-source/v1.8.0/Tools/check-geometry.py",
+      "sha256": "e8537f49786c1a58b33d6e0c0a0bd6045ee1cfb07fae9cc74d6fbf6239432a5c",
+      "size": 3767
+    }
+  ]
+}

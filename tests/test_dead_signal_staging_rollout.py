@@ -61,7 +61,7 @@ class StagingRolloutTests(unittest.TestCase):
                                           "GITHUB_REPOSITORY": "stephennip9288-create/Roblox-Projects",
                                           "ROBLOX_API_KEY": "not-a-real-key"}), \
                  patch.object(rollout, "OUTPUT", Path(temp)), \
-                 patch.object(rollout, "preflight", return_value={p: {} for p in rollout.ORDER}), \
+                 patch.object(rollout, "preflight", return_value={p: {"staging_place_id": str(101 + i)} for i, p in enumerate(rollout.ORDER)}), \
                  patch.object(rollout, "prepare_upload", side_effect=fake_prepare), \
                  patch.object(rollout, "write_backup_manifest"), \
                  patch.object(rollout, "publish", side_effect=calls) as uploader:

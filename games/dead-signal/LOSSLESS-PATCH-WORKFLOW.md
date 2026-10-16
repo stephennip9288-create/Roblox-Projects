@@ -1,41 +1,43 @@
-# Dead Signal — lossless source-only RBXL patching (developer preview)
+# Dead Signal — source-only cloud RBXL patching (offline-tested)
 
-## Workaround for the Lune full-place serialization problem
+## Working build path
 
-**The current successful staging binaries are older than the v1.8 Work code.** They are missing five modules (ArrivalRules, NPCPose, CollisionPolicy, RigAnatomy, VisualPass). Editing only existing script records would leave the resulting game incomplete. Rebuilding the entire place with Lune instead drops/retypes some raw Terrain/asset properties.
+The original four **native v1.8.0 Work place binaries** have been imported and SHA-256 verified at `games/dead-signal/full-baselines/v1.8.0/` in PR #8. They are immutable **development candidates**, not the deployed staging binaries.
 
-**Solution:** Take the _complete native four-place binaries_ that came in the original Dead Signal **v1.8.0 Pursuit Overhaul Work Kit**, verified offline to contain all **61 expected scripts in every place**, and patch **only `Script.Source`, `LocalScript.Source` and `ModuleScript.Source` property chunks** directly in the binary file. Every other original binary chunk (including unknown Terrain data and material/mesh references) remains byte-for-byte unchanged. Generate staging PlaceConfig from the active `deploy.json` files and replace that module's Source while retaining all other script/module metadata.
+The older staging binaries do not contain five later v1.8 modules. A full-place rebuild with Lune altered/lost Terrain and asset property records. The **lossless workaround** implemented in PR #6 updates only the raw `ModuleScript.Source`, `Script.Source` and `LocalScript.Source` property chunks of the original complete Work files, preserving every other original binary chunk byte-for-byte.
 
-The importer must put the original Work binary files at:
+The patcher requires exact known original hashes, validates script hierarchy through INST/PRNT referents, refuses missing/wrong script paths, and injects the per-place **staging-only PlaceConfig** generated from active manifests.
 
-```text
-games/dead-signal/full-baselines/v1.8.0/dispatch.rbxl
-games/dead-signal/full-baselines/v1.8.0/blackwater.rbxl
-games/dead-signal/full-baselines/v1.8.0/cinderworks.rbxl
-games/dead-signal/full-baselines/v1.8.0/whiteout.rbxl
-games/dead-signal/full-baselines/v1.8.0/IMPORT-MANIFEST.json
-games/dead-signal/full-baselines/v1.8.0/README.md
-```
+## Verified GitHub Actions run
 
-The one-time zip **DeadSignal-v1.8.0-Full-Baselines-Import.zip** is prepared from the owner's original Work package in ChatGPT. Extract the exact paths in a PR; validate SHA-256 from the embedded manifest; do not touch the existing `games/dead-signal/places/` binaries or active publish configurations. The full Work baseline has **production teleport IDs embedded** and is NOT staging-ready as-is.
+[First four-place lossless integration run](https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/38850094617), [post-merge main run](https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/38850248320).
 
-## Current branch and CI
+- **Dispatch:** 61 script targets, 1 changed staging PlaceConfig PROP, 1,513 unchanged chunks.
+- **Blackwater:** 61 targets, 1 changed PROP, 1,496 unchanged chunks.
+- **Cinderworks:** 61 targets, 1 changed PROP, 1,500 unchanged chunks.
+- **Whiteout:** 61 targets, 1 changed PROP, 1,500 unchanged chunks.
+- Independent raw class/PROP schema audit passed across all four places.
+- Full imported Work offline Lune test suite passed and Python pipeline tests passed.
+- Four candidate places were generated as a **GitHub Actions artifact**, not uploaded to Roblox.
 
-`scripts/patch_dead_signal_rbxl.py` operates on the above input files, verifies all four original hashes from the manifest, maps scripts by actual `INST` referents and `PRNT` hierarchy, requires all source module targets to exist, injects generated **staging-only** PlaceConfig, recompresses only the affected `PROP Source` records, and checks every unmodified chunk is byte-identical.
+A future Codex source change may edit additional Source PROP chunks. That is expected; all **unrelated chunks must still remain byte-identical**.
 
-`.github/workflows/dead-signal-lossless-patch.yml` runs 27+ Python unit/integrity checks and will automatically run the four-place integration after the baseline files are imported. It compares against the **same original v1.8 native files**, not the older staging deployment files, and then archives four offline candidate files as GitHub Artifacts.
+## How development now proceeds
 
-Until original native files are imported, this workflow explicitly skips the integration portion while still running Python checks, and reports a warning that full binaries are not yet validated.
+1. Codex edits the source in `games/dead-signal/dev/Source/Runtime/`, and adds regression tests.
+2. GitHub runs source CI and the non-publishing [Dead Signal Lossless Source Patch](https://github.com/stephennip9288-create/Roblox-Projects/actions/workflows/dead-signal-lossless-patch.yml).
+3. Workflow archives four staging candidate .rbxl files plus `LOSSLESS-REPORT.json` and `BINARY-FIDELITY-REPORT.json`.
+4. Review failures/diffs and repeat. The historical full-place Lune serializer is now **manual diagnostics only**, because it cannot preserve some raw data.
+5. **Only after explicit user approval**, privately publish candidate places to staging with originals retained for rollback, test Lobby/teleports/all maps, 2+ player networking, gameplay, mobile controls and assets.
+6. Production remains separate and requires a new explicit authorization. The existing working `games/dead-signal/places/` binaries and publish manifests remain unchanged.
 
-## Acceptance and safety
+## Important limits
 
-- Four native original input files must match the exact manifest hashes.
-- All 61 runtime source script paths must be accounted for, with no additions or deletions to the original DataModel; missing paths cause fail-closed.
-- The raw RBXL auditor must pass, with exact unchanged raw chunks aside from Source PROP. This directly addresses `Terrain.VoxelGridAssetContentMap` and similar opaque properties.
-- All source tests, Python tests and staging configuration isolation must pass.
-- Candidate `.rbxl` files are **artifacts only**, not approved for upload or Roblox publication.
-- Native v1.8 Work places themselves **have not been engine-playtested**; world behavior, engine/API compatibility, public assets and touch controls remain unproven.
-- **First deployment must be an explicitly authorized private staging playtest, with rollback.** Never automatically publish to staging or production.
-- Production remains unchanged until separate explicit authorization.
+- Byte-preservation is relative to original **v1.8 native Work places**, not parity against the *older* currently deployed staging maps.
+- Script-only patching preserves original non-code data without proving the Work release itself is playable or visually correct.
+- The v1.8 Work files originally embed **production Place IDs**; the generated staging PlaceConfig is required. Never publish an unpatched Work binary.
+- Source tests and binary record audits are not Roblox Studio or actual published-client tests; they cannot certify NPC physics, navmesh, UI, teleport admission or mobile interactions.
+- The one-time GitHub Actions ZIP importer (which needed `contents:write`) was retired after the upload. The standalone importer verification script and provenance manifest remain.
+- No Roblox API keys or publishing functionality are present in the source-patch workflow.
 
-Reference: [Issue #5](https://github.com/stephennip9288-create/Roblox-Projects/issues/5).
+Issue [#5](https://github.com/stephennip9288-create/Roblox-Projects/issues/5) tracks remaining **private engine staging acceptance** and production safeguards.

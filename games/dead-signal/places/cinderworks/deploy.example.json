@@ -1,12 +1,12 @@
 {
   "mode": "file",
   "staging": {
-    "file_path": "games/dead-signal/places/cinderworks/staging.rbxlx",
+    "file_path": "games/dead-signal/places/cinderworks/staging.rbxl",
     "universe_id": "REPLACE_STAGING_UNIVERSE_ID",
     "place_id": "REPLACE_STAGING_PLACE_ID"
   },
   "production": {
-    "file_path": "games/dead-signal/places/cinderworks/production.rbxlx",
+    "file_path": "games/dead-signal/places/cinderworks/production.rbxl",
     "universe_id": "REPLACE_LIVE_UNIVERSE_ID",
     "place_id": "REPLACE_LIVE_PLACE_ID"
   }

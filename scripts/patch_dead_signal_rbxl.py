@@ -21,6 +21,13 @@ from generate_dead_signal_place_configs import ROLES, read_identifiers, generate
 HEADER = b"<roblox!\x89\xff\r\n\x1a\n"
 CLASSES = {"ModuleScript", "Script", "LocalScript"}
 PLACE_KEYS = {"dispatch": "Lobby", "blackwater": "Station", "cinderworks": "Foundry", "whiteout": "Frost"}
+# Pinned exact upstream Work package members; changing an import manifest alone is insufficient.
+PINNED_ORIGINAL_SHA256 = {
+    "dispatch": "a3fc4cab05e07d9a2901757007a6b52b7cf3e9acf2cbb49858a52d0a961f596c",
+    "blackwater": "b7181f8204d43dcccb37aa79797ff2a7408f4c9bc9751f3d2baf07ebd4d4d515",
+    "cinderworks": "b1b89378c2ed8cc54d5aa3b95ec6419eb4a6e23b687046ef36915d320a02127f",
+    "whiteout": "445bd3403794f65214822161b14e287363f21d7ff3713ee4079573228d78d168",
+}
 SOURCE_ROOT = ROOT / "games/dead-signal/dev/Source/Runtime"
 CONFIG_ROOT = ROOT / "build/dead-signal-place-configs"
 OUTPUT = ROOT / "build/dead-signal-lossless/staging"
@@ -337,7 +344,9 @@ def run(baseline_dir):
             raise ValueError("Missing validated baseline: "+place)
         original=source.read_bytes()
         expected=entries[source.name]
-        if hashlib.sha256(original).hexdigest()!=expected["sha256"] or len(original)!=expected["size_bytes"]:
+        if (expected["sha256"]!=PINNED_ORIGINAL_SHA256[place]
+                or hashlib.sha256(original).hexdigest()!=PINNED_ORIGINAL_SHA256[place]
+                or len(original)!=expected["size_bytes"]):
             raise ValueError("Baseline integrity mismatch: "+place)
         replacements=desired_scripts(place)
         built,report=patch_bytes(original,replacements)

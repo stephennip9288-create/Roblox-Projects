@@ -1,6 +1,30 @@
-# Dead Signal — promoting v1.8 to production (NOT YET DEPLOYED)
+# Dead Signal — controlled production promotion
 
-**Do not run production until the v1.8 loading artwork fallback is deployed to and visually checked in private staging.** Earlier v1.8 staging gameplay worked, but a missing background was reported on Dispatch and map travel screens. The patch adds distinct original fallback themes for Dispatch, Blackwater, Cinderworks, and Whiteout if uploaded artwork is unowned, inaccessible, or still loading. This ensures a designed-looking load screen, **not a promise that the originally configured images will load**. For actual custom illustration/photo artwork, upload creator-owned images in Roblox and give the experience permission to use them.
+## Loading-art hotfix after v1.9 entered staging
+
+The v1.8 production release is recorded in run `38878289170`. The v1.9 source is
+on `main` and private staging only. For a backgrounds-only release, build the
+reviewed v1.8.1 hotfix revision, not the default current-main source.
+
+The existing manual production workflow now accepts an optional `source_sha`:
+the full lowercase 40-character SHA of the reviewed hotfix commit. The workflow
+itself still runs only from `main`, still requires explicit owner authorization,
+the same production environment, exact confirmation, generated production IDs,
+source/binary checks and rollback protection. Branch names, malformed pins, and
+pins on rollback are rejected. Leave the pin empty for the default main build.
+No workflow has been dispatched by this change.
+
+Before publishing, visually verify the original images in Studio and obtain
+explicit approval for the exact hotfix SHA. Record the selected source SHA and
+all four returned place versions. Passing Studio asset loads does not establish
+published-game permissions. Preserve all original working binaries.
+
+The published v1.8 baseline includes static fallback scenes for Dispatch,
+Blackwater, Cinderworks and Whiteout. The original uploaded image IDs are also
+configured. The v1.8.1 hotfix removes a visibility/load dependency that could keep
+those original images hidden despite successful fetches. Fallback scenes remain
+available during failed or slow downloads. Check actual published rendering and
+asset permissions after any approved release.
 
 ## Production IDs are generated automatically
 

@@ -1,22 +1,8 @@
-name: Audit Dead Signal Candidates (No Publish)
+name: Legacy Lune Candidate Audit (Manual Diagnostics Only)
 
+# Historical Lune full-place serializer path loses/retypes some Terrain and asset PROP records.
+# Manual diagnostics ONLY. Default source editing uses dead-signal-lossless-patch.yml.
 on:
-  push:
-    paths:
-      - 'games/dead-signal/dev/**'
-      - 'scripts/generate_dead_signal_place_configs.py'
-      - 'scripts/check_dead_signal_candidates.py'
-      - 'scripts/audit_dead_signal_binary.py'
-      - 'tests/test_dead_signal_binary.py'
-      - '.github/workflows/dead-signal-candidates.yml'
-  pull_request:
-    paths:
-      - 'games/dead-signal/dev/**'
-      - 'scripts/generate_dead_signal_place_configs.py'
-      - 'scripts/check_dead_signal_candidates.py'
-      - 'scripts/audit_dead_signal_binary.py'
-      - 'tests/test_dead_signal_binary.py'
-      - '.github/workflows/dead-signal-candidates.yml'
   workflow_dispatch:
 
 permissions:

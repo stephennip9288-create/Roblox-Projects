@@ -388,7 +388,7 @@ function E:tick(now)
                     enemy.attack=now+R.enemyAttackInterval(self.ctx.run.round,enemy.kind)*(enemy.mods and enemy.mods.Enraged and .88 or 1)
                     enemy.windupTarget=target enemy.windup=now+(enemy.kind=="Hound" and .32 or enemy.kind=="Stalker" and .6 or enemy.kind=="Warden" and .65 or .45)
                     enemy.model:SetAttribute("AttackAt",workspace:GetServerTimeNow())
-                    self.ctx.feed:FireAllClients("EnemyAttack",{id=enemy.id,position=enemy.root.Position,kind=enemy.kind})
+                    self.ctx.feed:FireAllClients("EnemyAttack",{id=enemy.id,position=enemy.root.Position,kind=enemy.kind,enraged=enemy.mods and enemy.mods.Enraged})
                 end
                 if enemy.kind=="Warden" then
                     if enemy.shockAt and now>=enemy.shockAt then

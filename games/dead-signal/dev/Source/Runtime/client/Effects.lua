@@ -163,6 +163,7 @@ function FX:hazardCounter(data)
     local h=self.hazards and self.hazards[data.id] if not h then return end
     local p if data.kind=="Vent" then p=h.smoke else p=h.fire end
     if p then p:Destroy() end
+    if data.kind=="Vent" then h.smoke=nil else h.fire=nil end
 end
 function FX:clearHazards()
     for _,h in pairs(self.hazards or {}) do

@@ -72,7 +72,7 @@ check(D.modifiers({hp=100000,speed=100,damage=1000},{Armored=true,Enraged=true},
 for round=1,150 do check(D.blastDamage(round,T.volatileBlast,C.Modes.Standard)<=T.volatileBlast.maxDamage,'blast scaling capped') end
 check(D.specialReward(1000,T.rewards)==T.rewards.maxPoints,'reward capped')
 check(D.canReward({phase='Wave',event=T.events[1],spawnRemaining=0}) and not D.canReward({phase='Wave',event=T.events[1],spawnRemaining=0,eventRewarded=true}),'reward once')
-for _,spec in ipairs({{'Shambler',{Enraged=true}},{'Runner',{Armored=true}},{'Crawler',{Volatile=true}},
+for _,spec in ipairs({{'Shambler',{Enraged=true}},{'Runner',{Armored=true}},{'Crawler',{Volatile=true}},{'Crawler',{Armored=true}},{'Crawler',{Enraged=true}},
  {'Shambler',{Armored=true,Enraged=true}},{'Hound',{Alpha=true}},{'Hound',{}},{'Stalker',{}}}) do
  local who=enemy(spec[1],spec[2]);local m=who.model
  check(m:GetAttribute('EvolutionRevision')==9 and m.BodyCollider.CanCollide,'variant keeps live collision')

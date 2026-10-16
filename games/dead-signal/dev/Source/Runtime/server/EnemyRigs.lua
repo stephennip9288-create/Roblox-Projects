@@ -5,7 +5,7 @@ local Anatomy=require(script.Parent.RigAnatomy)
 local R={build=Anatomy.build}
 -- Original welded details follow the shared articulated skeleton and its ragdoll.
 function R.evolve(e)
-    local model=e.model local mods=e.mods or {} local torso=model.Torso local head=model.Head
+    local model=e.model local mods=e.mods or {} local torso=model.Torso local head=model.Head local crawler=e.kind=="Crawler"
     local metal=Color3.fromRGB(51,58,59) local bone=Color3.fromRGB(176,170,138)
     local hot=Color3.fromRGB(255,144,67) local s=mods.Alpha and 1.16 or mods.Armored and mods.Enraged and 1.08 or 1
     if s~=1 then
@@ -30,26 +30,48 @@ function R.evolve(e)
     model:SetAttribute("Elite",e.elite==true) model:SetAttribute("EvolutionRevision",9)
     if mods.Enraged then
         for _,side in ipairs({-1,1}) do
-            detail("OvergrownClavicle",torso,Vector3.new(.30,.75,.28),Vector3.new(side*.85,1.45,-.08),bone,Enum.Material.Slate,Enum.PartType.Ball,CFrame.Angles(0,0,side*-.6))
+            detail("OvergrownClavicle",torso,Vector3.new(.30,crawler and .4 or .75,.28),crawler and Vector3.new(side*.85,.12,-.7) or Vector3.new(side*.85,1.45,-.08),bone,Enum.Material.Slate,Enum.PartType.Ball,CFrame.Angles(0,0,side*-.6))
             detail("EnragedEye",head,Vector3.new(.20,.075,.10),Vector3.new(side*.19,.12,-.46),hot,Enum.Material.Neon)
         end
-        detail("TornRestraint",torso,Vector3.new(1.56,.17,1),Vector3.new(0,.8,0),Color3.fromRGB(59,42,33),Enum.Material.Leather)
+        detail("TornRestraint",torso,crawler and Vector3.new(1.56,.85,.17) or Vector3.new(1.56,.17,1),crawler and Vector3.new(0,.1,.25) or Vector3.new(0,.8,0),Color3.fromRGB(59,42,33),Enum.Material.Leather)
     end
     if mods.Armored then
         e.armorParts={} e.weakParts={}
-        for _,def in ipairs({{zone="Body",b=torso,size=Vector3.new(1.62,1.65,.26),at=Vector3.new(0,.75,-.61)},
+        for _,def in ipairs({{zone="Body",b=torso,size=crawler and Vector3.new(1.62,.22,1.65) or Vector3.new(1.62,1.65,.26),at=crawler and Vector3.new(0,.49,.10) or Vector3.new(0,.75,-.61)},
             {zone="Head",b=head,size=Vector3.new(1.12,.9,.23),at=Vector3.new(0,.16,-.57)}}) do
             local p=detail("Breakable"..def.zone,def.b,def.size,def.at,metal)
             p.CanQuery=true p:SetAttribute("ArmorZone",def.zone);p:SetAttribute("HitZone","Armor")
             e.armorParts[def.zone]=p
-            local weak=detail("Exposed"..def.zone,def.b,def.size*Vector3.new(.45,.65,.55),def.at+Vector3.new(0,0,.18),hot,Enum.Material.Neon)
+            if not crawler and def.zone=="Body" then
+                p.Transparency=1
+                for _,plate in ipairs({{Vector3.new(1.23,.78,.23),Vector3.new(0,1.11,-.65),CFrame.Angles(-.12,0,0)},
+                    {Vector3.new(1.08,.57,.23),Vector3.new(0,.39,-.64),CFrame.Angles(.10,0,0)},
+                    {Vector3.new(.37,1.37,.22),Vector3.new(-.66,.74,-.52),CFrame.Angles(0,-.26,.06)},
+                    {Vector3.new(.37,1.37,.22),Vector3.new(.66,.74,-.52),CFrame.Angles(0,.26,-.06)}}) do
+                    detail("SegmentedBreastplate",torso,plate[1],plate[2],metal,nil,nil,plate[3]).Parent=p
+                end
+                for n=1,3 do detail("PlateScore",torso,Vector3.new(.73,.035,.045),Vector3.new(0,.92+n*.11,-.79),Color3.fromRGB(109,115,107)).Parent=p end
+            elseif def.zone=="Head" then
+                -- The face remains visible between the brow and respirator. Query
+                -- surfaces follow actual protective components, including the crown.
+                p.Size=Vector3.new(1.04,.22,.23)*s;p.CFrame=head.CFrame*CFrame.new(Vector3.new(0,.30,-.55)*s)
+                for _,piece in ipairs({{Vector3.new(1.02,.30,.94),Vector3.new(0,.49,.03),Enum.PartType.Ball},
+                    {Vector3.new(.17,.67,.74),Vector3.new(-.49,.12,.02),Enum.PartType.Block},
+                    {Vector3.new(.17,.67,.74),Vector3.new(.49,.12,.02),Enum.PartType.Block},
+                    {Vector3.new(.76,.30,.22),Vector3.new(0,-.26,-.53),Enum.PartType.Block}}) do
+                    local shell=detail("HelmetProtection",head,piece[1],piece[2],metal,nil,piece[3]);shell.Parent=p;shell.CanQuery=true;shell:SetAttribute("ArmorZone","Head")
+                end
+                for n=-2,2 do detail("RespiratorVent",head,Vector3.new(.055,.14,.03),Vector3.new(n*.1,-.26,-.66),Color3.fromRGB(17,23,23)).Parent=p end
+            end
+            local horizontal=crawler and def.zone=="Body"
+            local weak=detail("Exposed"..def.zone,def.b,def.size*Vector3.new(.45,.65,.55),def.at+(horizontal and Vector3.new(0,.18,0) or Vector3.new(0,0,.18)),hot,Enum.Material.Neon)
             weak.Transparency=1 weak:SetAttribute("HitZone","Weakpoint");weak:SetAttribute("WeakZone",def.zone);e.weakParts[def.zone]=weak
             -- Plate hardware and scored seams convey armor without relying on hue.
             for _,side in ipairs({-1,1}) do local rivet=detail("PlateRivet",def.b,Vector3.new(.12,.12,.08),def.at+Vector3.new(side*def.size.X*.36,def.size.Y*.3,-.17),bone)
                 rivet.Parent=p
             end
         end
-        for _,side in ipairs({-1,1}) do detail("ShoulderGuard",torso,Vector3.new(.55,.33,.9),Vector3.new(side*.85,1.55,0),metal) end
+        for _,side in ipairs({-1,1}) do detail("ShoulderGuard",torso,Vector3.new(.55,.33,.9),crawler and Vector3.new(side*.85,.15,-.7) or Vector3.new(side*.85,1.55,0),metal) end
     end
     if mods.Volatile then
         e.reactorParts={}
@@ -69,14 +91,17 @@ function R.evolve(e)
         end
         for _,side in ipairs({-1,1}) do
             detail("CanineFang",head,Vector3.new(.09,.35,.09),Vector3.new(side*.32,-.35,-.55),bone,Enum.Material.Slate,Enum.PartType.Ball)
-            if mods.Alpha then detail("AlphaAntler",head,Vector3.new(.22,.9,.25),Vector3.new(side*.42,.65,.05),bone,Enum.Material.Slate,Enum.PartType.Ball,CFrame.Angles(-.3,0,-side*.35)) end
+            if mods.Alpha then
+                detail("AlphaAntler",head,Vector3.new(.25,.55,.25),Vector3.new(side*.42,.55,.08),Color3.fromRGB(99,91,70),Enum.Material.Slate,Enum.PartType.Ball,CFrame.Angles(-.3,0,-side*.35))
+                detail("AntlerTip",head,Vector3.new(.13,.38,.13),Vector3.new(side*.55,.82,.14),bone,Enum.Material.Slate,Enum.PartType.Ball,CFrame.Angles(-.4,0,-side*.4))
+            end
         end
         model:SetAttribute("PackRole",mods.Alpha and "Alpha" or e.id%3==0 and "Flanker" or "Charger")
     elseif e.kind=="Stalker" then
         detail("AmbushCowl",head,Vector3.new(1.08,1.27,1.03),Vector3.new(0,.10,.25),Color3.fromRGB(27,35,36),Enum.Material.Fabric,Enum.PartType.Ball)
         for _,side in ipairs({-1,1}) do
             detail("SplitCowl",torso,Vector3.new(.38,2.5,.14),Vector3.new(side*.58,.55,.62),metal,Enum.Material.Fabric,nil,CFrame.Angles(0,0,side*.12))
-            detail("SignalWhisker",head,Vector3.new(.04,.04,.8),Vector3.new(side*.35,.1,-.55),bone,Enum.Material.Metal,nil,CFrame.Angles(0,side*.45,0))
+            detail("SignalWhisker",head,Vector3.new(.045,.7,.045),Vector3.new(side*.52,.43,.22),bone,Enum.Material.Metal,nil,CFrame.Angles(0,0,side*.45))
         end
         model:SetAttribute("EnemyTitle","Stalker")
     end

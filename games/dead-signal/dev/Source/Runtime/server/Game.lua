@@ -572,11 +572,11 @@ function G:tick(now,dt)
         self:spawnEnemy(now)
         if run.spawnRemaining<=0 and ctx.enemies:count()==0 and ctx.enemies:pendingBlasts()==0 then
             for player,p in pairs(ctx.players) do if p.participating then p.stats.rounds=p.stats.rounds+1 self:addPoints(player,C.Economy.roundBase+run.round*C.Economy.roundGrowth,true) end end
-            self:rewardSpecial()
+            local specialPaid=self:rewardSpecial()
             ctx.enemies:clearHazards()
             run.event=nil self.ctx.feed:FireAllClients("SpecialWave",{active=false})
             run.phase="Intermission" run.deadline=now+C.Intermission
-            self:broadcast("ROUND CLEARED / Resupply and open new routes.","amber")
+            if not specialPaid then self:broadcast("ROUND CLEARED / Resupply and open new routes.","amber") end
         end
     elseif run.phase=="Exfil" then
         if run.bossSpawned and not run.bossAlive then run.spawnRemaining=0 end

@@ -269,7 +269,7 @@ function Controller.start()
                 ui:toast(data.kind=="Armor" and "ARMOR HIT" or data.kind=="ArmorBreak" and "PLATE BROKEN" or data.kind=="Reactor" and "PRESSURE RISING" or "WEAK POINT","amber")
             end
         elseif kind=="CounterActive" then fx:sound("Vent",data.position);fx:particles(data.position,fx.settings.lowEffects and 3 or 8,.9,.6,Color3.fromRGB(159,201,207),false)
-        elseif kind=="EnemyAttack" then fx:sound(data.kind=="Hound" and "Howl" or data.kind=="Stalker" and "Stalker" or "Attack",data.position)
+        elseif kind=="EnemyAttack" then fx:sound(data.kind=="Hound" and "Howl" or data.kind=="Stalker" and "Stalker" or data.enraged and "Redline" or "Attack",data.position)
         elseif kind=="ArcLink" then fx:tracer(data.origin,data.finish,true)
         elseif kind=="EnemyDeath" then fx:enemyDeath(data)
         elseif kind=="Melee" then if data.player==player.UserId then fx:sound("Click") end

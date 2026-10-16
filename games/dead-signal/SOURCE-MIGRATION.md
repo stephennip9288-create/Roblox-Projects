@@ -1,4 +1,15 @@
-# Dead Signal — source migration (experimental and non-deploying)
+# Updated approach — direct Work source import is preferred
+
+A newer Dead Signal **v1.8.0 Pursuit Overhaul** Work package is available in the user's ChatGPT file library. It includes editable client/server/shared Lua modules, tests, and tools. **Do not continue the experimental Rojo `syncback` workflow just to recover scripts.** The prior syncback failed at its Y/N confirmation and is now unnecessary for recovering code.
+
+A source-only import archive has been prepared, to upload into [imports/](imports/README.md). Once uploaded, use the instructions there to have Codex Cloud extract and commit source on a feature branch, review it, and keep the validated .rbxl publishing pipeline unchanged.
+
+This direct import gives Codex editable source code immediately, **not** yet a fully source-managed playable Roblox place. The v1.8.0 development candidate was validated offline but not certified through Roblox Studio, so do not overwrite staging or production place files with it as-is.
+
+---
+
+## Earlier optional syncback experiment (reference only)
+
 
 The initial staging publishing milestone has been verified for **all four places**. Full `.rbxl` binary files are the current known-working deployment artifacts.
 

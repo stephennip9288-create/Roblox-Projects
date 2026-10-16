@@ -1,0 +1,13 @@
+# Dead Signal — Work Thread: Combat, Weapons, HUD & Mobile
+
+You own `feature/dead-signal-combat-ui` in `stephennip9288-create/Roblox-Projects`. Read `games/dead-signal/PARALLEL-DEVELOPMENT.md` and `dev/README.md` first. Start from your named branch, audit current source, and coordinate interface changes with the main integration thread. Never publish or modify production backups/manifests.
+
+**Goals:** More polished and detailed weapon viewmodels and animations, credible sights and usable ADS without blocking the target, correct sight-picture alignment at varied field-of-view/device ratios, consistent recoil/crosshair/hit feedback and weapon interactions. Improve HUD hierarchy, readability and first-person immersion without clutter, including event warnings, revive markers and weapon-buy prompts. Maintain touch controls responsive on different screen sizes, avoiding HUD covering movement/fire/aim surfaces, while preserving existing user settings and saved progression.
+
+**Existing owner decisions:** Previously closed mobile FPS requirements are not a fresh request to redesign all controls. Treat current control layouts and behavior as the baseline; fix verified problems and seek new approval for behavior-breaking redesigns. No jumping unless explicitly reapproved. No changes to map placement; deliver mounting/interaction visual requirements to Maps thread. Maintain server-authoritative hit/damage validation.
+
+**Likely lane files:** `client/Controller.lua`, `Scope.lua`, `AimAssist.lua`, `MobileControls.lua`, `UI.lua`; `shared/WeaponModels.lua`, `WeaponDetail.lua`, `WeaponBlueprints.lua`, `TouchInput.lua`, `TouchLayout.lua`, `ControlSettings.lua`; add focused `dev/Tests` cases. `server/Combat.lua`, `shared/Config.lua`, `client/Effects.lua`, `shared/Presentation.lua`, `server/Interactions.lua` are shared: get integrator approval for interfaces before changes. Do not replace working enemy/elites UI event cues.
+
+**Tests:** ADS sight line against all weapon classes/upgrades, hipfire/ADS switching while walking, recoil+spread+hit registration, reload/cancel/ammo/revive transitions, device scaling (small/mobile/tablet/desktop), two-thumb fire/aim layouts when physical test authorized, input focus, buttons over map prompts, low-effects performance, color-independent status warnings. No UI overlap with extraction/Warden/special events; test the existing loading art after integration.
+
+**Deliver:** branch PR into integration with tested source changes, before/after screenshots or captures if available, precise shared contracts, visual QA checklist and honest pending Studio/mobile acceptance items. Do not assert physical phone usability based only on offline checks.

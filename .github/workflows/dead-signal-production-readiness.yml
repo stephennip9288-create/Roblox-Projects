@@ -6,6 +6,9 @@ on:
       - 'games/dead-signal/dev/Source/**'
       - 'scripts/patch_dead_signal_rbxl.py'
       - 'scripts/check_dead_signal_production.py'
+      - 'scripts/dead_signal_production_rollout.py'
+      - 'tests/test_dead_signal_production_rollout.py'
+      - '.github/workflows/dead-signal-production-release.yml'
       - 'games/dead-signal/full-baselines/**'
       - '.github/workflows/dead-signal-production-readiness.yml'
   pull_request:
@@ -13,6 +16,9 @@ on:
       - 'games/dead-signal/dev/Source/**'
       - 'scripts/patch_dead_signal_rbxl.py'
       - 'scripts/check_dead_signal_production.py'
+      - 'scripts/dead_signal_production_rollout.py'
+      - 'tests/test_dead_signal_production_rollout.py'
+      - '.github/workflows/dead-signal-production-release.yml'
       - 'games/dead-signal/full-baselines/**'
       - '.github/workflows/dead-signal-production-readiness.yml'
   workflow_dispatch:

@@ -49,6 +49,23 @@ jobs:
             echo 'ready=false' >> "$GITHUB_OUTPUT"
             echo '::warning title=Full v1.8 baseline import needed::Raw patcher tests passed, but four native Work place files must be imported before integration candidates can build.'
           fi
+      - name: Install pinned Lune for native v1.8 compatibility tests
+        if: ${{ steps.baseline.outputs.ready == 'true' }}
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          path: games/dead-signal/dev
+      - name: Run source regressions against original native Work v1.8 place fixtures
+        if: ${{ steps.baseline.outputs.ready == 'true' }}
+        shell: bash
+        run: |
+          mkdir -p games/dead-signal/dev/Places
+          cp games/dead-signal/full-baselines/v1.8.0/dispatch.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Lobby.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/blackwater.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Station.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/cinderworks.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Foundry.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/whiteout.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Frost.rbxl
+          cd games/dead-signal/dev
+          lune run Tests/syntax.luau
+          python Tests/run.py --lune lune
       - name: Patch ONLY Script Source PROP chunks (no full-place serialization)
         if: ${{ steps.baseline.outputs.ready == 'true' }}
         run: python scripts/patch_dead_signal_rbxl.py

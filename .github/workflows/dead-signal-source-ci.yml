@@ -11,6 +11,7 @@ on:
       - '.github/workflows/dead-signal-source-ci.yml'
   pull_request:
     paths:
+      - 'games/dead-signal/dev/**'
       - 'games/dead-signal/work-source/**'
       - 'games/dead-signal/places/**/deploy.json'
       - 'scripts/generate_dead_signal_place_configs.py'
@@ -44,7 +45,7 @@ jobs:
           path: games/dead-signal/dev
       - name: Prepare temporary known-good staging fixtures for offline integration
         run: |
-          mkdir -p games/dead-signal/work-source/v1.8.0/Places
+          mkdir -p games/dead-signal/dev/Places
           cp games/dead-signal/places/dispatch/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Lobby.rbxl
           cp games/dead-signal/places/blackwater/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Station.rbxl
           cp games/dead-signal/places/cinderworks/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Foundry.rbxl

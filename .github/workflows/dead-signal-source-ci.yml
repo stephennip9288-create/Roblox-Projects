@@ -55,6 +55,7 @@ jobs:
         working-directory: games/dead-signal/dev
         run: |
           lune --version
+          lune run Tests/syntax.luau
           python Tests/run.py --lune lune
       - name: Archive isolated configs and test report
         if: always()

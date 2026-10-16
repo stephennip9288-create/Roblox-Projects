@@ -155,12 +155,12 @@ def compare(original, rebuilt):
             "limitations": "Signature/instance coverage only; DOES NOT prove property values, terrain voxels, Roblox rendering, animation, physics, networking, or asset permissions."}
 
 
-def audit(root, candidate_dir=None):
+def audit(root, candidate_dir=None, baseline_dir=None):
     output = candidate_dir or root / "build/dead-signal-candidates/staging"
     output.mkdir(parents=True, exist_ok=True)
     places = {}
     for place in PLACES:
-        baseline = root / f"games/dead-signal/places/{place}/staging.rbxl"
+        baseline = (baseline_dir / f"{place}.rbxl") if baseline_dir else root / f"games/dead-signal/places/{place}/staging.rbxl"
         candidate = output / f"{place}.rbxl"
         try:
             details = compare(baseline, candidate)
@@ -186,5 +186,7 @@ if __name__ == "__main__":
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--candidate-dir", type=Path, default=None,
                         help="Review another artifact directory; does not change baseline paths")
+    parser.add_argument("--baseline-dir", type=Path, default=None,
+                        help="Immutable full Work place files to compare against for experimental script-only patching")
     arguments = parser.parse_args()
-    sys.exit(0 if audit(arguments.root, arguments.candidate_dir) else 1)
+    sys.exit(0 if audit(arguments.root, arguments.candidate_dir, arguments.baseline_dir) else 1)

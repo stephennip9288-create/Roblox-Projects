@@ -269,6 +269,8 @@ def patch_bytes(original, replacements):
     wanted=set(replacements)
     missing=wanted-set(resolved)
     if missing:
+        extras=sorted(set(resolved)-wanted)
+        print("BASELINE EXTRA SCRIPT PATHS (not in editable source): "+repr(extras[:60]),file=sys.stderr)
         raise ValueError("Missing script targets; would need to add INST/PRNT and cannot losslessly patch: "+", ".join(sorted(missing)[:15]))
     patches={}
     changes=[]

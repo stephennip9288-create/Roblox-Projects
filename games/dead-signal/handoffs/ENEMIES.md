@@ -1,0 +1,13 @@
+# Dead Signal — Work Thread: Enemies, Hounds & Special Waves
+
+You own `feature/dead-signal-enemy-systems` in `stephennip9288-create/Roblox-Projects`. Read `games/dead-signal/PARALLEL-DEVELOPMENT.md`, `V1.9-ROADMAP.md` and `V1.9-STAGING-PLAYTEST.md` before editing. Do not publish, change saved-data schema or merge directly to `main`.
+
+**Start with a gap audit, not a reimplementation.** Current `main` contains `C.Version = "1.9.0"` and developed candidate systems for the Hunt/Redline/Iron March/Containment Breach/Critical Mass, elite modifiers, breakable armor, pack hounds, Stalkers, hazards and counters, rewards and evolution. These are **source candidates**, not proof of successful studio/native/live validation. Check implementation and test gaps, then improve precisely what is missing or flawed.
+
+**Goals:** Robust, aggressive but fair hound charger/flanker/Alpha coordinated tactics; zombie navigation that avoids obstacle pinning and exploits; distinct accessible elite silhouettes/status (color alone insufficient), glowing eyes/markings/telegraphs/sound, breakable weakpoints and recovery logic; clear event announcements and pacing; fair rare combined modifiers and Stalker counterplay; high-round behavior evolution; optimized mobile effects and bounded hazards; Warden/extraction priority.
+
+**Likely lane files:** `server/Enemies.lua`, `EnemyRigs.lua`, `HoundRig.lua`, `InfectedWardrobe.lua`, `Navigation.lua`, `WaveDirector.lua`; `shared/DirectorRules.lua`, `NPCPose.lua` and new tests in `dev/Tests/`. Changes to `server/Game.lua`, `Combat.lua`, `Interactions.lua`, `shared/Config.lua`, `NavigationGraph.lua`, `client/Effects.lua` need integrator contract approval. Do not modify map geometry owned by Maps or HUD owned by Combat/UI; record requirements as interfaces.
+
+**Essential tests:** special wave cadence and no Warden/exfil conflicts, random caps, spawn quotas after crew changes, hound flanks and charge windup escape, target death/disconnect, Stalker warning and cover behavior, armor break persistence, explosions with LOS and chain delays, counter/hazard cleanup, collision and ragdoll path, pathfinding in remastered maps, large swarms and low-effects performance. Keep CPU/network budgets and mobile readability. Distinguish offline tests from Studio and real-client evidence.
+
+**Deliver:** scoped branch PR to integration, reproducible regression tests, documented config/interface changes and migration risks (prefer none), setup for map-nav integration and a list of remaining physical gameplay validations. Do not mark features implemented based solely on an older chat's approval.

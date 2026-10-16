@@ -22,4 +22,53 @@ function D.spawnScore(distance,visible,usedAgo,nearby)
     if distance<D.tuning.fallbackSpawnDistance then return nil end
     return math.min(distance,120)*.14+(visible and -14 or 12)+math.min(usedAgo,15)-nearby*8
 end
+function D.event(round,phase,cfg,bossRound)
+    if not cfg.enabled or phase=="Exfil" or bossRound or round<cfg.firstRound then return nil end
+    if (round-cfg.firstRound)%math.max(1,cfg.interval)~=0 then return nil end
+    return cfg.events[(math.floor((round-cfg.firstRound)/math.max(1,cfg.interval)))%#cfg.events+1]
+end
+function D.eliteRate(round,cfg)
+    return round<cfg.eliteStart and 0 or math.min(cfg.eliteMax,cfg.eliteBase+(round-cfg.eliteStart)*cfg.eliteGrowth)
+end
+-- Roll inputs make rarity/composition decisions reproducible in tests.
+function D.evolution(round,event,index,cfg,roll,comboRoll,counts)
+    counts=counts or {} roll=roll or 1 comboRoll=comboRoll or 1
+    if not cfg.enabled then return "Shambler",{} end
+    local id=event and event.id local kind="Shambler" local mods={}
+    if id=="Hunt" then kind="Hound";mods.Alpha=index==1 and (counts.alphas or 0)<cfg.maxAlphas
+    elseif id=="Redline" then kind=index%3==0 and "Shambler" or "Runner";mods.Enraged=true
+    elseif id=="IronMarch" then mods.Armored=true
+    elseif id=="Critical" then kind=index%4==0 and "Crawler" or "Shambler";mods.Volatile=true
+    elseif id=="Breach" then
+        kind=index%3==0 and "Hound" or index%2==0 and "Runner" or "Shambler"
+        if index%5==0 then mods.Enraged=true end
+    end
+    local stalkerAllowed=round>=cfg.stalkerStart and (counts.stalkers or 0)<cfg.maxStalkers
+    if stalkerAllowed and ((id=="Breach" and index==7) or not event and roll<cfg.stalkerChance) then return "Stalker",{} end
+    if not event then
+        if round>=cfg.houndStart and roll>=.7 and roll<.7+cfg.houndChance then kind="Hound" end
+        if comboRoll<D.eliteRate(round,cfg) then
+            if kind=="Hound" then mods.Alpha=(counts.alphas or 0)<cfg.maxAlphas
+            else local variants={"Enraged","Armored","Volatile"};mods[variants[index%3+1]]=true end
+        end
+    end
+    -- One rare Ironbound per wave; no Volatile/Alpha stacking or triple modifiers.
+    if round>=cfg.combinedStart and kind~="Hound" and mods.Armored and comboRoll<cfg.combinedChance and (counts.combined or 0)<cfg.maxCombined then mods.Enraged=true end
+    return kind,mods
+end
+function D.modifiers(stats,mods,cfg)
+    local out={hp=stats.hp,speed=stats.speed,damage=stats.damage}
+    if not (mods.Enraged or mods.Armored or mods.Volatile or mods.Alpha) then return out end
+    for key,name in pairs({Enraged="enraged",Armored="armored",Volatile="volatile",Alpha="alpha"}) do
+        if mods[key] then local t=cfg[name];out.hp*=t.health;out.speed*=t.speed;out.damage*=t.damage end
+    end
+    out.hp=math.max(1,math.floor(out.hp));out.speed=math.min(24,out.speed);out.damage=math.min(65,math.floor(out.damage+.5))
+    return out
+end
+function D.specialQuota(base,event) return event and math.max(6,math.floor(base*event.quota)) or base end
+function D.blastDamage(round,cfg,mode) return math.min(cfg.maxDamage,cfg.damage+round*cfg.roundDamage)*(mode.damage or 1) end
+function D.specialReward(round,cfg) return math.min(cfg.maxPoints,cfg.points+round*cfg.perRound) end
+function D.canReward(run)
+    return run.event~=nil and not run.eventRewarded and run.phase=="Wave" and run.spawnRemaining<=0 and not run.bossAlive
+end
 return D

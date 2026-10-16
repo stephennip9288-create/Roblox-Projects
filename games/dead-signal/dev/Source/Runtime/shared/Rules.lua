@@ -31,7 +31,7 @@ function R.waveCount(round, players, mode)
 end
 function R.enemyHealth(round, kind, mode, players, warden)
     local base = R.roundValue(round,"hp") * mode.health
-    if kind == "Hound" then base = base * 0.7 elseif kind == "Crawler" then base = base * 0.65
+    if kind == "Hound" then base = base * 0.7 elseif kind == "Crawler" then base = base * 0.65 elseif kind=="Stalker" then base=base*.9
     elseif kind == "Warden" then
         local c=warden or {baseHealth=60000,roundHealth=90,extraPlayerHealth=.65}
         base=math.max(c.baseHealth,R.roundValue(round,"hp")*c.roundHealth)*mode.health*(1+math.max(0,(players or 1)-1)*c.extraPlayerHealth)
@@ -40,6 +40,7 @@ function R.enemyHealth(round, kind, mode, players, warden)
 end
 function R.enemySpeed(round, kind)
     local walk=R.roundValue(round,"walk")
+    if kind=="Stalker" then return math.min(17,walk+4) end
     if kind=="Warden" then return 10 elseif kind=="Hound" then return math.min(22,walk+3.5)
     elseif kind=="Crawler" then return math.min(9,walk*.65) elseif kind=="Runner" then return math.min(21,walk+4) end
     return walk

@@ -35,9 +35,14 @@ end
 function P.sample(model,root,time)
     local v=root.AssemblyLinearVelocity local speed=Vector3.new(v.X,0,v.Z).Magnitude
     local kind=model:GetAttribute("EnemyType") local seed=model:GetAttribute("PoseSeed") or 0
-    local phase=time*(kind=="Hound" and 10.5 or kind=="Crawler" and 4.8 or 6.5)+seed
+    local charging=time<(model:GetAttribute("ChargeUntil") or 0)
+    local phase=time*(kind=="Hound" and (charging and 14 or 10.5) or kind=="Crawler" and 4.8 or kind=="Stalker" and 7.8 or 6.5)*(model:GetAttribute("Enraged") and 1.25 or 1)+seed
     local attack=math.max(0,1-(time-(model:GetAttribute("AttackAt") or -100))/.65)
-    return P.transforms(kind,phase,speed,attack)
+    local out=P.transforms(kind,phase,speed,attack*(model:GetAttribute("Enraged") and 1.25 or 1))
+    if kind=="Stalker" then out.RootJoint=out.RootJoint*CFrame.Angles(.2,0,0);out.Neck=CFrame.Angles(-.18,0,math.sin(time*2)*.06) end
+    if charging then out.RootJoint=out.RootJoint*CFrame.Angles(-.08,0,0) end
+    if time<(model:GetAttribute("StunnedUntil") or 0) then out.RootJoint=CFrame.Angles(.18,0,.08);out.Neck=CFrame.Angles(-.2,0,0) end
+    return out
 end
 function P.capture(model,time)
     local root=model:FindFirstChild("HumanoidRootPart") if not root then return end

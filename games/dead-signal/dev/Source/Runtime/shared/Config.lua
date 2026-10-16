@@ -1,6 +1,34 @@
 -- DEAD SIGNAL 1.7.0 | Original game, with credited CC0 graphics sources.
 local C = {}
-C.Version = "1.8.0"
+C.Version = "1.9.0"
+-- Session-only evolution tuning. Profile/DataStore schemas remain v1 compatible.
+C.Evolution = {
+    enabled=true, firstRound=5, interval=5, preparation=7,
+    eliteStart=6, eliteBase=.035, eliteGrowth=.006, eliteMax=.22,
+    combinedStart=18, combinedChance=.004, maxCombined=1,
+    stalkerStart=12, stalkerChance=.012, maxStalkers=1,
+    houndStart=9, houndChance=.08, maxAlphas=1,
+    events={
+        {id="Hunt",name="THE HUNT",quota=.60,cue="Howl",hint="Pack hunters inbound. Watch the flanks; sidestep their charges."},
+        {id="Redline",name="REDLINE",quota=.72,cue="Redline",hint="Enraged contacts. Precision hits interrupt their rush."},
+        {id="IronMarch",name="IRON MARCH",quota=.65,cue="IronMarch",hint="Break the helmet and chest plates. Exposed seams take extra damage."},
+        {id="Breach",name="CONTAINMENT BREACH",quota=.72,cue="Stalker",hint="Mixed contacts. Stay close and listen for the ambush warning."},
+        {id="Critical",name="CRITICAL MASS",quota=.60,cue="Volatile",hint="Keep clear of marked blast zones. Shoot exposed canisters for chain reactions."},
+    },
+    enraged={health=1.08,speed=1.28,damage=1.10},
+    armored={health=1.15,speed=.86,damage=1,plateHealth=.32,resistance=.72,exposed=1.25},
+    volatile={health=.95,speed=.96,damage=1,reactorHealth=.24},
+    alpha={health=1.8,speed=1.05,damage=1.2,rallyRadius=48},
+    precision={fraction=.12,stun=.45,cooldown=2,armorStun=.7},
+    pack={flankStart=8,flankMax=9,chargeSpeed=26,chargeWarning=.65,chargeSeconds=.85,chargeCooldown=6},
+    stalker={warning=1.15,ambushSeconds=3.2,cooldown=11,speed=19,damageCap=32},
+    houndBlast={warning=1.25,radius=7,damage=20,roundDamage=.35,maxDamage=30,enemyFraction=.45,flames=2.2,smoke=2.6,opacity=.30},
+    volatileBlast={warning=1.6,radius=9,damage=28,roundDamage=.4,maxDamage=40,enemyFraction=.6,flames=2.6,smoke=2.2,opacity=.26},
+    hazards={maxActive=8,flameDamage=5,tick=.5},
+    counters={duration=12,cooldown=45,radius=32,trapStun=1.2},
+    rewards={points=125,perRound=5,maxPoints=300,ammoFraction=.25},
+    audio={Howl="",Redline="",IronMarch="",Volatile="",Stalker="",ArmorBreak="",Vent=""},
+}
 C.Title = "DEAD SIGNAL"
 C.MaxPlayers = 4
 C.LobbyPlayers = 24

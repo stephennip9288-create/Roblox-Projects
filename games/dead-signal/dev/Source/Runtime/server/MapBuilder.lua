@@ -250,6 +250,30 @@ function M.build(id)
     for _,room in ipairs(map.rooms) do if room.stairBase then
         reserve((room.stairBase+room.stairTop)*.5,Vector3.new(9,room.rise/scale+6,36)*scale,-1,room.rise+5*scale)
     end end
+    -- Reserve counter panels before set dressing; candidates avoid every objective,
+    -- portal, vault, spawn and stair approach. Panels have no movement collision.
+    map.counters={}
+    for _,spec in ipairs({{room=1,kind="Vent",name="VENTILATION / CLEAR SMOKE"},{room=4,kind="Sprinkler",name=def.theme=="Frost" and "DEICING MIST / SUPPRESS FIRE" or def.theme=="Foundry" and "QUENCH LINE / SUPPRESS FIRE" or "SPRINKLERS / SUPPRESS FIRE"}}) do
+        local room=layout[spec.room] local chosen
+        for n=1,128 do
+            local radius=.43-math.floor((n-1)/32)*.09
+            local a=n*math.pi/16 local x,z=Layouts.inset(room,room.x+math.cos(a)*room.w*radius,room.z+math.sin(a)*room.d*radius,5)
+            local at=Vector3.new(x,3,z)*scale local free=true
+            for _,zone in ipairs(map.interactionZones) do
+                if at.X>zone.minX-3*scale and at.X<zone.maxX+3*scale and at.Z>zone.minZ-3*scale and at.Z<zone.maxZ+3*scale then free=false break end
+            end
+            if free then chosen=Vector3.new(x,3,z) break end
+        end
+        if chosen then
+            local control=P("CounterControl_"..spec.kind,Vector3.new(2.3,2.8,.55),chosen,Color3.fromRGB(57,77,76),Enum.Material.Metal,false)
+            P("CounterPedestal",Vector3.new(.34,1.8,.34),Vector3.new(chosen.X,.9,chosen.Z),Color3.fromRGB(66,74,72),Enum.Material.Metal,false).Parent=control
+            P("CounterFoot",Vector3.new(1.8,.12,1.3),Vector3.new(chosen.X,.08,chosen.Z),Color3.fromRGB(49,57,55),Enum.Material.Metal,false).Parent=control
+            local label=S(spec.name.."\nPOWER REQUIRED / 45s COOLDOWN",chosen+Vector3.new(0,2.5,-.2),Vector3.new(7,1.7,.1),0,Color3.fromRGB(151,209,204));label.Parent=control
+            local fixture=P(spec.kind=="Vent" and "ExtractionFan" or "SuppressionNozzle",Vector3.new(3,.5,3),chosen+Vector3.new(0,5,0),Color3.fromRGB(91,104,97),Enum.Material.Metal,false)
+            for k=-2,2 do P("CounterGrille",Vector3.new(2.6,.08,.12),chosen+Vector3.new(0,4.72,k*.36),Color3.fromRGB(30,38,36),Enum.Material.Metal,false).Parent=fixture end
+            table.insert(map.counters,{part=control,room=spec.room,kind=spec.kind,cooldownUntil=0}) reserve(chosen*scale,Vector3.new(8,7,8)*scale)
+        end
+    end
     Routes.apply(map,P,S)
     Detail.apply(map,def,layout,P,S,light)
     VisualPass.apply(map,def,layout)

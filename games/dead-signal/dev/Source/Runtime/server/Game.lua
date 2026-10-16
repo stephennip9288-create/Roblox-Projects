@@ -2,6 +2,7 @@ local Players=game:GetService("Players")
 local RS=game:GetService("ReplicatedStorage")
 local C=require(RS.DeadSignal.Config)
 local R=require(RS.DeadSignal.Rules)
+local Evolution=require(RS.DeadSignal.DirectorRules)
 local U=require(RS.DeadSignal.Util)
 local Movement=require(RS.DeadSignal.Movement)
 local Downed=require(RS.DeadSignal.DownedPose)
@@ -240,6 +241,17 @@ function G:bindMap()
         local needed=R.majority(self:aliveCount()) self:broadcast("EXTRACTION VOTE "..n.." / "..needed,"amber")
         if n>=needed then self:exfil() end
     end,{allowWall=true})
+    for _,counter in ipairs(map.counters or {}) do
+        ctx.interact:bind(counter.part,counter.kind=="Vent" and "VENTILATION" or "FIRE SUPPRESSION","Activate for 12 seconds",.65,function(player)
+            local now=os.clock()
+            if not ctx.run.power then self:toast(player,"Restore the power first.") return end
+            if not map.rooms[counter.room].unlocked then return end
+            if now<counter.cooldownUntil then self:toast(player,"System cooling down: "..math.ceil(counter.cooldownUntil-now).."s") return end
+            counter.cooldownUntil=now+C.Evolution.counters.cooldown
+            ctx.enemies:counter(counter.kind,counter.part.Position,now)
+            self:toast(player,counter.kind=="Vent" and "Ventilation clearing nearby smoke." or "Suppression clearing nearby flames.","cyan")
+        end)
+    end
     self:makeBox()
 end
 function G:makeBox()
@@ -362,11 +374,13 @@ function G:wave()
         end
     end
     self.ctx.director:begin(os.clock())
-    run.special=R.isHoundRound(run.round)
-    run.spawnRemaining=R.waveCount(run.round,math.max(1,self:aliveCount()),C.Modes[run.mode])
-    if run.special then run.spawnRemaining=math.floor(run.spawnRemaining*.6) end
-    run.nextSpawn=os.clock()+3
-    local event=R.eventName(run.round)
+    run.event=Evolution.event(run.round,run.phase,C.Evolution,R.isWardenRound(run.round))
+    run.special=run.event~=nil run.eventRewarded=false run.evolutionCounts={stalkers=0,alphas=0,combined=0}
+    run.spawnRemaining=Evolution.specialQuota(R.waveCount(run.round,math.max(1,self:aliveCount()),C.Modes[run.mode]),run.event)
+    run.nextSpawn=os.clock()+(run.event and C.Evolution.preparation or 3)
+    run.eventReadyAt=run.nextSpawn
+    local event=run.event and run.event.name or R.isWardenRound(run.round) and "WARDEN SIGNAL DETECTED" or ""
+    if run.event then self.ctx.feed:FireAllClients("SpecialWave",{id=run.event.id,name=run.event.name,hint=run.event.hint,cue=run.event.cue,preparation=C.Evolution.preparation}) end
     self:broadcast("ROUND "..run.round..(event~="" and " / "..event or ""),"red")
     self.ctx.feed:FireAllClients("Cue",{name="Round"})
 end
@@ -377,15 +391,36 @@ function G:spawnEnemy(now)
     if run.spawnRemaining<=0 or now<run.nextSpawn or self.ctx.enemies:count()>=limit then return end
     local window=self.ctx.director:window(now)
     if not window then run.nextSpawn=now+.5 return end
-    local kind="Shambler"
-    if run.special then kind="Hound"
-    elseif not run.bossSpawned and (run.phase=="Exfil" or R.isWardenRound(run.round)) then kind="Warden"
-    elseif math.random()<R.crawlerChance(run.round) then kind="Crawler"
+    local kind,mods="Shambler",{}
+    if not run.bossSpawned and (run.phase=="Exfil" or R.isWardenRound(run.round)) then kind="Warden"
+    elseif run.phase~="Exfil" and not R.isWardenRound(run.round) then
+        kind,mods=Evolution.evolution(run.round,run.event,(self.ctx.director.spawned or 0)+1,C.Evolution,math.random(),math.random(),run.evolutionCounts)
+        if not run.event and kind=="Shambler" then
+            if math.random()<R.crawlerChance(run.round) then kind="Crawler" elseif math.random()<R.runnerChance(run.round) then kind="Runner" end
+        end
     elseif math.random()<R.runnerChance(run.round) then kind="Runner" end
-    self.ctx.enemies:spawn(kind,window)
+    local counts=run.evolutionCounts or {} run.evolutionCounts=counts
+    if kind=="Stalker" then counts.stalkers=(counts.stalkers or 0)+1 end
+    if mods.Alpha then counts.alphas=(counts.alphas or 0)+1 end
+    if mods.Armored and mods.Enraged then counts.combined=(counts.combined or 0)+1 end
+    self.ctx.enemies:spawn(kind,window,nil,mods)
     if kind=="Warden" then run.bossSpawned=true run.bossAlive=true end
     self.ctx.director:spawnedOne()
     run.spawnRemaining=math.max(0,run.spawnRemaining-1) run.nextSpawn=now+interval
+end
+function G:rewardSpecial()
+    local run=self.ctx.run
+    if not Evolution.canReward(run) then return false end
+    run.eventRewarded=true
+    for player,p in pairs(self.ctx.players) do if p.participating then
+        self:addPoints(player,Evolution.specialReward(run.round,C.Evolution.rewards),true)
+        for _,gun in ipairs(p.guns) do local stats=R.weaponStats(C.Weapons[gun.id],gun.tier,p.perks)
+            gun.reserve=math.min(stats.reserve,gun.reserve+math.ceil(stats.reserve*C.Evolution.rewards.ammoFraction))
+        end
+        self.ctx.combat:ammo(player)
+    end end
+    self:broadcast(run.event.name.." CLEARED / Bonus points and reserve ammunition.","cyan")
+    return true
 end
 function G:exfil()
     local run=self.ctx.run self.ctx.enemies:clear()
@@ -393,7 +428,8 @@ function G:exfil()
     run.phase="Exfil" run.deadline=os.clock()+C.Extraction.seconds run.exfilProgress=0
     run.spawnRemaining=C.Extraction.escorts+C.Extraction.escortsPerPlayer*math.max(1,self:aliveCount())
     run.exfilStage="Warden" run.bossDefeatedAt=nil run.exfilStats=nil
-    run.bossSpawned=false run.bossAlive=false run.special=false run.nextSpawn=os.clock()+1
+    run.bossSpawned=false run.bossAlive=false run.special=false run.event=nil run.eventReadyAt=nil run.nextSpawn=os.clock()+1
+    self.ctx.feed:FireAllClients("SpecialWave",{active=false})
     for _,window in ipairs(self.ctx.map.windows) do window.count=0 for _,b in ipairs(window.boards) do b.Transparency=1 end end
     ExtractionZone.begin(self.ctx.map)
     self:broadcast("EXTRACTION / Defeat the Warden, then bring the crew to the marked beacon and hold for 12 seconds.","amber")
@@ -449,6 +485,8 @@ end
 function G:finish(win,reason)
     local run=self.ctx.run if run.phase=="Results" or run.phase=="Lobby" then return end
     run.phase="Results" run.win=win run.deadline=os.clock()+C.ReturnCountdown run.spawnRemaining=0
+    run.event=nil run.special=false
+    self.ctx.feed:FireAllClients("SpecialWave",{active=false})
     self.ctx.enemies:clear(true) self.ctx.combat:clear()
     for _,d in ipairs(self.drops) do d.part:Destroy() end self.drops={}
     if win then Map.helicopter(self.ctx.map) end
@@ -532,9 +570,11 @@ function G:tick(now,dt)
     if run.phase=="Preparing" or run.phase=="Intermission" then if now>=run.deadline then self:wave() end
     elseif run.phase=="Wave" then
         self:spawnEnemy(now)
-        if run.spawnRemaining<=0 and ctx.enemies:count()==0 then
+        if run.spawnRemaining<=0 and ctx.enemies:count()==0 and ctx.enemies:pendingBlasts()==0 then
             for player,p in pairs(ctx.players) do if p.participating then p.stats.rounds=p.stats.rounds+1 self:addPoints(player,C.Economy.roundBase+run.round*C.Economy.roundGrowth,true) end end
-            if run.special then self:drop(ctx.map.exfilCenter,"Ammo") end
+            self:rewardSpecial()
+            ctx.enemies:clearHazards()
+            run.event=nil self.ctx.feed:FireAllClients("SpecialWave",{active=false})
             run.phase="Intermission" run.deadline=now+C.Intermission
             self:broadcast("ROUND CLEARED / Resupply and open new routes.","amber")
         end
@@ -556,7 +596,10 @@ function G:tick(now,dt)
     end
     for _,trap in ipairs(ctx.map.traps) do
         if now<trap.activeUntil then
-            for _,e in pairs(ctx.enemies.list) do local d=e.root.Position-trap.center if math.abs(d.X)<9*ctx.map.scale and math.abs(d.Z)<2.5*ctx.map.scale then ctx.enemies:damage(e,e.kind=="Warden" and e.maxHP*.02*dt or 3000*dt,trap.owner,false) end end
+            for _,e in pairs(ctx.enemies.list) do local d=e.root.Position-trap.center if math.abs(d.X)<9*ctx.map.scale and math.abs(d.Z)<2.5*ctx.map.scale then
+                if e.kind~="Warden" and e.elite and now>=(e.trapStunAt or 0) then ctx.enemies:stun(e,C.Evolution.counters.trapStun) e.trapStunAt=now+3 end
+                ctx.enemies:damage(e,e.kind=="Warden" and e.maxHP*.02*dt or 3000*dt,trap.owner,false,nil,"Trap")
+            end end
             for player,p in pairs(ctx.players) do local root=U.root(player) if root and p.participating and p.status=="Alive" and not p.perks.Insulator then local d=root.Position-trap.center if math.abs(d.X)<9*ctx.map.scale and math.abs(d.Z)<2.5*ctx.map.scale then ctx.combat:hurt(player,35*dt,trap.center) end end end
         else trap.beam.Transparency=1 end
     end
@@ -588,6 +631,7 @@ function G:snapshot(player)
             inside=(run.exfilStats or {}).insideAlive or 0,alive=(run.exfilStats or {}).alive or 0,contested=(run.exfilStats or {}).contested==true,
             distance=U.root(player) and math.floor((Vector3.new(U.root(player).Position.X,0,U.root(player).Position.Z)-ctx.map.exfilCenter).Magnitude) or 0} or nil,
         signal=run.signal==true,power=run.power==true,boss=boss,
+        special=run.event and {id=run.event.id,name=run.event.name,hint=run.event.hint,preparation=math.max(0,math.ceil((run.eventReadyAt or 0)-now))} or nil,
         role=ctx.role or "Preview",dispatch=ctx.lobbyService and ctx.lobbyService:state(player) or nil,travelling=p.travelling==true})
 end
 return G

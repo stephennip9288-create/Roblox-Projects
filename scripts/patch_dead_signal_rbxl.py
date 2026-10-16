@@ -316,16 +316,29 @@ def patch_bytes(original, replacements):
                    "all_untouched_chunks_byte_identical":True}
 
 
-def run():
+def run(baseline_dir):
     ids=read_identifiers()
     generate(CONFIG_ROOT)
     OUTPUT.mkdir(parents=True,exist_ok=True)
+    baseline_dir=Path(baseline_dir)
+    manifest_file=baseline_dir/"IMPORT-MANIFEST.json"
+    if not manifest_file.is_file():
+        raise ValueError("Missing vetted native Work v1.8 baseline manifest. Import the full-baseline package first.")
+    manifest=json.loads(manifest_file.read_text("utf-8"))
+    if manifest.get("version")!="1.8.0" or not manifest.get("safety",{}).get("contains_production_place_ids"):
+        raise ValueError("Unexpected baseline release/provenance")
+    entries={Path(i["path"]).name:i for i in manifest["files"]}
+    if set(entries)!={f"{p}.rbxl" for p in ROLES}:
+        raise ValueError("Baseline manifest must contain exactly four places")
     results={}
     for place in ROLES:
-        source=ROOT/f"games/dead-signal/places/{place}/staging.rbxl"
+        source=baseline_dir/f"{place}.rbxl"
         if not source.is_file():
             raise ValueError("Missing validated baseline: "+place)
         original=source.read_bytes()
+        expected=entries[source.name]
+        if hashlib.sha256(original).hexdigest()!=expected["sha256"] or len(original)!=expected["size_bytes"]:
+            raise ValueError("Baseline integrity mismatch: "+place)
         replacements=desired_scripts(place)
         built,report=patch_bytes(original,replacements)
         report.update({"place":place,"environment":"staging","expected_replacement_count":len(replacements),
@@ -340,7 +353,10 @@ def run():
 
 if __name__=="__main__":
     try:
-        run()
+        parser=argparse.ArgumentParser()
+        parser.add_argument("--baseline-dir", type=Path, default=ROOT/"games/dead-signal/full-baselines/v1.8.0")
+        options=parser.parse_args()
+        run(options.baseline_dir)
     except Exception as exc:
         print(f"BLOCKED: {type(exc).__name__}: {exc}",file=sys.stderr)
         sys.exit(1)

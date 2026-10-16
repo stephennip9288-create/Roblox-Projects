@@ -1,0 +1,38 @@
+{
+  "version": "1.8.0",
+  "source_kit_name": "DeadSignal-v1.8.0-Pursuit-Overhaul-Kit.zip",
+  "source_kit_sha256": "ea9179dd9df9c68dba1d995f3ccbf0b199190eee8eac24573abdcfd2e09bfb10",
+  "source_status": "Development candidate, native Roblox Studio play tests unrun",
+  "files": [
+    {
+      "path": "games/dead-signal/full-baselines/v1.8.0/dispatch.rbxl",
+      "sha256": "a3fc4cab05e07d9a2901757007a6b52b7cf3e9acf2cbb49858a52d0a961f596c",
+      "size_bytes": 2621426,
+      "source_kit_entry": "DeadSignal/Places/DeadSignal-v1.8.0-Lobby.rbxl"
+    },
+    {
+      "path": "games/dead-signal/full-baselines/v1.8.0/blackwater.rbxl",
+      "sha256": "b7181f8204d43dcccb37aa79797ff2a7408f4c9bc9751f3d2baf07ebd4d4d515",
+      "size_bytes": 2592495,
+      "source_kit_entry": "DeadSignal/Places/DeadSignal-v1.8.0-Station.rbxl"
+    },
+    {
+      "path": "games/dead-signal/full-baselines/v1.8.0/cinderworks.rbxl",
+      "sha256": "b1b89378c2ed8cc54d5aa3b95ec6419eb4a6e23b687046ef36915d320a02127f",
+      "size_bytes": 2600358,
+      "source_kit_entry": "DeadSignal/Places/DeadSignal-v1.8.0-Foundry.rbxl"
+    },
+    {
+      "path": "games/dead-signal/full-baselines/v1.8.0/whiteout.rbxl",
+      "sha256": "445bd3403794f65214822161b14e287363f21d7ff3713ee4079573228d78d168",
+      "size_bytes": 2601795,
+      "source_kit_entry": "DeadSignal/Places/DeadSignal-v1.8.0-Frost.rbxl"
+    }
+  ],
+  "safety": {
+    "contains_production_place_ids": true,
+    "do_not_publish_directly": true,
+    "use_generated_staging_place_config": true,
+    "no_changes_to_existing_staging_or_production_place_files": true
+  }
+}

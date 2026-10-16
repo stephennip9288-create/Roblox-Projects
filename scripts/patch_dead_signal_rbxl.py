@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lossless-by-construction source-only RBXL patcher (staging candidates only).
+"""Lossless-by-construction source-only RBXL patcher (staging or production candidates).
 
 Only existing Script/LocalScript/ModuleScript Source PROP chunks are recompressed.
 Every other original chunk is preserved byte-for-byte, including opaque Terrain,
@@ -30,7 +30,7 @@ PINNED_ORIGINAL_SHA256 = {
 }
 SOURCE_ROOT = ROOT / "games/dead-signal/dev/Source/Runtime"
 CONFIG_ROOT = ROOT / "build/dead-signal-place-configs"
-OUTPUT = ROOT / "build/dead-signal-lossless/staging"
+OUTPUT_ROOT = ROOT / "build/dead-signal-lossless"
 LIMIT = 128 * 1024 * 1024
 
 
@@ -248,7 +248,9 @@ def parse_headers(parts, expected_instances):
     return paths
 
 
-def desired_scripts(place):
+def desired_scripts(place, environment="staging"):
+    if environment not in ("staging", "production"):
+        raise ValueError("Unknown deployment environment")
     expected={}
     roots={
         "shared":"ReplicatedStorage/DeadSignal",
@@ -265,7 +267,7 @@ def desired_scripts(place):
             cls="Script" if group=="server" and filename.endswith(".server.lua") else "LocalScript" if group=="client" and filename.endswith(".client.lua") else "ModuleScript"
             expected[f"{service}/{name}"]=(cls,file.read_bytes())
     expected["ReplicatedStorage/DeadSignal/PlaceConfig"]=(
-        "ModuleScript",(CONFIG_ROOT / "staging"/ place / "PlaceConfig.lua").read_bytes())
+        "ModuleScript",(CONFIG_ROOT / environment / place / "PlaceConfig.lua").read_bytes())
     return expected
 
 
@@ -323,10 +325,13 @@ def patch_bytes(original, replacements):
                    "all_untouched_chunks_byte_identical":True}
 
 
-def run(baseline_dir):
+def run(baseline_dir, environment="staging"):
+    if environment not in ("staging", "production"):
+        raise ValueError("Unknown deployment environment")
     ids=read_identifiers()
     generate(CONFIG_ROOT)
-    OUTPUT.mkdir(parents=True,exist_ok=True)
+    output = OUTPUT_ROOT / environment
+    output.mkdir(parents=True,exist_ok=True)
     baseline_dir=Path(baseline_dir)
     manifest_file=baseline_dir/"IMPORT-MANIFEST.json"
     if not manifest_file.is_file():
@@ -348,24 +353,25 @@ def run(baseline_dir):
                 or hashlib.sha256(original).hexdigest()!=PINNED_ORIGINAL_SHA256[place]
                 or len(original)!=expected["size_bytes"]):
             raise ValueError("Baseline integrity mismatch: "+place)
-        replacements=desired_scripts(place)
+        replacements=desired_scripts(place, environment)
         built,report=patch_bytes(original,replacements)
-        report.update({"place":place,"environment":"staging","expected_replacement_count":len(replacements),
+        report.update({"place":place,"environment":environment,"expected_replacement_count":len(replacements),
                        "publish_approved":False,"studio_tested":False,
                        "warning":"Binary preservation only; Roblox engine and multiplayer tests not yet performed."})
         results[place]=report
-        (OUTPUT/f"{place}.rbxl").write_bytes(built)
+        (output/f"{place}.rbxl").write_bytes(built)
         print(f"LOSSLESS SCRIPT PATCH {place}: {len(replacements)} scripts expected, {report['changed_script_count']} changed, {report['untouched_chunk_count']} chunks byte-preserved")
-    (OUTPUT/"LOSSLESS-REPORT.json").write_text(json.dumps(results,indent=2)+"\n")
-    print("Four staging source-patched candidates created as artifacts only. NO ROBLOX PUBLISH.")
+    (output/"LOSSLESS-REPORT.json").write_text(json.dumps(results,indent=2)+"\n")
+    print(f"Four {environment} source-patched candidates created as artifacts only. NO ROBLOX PUBLISH.")
 
 
 if __name__=="__main__":
     try:
         parser=argparse.ArgumentParser()
         parser.add_argument("--baseline-dir", type=Path, default=ROOT/"games/dead-signal/full-baselines/v1.8.0")
+        parser.add_argument("--environment", choices=("staging", "production"), default="staging")
         options=parser.parse_args()
-        run(options.baseline_dir)
+        run(options.baseline_dir, options.environment)
     except Exception as exc:
         print(f"BLOCKED: {type(exc).__name__}: {exc}",file=sys.stderr)
         sys.exit(1)

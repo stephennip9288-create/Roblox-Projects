@@ -1,4 +1,4 @@
-name: Build Dead Signal Candidates (No Publish)
+name: Audit Dead Signal Candidates (No Publish)
 
 on:
   push:
@@ -24,7 +24,7 @@ permissions:
 
 jobs:
   offline-candidates:
-    name: Four staging candidate RBXLs (ARTIFACTS ONLY)
+    name: Build and audit four staging place candidates (NO PUBLISH)
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -58,8 +58,17 @@ jobs:
         run: lune run Tools/build-candidates.luau
       - name: Verify complete candidate artifact inventory
         run: python scripts/check_dead_signal_candidates.py
-      - name: Independently audit raw RBXL property signatures (fail closed)
-        run: python scripts/audit_dead_signal_binary.py
+      - name: Independently audit and quarantine unsafe RBXL candidates
+        id: fidelity
+        shell: bash
+        run: |
+          if python scripts/audit_dead_signal_binary.py; then
+            echo "eligible=true" >> "$GITHUB_OUTPUT"
+            echo "All raw class/property signatures present. Roblox engine validation still required."
+          else
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=Candidate binaries quarantined::Raw Roblox property changes detected. See BINARY-FIDELITY-REPORT.json in the audit artifact. NO candidate binaries will be released by this run."
+          fi
       - name: Archive fidelity report even if blocked
         if: always()
         uses: actions/upload-artifact@v7
@@ -70,8 +79,8 @@ jobs:
             build/dead-signal-candidates/staging/CANDIDATE-REPORT.json
           retention-days: 14
           if-no-files-found: warn
-      - name: Archive candidate artifacts for review only
-        if: success()
+      - name: Archive candidate artifacts for review only (strict fidelity gate)
+        if: ${{ steps.fidelity.outputs.eligible == 'true' }}
         uses: actions/upload-artifact@v7
         with:
           name: dead-signal-candidate-staging-${{ github.run_number }}

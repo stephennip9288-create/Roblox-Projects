@@ -1,0 +1,13 @@
+{
+  "mode": "file",
+  "staging": {
+    "file_path": "games/dead-signal/places/blackwater/staging.rbxl",
+    "universe_id": "10771141095",
+    "place_id": "102403661108879"
+  },
+  "production": {
+    "file_path": "games/dead-signal/places/blackwater/production.rbxl",
+    "universe_id": "10770732078",
+    "place_id": "88865473543027"
+  }
+}

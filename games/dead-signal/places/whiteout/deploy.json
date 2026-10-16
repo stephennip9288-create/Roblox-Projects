@@ -1,0 +1,13 @@
+{
+  "mode": "file",
+  "staging": {
+    "file_path": "games/dead-signal/places/whiteout/staging.rbxl",
+    "universe_id": "10771141095",
+    "place_id": "122269451559483"
+  },
+  "production": {
+    "file_path": "games/dead-signal/places/whiteout/production.rbxl",
+    "universe_id": "10770732078",
+    "place_id": "109169216914914"
+  }
+}

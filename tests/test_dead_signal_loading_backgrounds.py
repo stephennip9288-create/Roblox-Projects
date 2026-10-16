@@ -19,8 +19,8 @@ class LoadingBackgroundTests(unittest.TestCase):
             self.assertIn(map_id+"={top=Color3.fromRGB", LOADING)
 
     def test_asset_error_does_not_hide_local_scene(self):
-        self.assertIn('self.image.Visible=false', LOADING)
-        self.assertIn('self.image.Visible=self.image.IsLoaded', LOADING)
+        self.assertIn('self.image.Visible=validId~=""', LOADING)
+        self.assertNotIn('self.image.Visible=self.image.IsLoaded', LOADING)
         self.assertIn('for name,root in pairs(self.scenes) do root.Visible=name==map end', LOADING)
         self.assertNotIn("self.backdrop.Visible=false", LOADING)
 
@@ -39,7 +39,7 @@ class LoadingBackgroundTests(unittest.TestCase):
 
     def test_original_artwork_overlay_remains_optional(self):
         self.assertIn('Content:PreloadAsync({self.image})', LOADING)
-        self.assertIn('self.image.IsLoaded', LOADING)
+        self.assertNotIn('GetPropertyChangedSignal("IsLoaded")', LOADING)
         self.assertIn('if validId~="" then', LOADING)
 
 

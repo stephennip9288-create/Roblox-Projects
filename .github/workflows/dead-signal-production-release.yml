@@ -15,6 +15,11 @@ on:
         description: "DEPLOY: PUBLISH-V18-PRODUCTION; ROLLBACK: RESTORE-PREVIOUS-PRODUCTION"
         type: string
         required: true
+      source_sha:
+        description: "Optional reviewed full commit SHA for a hotfix; blank builds this main revision"
+        type: string
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -31,7 +36,21 @@ jobs:
     # Configure approval-required environment protection in GitHub settings before production use.
     environment: dead-signal-production
     steps:
+      - name: Validate optional source commit
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          OPERATION: ${{ inputs.operation }}
+        shell: bash
+        run: |
+          if [ -n "$SOURCE_SHA" ]; then
+            if [ "$OPERATION" != "deploy" ] || ! [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+              echo "::error::A source pin requires deploy and a full lowercase 40-character commit SHA" >&2
+              exit 1
+            fi
+          fi
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.source_sha || github.sha }}
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'

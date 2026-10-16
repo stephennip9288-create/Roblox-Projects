@@ -3,6 +3,7 @@ name: Dead Signal Work Source CI (No Publish)
 on:
   push:
     paths:
+      - 'games/dead-signal/dev/**'
       - 'games/dead-signal/work-source/**'
       - 'games/dead-signal/places/**/deploy.json'
       - 'scripts/generate_dead_signal_place_configs.py'
@@ -40,27 +41,27 @@ jobs:
       - name: Install pinned Lune
         uses: CompeyDev/setup-rokit@v0.1.2
         with:
-          path: games/dead-signal/work-source/v1.8.0
+          path: games/dead-signal/dev
       - name: Prepare temporary known-good staging fixtures for offline integration
         run: |
           mkdir -p games/dead-signal/work-source/v1.8.0/Places
-          cp games/dead-signal/places/dispatch/staging.rbxl games/dead-signal/work-source/v1.8.0/Places/DeadSignal-v1.8.0-Lobby.rbxl
-          cp games/dead-signal/places/blackwater/staging.rbxl games/dead-signal/work-source/v1.8.0/Places/DeadSignal-v1.8.0-Station.rbxl
-          cp games/dead-signal/places/cinderworks/staging.rbxl games/dead-signal/work-source/v1.8.0/Places/DeadSignal-v1.8.0-Foundry.rbxl
-          cp games/dead-signal/places/whiteout/staging.rbxl games/dead-signal/work-source/v1.8.0/Places/DeadSignal-v1.8.0-Frost.rbxl
+          cp games/dead-signal/places/dispatch/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Lobby.rbxl
+          cp games/dead-signal/places/blackwater/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Station.rbxl
+          cp games/dead-signal/places/cinderworks/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Foundry.rbxl
+          cp games/dead-signal/places/whiteout/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Frost.rbxl
           echo "The 4 temporary place fixtures are the known-good staging binaries, NOT new v1.8 Work builds."
       - name: Run imported Work runtime tests against existing staging baselines
-        working-directory: games/dead-signal/work-source/v1.8.0
+        working-directory: games/dead-signal/dev
         run: |
           lune --version
           python Tests/run.py --lune lune
       - name: Archive isolated configs and test report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dead-signal-source-ci-${{ github.run_number }}
           path: |
             build/dead-signal-place-configs/
-            games/dead-signal/work-source/v1.8.0/Validation/Tests-Report.json
+            games/dead-signal/dev/Validation/Tests-Report.json
           if-no-files-found: warn
           retention-days: 14

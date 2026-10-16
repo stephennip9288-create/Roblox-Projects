@@ -1,0 +1,13 @@
+{
+  "mode": "file",
+  "staging": {
+    "file_path": "games/dead-signal/places/cinderworks/staging.rbxl",
+    "universe_id": "10771141095",
+    "place_id": "125712056058975"
+  },
+  "production": {
+    "file_path": "games/dead-signal/places/cinderworks/production.rbxl",
+    "universe_id": "10770732078",
+    "place_id": "110963636700767"
+  }
+}

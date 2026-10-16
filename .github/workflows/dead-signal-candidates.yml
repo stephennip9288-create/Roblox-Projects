@@ -1,0 +1,66 @@
+name: Build Dead Signal Candidates (No Publish)
+
+on:
+  push:
+    paths:
+      - 'games/dead-signal/dev/**'
+      - 'scripts/generate_dead_signal_place_configs.py'
+      - 'scripts/check_dead_signal_candidates.py'
+      - '.github/workflows/dead-signal-candidates.yml'
+  pull_request:
+    paths:
+      - 'games/dead-signal/dev/**'
+      - 'scripts/generate_dead_signal_place_configs.py'
+      - 'scripts/check_dead_signal_candidates.py'
+      - '.github/workflows/dead-signal-candidates.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-candidates:
+    name: Four staging candidate RBXLs (ARTIFACTS ONLY)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout complete-place baselines and editable source
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate existing manifests, configs, and test pipeline
+        run: |
+          python -m unittest discover -s tests -v
+          python scripts/validate.py
+          python scripts/generate_dead_signal_place_configs.py
+      - name: Install pinned Lune
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          path: games/dead-signal/dev
+      - name: Verify editable Luau source
+        working-directory: games/dead-signal/dev
+        run: lune run Tests/syntax.luau
+      - name: Set up temporary staging-only place baselines
+        run: |
+          mkdir -p games/dead-signal/dev/Places build/dead-signal-candidates/staging
+          cp games/dead-signal/places/dispatch/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Lobby.rbxl
+          cp games/dead-signal/places/blackwater/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Station.rbxl
+          cp games/dead-signal/places/cinderworks/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Foundry.rbxl
+          cp games/dead-signal/places/whiteout/staging.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Frost.rbxl
+      - name: Build all staging candidates preserving non-script assets
+        working-directory: games/dead-signal/dev
+        run: lune run Tools/build-candidates.luau
+      - name: Verify complete candidate artifact inventory
+        run: python scripts/check_dead_signal_candidates.py
+      - name: Archive candidate artifacts for review only
+        if: success()
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-candidate-staging-${{ github.run_number }}
+          path: build/dead-signal-candidates/staging/
+          retention-days: 14
+          if-no-files-found: error
+
+# No ROBLOX_API_KEY, no publishing script, no deployment manifests modified.

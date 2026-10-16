@@ -1,0 +1,150 @@
+name: Dead Signal Controlled Private Staging
+
+on:
+  # One-time rollout marker (reviewed in a separate PR); never triggers for source changes.
+  push:
+    branches: [main]
+    paths:
+      - 'games/dead-signal/rollouts/v1.8.0-private-staging.json'
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "deploy = four new v1.8 candidates; rollback = restore all four old staging baselines"
+        type: choice
+        options: [deploy, rollback]
+        required: true
+        default: rollback
+      confirmation:
+        description: "Type DEPLOY-PRIVATE-STAGING or RESTORE-PRIVATE-STAGING"
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dead-signal-private-staging-four-places
+  cancel-in-progress: false
+
+jobs:
+  controlled-staging:
+    if: github.repository == 'stephennip9288-create/Roblox-Projects' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact private repository revision
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Resolve explicitly authorized four-place staging operation
+        id: intent
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_OPERATION: ${{ inputs.operation }}
+          REQUESTED_CONFIRMATION: ${{ inputs.confirmation }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "push" ]; then
+            python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path=Path('games/dead-signal/rollouts/v1.8.0-private-staging.json')
+          data=json.loads(path.read_text('utf-8'))
+          assert data == {
+            'release': 'dead-signal-v1.8.0-private-staging',
+            'operation': 'deploy',
+            'confirmation': 'DEPLOY-PRIVATE-STAGING',
+            'environment': 'staging',
+            'production_allowed': False,
+          }, 'One-time release authorization file must match the reviewed schema exactly'
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as o:
+            o.write('operation=deploy\nconfirmation=DEPLOY-PRIVATE-STAGING\n')
+          print('Accepted narrowly scoped, main-only, private staging rollout marker.')
+          PY
+          elif [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$REQUESTED_OPERATION" = "deploy" ] && [ "$REQUESTED_CONFIRMATION" = "DEPLOY-PRIVATE-STAGING" ]; then
+              echo 'operation=deploy' >> "$GITHUB_OUTPUT"
+              echo 'confirmation=DEPLOY-PRIVATE-STAGING' >> "$GITHUB_OUTPUT"
+            elif [ "$REQUESTED_OPERATION" = "rollback" ] && [ "$REQUESTED_CONFIRMATION" = "RESTORE-PRIVATE-STAGING" ]; then
+              echo 'operation=rollback' >> "$GITHUB_OUTPUT"
+              echo 'confirmation=RESTORE-PRIVATE-STAGING' >> "$GITHUB_OUTPUT"
+            else
+              echo "::error::Invalid manual operation or confirmation" >&2
+              exit 1
+            fi
+          else
+            echo "::error::Unknown event" >&2
+            exit 1
+          fi
+      - name: Validate GitHub project and staging-only configuration
+        run: |
+          python -m unittest discover -s tests -v
+          python scripts/validate.py
+          python scripts/generate_dead_signal_place_configs.py
+      - name: Install pinned Lune for candidate tests
+        if: ${{ steps.intent.outputs.operation == 'deploy' }}
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          path: games/dead-signal/dev
+      - name: Verify complete native Work v1.8 code suite
+        if: ${{ steps.intent.outputs.operation == 'deploy' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p games/dead-signal/dev/Places
+          cp games/dead-signal/full-baselines/v1.8.0/dispatch.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Lobby.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/blackwater.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Station.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/cinderworks.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Foundry.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/whiteout.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Frost.rbxl
+          cd games/dead-signal/dev
+          lune run Tests/syntax.luau
+          python Tests/run.py --lune lune
+      - name: Generate four lossless staging candidates
+        if: ${{ steps.intent.outputs.operation == 'deploy' }}
+        run: python scripts/patch_dead_signal_rbxl.py
+      - name: Independently audit untouched Roblox binary properties
+        if: ${{ steps.intent.outputs.operation == 'deploy' }}
+        run: python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/staging --baseline-dir games/dead-signal/full-baselines/v1.8.0
+      - name: Preflight all four candidates and all four rollback binaries
+        env:
+          OPERATION: ${{ steps.intent.outputs.operation }}
+        run: |
+          python - <<'PY'
+          import os,sys
+          sys.path.insert(0,'scripts')
+          from dead_signal_staging_rollout import preflight, verified_baselines, write_backup_manifest
+          items=preflight() if os.environ['OPERATION']=='deploy' else verified_baselines()
+          write_backup_manifest(items)
+          assert len(items)==4
+          print('STAGING PRE-FLIGHT PASSED for',os.environ['OPERATION'])
+          PY
+      - name: Save pre-deployment staging rollback manifest
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-staging-rollback-manifest-${{ github.run_id }}
+          path: build/dead-signal-staging-rollout/ROLLBACK-MANIFEST.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Upload private staging place files only
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF: ${{ github.ref }}
+          OPERATION: ${{ steps.intent.outputs.operation }}
+          CONFIRMATION: ${{ steps.intent.outputs.confirmation }}
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_STAGING_API_KEY }}
+        run: python scripts/dead_signal_staging_rollout.py --operation "$OPERATION" --confirmation "$CONFIRMATION"
+      - name: Save deployment result or rollback failure details
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-staging-deployment-result-${{ github.run_id }}
+          path: |
+            build/dead-signal-staging-rollout/ROLLBACK-MANIFEST.json
+            build/dead-signal-staging-rollout/PUBLISH-RESULT.json
+          retention-days: 90
+          if-no-files-found: warn
+
+# NEVER use ROBLOX_PRODUCTION_API_KEY. NEVER alter production universe.

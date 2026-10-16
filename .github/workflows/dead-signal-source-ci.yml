@@ -41,7 +41,15 @@ jobs:
         uses: CompeyDev/setup-rokit@v0.1.2
         with:
           path: games/dead-signal/work-source/v1.8.0
-      - name: Run imported Work runtime tests
+      - name: Prepare temporary known-good staging fixtures for offline integration
+        run: |
+          mkdir -p games/dead-signal/work-source/v1.8.0/Places
+          cp games/dead-signal/places/dispatch/staging.rbxl games/dead-signal/work-source/v1.8.0/Places/DeadSignal-v1.8.0-Lobby.rbxl
+          cp games/dead-signal/places/blackwater/staging.rbxl games/dead-signal/work-source/v1.8.0/Places/DeadSignal-v1.8.0-Station.rbxl
+          cp games/dead-signal/places/cinderworks/staging.rbxl games/dead-signal/work-source/v1.8.0/Places/DeadSignal-v1.8.0-Foundry.rbxl
+          cp games/dead-signal/places/whiteout/staging.rbxl games/dead-signal/work-source/v1.8.0/Places/DeadSignal-v1.8.0-Frost.rbxl
+          echo "The 4 temporary place fixtures are the known-good staging binaries, NOT new v1.8 Work builds."
+      - name: Run imported Work runtime tests against existing staging baselines
         working-directory: games/dead-signal/work-source/v1.8.0
         run: |
           lune --version

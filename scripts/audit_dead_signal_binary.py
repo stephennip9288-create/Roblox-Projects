@@ -155,8 +155,8 @@ def compare(original, rebuilt):
             "limitations": "Signature/instance coverage only; DOES NOT prove property values, terrain voxels, Roblox rendering, animation, physics, networking, or asset permissions."}
 
 
-def audit(root):
-    output = root / "build/dead-signal-candidates/staging"
+def audit(root, candidate_dir=None):
+    output = candidate_dir or root / "build/dead-signal-candidates/staging"
     output.mkdir(parents=True, exist_ok=True)
     places = {}
     for place in PLACES:
@@ -184,5 +184,7 @@ def audit(root):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument("--candidate-dir", type=Path, default=None,
+                        help="Review another artifact directory; does not change baseline paths")
     arguments = parser.parse_args()
-    sys.exit(0 if audit(arguments.root) else 1)
+    sys.exit(0 if audit(arguments.root, arguments.candidate_dir) else 1)

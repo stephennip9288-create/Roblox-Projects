@@ -92,7 +92,9 @@ function UI.new(send,onMenu)
     self.toastFrame=frame(gui,UDim2.fromOffset(420,48),UDim2.new(.5,-210,.75,0),colors.bg) self.toastFrame.Visible=false
     self.toastText=text(self.toastFrame,"",13,UDim2.fromOffset(12,0),UDim2.new(1,-24,1,0),colors.amber) self.toastText.TextWrapped=true self.toastText.TextXAlignment=Enum.TextXAlignment.Center
     self.loading=LoadingScreen.new(gui) self.travelLayer=self.loading.frame
-    self.loading:set(PC.Role=="Match" and PC.Map or "Lobby","Establishing uplink",PC.Role=="Match")
+    -- Both Dispatch and match places show an initial map-specific loading scene.
+    -- The arrival-state handoff closes it once the world and player are ready.
+    self.loading:set(PC.Role=="Match" and PC.Map or "Lobby","Establishing uplink",true)
     self.extractionBar=frame(self.objective,UDim2.fromScale(0,0),UDim2.new(0,0,1,-3),colors.cyan)
     local function resize()
         local v=self.hud.AbsoluteSize if not v or v.X<1 then v=workspace.CurrentCamera.ViewportSize end

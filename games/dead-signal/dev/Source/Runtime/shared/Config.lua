@@ -1,6 +1,6 @@
 -- DEAD SIGNAL 1.7.0 | Original game, with credited CC0 graphics sources.
 local C = {}
-C.Version = "1.8.0"
+C.Version = "1.8.1"
 C.Title = "DEAD SIGNAL"
 C.MaxPlayers = 4
 C.LobbyPlayers = 24

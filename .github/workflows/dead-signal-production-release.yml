@@ -1,0 +1,133 @@
+name: Dead Signal Production Release (Manual Only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "Deploy v1.8 candidate or restore the previous production source binaries"
+        type: choice
+        options:
+          - rollback
+          - deploy
+        default: rollback
+        required: true
+      confirmation:
+        description: "DEPLOY: PUBLISH-V18-PRODUCTION; ROLLBACK: RESTORE-PREVIOUS-PRODUCTION"
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dead-signal-four-place-production-promotion
+  cancel-in-progress: false
+
+jobs:
+  production:
+    if: github.repository == 'stephennip9288-create/Roblox-Projects' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    # Configure approval-required environment protection in GitHub settings before production use.
+    environment: dead-signal-production
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Check deliberate production-only authorization
+        env:
+          OPERATION: ${{ inputs.operation }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+        shell: bash
+        run: |
+          if [ "$OPERATION" = "deploy" ] && [ "$CONFIRMATION" = "PUBLISH-V18-PRODUCTION" ]; then
+            echo "Owner authorized four-place v1.8 production release."
+          elif [ "$OPERATION" = "rollback" ] && [ "$CONFIRMATION" = "RESTORE-PREVIOUS-PRODUCTION" ]; then
+            echo "Owner authorized four-place production rollback."
+          else
+            echo "::error::Production action not authorized by exact confirmation phrase" >&2
+            exit 1
+          fi
+      - name: Check publisher manifest and production guard tests
+        run: |
+          python -m unittest discover -s tests -v
+          python scripts/validate.py
+          python scripts/generate_dead_signal_place_configs.py
+      - name: Install pinned Lune (new release only)
+        if: ${{ inputs.operation == 'deploy' }}
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          path: games/dead-signal/dev
+      - name: Run original Work regression suites (new release only)
+        if: ${{ inputs.operation == 'deploy' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p games/dead-signal/dev/Places
+          cp games/dead-signal/full-baselines/v1.8.0/dispatch.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Lobby.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/blackwater.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Station.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/cinderworks.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Foundry.rbxl
+          cp games/dead-signal/full-baselines/v1.8.0/whiteout.rbxl games/dead-signal/dev/Places/DeadSignal-v1.8.0-Frost.rbxl
+          cd games/dead-signal/dev
+          lune run Tests/syntax.luau
+          python Tests/run.py --lune lune
+      - name: Build four stage and production candidates for source equivalence
+        if: ${{ inputs.operation == 'deploy' }}
+        run: |
+          python scripts/patch_dead_signal_rbxl.py --environment staging
+          python scripts/patch_dead_signal_rbxl.py --environment production
+      - name: Verify raw native world assets for both targets
+        if: ${{ inputs.operation == 'deploy' }}
+        run: |
+          python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/staging --baseline-dir games/dead-signal/full-baselines/v1.8.0
+          python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/production --baseline-dir games/dead-signal/full-baselines/v1.8.0
+      - name: Verify production place IDs, source parity, and all four rollback binaries
+        if: ${{ inputs.operation == 'deploy' }}
+        run: python scripts/check_dead_signal_production.py
+      - name: Create backup manifest BEFORE any production upload
+        env:
+          OPERATION: ${{ inputs.operation }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os,sys
+          sys.path.insert(0,"scripts")
+          from dead_signal_production_rollout import preflight, verified_rollback_files, manifest
+          data=preflight() if os.getenv("OPERATION")=="deploy" else verified_rollback_files()
+          assert len(data)==4
+          manifest(data)
+          print("Four exact PRODUCTION baseline rollback files ready.")
+          PY
+      - name: Archive pre-production rollback plan
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-production-rollback-${{ github.run_id }}
+          path: build/dead-signal-production-release/ROLLBACK-MANIFEST.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Publish four production places with automatic rollback on error
+        env:
+          GITHUB_REF: ${{ github.ref }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_PRODUCTION_API_KEY }}
+          PRODUCTION_CONFIRMED: PUBLISH
+          OPERATION: ${{ inputs.operation }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+        run: python scripts/dead_signal_production_rollout.py --operation "$OPERATION" --confirmation "$CONFIRMATION"
+      - name: Save production outcome and rollback details
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-production-result-${{ github.run_id }}
+          path: |
+            build/dead-signal-production-release/ROLLBACK-MANIFEST.json
+            build/dead-signal-production-release/PUBLISH-RESULT.json
+          retention-days: 90
+          if-no-files-found: warn
+
+# Important: setup required before first deployment:
+#  - Configure GitHub Environment dead-signal-production with required reviewers.
+#  - Create production-scoped ROBLOX_PRODUCTION_API_KEY repository secret.
+#  - Check no concurrent use of legacy Publish Roblox Place workflow.
+# No workflow other than a deliberate manual dispatch can trigger this file.

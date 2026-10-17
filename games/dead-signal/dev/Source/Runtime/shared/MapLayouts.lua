@@ -1,29 +1,30 @@
 -- Six sectors retain their IDs/objectives; footprints and connectivity are authored independently.
 local L={}
--- Blackwater: compact rectilinear station blocks, one maintenance watch gallery.
+-- Independent facility blockouts: bent bunker wings, industrial crescent, polar listening spine.
+-- Sector IDs and purchased connectivity remain the same as parent #21.
 L.Station={
-    {x=-94,z=-14,w=78,d=106,h=22,shape="rectangle"},
-    {x=0,z=-20,w=72,d=70,h=24,shape="rectangle",outdoor=true},
-    {x=88,z=-8,w=62,d=84,h=23,shape="rectangle"},
-    {x=-96,z=130,w=82,d=124,h=25,shape="rectangle",upper=true},
-    {x=0,z=100,w=70,d=80,h=24,shape="octagon"},
-    {x=94,z=118,w=72,d=106,h=25,shape="rectangle"},
+    {x=-112,z=-68,w=88,d=112,h=24,shape="bastion",purpose="Checkpoint and triage"},
+    {x=8,z=-26,w=90,d=100,h=26,shape="hexagon",outdoor=true,purpose="Antenna switching field"},
+    {x=126,z=18,w=84,d=96,h=26,shape="octagon",chamfer=.23,purpose="Diesel generation"},
+    {x=-158,z=108,w=98,d=130,h=29,shape="bastion",upper=true,purpose="Field repair and stores"},
+    {x=-14,z=148,w=102,d=102,h=30,shape="hexagon",upper=true,purpose="Carrier control watch"},
+    {x=124,z=176,w=88,d=118,h=28,shape="octagon",chamfer=.21,purpose="Signal analysis lab"},
 }
 L.Foundry={
-    {x=-126,z=-24,w=84,d=68,h=27,shape="rectangle"},
-    {x=0,z=-34,w=122,d=96,h=36,shape="rectangle",outdoor=true},
-    {x=132,z=-14,w=84,d=104,h=34,shape="rectangle"},
-    {x=-126,z=138,w=84,d=150,h=32,shape="rectangle",upper=true},
-    {x=0,z=134,w=112,d=110,h=35,shape="rectangle",upper=true},
-    {x=144,z=158,w=98,d=138,h=34,shape="octagon"},
+    {x=-158,z=-18,w=88,d=84,h=28,shape="octagon",chamfer=.18,purpose="Shift clock and PPE"},
+    {x=-22,z=-82,w=126,d=100,h=38,shape="hexagon",outdoor=true,purpose="Rail and casting yard"},
+    {x=132,z=-6,w=92,d=120,h=36,shape="bastion",purpose="Boiler pressure house"},
+    {x=-126,z=172,w=106,d=160,h=36,shape="hexagon",upper=true,purpose="Machine hall catwalk"},
+    {x=22,z=132,w=120,d=112,h=36,shape="octagon",chamfer=.22,upper=true,purpose="Furnace dispatch gallery"},
+    {x=188,z=182,w=108,d=136,h=36,shape="octagon",chamfer=.20,purpose="Metallurgy and crucibles"},
 }
 L.Frost={
-    {x=-108,z=-32,w=78,d=82,h=23,shape="hexagon"},
-    {x=0,z=-64,w=102,d=104,h=27,shape="octagon",outdoor=true},
-    {x=124,z=-26,w=78,d=100,h=25,shape="hexagon"},
-    {x=-104,z=128,w=94,d=116,h=24,shape="octagon"},
-    {x=14,z=122,w=96,d=100,h=30,shape="rotunda",upper=true},
-    {x=148,z=150,w=84,d=116,h=26,shape="hexagon"},
+    {x=-146,z=-52,w=90,d=94,h=25,shape="hexagon",purpose="Polar arrival and deicing"},
+    {x=-22,z=-126,w=116,d=106,h=28,shape="rotunda",outdoor=true,purpose="Ice apron and rescue"},
+    {x=130,z=-50,w=88,d=104,h=28,shape="hexagon",purpose="Reactor thermal plant"},
+    {x=-174,z=146,w=104,d=130,h=27,shape="bastion",purpose="Storm supply depot"},
+    {x=-24,z=100,w=106,d=106,h=32,shape="rotunda",upper=true,purpose="Listening array watch"},
+    {x=166,z=172,w=96,d=130,h=30,shape="hexagon",upper=true,purpose="Cryogenic research stacks"},
 }
 -- Each pair appears once. Diagonal links join different sectors and create two new flanking loops.
 L.Links={{1,2,750,"CONCOURSE ACCESS"},{1,4,900,"WEST SERVICE PASSAGE"},{2,3,1250,"POWER ANNEX"},
@@ -38,15 +39,32 @@ function L.links(id)
     return links
 end
 L.Windows={{1,"N"},{1,"W"},{2,"N"},{3,"N"},{3,"E"},{4,"S"},{4,"W"},{5,"S"},{6,"S"},{6,"E"}}
+-- Keep the polar reactor return east of the long listening tunnel; their walls must not cross.
+L.PortalHints={Frost={[7]={a={1,1},b={1,-1}},[9]={a={1,1},b={-1,-1}}}}
+-- Door order/prices are unchanged; each entry supplies an original visual obstruction.
+L.Barriers={
+ Station={{"Rubble","CHECKPOINT DEBRIS"},{"Rubble","COLLAPSED MASONRY"},{"Bulkhead","GENERATOR SHUTTER"},
+  {"Machinery","FALLEN CABLE RACK"},{"Bulkhead","BLAST BULKHEAD"},{"Rubble","SERVICE CAVE-IN"},
+  {"Machinery","GENERATOR WRECK"},{"Gantry","BROKEN AERIAL"},{"Cargo","SEALED FIELD STORES"}},
+ Foundry={{"Cargo","STEEL PALLET STACK"},{"Gantry","COLLAPSED GANTRY"},{"Bulkhead","FURNACE BULKHEAD"},
+  {"Machinery","SLAG HOPPER"},{"Bulkhead","FREIGHT SHUTTER"},{"Cargo","ROLLED STEEL LOAD"},
+  {"Machinery","DERAILED TRANSFER"},{"Gantry","PIPE TRANSFER"},{"Machinery","BOILER MACHINERY"}},
+ Frost={{"Ice","ICED PRESSURE DOOR"},{"Ice","ICE FALL"},{"Bulkhead","SAFETY BULKHEAD"},
+  {"Gantry","COLLAPSED MAST"},{"Cargo","FROZEN CARGO"},{"Bulkhead","CRYO SHUTTER"},
+  {"Machinery","SNOWBOUND HAULER"},{"Ice","LISTENING TUNNEL ICE"},{"Bulkhead","RESEARCH BULKHEAD"}},
+}
 function L.polygon(r)
     local w,d=r.w/2,r.d/2 local shape=r.shape local v={}
+    if shape=="bastion" then
+        return {{-w*.55,-d},{w*.9,-d*.8},{w,d*.45},{w*.5,d},{-w*.6,d},{-w,d*.4},{-w,-d*.5}}
+    end
     if shape=="rectangle" then return {{-w,-d},{w,-d},{w,d},{-w,d}} end
     if shape=="hexagon" then return {{-w*.50,-d},{w*.50,-d},{w,0},{w*.50,d},{-w*.50,d},{-w,0}} end
     if shape=="rotunda" then
         for n=0,11 do local a=-math.pi/2-math.pi/12+n*math.pi/6 v[#v+1]={math.cos(a)*w,math.sin(a)*d} end
         return v
     end
-    local cut=.4
+    local cut=r.chamfer or .4
     return {{-w*(1-cut),-d},{w*(1-cut),-d},{w,-d*(1-cut)},{w,d*(1-cut)},
         {w*(1-cut),d},{-w*(1-cut),d},{-w,d*(1-cut)},{-w,-d*(1-cut)}}
 end

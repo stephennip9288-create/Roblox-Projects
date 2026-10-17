@@ -78,6 +78,7 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
   for _,value in ipairs({p.CFrame:GetComponents()}) do if value~=value or math.abs(value)==math.huge then finite=false end end
   check(finite,id..' finite transform for '..p.Name)
   local row={name=p.Name,class=p.ClassName,size=vector(p.Size),cf={p.CFrame:GetComponents()},color={p.Color.R,p.Color.G,p.Color.B},material=p.Material.Name,variant=p.MaterialVariant,transparency=p.Transparency,collision=p.CanCollide,group=p.CollisionGroup}
+  row.scenery=p:GetAttribute('SceneryOnly') row.tier=p:GetAttribute('DistanceTier')
   if p:IsA('Part') then row.shape=p.Shape.Name end
   if p:FindFirstChildOfClass('SpecialMesh') then row.shape='Ball' end
   local gui=p:FindFirstChildOfClass('SurfaceGui')
@@ -94,3 +95,5 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
 end
 fs.writeFile('Validation/MapRemaster/Construction-Report.json',serde.encode('json',{maps=reports,assertions=count,engine=false}))
 print('Map remaster contract assertions passed:',count)
+local batchCount=require('./map_batch1')
+print('Combined map assertions passed:',count+batchCount)

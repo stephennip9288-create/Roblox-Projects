@@ -13,9 +13,9 @@ function Detail.apply(map,def,layout,P,S,light)
         for _,dx in ipairs({-w/2,w/2}) do for _,dz in ipairs({-d/2,d/2}) do
             if not Layouts.contains(r,r.x+x+dx,r.z+z+dz,1.6) then return false end
         end end
-        for _,zone in ipairs(map.interactionZones or {}) do
+        for _,zones in ipairs({map.interactionZones or {},map.detailZones or {}}) do for _,zone in ipairs(zones) do
             if (y or 0)*s<zone.maxY and ((y or 0)+(h or 8))*s>zone.minY and minX<zone.maxX and maxX>zone.minX and minZ<zone.maxZ and maxZ>zone.minZ then return false end
-        end return true
+        end end return true
     end
     local function part(i,name,size,at,col,mat,solid,rot)
         local r=layout[i] local p=P(name,size,Vector3.new(r.x,0,r.z)+at,col or steel,mat or Enum.Material.Metal,solid==true,rot)
@@ -147,10 +147,9 @@ function Detail.apply(map,def,layout,P,S,light)
         part(i,"DrainBed",Vector3.new(2,.04,4),Vector3.new(gx,.025,gz),dark)
         for n=1,9 do part(i,"DrainGrille",Vector3.new(1.8,.04,.08),Vector3.new(gx,.05,gz-1.9+n*.38),steel) end
         if r.upper then
-            local y=def.theme=="Station" and 10 or 12
+            local y=map.rooms[i].rise/map.scale
             tableTop(i,2,r.d/2-5,y,9) radio(i,1,r.d/2-5,y+3.2)
             crate(i,r.w/2-5,r.d/2-6,y) bench(i,14,r.d/2-7,y)
-            label(i,"WATCH POST / KEEP THE LIGHTS LOW",Vector3.new(2,y+6.8,r.d/2-.8),Vector3.new(22,1.4,.08),0,cream)
         end
     end
     if def.theme=="Station" then
@@ -248,6 +247,65 @@ function Detail.apply(map,def,layout,P,S,light)
             part(i,"FieldFootlocker",Vector3.new(6,2.5,3),Vector3.new(x,1.25,z),Color3.fromRGB(91,102,73),nil,true)
             for _,dx in ipairs({-2,2}) do part(i,"FootlockerStrap",Vector3.new(.18,2.6,3.08),Vector3.new(x+dx,1.25,z),steel) end
             part(i,"CanvasBedroll",Vector3.new(4.5,.75,2.7),Vector3.new(x,2.9,z),Color3.fromRGB(132,126,89),Enum.Material.Fabric,true)
+        end
+    end
+    -- Each sector gets one functional, wall-backed outbreak trace, not a random center prop.
+    map.facilityDisplays={}
+    local traces={Station={"TRIAGE / UNCLAIMED","03:17 / CARRIER LOST","DIESEL / HOLD LOAD","REPAIR / SHIFT ABANDONED","WATCH / NO REPLY","SIGNAL / QUARANTINE"},
+        Foundry={"SHIFT 09 / NO RETURN","FREIGHT / EVACUATED","PRESSURE / ISOLATED","TOOLS / DO NOT RESTART","HEAT / INTERLOCK LOST","SAMPLE / CONTAMINATED"},
+        Frost={"ARRIVALS / DEICE FIRST","RESCUE / MISSED CHECK-IN","THERMAL / HOLD OUTPUT","RATIONS / LAST INVENTORY","ECHO / REPLY BELOW ICE","CRYO / DO NOT THAW"}}
+    for i,r in ipairs(layout) do
+        local chosen
+        for _,face in ipairs(map.rooms[i].wallFaces) do
+            local limit=face.length/2-5.5
+            for offset=-limit,limit,4 do
+                local center=face.center+face.tangent*offset-face.normal*1.9 local valid=true
+                for _,x in ipairs({-4.2,4.2}) do for _,z in ipairs({-1,1}) do
+                    local q=center+face.tangent*x+face.normal*z
+                    if not Layouts.contains(r,q.X,q.Z,.75) then valid=false end
+                end end
+                local ex=math.abs(face.tangent.X)*4.2+math.abs(face.normal.X)
+                local ez=math.abs(face.tangent.Z)*4.2+math.abs(face.normal.Z)
+                local loX,hiX=(center.X-ex)*map.scale,(center.X+ex)*map.scale
+                local loZ,hiZ=(center.Z-ez)*map.scale,(center.Z+ez)*map.scale
+                for _,zone in ipairs(map.interactionZones) do
+                    if zone.minY<8*map.scale and zone.maxY>0 and loX<zone.maxX and hiX>zone.minX and loZ<zone.maxZ and hiZ>zone.minZ then valid=false break end
+                end
+                if valid then chosen={at=center,face=face} break end
+            end
+            if chosen then break end
+        end
+        if chosen then
+            local face=chosen.face local cf=CFrame.fromMatrix(chosen.at,face.tangent,Vector3.yAxis,face.normal)
+            local paint=def.theme=="Station" and Color3.fromRGB(92,112,82) or def.theme=="Foundry" and Color3.fromRGB(118,91,59) or Color3.fromRGB(130,157,164)
+            local function q(name,size,offset,col,mat,solid,rot)
+                local at=cf*CFrame.new(offset) local obj=P(name,size,at.Position,col or paint,mat or Enum.Material.Metal,solid==true,(at-at.Position)*(rot or CFrame.identity))
+                obj.Parent=map.rooms[i].model obj:SetAttribute("FacilityDetail",true) return obj
+            end
+            local body=q("FacilityInstrumentCabinet",Vector3.new(8.2,6,1.9),Vector3.new(0,3,0),paint,nil,true)
+            body:SetAttribute("FacilityFunction",r.purpose) body:SetAttribute("LoreTrace",traces[map.id][i])
+            for row=1,3 do
+                q("FacilityDrawer",Vector3.new(7.4,.9,.12),Vector3.new(0,.6+row*1.1,-1.03),steel)
+                q("RecessedDrawerPull",Vector3.new(1.1,.12,.14),Vector3.new(1.8,.6+row*1.1,-1.15),dark)
+            end
+            for _,x in ipairs({-2.7,0,2.7}) do
+                if def.theme=="Foundry" then
+                    local gauge=q("PressureGauge",Vector3.new(.18,1.2,1.2),Vector3.new(x,4.6,-1.07),cream,nil,false,CFrame.Angles(0,math.pi/2,0));gauge.Shape=Enum.PartType.Cylinder
+                    q("PressureNeedle",Vector3.new(.06,.43,.06),Vector3.new(x+.09,4.6,-1.23),dark,nil,false,CFrame.Angles(0,0,-.45+x*.06))
+                elseif def.theme=="Frost" then
+                    q("SealedPolarSample",Vector3.new(1.5,1.2,.12),Vector3.new(x,4.6,-1.08),Color3.fromRGB(118,183,198),Enum.Material.Glass)
+                    q("SampleSeal",Vector3.new(1.1,.13,.14),Vector3.new(x,4.95,-1.17),cream)
+                else
+                    q("FieldEquipmentCase",Vector3.new(1.5,1.2,.18),Vector3.new(x,4.6,-1.08),cream)
+                    q("FieldCaseLatch",Vector3.new(.2,.3,.12),Vector3.new(x+.5,4.6,-1.23),dark)
+                end
+            end
+            q("RecoveredFieldOrders",Vector3.new(2,.95,.08),Vector3.new(-2.2,2.3,-1.2),cream,Enum.Material.SmoothPlastic,false,CFrame.Angles(0,0,.08))
+            for row=1,3 do q("OrderTextTrace",Vector3.new(1.5,.035,.025),Vector3.new(-2.2,2.65-row*.18,-1.26),dark,Enum.Material.SmoothPlastic) end
+            local labelCF=cf*CFrame.new(0,6.9/map.scale,-1.2)
+            local yaw=math.atan2(-labelCF.LookVector.X,-labelCF.LookVector.Z)
+            local caption=S(traces[map.id][i],labelCF.Position,Vector3.new(8.4,1.15,.1),yaw,cream);caption.Parent=body
+            table.insert(map.facilityDisplays,{id=map.id.."_facility_"..i,room=i,purpose=r.purpose,trace=traces[map.id][i],part=body})
         end
     end
     -- Exterior silhouettes are scenery only. Players remain inside the authored rooms.

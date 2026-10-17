@@ -2,12 +2,12 @@ local RS=game:GetService("ReplicatedStorage")
 local Layouts=require(RS.DeadSignal.MapLayouts)
 local U=require(RS.DeadSignal.Util)
 local A={} local UP=Vector3.new(0,1,0)
-local function cross(a,b) return a.X*b.Z-a.Z*b.X end
 local function rotation(tangent) return CFrame.fromMatrix(Vector3.zero,tangent,UP,tangent:Cross(UP)) end
 function A.build(map,layout,P,S,light,def)
     local s=map.scale local concrete=Color3.fromRGB(111,108,93) local steel=Color3.fromRGB(50,60,59)
     map.areas={} map.floorParts={} map.layout=layout map.corridors={} map.floorRegions={}
-    local edges={} local portals={} local windows={}
+    local wallMaterial=def.theme=="Station" and Enum.Material.Brick or def.theme=="Foundry" and Enum.Material.CorrodedMetal or Enum.Material.Metal
+    local edges={} local portals={}
     local function area(poly,room,door,ymin,ymax)
         local a={room=room,door=door,minX=math.huge,maxX=-math.huge,minZ=math.huge,maxZ=-math.huge,minY=ymin or -1,maxY=ymax or 18*s,polygon={}}
         for _,v in ipairs(poly) do
@@ -42,26 +42,40 @@ function A.build(map,layout,P,S,light,def)
             local b=polygon[n%#polygon+1] local tangent=(b-a).Unit
             edges[i][n]={a=a,b=b,mid=(a+b)*.5,tangent=tangent,normal=Vector3.new(tangent.Z,0,-tangent.X),length=(b-a).Magnitude,slots={}}
         end
-        map.rooms[i]={model=room,center=Vector3.new(r.x,0,r.z)*s,unlocked=i==1,name=def.rooms[i],width=r.w*s,depth=r.d*s,height=r.h*s,polygon=polygon,shape=r.shape}
+        map.rooms[i]={model=room,center=Vector3.new(r.x,0,r.z)*s,unlocked=i==1,name=def.rooms[i],width=r.w*s,depth=r.d*s,height=r.h*s,polygon=polygon,shape=r.shape,wallFaces={}}
         polygonFloor("SectorFloor",polygon,0,room) area(polygon,i,nil,-1,(r.h-.5)*s)
         room:SetAttribute("Footprint",r.shape) room:SetAttribute("SectorId",i)
     end
-    local function edgeFor(room,direction,available)
+    local function edgeFor(room,direction,width,kind)
         local best,score
         for _,e in ipairs(edges[room]) do
-            local value=e.normal:Dot(direction.Unit)
-            if (not available or #e.slots==0) and e.length>=18 and (not score or value>score) then best=e score=value end
-        end return assert(best,"No clear polygon edge for a portal")
+            local limit=e.length/2-width/2-2
+            if limit>=0 then
+                local preferred=math.clamp((map.rooms[room].center/s+direction-e.mid):Dot(e.tangent),-limit,limit)
+                local candidates={preferred,0,-limit,limit}
+                for offset=-limit,limit,2 do candidates[#candidates+1]=offset end
+                for _,offset in ipairs(candidates) do
+                    local clear=true
+                    for _,slot in ipairs(e.slots) do if math.abs(offset-slot.offset)<(width+slot.width)/2+4 then clear=false break end end
+                    local value=e.normal:Dot(direction.Unit)*100-math.abs(offset-preferred)*.1
+                    if clear and (not score or value>score) then
+                        best={edge=e,mid=e.mid+e.tangent*offset,normal=e.normal,tangent=e.tangent,offset=offset} score=value
+                    end
+                end
+            end
+        end
+        assert(best,"No clear polygon edge for a portal")
+        table.insert(best.edge.slots,{kind=kind,width=width,offset=best.offset,mid=best.mid,room=room})
+        return best
     end
-    for index,link in ipairs(Layouts.Links) do
+    for index,link in ipairs(Layouts.links(map.id)) do
         local a,b=map.rooms[link[1]].center/s,map.rooms[link[2]].center/s
-        local ea=edgeFor(link[1],b-a,true) local eb=edgeFor(link[2],a-b,true)
-        ea.slots[#ea.slots+1]={kind="door",width=16} eb.slots[#eb.slots+1]={kind="door",width=16}
+        local ea=edgeFor(link[1],b-a,16,"door") local eb=edgeFor(link[2],a-b,16,"door")
         portals[index]={ea=ea,eb=eb,link=link}
     end
     for _,w in ipairs(Layouts.Windows) do
         local dir=w[2]=="N" and Vector3.new(0,0,-1) or w[2]=="S" and Vector3.new(0,0,1) or w[2]=="E" and Vector3.new(1,0,0) or Vector3.new(-1,0,0)
-        local e=edgeFor(w[1],dir,true) e.slots[#e.slots+1]={kind="window",width=11,room=w[1]}
+        edgeFor(w[1],dir*100,11,"window")
     end
     -- Offset polyline strips have mitered joints, closed side walls and a door on the middle leg.
     for index,p in ipairs(portals) do
@@ -100,8 +114,13 @@ function A.build(map,layout,P,S,light,def)
         corridor.minZ=math.min(ea.mid.Z,eb.mid.Z)*s-9*s corridor.maxZ=math.max(ea.mid.Z,eb.mid.Z)*s+9*s
         map.corridors[index]=corridor
         for x=-5.8,5.8,1.45 do local rib=P("GateRib",Vector3.new(.12,13,.12),mid+UP*7,steel,Enum.Material.Metal,false) rib.CFrame=gate.CFrame*CFrame.new(x,0,-.4) rib.Parent=gate end
-        local sign=S(link[4].."\n"..link[3].." POINTS",mid+UP*10,Vector3.new(11,2,.12),0,Color3.fromRGB(216,185,120))
-        sign.CFrame=gate.CFrame*CFrame.new(0,3,-.5) sign.Parent=gate
+        -- Both approaches see a sign at actual first-person eye height, including on scaled maps.
+        for _,side in ipairs({-1,1}) do
+            local cf=CFrame.new(gate.Position)*rot*CFrame.new(0,5.4-gate.Position.Y,side*.5*s)*CFrame.Angles(0,side==1 and math.pi or 0,0)
+            local yaw=math.atan2(-cf.LookVector.X,-cf.LookVector.Z)
+            local sign=S(link[4].."\n"..link[3].." POINTS",cf.Position/s,Vector3.new(12.5,2.6,.12),yaw,Color3.fromRGB(245,219,159))
+            sign:SetAttribute("DoorReadHeight",5.4) sign.Parent=gate
+        end
         P("DoorLintel",Vector3.new(14,4,.9),mid+UP*16,concrete,Enum.Material.Concrete,true,rot)
         light(map.model,CFrame.new((mid+UP*16.7)*s),Color3.fromRGB(221,185,121),false)
     end
@@ -111,29 +130,33 @@ function A.build(map,layout,P,S,light,def)
             local p=P(name,size,at,color,mat,solid,rot,class) p.Parent=room return p
         end
         for _,e in ipairs(edges[i]) do
-            local rot=rotation(e.tangent) local slot=e.slots[1] local gap=slot and slot.width or 0
+            local rot=rotation(e.tangent)
             local function wall(lo,hi)
                 if hi-lo<.05 then return end local center=e.mid+e.tangent*((lo+hi)/2)
-                q("BunkerWall",Vector3.new(hi-lo,r.h,1.2),center+UP*r.h/2,concrete,Enum.Material.Concrete,true,rot)
-                q("PlasterFacing",Vector3.new(hi-lo-.03,r.h-5,.08),center+UP*(r.h+5)/2-e.normal*.66,U.color(def.wall),Enum.Material.Plaster,false,rot)
+                q("BunkerWall",Vector3.new(hi-lo,r.h,1.2),center+UP*r.h/2,concrete,wallMaterial,true,rot)
+                table.insert(map.rooms[i].wallFaces,{center=center,tangent=e.tangent,normal=e.normal,length=hi-lo})
+                q("PlasterFacing",Vector3.new(hi-lo-.03,r.h-5,.08),center+UP*(r.h+5)/2-e.normal*.66,U.color(def.wall),def.theme=="Station" and Enum.Material.Plaster or wallMaterial,false,rot)
                 q("WallBase",Vector3.new(hi-lo,1.3,.14),center+UP*.65-e.normal*.72,steel,Enum.Material.Metal,false,rot)
                 q("WallTrim",Vector3.new(hi-lo,.12,.18),center+UP*4.8-e.normal*.76,steel,Enum.Material.Metal,false,rot)
                 if hi-lo>4 then q("ConcreteRepair",Vector3.new(math.min(4,hi-lo-1),1.3,.06),center+UP*6.8-e.normal*.74,Color3.fromRGB(129,122,101),Enum.Material.Concrete,false,rot) end
             end
-            if not slot then wall(-e.length/2,e.length/2)
-            else
-                wall(-e.length/2,-gap/2) wall(gap/2,e.length/2)
-                for _,side in ipairs({-1,1}) do q("PortalJamb",Vector3.new(.25,14,1.5),e.mid+e.tangent*(side*(gap/2+.13))+UP*7,steel,Enum.Material.Metal,true,rot) end
+            table.sort(e.slots,function(a,b) return a.offset<b.offset end)
+            local cursor=-e.length/2
+            for _,slot in ipairs(e.slots) do
+                local gap=slot.width local mid=slot.mid
+                wall(cursor,slot.offset-gap/2) cursor=slot.offset+gap/2
+                for _,side in ipairs({-1,1}) do q("PortalJamb",Vector3.new(.25,14,1.5),mid+e.tangent*(side*(gap/2+.13))+UP*7,steel,Enum.Material.Metal,true,rot) end
                 local height=slot.kind=="window" and 11 or 14
-                q("PortalHeader",Vector3.new(gap,r.h-height,1.2),e.mid+UP*(r.h+height)/2,concrete,Enum.Material.Concrete,true,rot)
+                q("PortalHeader",Vector3.new(gap,r.h-height,1.2),mid+UP*(r.h+height)/2,concrete,Enum.Material.Concrete,true,rot)
                 if slot.kind=="window" then
-                    q("WindowSill",Vector3.new(gap,1.8,1.5),e.mid+UP*.9,concrete,Enum.Material.Concrete,true,rot)
-                    local barrier=q("WindowBarrier",Vector3.new(gap,9,1.3),e.mid+UP*6.3,concrete,nil,true,rot)
+                    q("WindowSill",Vector3.new(gap,1.8,1.5),mid+UP*.9,concrete,Enum.Material.Concrete,true,rot)
+                    local barrier=q("WindowBarrier",Vector3.new(gap,9,1.3),mid+UP*6.3,concrete,nil,true,rot)
                     barrier.Transparency=1 barrier.CollisionGroup="DeadSignalWindow" local boards={}
-                    for n=1,5 do boards[n]=q("BarricadeBoard",Vector3.new(gap-.2,1.1,.30),e.mid+UP*(1.8+n*1.55)-e.normal*.85,Color3.fromRGB(111,84,55),Enum.Material.WoodPlanks,false,rot*CFrame.Angles(0,0,n%2==0 and .045 or -.055)) end
-                    map.windows[#map.windows+1]={room=i,part=barrier,boards=boards,count=5,outside=(e.mid+e.normal*6+UP*3.5)*s,inside=(e.mid-e.normal*8+UP*3.5)*s,nextTear=0}
+                    for n=1,5 do boards[n]=q("BarricadeBoard",Vector3.new(gap-.2,1.1,.30),mid+UP*(1.8+n*1.55)-e.normal*.85,Color3.fromRGB(111,84,55),Enum.Material.WoodPlanks,false,rot*CFrame.Angles(0,0,n%2==0 and .045 or -.055)) end
+                    map.windows[#map.windows+1]={room=i,part=barrier,boards=boards,count=5,outside=(mid+e.normal*6+UP*3.5)*s,inside=(mid-e.normal*8+UP*3.5)*s,nextTear=0}
                 end
             end
+            wall(cursor,e.length/2)
             -- Repeated structural rhythm follows the actual angled walls.
             local inward=e.mid-e.normal*1.2
             local lamp=q("WallPractical",Vector3.new(1,.45,.5),inward+UP*11,Color3.fromRGB(232,189,113),Enum.Material.Neon,false,rot)

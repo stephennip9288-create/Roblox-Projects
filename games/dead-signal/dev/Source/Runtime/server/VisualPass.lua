@@ -4,7 +4,7 @@ local U=require(RS.DeadSignal.Util)
 local Layouts=require(RS.DeadSignal.MapLayouts)
 local V={}
 function V.apply(map,def,layout)
-    local s=map.scale local folder=U.make("Model",map.model,{Name="VisualPass8"})
+    local s=map.scale local folder=U.make("Model",map.model,{Name="MapIdentity9"})
     local steel=Color3.fromRGB(71,80,80) local shadow=Color3.fromRGB(28,35,36)
     local warm=Color3.fromRGB(232,188,113) local cool=Color3.fromRGB(156,195,208)
     local function p(name,size,at,col,mat,rot,shape)
@@ -13,7 +13,9 @@ function V.apply(map,def,layout)
         if shape then q.Shape=shape end return q
     end
     local function beam(name,a,b,width,col)
-        return p(name,Vector3.new(width,width,(b-a).Magnitude),(a+b)*.5,col,nil,CFrame.lookAt(Vector3.zero,b-a))
+        local direction=(b-a).Unit
+        local up=math.abs(direction:Dot(Vector3.yAxis))>.98 and Vector3.xAxis or Vector3.yAxis
+        return p(name,Vector3.new(width,width,(b-a).Magnitude),(a+b)*.5,col,nil,CFrame.lookAt(Vector3.zero,direction,up))
     end
     local function free(room,at,margin)
         local r=layout[room] if not Layouts.contains(r,at.X,at.Z,margin or 5) then return false end
@@ -21,6 +23,79 @@ function V.apply(map,def,layout)
         for _,zone in ipairs(map.interactionZones) do
             if world.X>zone.minX-2*s and world.X<zone.maxX+2*s and world.Z>zone.minZ-2*s and world.Z<zone.maxZ+2*s then return false end
         end return true
+    end
+    -- Architectural identity is built in source, not baked into a replacement place.
+    -- All additions are scenery/query-free; the tested structural shell owns collision.
+    for i,r in ipairs(layout) do
+        local origin=Vector3.new(r.x,0,r.z)
+        for _,face in ipairs(map.rooms[i].wallFaces) do
+            local rot=CFrame.fromMatrix(Vector3.zero,face.tangent,Vector3.yAxis,face.normal)
+            local inward=-face.normal local span=face.length
+            if def.theme=="Station" then
+                -- Ceramic dado, brick piers and the station's broken 03:17 clockwork.
+                p("StationTileDado",Vector3.new(span-.08,2.4,.08),face.center+Vector3.new(0,1.6,0)+inward*.78,Color3.fromRGB(132,155,137),Enum.Material.SmoothPlastic,rot)
+                for x=-span/2+2,span/2-1,7 do
+                    p("StationTileJoint",Vector3.new(.035,2.4,.025),face.center+face.tangent*x+Vector3.new(0,1.6,0)+inward*.84,shadow,Enum.Material.SmoothPlastic,rot)
+                end
+                p("StationPictureRail",Vector3.new(span-.1,.16,.24),face.center+Vector3.new(0,8.8,0)+inward*.85,Color3.fromRGB(130,111,77),nil,rot)
+            elseif def.theme=="Foundry" then
+                -- Deep corrugated steel and pipe headers read as a working industrial shed.
+                for x=-span/2+1,span/2-1,3.5 do
+                    p("FoundryCladdingFold",Vector3.new(.24,r.h-3,.3),face.center+face.tangent*x+Vector3.new(0,r.h/2,0)+inward*.78,steel,nil,rot)
+                end
+                p("SteamHeader",Vector3.new(span,.65,.65),face.center+Vector3.new(0,r.h-5,0)+inward*1.2,Color3.fromRGB(133,96,61),Enum.Material.CorrodedMetal,rot,Enum.PartType.Cylinder)
+            else
+                -- Raised insulated panels and sloped caps make a low polar module silhouette.
+                p("PolarInsulationBand",Vector3.new(span-.1,1.6,.13),face.center+Vector3.new(0,9.2,0)+inward*.84,Color3.fromRGB(156,183,188),Enum.Material.SmoothPlastic,rot)
+                for x=-span/2+2,span/2-1,6 do
+                    p("PolarPanelSeam",Vector3.new(.09,r.h-2,.12),face.center+face.tangent*x+Vector3.new(0,r.h/2,0)+inward*.79,shadow,nil,rot)
+                    for _,y in ipairs({1.2,r.h-1.2}) do p("PolarPanelLatch",Vector3.new(.45,.18,.12),face.center+face.tangent*x+Vector3.new(0,y,0)+inward*.92,steel,nil,rot) end
+                end
+                p("PolarSnowEave",Vector3.new(span+.4,.7,2.6),face.center+Vector3.new(0,r.h+1.5,0),Color3.fromRGB(204,216,218),Enum.Material.Snow,rot*CFrame.Angles(.20,0,0))
+            end
+        end
+        if def.theme=="Station" then
+            if i==1 then
+                for _,z in ipairs({-r.d*.22,r.d*.22}) do
+                    p("StationTransomBeam",Vector3.new(r.w-2,.7,1),origin+Vector3.new(0,r.h-2,z),Color3.fromRGB(102,112,97))
+                    for x=-r.w/2+6,r.w/2-4,6 do p("StationTransomPane",Vector3.new(4.9,2.3,.15),origin+Vector3.new(x,r.h-3.8,z),Color3.fromRGB(143,174,163),Enum.Material.Glass).Transparency=.4 end
+                end
+                local clock=p("StationStoppedClock",Vector3.new(.3,4,4),origin+Vector3.new(0,r.h-5,-r.d/2+.9),Color3.fromRGB(219,211,179),Enum.Material.SmoothPlastic,CFrame.Angles(0,math.pi/2,0),Enum.PartType.Cylinder)
+                p("StationClockHour0317",Vector3.new(.15,1,.08),clock.Position/s+Vector3.new(.55,0,.2),shadow,Enum.Material.SmoothPlastic,CFrame.Angles(0,0,-1.57))
+                p("StationClockMinute0317",Vector3.new(.10,1.5,.08),clock.Position/s+Vector3.new(.5,-.4,.21),shadow,Enum.Material.SmoothPlastic,CFrame.Angles(0,0,-1.78))
+            end
+            -- Dashed platform bands mark the long axis without creating a low ledge.
+            for z=-r.d/2+10,r.d/2-8,8 do
+                local at=origin+Vector3.new(r.w*.18,.035,z)
+                if free(i,at,6) then p("StationAisleDash",Vector3.new(.3,.02,3.5),at,Color3.fromRGB(183,163,111),Enum.Material.SmoothPlastic) end
+            end
+        elseif def.theme=="Foundry" then
+            if not r.outdoor then
+                for z=-r.d/2+14,r.d/2-12,24 do
+                    local at=origin+Vector3.new(0,r.h-3,z)
+                    p("FoundryGantryWeb",Vector3.new(r.w-3,1.4,.3),at,Color3.fromRGB(151,103,49))
+                    for _,dy in ipairs({-.75,.75}) do p("FoundryGantryFlange",Vector3.new(r.w-3,.17,1.4),at+Vector3.new(0,dy,0),steel) end
+                    -- Sawtooth clerestories are visible above the sealed roof from the yard.
+                    p("FoundrySawtoothRoof",Vector3.new(r.w-1,1.7,13),origin+Vector3.new(0,r.h+3.4,z),Color3.fromRGB(91,94,87),Enum.Material.CorrodedMetal,CFrame.Angles(-.22,0,0))
+                    p("FoundryClerestoryGlass",Vector3.new(r.w-7,2.7,.2),origin+Vector3.new(0,r.h+3.4,z+6),Color3.fromRGB(193,154,94),Enum.Material.Glass).Transparency=.25
+                end
+            end
+            for _,x in ipairs({-r.w*.18,r.w*.18}) do
+                p("FoundryCastingChannel",Vector3.new(1.2,.025,r.d*.5),origin+Vector3.new(x,.03,0),Color3.fromRGB(35,30,25),Enum.Material.SmoothPlastic)
+                for z=-r.d*.24,r.d*.24,5 do p("FoundryChannelGrate",Vector3.new(1.15,.03,.13),origin+Vector3.new(x,.05,z),steel) end
+            end
+        else
+            if not r.outdoor then
+                for _,side in ipairs({-1,1}) do
+                    p("PolarFacetedRoof",Vector3.new(r.w*.53,.8,r.d*.78),origin+Vector3.new(side*r.w*.24,r.h+3,0),Color3.fromRGB(178,198,205),Enum.Material.Snow,CFrame.Angles(0,0,side*.19))
+                end
+            end
+            -- An interrupted tracking line and anchor plates distinguish the listening post.
+            for n=1,8 do
+                local at=origin+Vector3.new(0,.04,-r.d*.3+n*r.d*.065)
+                if free(i,at,7) then p("PolarTrackingMark",Vector3.new(n%3==0 and 2.8 or .7,.025,.3),at,Color3.fromRGB(164,203,208),Enum.Material.SmoothPlastic) end
+            end
+        end
     end
     for i,r in ipairs(layout) do
         local poly=map.rooms[i].polygon local origin=Vector3.new(r.x,0,r.z)
@@ -118,6 +193,6 @@ function V.apply(map,def,layout)
             p("SnowRidge",Vector3.new(43,8+n%3*4,22),at2,Color3.fromRGB(194,204,202),Enum.Material.Snow,CFrame.Angles(0,n*.6,0),Enum.PartType.Ball)
         end
     end
-    folder:SetAttribute("ArtRevision",8) map.model:SetAttribute("VisualRevision",8)
+    folder:SetAttribute("ArtRevision",9) map.model:SetAttribute("VisualRevision",9)
 end
 return V

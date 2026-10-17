@@ -1,15 +1,10 @@
 name: Dead Signal Controlled Private Staging
 
 on:
-  # One-time rollout marker (reviewed in a separate PR); never triggers for source changes.
-  push:
-    branches: [main]
-    paths:
-      - 'games/dead-signal/rollouts/v1.8.0-private-staging.json'
   workflow_dispatch:
     inputs:
       operation:
-        description: "deploy = four new v1.8 candidates; rollback = restore all four old staging baselines"
+        description: "deploy = complete reviewed Batch 1; rollback = exact recorded staging release"
         type: choice
         options: [deploy, rollback]
         required: true
@@ -18,9 +13,15 @@ on:
         description: "Type DEPLOY-PRIVATE-STAGING or RESTORE-PRIVATE-STAGING"
         type: string
         required: true
+      source_sha:
+        description: "Deploy: reviewed full 40-character Batch 1 integration SHA; rollback: leave blank"
+        type: string
+        required: false
+        default: ''
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: dead-signal-private-staging-four-places
@@ -31,9 +32,40 @@ jobs:
     if: github.repository == 'stephennip9288-create/Roblox-Projects' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: candidate
+    env:
+      PYTHONPATH: ''
     steps:
-      - name: Check out exact private repository revision
+      - name: Check out reviewed main controls
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: release-control
+          persist-credentials: false
+      - name: Validate immutable staging source
+        working-directory: ${{ github.workspace }}
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          OPERATION: ${{ inputs.operation }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$OPERATION" = "deploy" ]; then
+            [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          elif [ "$OPERATION" = "rollback" ]; then
+            [ -z "$SOURCE_SHA" ] || exit 1
+          else
+            exit 1
+          fi
+      - name: Check out exact selected source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.source_sha || github.sha }}
+          path: candidate
+          fetch-depth: 0
+          persist-credentials: false
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -47,24 +79,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ "$EVENT_NAME" = "push" ]; then
-            python - <<'PY'
-          import json, os
-          from pathlib import Path
-          path=Path('games/dead-signal/rollouts/v1.8.0-private-staging.json')
-          data=json.loads(path.read_text('utf-8'))
-          assert data == {
-            'release': 'dead-signal-v1.8.0-private-staging',
-            'operation': 'deploy',
-            'confirmation': 'DEPLOY-PRIVATE-STAGING',
-            'environment': 'staging',
-            'production_allowed': False,
-          }, 'One-time release authorization file must match the reviewed schema exactly'
-          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as o:
-            o.write('operation=deploy\nconfirmation=DEPLOY-PRIVATE-STAGING\n')
-          print('Accepted narrowly scoped, main-only, private staging rollout marker.')
-          PY
-          elif [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             if [ "$REQUESTED_OPERATION" = "deploy" ] && [ "$REQUESTED_CONFIRMATION" = "DEPLOY-PRIVATE-STAGING" ]; then
               echo 'operation=deploy' >> "$GITHUB_OUTPUT"
               echo 'confirmation=DEPLOY-PRIVATE-STAGING' >> "$GITHUB_OUTPUT"
@@ -79,7 +94,19 @@ jobs:
             echo "::error::Unknown event" >&2
             exit 1
           fi
+      - name: Install trusted controls and enforce complete Batch 1
+        working-directory: ${{ github.workspace }}
+        env:
+          OPERATION: ${{ inputs.operation }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: python release-control/scripts/dead_signal_release_guard.py controls --control release-control --candidate candidate --operation "$OPERATION" --source-sha "$SOURCE_SHA" --environment staging
+      - name: Fetch and verify the recorded current staging recovery set
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OPERATION: ${{ inputs.operation }}
+        run: python scripts/dead_signal_release_guard.py recovery --environment staging --operation "$OPERATION"
       - name: Validate GitHub project and staging-only configuration
+        if: ${{ steps.intent.outputs.operation == 'deploy' }}
         run: |
           python -m unittest discover -s tests -v
           python scripts/validate.py
@@ -88,8 +115,8 @@ jobs:
         if: ${{ steps.intent.outputs.operation == 'deploy' }}
         uses: CompeyDev/setup-rokit@v0.1.2
         with:
-          path: games/dead-signal/dev
-      - name: Verify complete native Work v1.8 code suite
+          path: candidate/games/dead-signal/dev
+      - name: Verify complete native Work code suite
         if: ${{ steps.intent.outputs.operation == 'deploy' }}
         shell: bash
         run: |
@@ -108,6 +135,12 @@ jobs:
       - name: Independently audit untouched Roblox binary properties
         if: ${{ steps.intent.outputs.operation == 'deploy' }}
         run: python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/staging --baseline-dir games/dead-signal/full-baselines/v1.8.0
+      - name: Reinstall trusted controls after candidate tests
+        working-directory: ${{ github.workspace }}
+        env:
+          OPERATION: ${{ inputs.operation }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: python release-control/scripts/dead_signal_release_guard.py controls --control release-control --candidate candidate --operation "$OPERATION" --source-sha "$SOURCE_SHA" --environment staging
       - name: Preflight all four candidates and all four rollback binaries
         env:
           OPERATION: ${{ steps.intent.outputs.operation }}
@@ -115,8 +148,8 @@ jobs:
           python - <<'PY'
           import os,sys
           sys.path.insert(0,'scripts')
-          from dead_signal_staging_rollout import preflight, verified_baselines, write_backup_manifest
-          items=preflight() if os.environ['OPERATION']=='deploy' else verified_baselines()
+          from dead_signal_staging_rollout import preflight, current_baselines, write_backup_manifest
+          items=preflight(current=True) if os.environ['OPERATION']=='deploy' else current_baselines()
           write_backup_manifest(items)
           assert len(items)==4
           print('STAGING PRE-FLIGHT PASSED for',os.environ['OPERATION'])
@@ -125,11 +158,22 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: dead-signal-staging-rollback-manifest-${{ github.run_id }}
-          path: build/dead-signal-staging-rollout/ROLLBACK-MANIFEST.json
+          path: candidate/build/dead-signal-staging-rollout/ROLLBACK-MANIFEST.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Retain the exact reviewed candidate for future recovery
+        if: ${{ steps.intent.outputs.operation == 'deploy' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-complete-batch1-staging-${{ github.run_id }}
+          path: |
+            candidate/build/dead-signal-lossless/staging/
+            candidate/games/dead-signal/releases/batch-1.json
           retention-days: 90
           if-no-files-found: error
       - name: Upload private staging place files only
         env:
+          RELEASE_SOURCE_SHA: ${{ inputs.source_sha }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_REF: ${{ github.ref }}
           OPERATION: ${{ steps.intent.outputs.operation }}
@@ -142,9 +186,9 @@ jobs:
         with:
           name: dead-signal-staging-deployment-result-${{ github.run_id }}
           path: |
-            build/dead-signal-staging-rollout/ROLLBACK-MANIFEST.json
-            build/dead-signal-staging-rollout/PUBLISH-RESULT.json
+            candidate/build/dead-signal-staging-rollout/ROLLBACK-MANIFEST.json
+            candidate/build/dead-signal-staging-rollout/PUBLISH-RESULT.json
           retention-days: 90
           if-no-files-found: warn
 
-# NEVER use ROBLOX_PRODUCTION_API_KEY. NEVER alter production universe.
+# Staging uses its scoped key and universe; production is never a staging target.

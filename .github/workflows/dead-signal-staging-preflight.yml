@@ -3,6 +3,9 @@ name: Dead Signal Private Staging Preflight (No Publish)
 on:
   push:
     paths:
+      - 'scripts/dead_signal_release_guard.py'
+      - 'games/dead-signal/releases/**'
+      - 'tests/test_dead_signal_release_guard.py'
       - '.github/workflows/dead-signal-staging-preflight.yml'
       - '.github/workflows/dead-signal-private-staging.yml'
       - 'scripts/dead_signal_staging_rollout.py'
@@ -10,6 +13,9 @@ on:
       - 'games/dead-signal/dev/Source/**'
   pull_request:
     paths:
+      - 'scripts/dead_signal_release_guard.py'
+      - 'games/dead-signal/releases/**'
+      - 'tests/test_dead_signal_release_guard.py'
       - '.github/workflows/dead-signal-staging-preflight.yml'
       - '.github/workflows/dead-signal-private-staging.yml'
       - 'scripts/dead_signal_staging_rollout.py'

@@ -3,6 +3,9 @@ name: Dead Signal Work Source CI (No Publish)
 on:
   push:
     paths:
+      - 'scripts/dead_signal_release_guard.py'
+      - 'games/dead-signal/releases/**'
+      - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/**'
       - 'games/dead-signal/work-source/**'
       - 'games/dead-signal/places/**/deploy.json'
@@ -11,6 +14,9 @@ on:
       - '.github/workflows/dead-signal-source-ci.yml'
   pull_request:
     paths:
+      - 'scripts/dead_signal_release_guard.py'
+      - 'games/dead-signal/releases/**'
+      - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/**'
       - 'games/dead-signal/work-source/**'
       - 'games/dead-signal/places/**/deploy.json'

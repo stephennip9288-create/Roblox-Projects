@@ -68,6 +68,7 @@ def inspect(emit=True):
             raise ValueError("Production raw-property preservation failed for " + place + ": " + repr(raw["lost_or_changed"][:4]))
         prod_scripts = source_texts(built)
         stage_scripts = source_texts(stage_built)
+        validate_candidate(place, native_bytes, stage_built, ids)
         path = "ReplicatedStorage/DeadSignal/PlaceConfig"
         production_conf = prod_scripts.pop(path, None)
         staging_conf = stage_scripts.pop(path, None)

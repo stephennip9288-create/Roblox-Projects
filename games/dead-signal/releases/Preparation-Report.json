@@ -1,0 +1,108 @@
+{
+  "scope": "Release-tooling preparation only; not the combined Batch 1 game",
+  "base_main_sha": "5e7cc679448e4a2c0b4db084fbba522e0c7167a5",
+  "baseline_runtime_source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+  "recorded_at": "2026-10-17",
+  "python_tests": {
+    "passed": true,
+    "tests": 78,
+    "new_tests": 19,
+    "publisher_requests": "mocked; no Roblox API calls"
+  },
+  "baseline_lune": {
+    "suites": 12,
+    "assertions": 11678,
+    "all_passed": true,
+    "compiled_runtime_scripts": 61,
+    "syntax_files": 83
+  },
+  "baseline_builds": {
+    "staging": {
+      "dispatch": {
+        "sha256": "51ba66f64ed7e4925f1680b196e6500c847f67647b9943b0a69dc8b56c78fed6",
+        "bytes": 2643398,
+        "source_records": 61,
+        "untouched_chunks_preserved": true,
+        "raw_fidelity_passed": true
+      },
+      "blackwater": {
+        "sha256": "134970b9d5f021b26afa0b601754884d050fc8284ff5e9d3b53f1ee13e575ac9",
+        "bytes": 2614487,
+        "source_records": 61,
+        "untouched_chunks_preserved": true,
+        "raw_fidelity_passed": true
+      },
+      "cinderworks": {
+        "sha256": "ae58f11ae56a6f9d4b7cd2a3eaf3c91615eaf15d9365afe15fe99bd112821f38",
+        "bytes": 2622339,
+        "source_records": 61,
+        "untouched_chunks_preserved": true,
+        "raw_fidelity_passed": true
+      },
+      "whiteout": {
+        "sha256": "7b47922e519774290e72c7c7e459c518002eb5a7de28f77d00ec2f9707cad91b",
+        "bytes": 2623791,
+        "source_records": 61,
+        "untouched_chunks_preserved": true,
+        "raw_fidelity_passed": true
+      }
+    },
+    "production": {
+      "dispatch": {
+        "sha256": "6fa9cd5f1a6dee73d9cebde3b1db99e513ac8dc7112df9c760d8594f93d8c60c",
+        "bytes": 2643388,
+        "source_records": 61,
+        "untouched_chunks_preserved": true,
+        "raw_fidelity_passed": true
+      },
+      "blackwater": {
+        "sha256": "2a4a8dee7c84b8bf377836c4d3209a2f14353fd186362ab1061c8f4726db9a20",
+        "bytes": 2614475,
+        "source_records": 61,
+        "untouched_chunks_preserved": true,
+        "raw_fidelity_passed": true
+      },
+      "cinderworks": {
+        "sha256": "d8d18798ff99f5d522f3a3c36ee241b4430fac23da73d6b7e77279ad9cc73ecb",
+        "bytes": 2622327,
+        "source_records": 61,
+        "untouched_chunks_preserved": true,
+        "raw_fidelity_passed": true
+      },
+      "whiteout": {
+        "sha256": "353828433231561c09763a7151f2977b67e0872b27c78819d92b050f10440fe2",
+        "bytes": 2623779,
+        "source_records": 61,
+        "untouched_chunks_preserved": true,
+        "raw_fidelity_passed": true
+      }
+    }
+  },
+  "verified_recovery_files": 8,
+  "protected_files_unchanged": 134,
+  "staging_ready": false,
+  "studio_or_private_client_playtest": false,
+  "physical_mobile_comparison": "deferred",
+  "deployed": false,
+  "limitations": [
+    "Four-lane integration, 31 requirement acceptance and combined source hashes remain pending.",
+    "The GitHub artifact API/latest-run branch is exercised with doubles; no controlled workflow was dispatched.",
+    "Recovery artifacts were separately downloaded through GitHub, ZIP CRC/hash checked and parsed against environment configs; these are not live Roblox downloads.",
+    "Recovery artifact expiry is 2026-10-30; reviewed refresh required if expired."
+  ],
+  "control_source_sha256": {
+    ".github/workflows/dead-signal-lossless-patch.yml": "d0a87ca963a64fd25c7287394883fd0eb6572deae4b32327f0e240fb34e5d560",
+    ".github/workflows/dead-signal-private-staging.yml": "34018247a7efa95527f85a10822dbd97889fa97b92625914e0b8f92a71500ca3",
+    ".github/workflows/dead-signal-production-readiness.yml": "12bb5a2ec94ed3e88516e2eb765e7cfe733d4aa25903c657534de96743ae93e4",
+    ".github/workflows/dead-signal-production-release.yml": "19952bc436416febf54a57f8938c3f6f24cedf511dd227c9be44a23dfccf2cbb",
+    ".github/workflows/dead-signal-source-ci.yml": "486535cc8ea8995bbf3caed1cb7b809dd5699ad7a19ea3a68c2587c11f35a5ea",
+    ".github/workflows/dead-signal-staging-preflight.yml": "058ee6e4cb754aa0e71a8823eda394064da759c726fda58298ab88c0c84d698d",
+    "scripts/check_dead_signal_production.py": "a0ad3290896b2615c96fb17714e7d9657527da14dabe2b4c2e9a3ca9cb9a62dd",
+    "scripts/dead_signal_production_rollout.py": "21267ae62c9f80278cee7a33db1c781ed5e1e9e676152ac9e2feb22f53e36599",
+    "scripts/dead_signal_staging_rollout.py": "4608796d73ac249068ff82455ca542419ad9c4660a726a0b2ec4e970fd1338cd",
+    "tests/test_dead_signal_production_rollout.py": "4c3230a92394064d3d1020cf9310a0b4839a2cff03a2faa332441c1be24498ca",
+    "tests/test_dead_signal_staging_rollout.py": "692e3c5053cb2136d784bdac626dc998ee78c8fab267d8d75d192537bd0b8f68",
+    "scripts/dead_signal_release_guard.py": "25ac44e77eefe4c4491c2e8eded6f15677b8c4bc6d1f5ff769bd6f3bc16d6a4f",
+    "tests/test_dead_signal_release_guard.py": "5dde4f9ed57febe636bc3ac7b1dd1596490c578d83cf674977f9593cfb4187bf"
+  }
+}

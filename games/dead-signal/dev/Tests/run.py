@@ -10,7 +10,7 @@ def binary(value):
     return str(Path(shutil.which(value) or value).resolve())
 lune=binary(args.lune)
 results=[]
-for name in ['loading', 'loadingpreview', 'evolution', 'events', 'presentation', 'director', 'server', 'navigation', 'pursuit', 'rigs', 'weapons', 'arrival', 'extraction', 'map_remaster', 'enemy-lifecycle', 'enemy-path-recovery', 'combat-ui', 'combat-input', 'touch']:
+for name in ['loading', 'loadingpreview', 'evolution', 'events', 'presentation', 'director', 'server', 'navigation', 'pursuit', 'rigs', 'weapons', 'arrival', 'extraction', 'map_remaster', 'enemy-lifecycle', 'enemy-path-recovery', 'combat-ui', 'combat-input', 'touch', 'integration-contracts']:
     started=time.monotonic()
     run=subprocess.run([lune,'run',f'Tests/{name}.luau'],cwd=root,capture_output=True,text=True)
     print(run.stdout,end='')

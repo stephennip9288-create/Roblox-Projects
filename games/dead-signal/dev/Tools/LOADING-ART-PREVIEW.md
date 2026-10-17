@@ -2,9 +2,10 @@
 
 The owner reports that the normal Dispatch loading screen now shows the original
 artwork after the visibility fix in PRs #15/#16. Retain that runtime fix and its
-existing arrival timing. All three original image assets also loaded successfully
-in the owner's earlier Studio image diagnostic. Published-game permissions and
-the actual map teleport screens remain unverified.
+existing arrival timing. The owner subsequently confirmed all four originals in
+Studio and reported "Artwork working in production" after the v1.9 release from
+`1a5b9f3`. This is owner-reported evidence for that released build. Recheck travel,
+loading exit and image access on each newly integrated staging candidate.
 
 Dispatch's Studio bay preview starts a local operation through
 `LobbyService:preview`; it does not call `Travel:begin` or emit a `Travel` event.
@@ -53,6 +54,7 @@ a new game release. The feature branch starts from integration/main revision
 
 After Studio inspection, use the real Roblox client to verify cross-place
 loading, repeated travel, full-layer removal on arrival, and live asset access.
-The original-art hotfix remains unpublished and still requires explicit
-production authorization through the established manual workflow. v1.9 gameplay
-acceptance and promotion remain separate.
+The original-art hotfix was retained in the separately authorized v1.9 production
+release (run `38985770842`, attempt 4). This preview and later integration work do
+not authorize another release. Gameplay acceptance and future staging/production
+publication remain separate gates.

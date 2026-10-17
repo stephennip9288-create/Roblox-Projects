@@ -38,6 +38,6 @@ After a successful authorized release, MAIN DEV must record the exact candidate 
 
 ## Remaining gates
 
-Maps #29, Combat/UI #27 and Audio #26 are reviewable; their claims still require integration review. Enemies has no new Batch 1 PR ready at this audit. Audio's approved assets, caller wiring and native listening checks remain explicit dependencies. All 31 IDs remain unaccepted in the machine gate pending full-batch review. No combined Batch 1 build, Studio playtest, phone comparison or private-client acceptance is claimed here. Physical two-thumb controls comparison remains deferred.
+Maps #29, Enemies #31, Combat/UI #27 and Audio #26 are reviewed in one combined source candidate. Integration repairs and all 31 source requirements are recorded in `../dev/BATCH-1-TRACEABILITY.md`. The selected immutable final SHA and completed verification must be recorded through a separate main-control review before the gate can open. No Studio/private-client or native art/listening/device acceptance is claimed. Physical two-thumb controls comparison remains deferred.
 
-When all assignments are complete, integrate once, run every Python and Lune suite plus all four staging and production comparison builds, audit native delivery parity, and prepare the final integration report and private-staging approval request. After owner testing and fixes, seek separate production authorization using the existing manual production workflow.
+Complete combined Python/Lune, four-place fidelity, current recovery and configuration checks, then prepare the final integration report and private-staging approval request. After owner testing and fixes, seek separate production authorization using the existing manual production workflow.

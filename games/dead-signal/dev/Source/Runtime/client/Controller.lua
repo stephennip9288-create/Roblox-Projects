@@ -3,6 +3,7 @@ local UIS=game:GetService("UserInputService")
 local GuiService=game:GetService("GuiService")
 local CAS=game:GetService("ContextActionService")
 local RunService=game:GetService("RunService")
+local SoundService=game:GetService("SoundService")
 local RS=game:GetService("ReplicatedStorage")
 local PPS=game:GetService("ProximityPromptService")
 local C=require(RS:WaitForChild("DeadSignal"):WaitForChild("Config"))
@@ -18,17 +19,229 @@ local FX=require(script.Parent.Effects)
 local MobileControls=require(script.Parent.MobileControls)
 local AimAssist=require(script.Parent.AimAssist)
 local Controller={}
+-- Integration-owned adapters for acknowledged state and replicated map/NPC facts.
+-- One bounded 10 Hz pass; no new remote, required ModuleScript or gameplay authority.
+function Controller.audioBindings(fx,player)
+    if not fx.audioState or not fx.audioEvent or not fx.audioCancel or not fx.audioReset then return nil end
+    local binding={fx=fx,player=player,actors={},zones={},events={},anchors={},stockSounds={},epoch=0,nextTick=0,nextMetadata=0,nextStock=0}
+    local function inside(points,p)
+        local hit=false local previous=points[#points]
+        for _,point in ipairs(points) do
+            if previous and (point.Z>p.Z)~=(previous.Z>p.Z)
+                and p.X<(previous.X-point.X)*(p.Z-point.Z)/(previous.Z-point.Z)+point.X then hit=not hit end
+            previous=point
+        end
+        return hit
+    end
+    function binding:clearActors()
+        for _,actor in pairs(self.actors) do if actor.token then fx:audioCancel(actor.token) end if actor.life then fx:audioCancel(actor.life) end end
+        self.actors={}
+    end
+    function binding:stockMix(now)
+        if now>=self.nextStock then
+            self.nextStock=now+1
+            local ok,players=pcall(function() return Players:GetPlayers() end)
+            for _,who in ipairs(ok and players or {player}) do
+                local root=U.root(who)
+                for _,sound in ipairs(root and root:GetChildren() or {}) do if sound:IsA("Sound") and not self.stockSounds[sound] then
+                    if not self.stockGroup then self.stockGroup=U.make("SoundGroup",SoundService,{Name="DeadSignalCharacterMix"}) end
+                    self.stockSounds[sound]={group=sound.SoundGroup}
+                    sound.SoundGroup=self.stockGroup
+                end end
+            end
+            for sound in pairs(self.stockSounds) do if not sound.Parent then self.stockSounds[sound]=nil end end
+        end
+        if self.stockGroup then self.stockGroup.Volume=R.finite(fx.settings.volume) and math.clamp(fx.settings.volume,0,1) or .65 end
+    end
+    function binding:metadata(map,now)
+        if now<self.nextMetadata then return end self.nextMetadata=now+1
+        local semantics=map and map:FindFirstChild("MapSemantics")
+        self.zones={} self.anchors={} self.worldEvents={}
+        if not semantics or semantics:GetAttribute("SchemaVersion")~=1 then return end
+        local zones=semantics:FindFirstChild("Zones")
+        for index,item in ipairs(zones and zones:GetChildren() or {}) do
+            if index>32 then break end
+            local position=item:GetAttribute("Position")
+            if not U.finiteVector(position) then continue end
+            local zone={id=item.Name,room=item:GetAttribute("Room"),position=position,indoors=item:GetAttribute("Indoors")==true,
+                level=item:GetAttribute("Level") or 0,priority=item:GetAttribute("Priority") or 0,purpose=item:GetAttribute("Purpose") or "",regions={}}
+            for regionIndex,region in ipairs(item:GetChildren()) do
+                if regionIndex>32 then break end
+                local points={} local n=region:GetAttribute("PointCount")
+                if type(n)=="number" and n>=3 and n<=16 then
+                    for i=1,n do local point=region:GetAttribute("Point"..i) if U.finiteVector(point) then points[#points+1]=point end end
+                    if #points==n then zone.regions[#zone.regions+1]=points end
+                end
+            end
+            self.zones[#self.zones+1]=zone
+        end
+        table.sort(self.zones,function(a,b) return a.priority==b.priority and a.id<b.id or a.priority>b.priority end)
+        local function room(pattern)
+            for _,zone in ipairs(self.zones) do if string.find(string.lower(zone.purpose),pattern,1,true) then return zone.position end end
+        end
+        local landmarks=semantics:FindFirstChild("Landmarks") local points={}
+        for index,item in ipairs(landmarks and landmarks:GetChildren() or {}) do
+            if index>48 then break end
+            local position=item:GetAttribute("Position")
+            if U.finiteVector(position) then points[item:GetAttribute("Kind") or item.Name]=position end
+        end
+        self.anchors={
+            ["World.Station.radio"]=points.AntennaField,["World.Station.power"]=room("generation"),["World.Station.wind"]=room("antenna"),
+            ["World.Foundry.machinery"]=room("machine hall") or points.GantryCrane,["World.Foundry.furnace"]=room("furnace") or points.Smokestack,
+            ["World.Foundry.vent"]=room("boiler"),["World.Frost.wind"]=room("ice apron"),["World.Frost.relay"]=room("listening"),
+            ["World.Frost.structure"]=points.RemotePolarFacility,
+        }
+        local events=semantics:FindFirstChild("VisualEvents")
+        for index,item in ipairs(events and events:GetChildren() or {}) do if index>12 then break end self.worldEvents[#self.worldEvents+1]=item end
+    end
+    function binding:context(extra)
+        local context={runId=self.runId,token=self.token,map=self.mapId}
+        for key,value in pairs(extra or {}) do context[key]=value end return context
+    end
+    function binding:tick(now,force)
+        if self.destroyed or not self.state or not force and now<self.nextTick then return end self.nextTick=now+.1
+        self:stockMix(now)
+        local state=self.state local map=workspace:FindFirstChild("DeadSignalMap")
+        local character=player.Character local root=U.root(player)
+        local mapId=state.participating and state.map or "Lobby"
+        local runId=tostring(state.runId or 0)
+        if map~=self.map or character~=self.character or runId~=self.runId or mapId~=self.mapId then
+            self:clearActors() self.map=map self.character=character self.runId=runId self.mapId=mapId
+            self.epoch+=1 self.token="scene:"..player.UserId..":"..self.epoch self.nextMetadata=0 self.events={}
+        end
+        local active=not self.blocked and not state.travelling and state.phase~="Results" and state.status~="Eliminated"
+        if not active then
+            if self.active~=false then self:clearActors();fx:audioState({active=false,token=self.token}) end
+            self.active=false return
+        end
+        self.active=true self:metadata(map,now)
+        local room,indoors
+        if root then for _,zone in ipairs(self.zones) do
+            local floor=zone.level==1 and zone.position.Y or 0
+            if root.Position.Y>=floor-.8 and root.Position.Y<=floor+9 then
+                for _,region in ipairs(zone.regions) do if inside(region,root.Position) then room=zone.id;indoors=zone.indoors;break end end
+                if room then break end
+            end
+        end end
+        fx:audioState({map=mapId,runId=runId,token=self.token,active=true,room=room,indoors=indoors==true,
+            intensity=math.clamp((state.round or 0)/30+(state.phase=="Wave" and .15 or 0),0,1),anchors=self.anchors})
+        -- World activity follows actual visual-event edges. Omit auto-activity
+        -- anchors so the mixer cannot also create an unrelated distant cue.
+        for _,event in ipairs(self.worldEvents or {}) do
+            local activeEvent=event:GetAttribute("Active")==true local old=self.events[event.Name]
+            if old==false and activeEvent then
+                local position=event:GetAttribute("Position")
+                if U.finiteVector(position) then fx:audioEvent("World.Landmark",self:context({map=mapId,position=position,sourceId=event.Name,eventId=event.Name})) end
+            end
+            self.events[event.Name]=activeEvent
+        end
+        local folder=workspace:FindFirstChild("DeadSignalEnemies") local seen={} local routine=0
+        local models=folder and folder:GetChildren() or {} local entryVoices=0 local footsteps=0
+        table.sort(models,function(a,b)
+            local ar=a:FindFirstChild("HumanoidRootPart") local br=b:FindFirstChild("HumanoidRootPart")
+            local da=root and ar and (ar.Position-root.Position).Magnitude or math.huge
+            local db=root and br and (br.Position-root.Position).Magnitude or math.huge
+            if da==db then return (a:GetAttribute("EnemyId") or 0)<(b:GetAttribute("EnemyId") or 0) end
+            return da<db
+        end)
+        local serverNow=workspace:GetServerTimeNow()
+        for index,model in ipairs(models) do
+            if index>40 then break end
+            local actorRoot=model:FindFirstChild("HumanoidRootPart")
+            if not actorRoot or model:GetAttribute("Dead") then continue end
+            local actorRun=model:GetAttribute("EnemyRunId")
+            if actorRun~=nil and tostring(actorRun)~=runId then continue end
+            seen[model]=true local record=self.actors[model]
+            if not record then record={nextRoutine=now+2+(index%5),position=actorRoot.Position,life="actor:"..self.epoch..":"..tostring(model:GetAttribute("EnemyId") or index)};self.actors[model]=record end
+            local source=model:GetAttribute("EntrySourceId") local at=model:GetAttribute("EntryCueAt")
+            if source and source~=record.token then if record.token then fx:audioCancel(record.token) end record.token=source;record.cueAt=nil end
+            local sourceRun=type(source)=="string" and source:match("^enemy:([^:]+):")
+            if source and sourceRun==runId and type(at)=="number" and at~=record.cueAt then
+                record.cueAt=at local cue=model:GetAttribute("EntryCue")
+                if cue=="Enemy.Entry.Cancel" then fx:audioCancel(source)
+                elseif (cue=="Enemy.Entry.Approach" or cue=="Enemy.Entry.Contact" or cue=="Enemy.Entry.Land") and math.abs(serverNow-at)<1.5 and entryVoices<4 then
+                    entryVoices+=1 fx:audioEvent(cue,self:context({position=actorRoot.Position,sourceId=source,token=source}))
+                end
+            end
+            local distance=root and (actorRoot.Position-root.Position).Magnitude or math.huge
+            local enemyId=model:GetAttribute("EnemyId") or index local sourceId="npc:"..runId..":"..enemyId
+            local kind=model:GetAttribute("EnemyType")
+            if model:GetAttribute("Alpha") and not record.alpha and distance<85 then
+                record.alpha=true fx:audioEvent("Enemy.Alpha",self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life}))
+            end
+            if now>=record.nextRoutine and distance<70 and routine<2 then
+                routine+=1 record.nextRoutine=now+4+(enemyId%7)*.5
+                fx:audioEvent(kind=="Hound" and "Hound.Snarl" or "Zombie.Groan",self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life}))
+            end
+            -- NPCs do not receive Roblox's default player-footstep script.
+            -- Material slots remain silent until an approved recording is set.
+            local hum=model:FindFirstChildOfClass("Humanoid")
+            local material=hum and hum.FloorMaterial
+            if distance<38 and (actorRoot.Position-record.position).Magnitude>.15 and now>=(record.stepAt or 0)
+                and material and material~=Enum.Material.Air and footsteps<2 then
+                footsteps+=1 record.stepAt=now+(kind=="Hound" and .35 or .55)
+                local context=self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life,material=material.Name})
+                fx:audioEvent("Zombie.Footstep",context)
+                if kind~="Hound" then fx:audioEvent("Zombie.Gear",context) end
+            end
+            record.position=actorRoot.Position
+        end
+        for model,record in pairs(self.actors) do if not seen[model] then if record.token then fx:audioCancel(record.token) end if record.life then fx:audioCancel(record.life) end self.actors[model]=nil end end
+    end
+    function binding:set(state,blocked)
+        self.state=state self.blocked=blocked==true self:tick(os.clock(),true)
+        if not state or not self.active then return end
+        local oldPhase=self.phase local oldRound=self.round
+        if oldPhase and (state.phase~=oldPhase or state.round~=oldRound) then
+            local key=state.phase=="Wave" and "Wave.Start" or state.phase=="Preparing" and not state.special and "Wave.Prepare"
+                or state.phase=="Intermission" and oldPhase=="Wave" and "Wave.Complete" or state.phase=="Exfil" and "Extraction.Warn"
+            if key then fx:audioEvent(key,self:context({sourceId="phase:"..state.phase..":"..(state.round or 0)})) end
+        end
+        if self.signal==false and state.signal then fx:audioEvent("Objective.Signal",self:context({sourceId="signal"})) end
+        if state.boss and self.bossPhase and state.boss.phase~=self.bossPhase then
+            fx:audioEvent("Warden.Phase",self:context({sourceId="warden:"..state.boss.phase}))
+        end
+        self.phase=state.phase self.round=state.round self.signal=state.signal==true self.bossPhase=state.boss and state.boss.phase
+    end
+    function binding:destroy()
+        if self.destroyed then return end self:clearActors() fx:audioReset(self.token)
+        for sound,row in pairs(self.stockSounds) do if sound.Parent then sound.SoundGroup=row.group end end
+        self.stockSounds={} if self.stockGroup then self.stockGroup:Destroy() self.stockGroup=nil end self.destroyed=true
+    end
+    return binding
+end
+
 function Controller.start()
     local player=Players.LocalPlayer
     if player.PlayerGui:FindFirstChild("DeadSignalHUD") then return end
     local remotes=RS.DeadSignal:WaitForChild("Remotes") local action=remotes:WaitForChild("Action") local feed=remotes:WaitForChild("Feed")
     local s={state=nil,profile=nil,fire=false,aim=false,sprint=false,menu=false,nextShot=0,seq=0,pending={},slot=1,guns={},recoil=0,vm=nil,vmKey="",spectateIndex=1,semi=false,reloading=0,meleeAt=0,reloadStarted=0,reloadDuration=1,equipAt=0}
     local fx=FX.new() local ui local aimAlpha=0
+    local audioBindings=Controller.audioBindings(fx,player)
+    local audioSerial=0 local shotReports={} local shotOrder={}
+    local function cancelPresentation()
+        if s.weaponToken and fx.audioCancel then fx:audioCancel(s.weaponToken) end
+        s.weaponToken=nil s.reloadPresentation=false
+        if s.vm then W.clearEffects(s.vm) end
+    end
+    local function weaponSound(key,phase,actionKind,position,held,remote)
+        held=held or s.guns[s.slot] if not held then return end
+        if not remote and not s.weaponToken then audioSerial+=1 s.weaponToken="weapon:"..player.UserId..":"..audioSerial end
+        fx:sound(key,position,{weaponId=held.id,action=actionKind,phase=phase,token=not remote and s.weaponToken or nil,
+            position=position,runId=s.state and s.state.runId,firstPerson=not remote,tier=held.tier,sourceId=remote and tostring(remote) or tostring(player.UserId)})
+    end
+    local function warningSound(data,key)
+        if not audioBindings then return data end
+        local visual=table.clone(data) visual.cue=nil
+        fx:audioEvent(key,audioBindings:context({position=data.position,sourceId=data.id,duration=data.duration}))
+        return visual
+    end
     local function send(op,args) action:FireServer(op,args or {}) end
     local controls local mobile
     task.spawn(function() local pm=player.PlayerScripts:WaitForChild("PlayerModule",10) if pm then local ok,result=pcall(function() return require(pm):GetControls() end) if ok then controls=result end end end)
     local function resetInput()
         if mobile then mobile:cancel("input reset") end
+        cancelPresentation()
         s.fire=false s.aim=false s.sprint=false s.semi=false
         send("Aim",{enabled=false}) send("Sprint",{enabled=false})
     end
@@ -66,6 +279,7 @@ function Controller.start()
         local newGun=s.guns[s.slot]
         if mobile and (oldSlot~=s.slot or (oldGun and newGun and oldGun.id~=newGun.id)) then mobile:cancelFire("weapon changed") end
         if oldSlot~=s.slot or (oldGun and newGun and oldGun.id~=newGun.id) then
+            cancelPresentation()
             s.reloading=0 s.reloadStarted=0 s.equipAt=os.clock() s.pending={}
             s.fire=false s.aim=false s.semi=false s.recoil=0 aimAlpha=0 send("Aim",{enabled=false})
         end
@@ -75,8 +289,9 @@ function Controller.start()
     local function rebuild()
         local g=gun() local key=g and g.id..":"..g.tier..":"..(s.profile and s.profile.skin or "Factory") or ""
         if key==s.vmKey then return end
-        s.vmKey=key if s.vm then s.vm:Destroy() s.vm=nil end
-        if g then s.vm=W.build(g.id,s.profile and s.profile.skin or "Factory",g.tier,workspace.CurrentCamera,true) s.equipAt=os.clock() fx:sound("Equip") end
+        cancelPresentation()
+        s.vmKey=key if s.vm then W.clearEffects(s.vm,true) s.vm:Destroy() s.vm=nil end
+        if g then s.vm=W.build(g.id,s.profile and s.profile.skin or "Factory",g.tier,workspace.CurrentCamera,true) W.bindEffects(s.vm,fx.folder) s.equipAt=os.clock() weaponSound("Equip","equip","equip") end
     end
     local function spectate(delta)
         if not s.state then return end local targets={}
@@ -104,6 +319,10 @@ function Controller.start()
         if displayMag()>=stat.mag or g.reserve<=0 then return end
         if mobile then mobile:cancelFire("reload") end
         aim(false)
+        cancelPresentation()
+        s.reloadMissing=math.max(1,stat.mag-displayMag())
+        s.reloadAcknowledged=false s.reloadPresentation=true
+        if s.vm then W.beginReload(s.vm,s.reloadMissing,false) end
         s.reloadStarted=os.clock() s.reloadDuration=stat.reload s.reloading=s.reloadStarted+stat.reload s.sprint=false send("Sprint",{enabled=false}) send("Reload",{})
     end
     local function swap(slot)
@@ -139,7 +358,7 @@ function Controller.start()
         local def=C.Weapons[g.id] if pulse then s.semi=false end
         if not def.auto and s.semi then return false end
         if s.sprint then sprint(false) end
-        if displayMag()<=0 then if g.reserve>0 then reload() elseif os.clock()>s.nextShot then fx:sound("Empty") s.nextShot=os.clock()+.4 end return end
+        if displayMag()<=0 then if g.reserve>0 then reload() elseif os.clock()>s.nextShot then weaponSound("Empty","empty","fire") s.nextShot=os.clock()+.4 end return end
         local stats=R.weaponStats(def,g.tier,s.state.perks)
         s.nextShot=os.clock()+stats.interval s.semi=true s.seq=s.seq+1
         s.pending[s.seq]={slot=s.slot,id=g.id,time=os.clock()}
@@ -147,12 +366,8 @@ function Controller.start()
         if point then request.viewOrigin=workspace.CurrentCamera.CFrame.Position end
         send("Fire",request)
         s.recoil=math.min(5,s.recoil+((def.class=="Shotgun" or def.class=="Sniper") and 1.7 or .7))
-        fx:sound(def.class)
-        if s.vm then
-            local muzzle=s.vm:FindFirstChild("Muzzle")
-            if muzzle then fx:muzzle(muzzle) end
-            if muzzle and muzzle:FindFirstChild("Flash") then muzzle.Flash.Brightness=3 task.delay(.05,function() if muzzle.Parent then muzzle.Flash.Brightness=0 end end) end
-        end
+        -- Report audio follows the server Shot acknowledgment; recoil stays responsive.
+        if s.vm then W.shot(s.vm,os.clock(),fx.settings.lowEffects,stats.interval) end
         return true
     end
     local function melee()
@@ -238,13 +453,27 @@ function Controller.start()
     PPS.PromptTriggered:Connect(endInteraction)
     PPS.PromptHidden:Connect(endInteraction)
     feed.OnClientEvent:Connect(function(kind,data)
+        if kind~="State" and type(data)=="table" and data.runId~=nil and s.state and s.state.runId~=nil and data.runId~=s.state.runId then return end
         if kind=="State" then
             local old=s.state s.state=data ammo(data)
+            if audioBindings then audioBindings:set(data,s.travelLock or ui.loading.frame.Visible) end
             local held=gun()
             if held and held.reloadUntil<=data.serverTime and os.clock()-s.reloadStarted>.7 then s.reloading=0 end
             if old and (old.status~=data.status or old.phase~=data.phase or old.travelling~=data.travelling) then s.interacting=nil resetInput() s.reloading=0 s.pending={} end
             if data.status=="Eliminated" then spectate(0) end
-            if data.status=="Alive" then rebuild() end
+            if data.status=="Alive" then
+                rebuild()
+                -- A phase/input lifecycle reset is not a server reload cancel.
+                -- Resume from its remaining duration without replaying old cues.
+                local remaining=held and held.reloadUntil-data.serverTime or 0
+                if remaining>0 and s.reloading<=os.clock() then
+                    local stats=R.weaponStats(C.Weapons[held.id],held.tier,data.perks)
+                    s.reloadDuration=stats.reload s.reloading=os.clock()+remaining s.reloadStarted=s.reloading-stats.reload
+                    s.reloadMissing=math.max(1,stats.mag-displayMag())
+                    s.reloadAcknowledged=true s.reloadPresentation=true
+                    if s.vm then W.beginReload(s.vm,s.reloadMissing,true,math.clamp(1-remaining/stats.reload,0,1)) end
+                end
+            end
             ui:setState(data,displayMag())
             fx:event(data.special)
         elseif kind=="Profile" then s.profile=data fx.settings=data.settings mobile:setSettings(data.settings) ui:setProfile(data) s.vmKey="" rebuild()
@@ -256,6 +485,7 @@ function Controller.start()
         elseif kind=="OpenTerminal" then ui:open(data.tab)
         elseif kind=="Travel" then
             s.travelLock=data.active==true s.interacting=nil resetInput() ui:close() ui:travel(data)
+            if audioBindings then audioBindings:set(s.state,s.travelLock or ui.loading.frame.Visible) end
             if data.active then
                 pcall(function() game:GetService("TeleportService"):SetTeleportGui(ui:loadingGui(data.message,data.map)) end)
                 if data.token then send("TravelReady",{token=data.token}) end
@@ -264,38 +494,57 @@ function Controller.start()
         elseif kind=="Toast" then ui:toast(data.text,data.color)
         elseif kind=="Hit" then mobile:hit(data.kill) ui:hit(data.kill,data.head) fx:sound(data.kill and "Kill" or "Hit")
         elseif kind=="Hurt" then ui:damage() fx.shake=math.max(fx.shake,1)
-        elseif kind=="Reload" then mobile:cancelFire("server reload") s.fire=false aim(false) s.reloadStarted=os.clock() s.reloadDuration=data.duration s.reloading=s.reloadStarted+data.duration fx:sound("Reload")
-        elseif kind=="Cue" then fx:sound(data.name)
+        elseif kind=="Reload" then
+            local held=gun()
+            if held and (not data.weapon or held.id==data.weapon) then
+                mobile:cancelFire("server reload") s.fire=false aim(false)
+                cancelPresentation()
+                local stats=R.weaponStats(C.Weapons[held.id],held.tier,s.state and s.state.perks or {})
+                s.reloadMissing=math.max(1,stats.mag-displayMag())
+                s.reloadAcknowledged=true s.reloadPresentation=true
+                if s.vm then W.beginReload(s.vm,s.reloadMissing,true) end
+                s.reloadStarted=os.clock() s.reloadDuration=data.duration s.reloading=s.reloadStarted+data.duration weaponSound("Reload","begin","reload")
+            end
+        elseif kind=="Cue" then if not audioBindings or data.name~="Round" then fx:sound(data.name) end
         elseif kind=="Points" then if s.state then s.state.points=data.total ui.points.Text=data.total.."  P" end
         elseif kind=="Boards" then ui.boards=data if ui.tab=="Records" then ui:open("Records") end
-        elseif kind=="Results" then resetInput() ui:results(data)
+        elseif kind=="Results" then resetInput() ui:results(data) if audioBindings then audioBindings:set(s.state,true) end
         elseif kind=="Shot" then
+            if data.runId~=nil and s.state and data.runId~=s.state.runId then return end
             local own=data.player==player.UserId local origin=data.origin
+            if own and data.seq~=nil then
+                local key=tostring(data.runId)..":"..tostring(data.seq)
+                if shotReports[key] then return end
+                shotReports[key]=true shotOrder[#shotOrder+1]=key
+                if #shotOrder>128 then shotReports[table.remove(shotOrder,1)]=nil end
+            end
             if own and s.vm and s.vm:FindFirstChild("Muzzle") then origin=s.vm.Muzzle.Position end
             local energy=C.Weapons[data.weapon].class=="Energy"
             for _,point in ipairs(data.ends) do fx:tracer(origin,point,energy) end
-            if not own then fx:sound(C.Weapons[data.weapon].class,data.origin) end
+            if not s.travelLock and not ui.loading.frame.Visible then
+                weaponSound(C.Weapons[data.weapon].class,"fire","fire",not own and data.origin or nil,{id=data.weapon,tier=data.tier},not own and data.player or nil)
+            end
         elseif kind=="Explosion" then fx:burst(data.position,data.radius,Color3.fromRGB(255,179,74)) fx:sound("Grenade",data.position) local root=U.root(player) if root and (root.Position-data.position).Magnitude<35 then fx.shake=1.5 end
         elseif kind=="Shock" then fx:burst(data.position,data.radius,Color3.fromRGB(85,205,233)) local root=U.root(player) if root and (root.Position-data.position).Magnitude<35 then fx.shake=1 end
-        elseif kind=="ShockWarning" then fx:warning(data) fx:sound("ShockCharge",data.position)
+        elseif kind=="ShockWarning" then fx:warning(data) fx:sound("Warden.Warn",data.position,audioBindings and audioBindings:context())
         elseif kind=="SpecialWave" then
             fx:event(data.active==false and nil or data)
             if data.active~=false then ui:banner(data.name.." / "..data.preparation.."s PREPARE","amber");ui:toast(data.hint,"amber") end
-        elseif kind=="EnemyTelegraph" then fx:telegraph(data)
-        elseif kind=="HazardWarning" then fx:hazardWarning(data)
+        elseif kind=="EnemyTelegraph" then fx:telegraph(warningSound(data,data.finish and "Enemy.Charge.Warn" or "Enemy.Ambush.Warn"))
+        elseif kind=="HazardWarning" then fx:hazardWarning(warningSound(data,"Enemy.Blast.Warn"))
         elseif kind=="HazardBlast" then fx:hazardBlast(data)
         elseif kind=="HazardCounter" then fx:hazardCounter(data)
         elseif kind=="HazardClear" then fx:clearHazards()
-        elseif kind=="ArmorBreak" then fx:particles(data.position,fx.settings.lowEffects and 3 or 9,.5,.16,Color3.fromRGB(172,171,151),true);fx:sound("ArmorBreak",data.position)
+        elseif kind=="ArmorBreak" then fx:particles(data.position,fx.settings.lowEffects and 3 or 9,.5,.16,Color3.fromRGB(172,171,151),true);fx:sound("Enemy.Armor.Break",data.position,audioBindings and audioBindings:context({sourceId=data.id}))
         elseif kind=="EliteHit" then
             if os.clock()>=(s.eliteFeedbackAt or 0) or data.kind=="ArmorBreak" then
                 s.eliteFeedbackAt=os.clock()+1.2
                 ui:toast(data.kind=="Armor" and "ARMOR HIT" or data.kind=="ArmorBreak" and "PLATE BROKEN" or data.kind=="Reactor" and "PRESSURE RISING" or "WEAK POINT","amber")
             end
         elseif kind=="CounterActive" then fx:sound("Vent",data.position);fx:particles(data.position,fx.settings.lowEffects and 3 or 8,.9,.6,Color3.fromRGB(159,201,207),false)
-        elseif kind=="EnemyAttack" then fx:sound(data.kind=="Hound" and "Howl" or data.kind=="Stalker" and "Stalker" or data.enraged and "Redline" or "Attack",data.position)
+        elseif kind=="EnemyAttack" then fx:sound(data.kind=="Hound" and "Hound.Snarl" or "Zombie.Attack",data.position,audioBindings and audioBindings:context({sourceId=data.id}))
         elseif kind=="ArcLink" then fx:tracer(data.origin,data.finish,true)
-        elseif kind=="EnemyDeath" then fx:enemyDeath(data)
+        elseif kind=="EnemyDeath" then fx:enemyDeath(data) if audioBindings then fx:audioEvent("Enemy.Death",audioBindings:context({position=data.position,sourceId=data.id,token="death:"..audioBindings.runId..":"..data.id})) end
         elseif kind=="Melee" then if data.player==player.UserId then fx:sound("Click") end
         elseif kind=="Board" then fx:sound("Board",data.position)
         end
@@ -307,6 +556,10 @@ function Controller.start()
             s.controlBlocked=inputBlocked if inputBlocked then controls:Disable() else controls:Enable() end
         end
         local camera=workspace.CurrentCamera local state=s.state local now=os.clock()
+        if audioBindings then
+            audioBindings.blocked=s.travelLock or ui.loading.frame.Visible
+            audioBindings:tick(now)
+        end
         for seq,p in pairs(s.pending) do if now-p.time>1.5 then s.pending[seq]=nil end end
         local mode=state and state.status or "Lobby"
         local wanted=s.menu and "Menu" or mode
@@ -333,7 +586,7 @@ function Controller.start()
         local aimedFov=held and W.aimFov(held.id) or 57
         aimAlpha=aimAlpha+((isAiming and 1 or 0)-aimAlpha)*math.min(1,dt*18)
         local scoped=held and W.scoped(held.id) and isAiming and aimAlpha>.93
-        optic:update(scoped==true,camera.ViewportSize)
+        optic:update(scoped==true,camera.ViewportSize,held and isAiming and aimAlpha>.93 and W.optic(held.id)=="reflex")
         ui.cross.Visible=living() and aimAlpha<.5 and not (mobile.enabled and mobile.settings.fireLayout=="Tap")
         camera.FieldOfView=camera.FieldOfView+((isAiming and aimedFov or fx.settings.fov)-camera.FieldOfView)*math.min(1,dt*14)
         ui:reticle(held and C.Weapons[held.id],camera.FieldOfView,camera.ViewportSize,s.recoil)
@@ -347,28 +600,46 @@ function Controller.start()
                 local offset=W.viewOffset(held.id,hip,aimAlpha,camera.FieldOfView,camera.ViewportSize)
                 local bob=Vector3.new(math.sin(now*9)*.022*moving,math.abs(math.cos(now*9))*.025*moving,0)*(1-aimAlpha)
                 local progress=now<s.reloading and math.clamp((now-s.reloadStarted)/s.reloadDuration,0,1) or 0
+                if progress>0 and not s.reloadPresentation then
+                    W.beginReload(s.vm,s.reloadMissing,s.reloadAcknowledged,progress) s.reloadPresentation=true
+                elseif progress==0 then s.reloadPresentation=false end
                 local reloadRoll=progress>0 and math.sin(progress*math.pi)*.48 or 0
                 local meleeProgress=now-s.meleeAt<.38 and (now-s.meleeAt)/.38 or 0
                 local meleeRoll=meleeProgress>0 and -math.sin(meleeProgress*math.pi)*.95 or 0
                 local equip=math.max(0,1-(now-s.equipAt)/.3)
                 local sway=Vector3.new(math.sin(now*1.6)*.003,math.cos(now*1.8)*.004,0)*(1-aimAlpha)
                 local kick=s.recoil*(1-aimAlpha*.95)
-                s.vm:PivotTo(camera.CFrame*CFrame.new(offset+bob+sway+Vector3.new(0,-equip*.65,kick*.035-math.sin(meleeProgress*math.pi)*.25))*CFrame.Angles(kick*.012-equip*.3,0,reloadRoll+meleeRoll+(s.sprint and -.35 or 0)))
-                W.pose(s.vm,progress,meleeProgress,equip,s.recoil,displayMag()==0)
+                local physicalKick=W.kickOffset(s.vm,now)*(1-aimAlpha*.8)
+                s.vm:PivotTo(camera.CFrame*CFrame.new(offset+bob+sway+Vector3.new(0,-equip*.65,kick*.035+physicalKick-math.sin(meleeProgress*math.pi)*.25))*CFrame.Angles(kick*.012-equip*.3,0,reloadRoll+meleeRoll+(s.sprint and -.35 or 0)))
+                W.pose(s.vm,progress,meleeProgress,equip,s.recoil,displayMag()==0,{now=now,missing=s.reloadMissing})
                 W.aim(s.vm,scoped==true,W.scoped(held.id) and aimAlpha or 0)
-            else s.vm:PivotTo(CFrame.new(0,-1000,0)) end
+                W.updateEffects(s.vm,now,fx.settings.lowEffects,progress)
+                for _,event in ipairs(W.drainPresentationEvents(s.vm)) do
+                    -- Legacy Effects remains the fallback. No additional report
+                    -- or predicted hit is emitted; acknowledged reload phases
+                    -- opt in only when the approved Audio lifecycle API exists.
+                    if fx.audioCancel and event.acknowledged and event.phase~="eject" then
+                        weaponSound("Weapon.Reload",event.phase,"reload")
+                    end
+                end
+            else cancelPresentation() s.vm:PivotTo(CFrame.new(0,-1000,0)) end
         end
         local char=player.Character local carried=char and char:FindFirstChild("CarriedWeapon")
         if carried then for _,p in ipairs(carried:GetDescendants()) do if p:IsA("BasePart") then p.LocalTransparencyModifier=(mode=="Alive" or mode=="Down") and 1 or 0 end end end
         if state and gun() then ui.ammo.Text=now<s.reloading and "RELOADING" or displayMag().." / "..gun().reserve end
         anim=anim+dt if anim>.033 then fx:animate(anim) anim=0 end
-        if now>ambientAt then
+        if not audioBindings and now>ambientAt then
             ambientAt=now+20 fx:sound("Ambient")
             if state and state.participating then fx:sound(state.map=="Frost" and "Wind" or state.map=="Foundry" and "Machinery" or "Radio")
             else fx:sound("Dispatch") end
         end
     end)
-    player.CharacterAdded:Connect(function(char) s.interacting=nil resetInput() cameraMode="" s.vmKey="" task.delay(.6,function() noJump(char) if s.state and s.state.status=="Alive" then rebuild() end end) end)
+    player.CharacterAdded:Connect(function(char) if audioBindings then audioBindings:set(s.state,s.travelLock or ui.loading.frame.Visible) end s.interacting=nil resetInput() cameraMode="" s.vmKey="" task.delay(.6,function() noJump(char) if s.state and s.state.status=="Alive" then rebuild() end end) end)
+    pcall(function() script.Destroying:Connect(function()
+        if audioBindings then audioBindings:destroy() end
+        if fx.audioDestroy then fx:audioDestroy() end
+        RunService:UnbindFromRenderStep("DeadSignalPresentation")
+    end) end)
     task.spawn(function() while not s.profile do send("Ready",{}) task.wait(2) end end)
     send("Ready",{})
 end

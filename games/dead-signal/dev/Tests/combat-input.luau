@@ -1,6 +1,8 @@
 -- Run the actual Controller with deterministic clock, signals and UI/services.
 -- Input routing/state reconciliation only; not a Studio or physical-input test.
 local fs=require('@lune/fs') local r=require('@lune/roblox') local loader=require('./Support/RuntimeLoader')
+r.implementMethod('ParticleEmitter','Emit',function() end)
+r.implementMethod('ParticleEmitter','Clear',function() end)
 local dm=r.deserializePlace(fs.readFile('Places/DeadSignal-v1.8.0-Lobby.rbxl'));local f=loader.install(dm)
 local base=loader.new(dm) local C=base(f.shared.Config) local W=base(f.shared.WeaponModels)
 dm.Workspace.CurrentCamera.ViewportSize=r.Vector2.new(1280,720)
@@ -27,8 +29,9 @@ local fakeUI={new=function(_,onMenu)
   hit=function() end,damage=function() end,travel=function() end}
  return ui
 end}
-local fx={settings=table.clone(C.DefaultSettings),shake=0,sound=function() end,muzzle=function() end,
- event=function() end,animate=function() end}
+local sounds={} local cancellations={}
+local fx={settings=table.clone(C.DefaultSettings),shake=0,sound=function(_,key,position,context) sounds[#sounds+1]={key=key,context=context,position=position} end,muzzle=function() end,
+ event=function() end,animate=function() end,tracer=function() end}
 local fakeMobile={new=function(_,cb)
  mobile={enabled=false,settings=table.clone(C.DefaultSettings),cb=cb,
   cancel=function() cb.stop() end,cancelFire=function() cb.stop() end,update=function() end,
@@ -50,13 +53,22 @@ local function press(name,state)
 end
 local function times(op) local n=0 for _,v in ipairs(requests) do if v.op==op then n+=1 end end return n end
 local function last(op) for i=#requests,1,-1 do if requests[i].op==op then return requests[i].args end end end
-local snapshot={status='Alive',participating=true,travelling=false,phase='Wave',guns={
+local snapshot={runId=1,status='Alive',participating=true,travelling=false,phase='Wave',guns={
  {id='Vandal',tier=0,mag=25,reserve=210,reloadUntil=0},{id='Trench',tier=0,mag=6,reserve=48,reloadUntil=0}},
  slot=1,perks={},serverTime=now,team={},stamina=100}
 local function state() snapshot.serverTime=now;feed.OnClientEvent:fire('State',snapshot) end
 local function tick(dt) now+=dt or .2;render(dt or .2) end
 state()
 press('Fire');tick();check(times('Fire')==1,'held automatic fire sends a request')
+local reports=0 for _,sound in ipairs(sounds) do if sound.key=='Rifle' then reports+=1 end end
+check(reports==0,'rejected/unacknowledged trigger cannot play an accepted firearm report')
+local shot={player=1,origin=r.Vector3.zero,ends={r.Vector3.new(0,0,-10)},weapon='Vandal',tier=0,runId=1,seq=1}
+feed.OnClientEvent:fire('Shot',shot)
+check(sounds[#sounds].key=='Rifle' and sounds[#sounds].context.firstPerson,'own acknowledged shot plays exactly one local report')
+local soundCount=#sounds;feed.OnClientEvent:fire('Shot',shot)
+check(#sounds==soundCount,'duplicate acknowledged sequence does not replay the report')
+shot=table.clone(shot);shot.runId=0;shot.seq=2;feed.OnClientEvent:fire('Shot',shot)
+check(#sounds==soundCount,'prior-run shot is rejected before local sound/feedback')
 UIS.focused={};UIS.TextBoxFocused:fire();local fired=times('Fire');tick(1)
 check(times('Fire')==fired and last('Aim').enabled==false,'text focus cancels held fire and aim')
 UIS.focused=nil;tick();check(times('Fire')==fired,'text focus exit requires a new firing gesture')
@@ -109,4 +121,23 @@ check(axis.X>.6,'ADS exit restores hip-side presentation')
 PPS.PromptButtonHoldBegan:fire(prompt,player)
 snapshot=table.clone(snapshot);snapshot.status='Down';state();snapshot=table.clone(snapshot);snapshot.status='Alive';state()
 press('Fire');tick();check(times('Fire')==fired+1,'down/revive transition clears stale prompt lock')
+-- A phase transition cancels local presentation, but cannot cancel the server's
+-- still-active reload. Reconcile its remaining duration without replaying stages.
+snapshot=table.clone(snapshot);snapshot.guns={{id='Vandal',tier=0,mag=20,reserve=210,reloadUntil=now+1.2}};snapshot.phase='Intermission';state()
+fired=times('Fire');press('Fire');tick(.3)
+check(times('Fire')==fired and ui.ammo.Text=='RELOADING','phase transition respects the authoritative reload deadline')
+for _,sound in ipairs(sounds) do check(sound.key~='Weapon.Reload','legacy audio receives no opt-in mechanics') end
+-- Optional Audio contract: one existing report, acknowledged stages, canonical
+-- context and source cancellation. No dependency on an unmerged Audio module.
+fx.audioCancel=function(_,token) cancellations[#cancellations+1]=token end
+feed.OnClientEvent:fire('Reload',{weapon='Vandal',duration=2})
+local before=#sounds;tick(.5)
+check(#sounds==before+1 and sounds[#sounds].key=='Weapon.Reload' and sounds[#sounds].context.phase=='mag-out','acknowledged reload stage emitted once')
+local oldToken=sounds[#sounds].context.token
+check(sounds[#sounds].context.weaponId=='Vandal' and sounds[#sounds].context.firstPerson==true and type(oldToken)=='string','canonical audio context')
+UIS.WindowFocusReleased:fire();check(cancellations[#cancellations]==oldToken,'focus reset cancels source audio token')
+tick(.1);before=#sounds;tick(.8)
+check(#sounds==before+1 and sounds[#sounds].context.phase=='mag-in' and sounds[#sounds].context.token~=oldToken,'resumed reload avoids replay and stale tokens')
+feed.OnClientEvent:fire('Reload',{weapon='Trench',duration=10});tick(1)
+check(ui.ammo.Text~='RELOADING','stale other-weapon reload cannot lock current weapon')
 print('Combat controller input assertions passed:',count)

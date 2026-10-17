@@ -620,7 +620,7 @@ function G:snapshot(player)
     local ctx=self.ctx local p=ctx.players[player] if not p then return end local run=ctx.run local now=os.clock() local team={} local queued=0 local boss
     for _,e in pairs(self.ctx.enemies.list) do if e.kind=="Warden" then boss={hp=e.hp,max=e.maxHP,phase=e.phase,overload=(e.overloadUntil or 0)>now} break end end
     for plr,state in pairs(self.ctx.players) do if state.ready then queued=queued+1 end if state.participating then table.insert(team,{id=plr.UserId,name=plr.DisplayName,status=state.status,health=state.health,points=state.points,kills=state.stats.kills}) end end
-    self.ctx.feed:FireClient(player,"State",{phase=run.phase,round=run.round,map=run.map,mode=run.mode,status=p.status,director=run.directorStage,activeCrew=run.activeCrew,
+    self.ctx.feed:FireClient(player,"State",{runId=run.id,phase=run.phase,round=run.round,map=run.map,mode=run.mode,status=p.status,director=run.directorStage,activeCrew=run.activeCrew,
         participating=p.participating,ready=p.ready,queued=queued,team=team,accepted=p.ack or 0,points=p.points,health=math.floor(p.health),maxHealth=R.health(p.perks),
         stamina=p.stamina,maxStamina=R.stamina(p.perks),perks=U.copy(p.perks),guns=U.copy(p.guns),slot=p.slot,grenades=p.grenades,
         left=(run.spawnRemaining or 0)+self.ctx.enemies:count(),timer=math.max(0,math.ceil((run.deadline or 0)-now)),

@@ -37,7 +37,7 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
     for _,buy in ipairs(map.wallBuys) do
         local gun=buy.part:FindFirstChild('Weapon_'..buy.id)
         if gun then
-            check(gun:GetAttribute('WeaponArtRevision')==9,id..' wall display uses integrated weapon revision')
+            check(gun:GetAttribute('WeaponArtRevision')==10,id..' wall display uses integrated weapon revision')
             check(gun.PrimaryPart and gun.PrimaryPart:FindFirstChild('SightAxis'),id..' display retains the sight contract')
         end
     end

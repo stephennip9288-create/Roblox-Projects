@@ -6,7 +6,8 @@ local function check(ok,msg) assert(ok,msg);count+=1 end
 local function place(root,pos) root.Position=pos;root.CFrame=CF.new(pos) end
 local testOs=table.clone(os);testOs.clock=function() return now end
 local routeClear=true local entry=nil
-local nav={invalidate=function(e) e.invalidated=(e.invalidated or 0)+1 end,
+local nav={invalidate=function(e) e.invalidated=(e.invalidated or 0)+1 end,rootHeight=function() return 3 end,
+ traversalTuning={planInterval=.8},entryPlan=function() return entry and {} or nil end,contextPlan=function() return nil end,
  goal=function(_,_,target) return target end,clearRoute=function() return routeClear end,
  floor=function(_,pos) return V.new(pos.X,0,pos.Z) end,entryPoint=function() return entry end,
  move=function(_,e,target,time) e.hum:MoveTo(target);e.lastMoved=time end}
@@ -137,6 +138,8 @@ do
  check(not who.entered,'entry recovery fixture starts outside')
  who.lastMoved=now-17;e:tick(now)
  check(who.dead and e.recovered==1 and e:count()==1,'blocked breach slot relocates instead of holding a wave forever')
+ check(window.entryBlockedUntil.Shambler==now+8,'failed exterior route temporarily excludes that window for the same species')
+ check(select(2,next(e.list)).failedEntries[window]==0,'recovery carries a bounded failed-window cycle into the replacement')
  for attempt=2,3 do
   local nextEnemy=next(e.list) and select(2,next(e.list));nextEnemy.lastMoved=now-17;e:tick(now)
  end
@@ -144,8 +147,9 @@ do
  local tearing=spawn('Shambler',{},false);window.count=1;window.boards={r.Instance.new('Part')};window.nextTear=now-1
  tearing.lastMoved=now-15;e:tick(now)
  check(not tearing.dead and tearing.lastMoved==now,'tearing a board counts as legitimate entry progress')
- window.count=0;entry=V.new(0,3,0);e:tick(now+.5)
- check(tearing.entered,'entry resumes through the free slot without teleporting into a blocked slot')
+ window.count=0;entry=V.new(0,3,0);local began=false
+ e.startTraversal=function() began=true end;e:tick(now+.5)
+ check(began and not tearing.entered,'free slot starts traversal while the enemy remains outside until landing')
 end
 do
  local e,ctx,_,_,_,_,spawn,window=setup()
@@ -159,6 +163,15 @@ do
  check(replacement.armor.Head==0 and replacement.armor.Body==17 and not replacement.armorParts.Head,'recovery preserves broken and partially damaged armor')
  check(replacement.reactor==9 and replacement.hitRewards==who.hitRewards,'recovery preserves weakpoint and hit reward accounting')
  check(replacement.nextCharge==who.nextCharge and replacement.nextAmbush==who.nextAmbush,'recovery cannot reset special cooldowns')
+end
+do
+ local e,ctx,_,_,_,_,spawn,window=setup()
+ ctx.director={stats=function() return {hp=1000,speed=10,damage=25} end,
+  window=function(_,_,_,failed) if failed and next(failed) then return nil end return window end}
+ local who=spawn('Warden',{},false);who.hp=73;who.phase=2
+ e:recover(who);local replacement=select(2,next(e.list))
+ check(replacement and not next(replacement.failedEntries),'all rejected entrances begin a fresh bounded cycle instead of retaining permanent exclusions')
+ check(replacement.kind=='Warden' and replacement.hp==73 and replacement.phase==2 and not replacement.entered,'exhausted entrance recovery preserves the exterior Warden state')
 end
 do
  local e,ctx,p1,root1,p2,root2,spawn=setup();local who=spawn('Hound')

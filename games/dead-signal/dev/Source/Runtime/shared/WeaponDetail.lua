@@ -15,7 +15,7 @@ function D.build(model,bp,p,tube,ball,c,arms)
         p("ScrewRecess",Vector3.new(.026,radius*.22,radius*1.2),at,c.dark,nil,group)
     end
     -- Machining details have restrained finishes; bright edges remain small.
-    local x=pistol and .172 or ((kind=="Belt" or kind=="DrumLMG" or energy) and .252 or .18)
+    local x=bp.bodyWidth/2+.012
     for _,side in ipairs({-1,1}) do
         if not energy then
             p("ReceiverInset",Vector3.new(.018,.13,pistol and .45 or .62),Vector3.new(side*x,-.04,-.02),c.metal)
@@ -155,5 +155,72 @@ function D.build(model,bp,p,tube,ball,c,arms)
         -- Base hand names remain available to the reload/equip animation system.
         model:SetAttribute("DetailedHands",true)
     end
+end
+-- A second pass fits to each weapon's actual construction. It is applied AFTER
+-- optional imported art, so the native body/texture survives and the fittings
+-- don't silently disappear when ArtAssets replaces the procedural body.
+function D.fidelity(model,id,bp,p,tube,ball,c,tier)
+    local imported=model:GetAttribute("ImportedArt")==true
+    local pistol=bp.kind=="Pistol" or bp.kind=="MachinePistol" or bp.kind=="Revolver"
+    local side=bp.bodyWidth/2+.012
+    local function part(name,size,at,color,material,group,rotation)
+        local q=p(name,size,at,color,material,group,rotation)
+        q:SetAttribute("WeaponFidelity",true) return q
+    end
+    local steel=bp.finish=="blued" and Color3.fromRGB(39,46,53) or Color3.fromRGB(62,68,70)
+    local polymer=Color3.fromRGB(42,48,46) local leather=Color3.fromRGB(78,60,43)
+    local magZ=bp.reloadStyle=="bullpup" and .45 or pistol and .15 or -.3
+    if bp.reloadStyle=="magazine" or bp.reloadStyle=="bullpup" or bp.reloadStyle=="bolt" then
+        local width=pistol and .29 or .32 local y=pistol and -.33 or -.32
+        for sign=-1,1,2 do
+            part("FittedMagwellLip",Vector3.new(.025,.06,pistol and .28 or .44),Vector3.new(sign*width/2,y,magZ),steel,Enum.Material.Metal)
+            part("MagazineGuide",Vector3.new(.014,bp.mag*.6,.025),Vector3.new(sign*.128,-.40-bp.mag*.5,magZ-.12),c.edge,Enum.Material.Metal,"mag")
+        end
+    end
+    for sign=-1,1,2 do
+        local x=sign*side
+        part("ActionPinSeat",Vector3.new(.025,.065,.065),Vector3.new(x,.015,imported and -.12 or -.4),steel,Enum.Material.Metal)
+        part("ReceiverMachining",Vector3.new(.012,.013,imported and .22 or .58),Vector3.new(x,bp.bodyHeight*.23,-.1),c.edge,Enum.Material.Metal)
+        if bp.finish=="wood" and not pistol then
+            part("LeatherSlingTab",Vector3.new(.025,.12,.19),Vector3.new(sign*.185,-.29,1.25),leather,Enum.Material.Fabric)
+            part("SlingTabRivet",Vector3.new(.029,.035,.035),Vector3.new(sign*.202,-.29,1.29),c.edge,Enum.Material.Metal)
+        elseif not pistol then
+            part("StockLockTrack",Vector3.new(.022,.08,.43),Vector3.new(sign*.185,-.25,.99),polymer,Enum.Material.SmoothPlastic)
+            part("StockIndexMark",Vector3.new(.024,.016,.07),Vector3.new(sign*.199,-.24,.86),c.edge,Enum.Material.Metal)
+        end
+        -- Wear follows two real contact edges and stays deterministic/bounded.
+        for n=1,2 do
+            part("FittedContactWear",Vector3.new(.008,.009,.035+n*.018),Vector3.new(x,.025+n*.035,-.23+n*.15),Color3.fromRGB(116,121,118),Enum.Material.Metal)
+        end
+    end
+    if bp.reloadStyle=="top" then
+        for sign=-1,1,2 do part("TopFeedGuide",Vector3.new(.025,.06,1.08),Vector3.new(sign*.185,.22,-.12),steel,Enum.Material.Metal) end
+        part("TopFeedRelease",Vector3.new(.19,.05,.10),Vector3.new(0,.27,.60),polymer,Enum.Material.SmoothPlastic)
+    elseif bp.reloadStyle=="cylinder" then
+        part("CylinderCrane",Vector3.new(.08,.15,.18),Vector3.new(-.13,-.12,-.20),steel,Enum.Material.Metal,"cylinder")
+        part("ExtractorStar",Vector3.new(.17,.17,.025),Vector3.new(0,.02,.09),c.edge,Enum.Material.Metal,"cylinder")
+    elseif bp.reloadStyle=="belt" then
+        part("FeedTrayRim",Vector3.new(.46,.035,.67),Vector3.new(0,.19,-.05),steel,Enum.Material.Metal)
+        part("FeedCoverLatch",Vector3.new(.16,.075,.12),Vector3.new(0,.29,-.47),polymer,Enum.Material.SmoothPlastic,"feed")
+    elseif bp.reloadStyle=="drum" then
+        for sign=-1,1,2 do part("DrumWellGuide",Vector3.new(.035,.16,.28),Vector3.new(sign*.18,-.31,-.31),steel,Enum.Material.Metal) end
+    elseif bp.reloadStyle=="cell" then
+        for sign=-1,1,2 do
+            part("CellLockJaw",Vector3.new(.08,.16,.25),Vector3.new(sign*.24,-.38,-.20),polymer,Enum.Material.SmoothPlastic)
+            part("CeramicStandoff",Vector3.new(.05,.12,.10),Vector3.new(sign*.28,.10,-1.10),Color3.fromRGB(166,168,153),Enum.Material.SmoothPlastic):SetAttribute("SurfaceRole","Ceramic")
+        end
+    end
+    -- Upgrades are original fitted hardware, not another painted receiver.
+    if tier>0 then
+        for sign=-1,1,2 do
+            part("UpgradeCoupler",Vector3.new(.055,.12,.16),Vector3.new(sign*(side+.025),-.015,-.38),c.edge,Enum.Material.Metal)
+            for n=1,tier+1 do
+                part("UpgradeHeatFin",Vector3.new(.06,.17,.025),Vector3.new(sign*(side+.045),.015,-.55-n*.09),steel,Enum.Material.Metal)
+            end
+            if tier>=2 then part("UpgradeInsulatedLead",Vector3.new(.035,.035,.39),Vector3.new(sign*(side+.065),-.13,-.56),polymer,Enum.Material.Rubber) end
+            if tier>=3 then part("UpgradeRegulator",Vector3.new(.09,.19,.24),Vector3.new(sign*(side+.055),-.03,.04),Color3.fromRGB(84,91,88),Enum.Material.Metal) end
+        end
+    end
+    model:SetAttribute("FidelityRevision",1) model:SetAttribute("UpgradeHardwareTier",tier)
 end
 return D

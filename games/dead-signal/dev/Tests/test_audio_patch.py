@@ -17,7 +17,7 @@ class AudioPatch(unittest.TestCase):
         self.snippet = patch.PROPOSAL.read_text()
         if "function FX:audioInit()" in self.actual:
             # The suite remains usable after the integrator installs this proposal.
-            start = self.actual.index("-- AUDIO-ONLY INLINE PROPOSAL.")
+            start = self.actual.index("-- AUDIO-ONLY INLINE IMPLEMENTATION.")
             end = self.actual.index("function FX:part(")
             old = (DEV / "Tests/Fixtures/Effects-audio-before.txt").read_text()
             self.source = (self.actual[:start] + old + self.actual[end:]).replace(patch.NEW_TICK, patch.TICK, 1)

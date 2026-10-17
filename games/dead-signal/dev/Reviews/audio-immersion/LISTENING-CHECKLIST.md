@@ -1,6 +1,6 @@
 # Studio, multiplayer and real-device audio acceptance
 
-**All listening and native-engine rows below are pending.** Offline Sound/clock/signal doubles prove admission, limits and lifecycle, not audible quality. Apply the reviewed runtime/caller patches and use approved assets before assessing the complete AUD-01 soundscape. The uninstalled proposal does not change what a player currently hears.
+**All listening and native-engine rows below are pending.** Offline Sound/clock/signal doubles prove admission, limits and lifecycle, not audible quality. The audio runtime is applied on the feature branch under the #23 grant. Integrate the reviewed source and remaining lane-owned caller hooks, then use approved assets before assessing the complete AUD-01 soundscape.
 
 Record exact source/build SHA, four candidate hashes, grant/contract decision, asset IDs and permissions, Studio/client version, map, mode, round, crew count, device/output route, normal/Low Effects, result, output log and short clip for each test. Keep these observations separate from the committed offline report.
 

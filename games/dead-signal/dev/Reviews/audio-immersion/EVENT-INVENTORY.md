@@ -1,26 +1,40 @@
 # Proposed audio event inventory and caller contract
 
-**Pending integrator decision in #23.** All names below are implemented by the standalone proposal. Only the legacy names currently have runtime callers; this document is not evidence that new triggers are wired. No remote/schema change is introduced. Existing `FX:sound(key,position)` remains valid and no caller needs a new required argument.
+**Approved in #23 and INTEGRATION-CONTRACTS.md; implemented in Effects.lua.** Only the legacy names currently have runtime callers; new lane-owned triggers remain explicit dependencies. No remote/schema change is introduced. Existing `FX:sound(key,position)` remains valid and no caller needs a new required argument.
 
 ## Interface
 
 | Call | Contract |
 | --- | --- |
 | `FX:sound(key, position?, options?)` | Position is a finite world Vector3 for a real source, or nil for listener/UI audio. Returns a voice record on admission, otherwise `false, reason`; callers may ignore the result as today. No deferred warning queue. |
-| `options.source` | Stable enemy/hazard/weapon source string or number, max 96 characters. Without it, use the 8-stud spatial cell or `local`. Per-event/per-source cooldown prevents spam while keeping distinct directions. |
+| `options.sourceId` (legacy alias `source`) | Stable enemy/hazard/weapon source string or number, max 96 characters. Without it, use the 8-stud spatial cell or `local`. Per-event/per-source cooldown prevents spam while keeping distinct directions. |
 | `options.token` | Lifecycle string/number, max 96 characters; defaults to current session token. Use an acknowledged reload/equip token for mechanics. Do not put a source Instance into tokens. |
 | `options.priority`, `gain` | Optional reduction only. Catalog priority cannot be raised; gain stays 0..1. Categories are fixed by catalog. |
-| `options.class`, `weapon`, `upgraded`, `material` | Optional approved asset specialization. `Weapon.Fire` requires a known weapon class. A weapon specialization must exist in C.Weapons. Only configured IDs can play. |
+| `options.class`, `weaponId` (alias `weapon`), `tier` / `upgraded`, `material`, `variant`, `phase` | Optional approved asset specialization. `Weapon.Fire` requires a known weapon class. A weapon specialization must exist in C.Weapons. Only configured IDs can play. |
 | `options.occluded=true` | Optional explicit routine-spatial approximation: EQ High -7dB, Mid -1dB, gain .8. Critical warnings ignore it. Caller owns any bounded occlusion query; no automatic raycasts/wall blocking or full reverb simulation. |
-| `FX:audioState({map,token,active,room,indoors,intensity,anchors})` | Map is Lobby/Station/Foundry/Frost; token is client session/character generation. Supply this at acknowledged state/zone transitions. `active=false` ends map/weapon voices for travel/results/elimination. Downed players keep danger cues. New map/token resets voices and source cooldowns. |
+| `FX:audioState({map,runId,token,active,room,indoors,intensity,anchors})` | Map is Lobby/Station/Foundry/Frost; token is client session/character generation. Supply this at acknowledged state/zone transitions. `active=false` ends map/weapon voices for travel/results/elimination. Downed players keep danger cues. New map/run/token resets voices and cooldowns. A native map identity change also cleans old legacy voices. Prior-run contexts are rejected until fresh state activates the new epoch. |
 | `state.anchors` | Dictionary keyed by exact `World.*` event name -> real authored Vector3. Distant events require an anchor; no guessed landmark coordinates. Moving anchors update on the next bounded world tick. |
 | `state.intensity` | Finite 0..1 presentation value, preferably from existing round/phase state. Changes ambient gain only; no game rules or threat timing change. |
-| `FX:audioCancel(token)` | On acknowledged reload cancellation, swap, character replacement or invalidated attack. Removes matching voices/cooldowns synchronously; no scheduled foley survives the token. |
+| `FX:audioCancel(token)` | On acknowledged reload cancellation, swap, character replacement or invalidated attack. Removes matching voices/cooldowns and invalidates the token for late callbacks. Invalidated tokens are bounded to 256 per epoch and cleared on reset. |
 | `FX:audioReset(token)` | Whole local session lifecycle reset. Does not clear the 30s failed-asset backoff. |
 | `FX:audioMix({ambience,world,weapons,mechanics,infected,ui})` | Transient 0..1 category gains. Existing saved master volume remains authoritative and applies to playing voices. No new saved field/UI is assumed. |
 | `FX:audioDestroy()` | Idempotent owner shutdown; Sound/anchor/Ended connection cleanup. Effects folder destruction invokes it too. |
 
-The current State payload has **no run ID**. Controller should own a local generation token for Deploy/new character/travel/reset; do not assume an unavailable `state.runId`. The existing render/FX animation tick drives cleanup without adding a RunService connection or remote traffic.
+`FX:audioEvent(key,context)` is a compatible adapter to the same sound implementation. `context.position` is used when the explicit second position is nil. `sourceId`/`weaponId` are canonical; `source`/`weapon` are normalized aliases. `firstPerson=true` makes weapon reports/mechanics listener-routed, while other sources stay spatial. `tier>0` enables the configured upgrade slot. Duration is finite and bounded by the catalog TTL; it never changes gameplay timing. Phase/variant specialization is optional and comes only from configured IDs. Additional context facts such as `serverTime` do not create a sound scheduler or damage authority.
+
+| Approved canonical family | Normalization / behavior |
+| --- | --- |
+| `World.Zone`, `World.Ambient` | Update audioState; no extra duplicate one-shot. `active=false` may omit map and stops gameplay voices during travel/results. |
+| `World.Landmark` | Resolve the map-specific world event; require an explicit real position. |
+| `Enemy.Entry.Approach`, `.Contact`, `.Land` | Distinct one-shot keys using gear/entry treatments; only play at the actual traversal state transition. |
+| `Enemy.Charge.Warn`, `Enemy.Ambush.Warn`, `Enemy.Blast.Warn` | Normalize to charge/Stalker/fuse warning treatments with catalog priority 4; no delayed warning queue. |
+| `Enemy.Alpha`, `Enemy.Armor.Break`, `Enemy.Death` | Resolve existing Alpha/armor/enemy treatment from confirmed facts. |
+| `Weapon.Report` | Resolve class from weaponId or explicit class; share the legacy class-report path. |
+| `Weapon.Mechanism`, `Weapon.Reload` with phase | #24 stages: mag-out/in → Magazine; action-open/close → Pump for Shotgun, Bolt otherwise; shell-in → Shell; cell-out/in → Cell; charge → Charge; feed-open/close → Feed; equip/fire/empty → Equip/Report/Empty; cancel → audioCancel(token). Unknown phases stay silent. |
+| `Combat.Hit`, `Combat.Kill` | Alias confirmed Hit/Kill feedback; caller must still use the server acknowledgment. |
+| `Wave.Prepare`, `Wave.Start`, `Warden.Warn`, `Extraction.Warn` | Resolve the approved phase/critical warning catalog; no server scheduling changes. |
+
+The current State payload has **no run ID**. Controller should own a local generation token for Deploy/new character/travel/reset; do not assume an unavailable `state.runId`. Optional runId facts can be passed once the owner has a reliable generation source. A reset retires the previous run until fresh state activates a new epoch. The existing render/FX animation tick drives cleanup without adding a RunService connection or remote traffic.
 
 ## Event ownership and timing
 
@@ -30,7 +44,7 @@ Priority: 0 ambience; 1 incidental; 2 routine feedback; 3 important; 4 imminent 
 | --- | --- | --- |
 | `Pistol`, `Rifle`, `SMG`, `Shotgun`, `Heavy`, `Sniper`, `Energy`; optional `Weapon.Fire` + class | Combat/UI, confirmed Shot origin or local listener | Legacy local fire is currently predicted. Remote Shot is server-issued. Proposal preserves this; owner must explicitly decide acknowledged local report wiring to meet the stricter Batch 1 target without duplicating shots. Far asset uses the same event, not another remote. |
 | `Reload`, `Weapon.Reload` | Combat/UI, Reload Feed acknowledgment | Existing Reload call is acknowledged. Start token when accepted, not on input press. |
-| `Weapon.Magazine`, `Weapon.Bolt`, `Weapon.Pump`, `Weapon.Shell` | Combat/UI, accepted animation phase | New trigger dependency: advance on the accepted weapon action timeline; invalidate with token on swap/cancel/death. Audio layer does not guess gun action timings. |
+| `Weapon.Magazine`, `Weapon.Bolt`, `Weapon.Pump`, `Weapon.Shell`, `Weapon.Cell`, `Weapon.Feed`, `Weapon.Charge` | Combat/UI, accepted animation phase | New trigger dependency: advance on the accepted weapon action timeline; invalidate with token on swap/cancel/death. Audio layer does not guess gun action timings. |
 | `Equip`, `Weapon.Equip`, `Empty`, `Weapon.Empty` | Combat/UI, accepted slot / dry-fire decision | Equip legacy call occurs during viewmodel rebuild; refinement to acknowledged slot/equip is caller-owned. Empty is throttled. |
 | `Hit`, `Kill`, `Weapon.Hit`, `Weapon.Kill` | Combat/UI, authoritative Hit Feed | Existing confirmation is server-issued. Never derive a hit/kill from local raycast or sound playback. |
 | `Weapon.Impact` | Combat owner, confirmed result/material | New optional trigger; reuse confirmed impact point and bounded event data. Empty slot stays silent. |
@@ -60,6 +74,6 @@ Priority: 0 ambience; 1 incidental; 2 routine feedback; 3 important; 4 imminent 
 | Cinderworks (`Foundry`) | `World.Foundry.machinery`, `World.Foundry.furnace`, `World.Foundry.vent` | `World.Foundry.impact`: visible rail/steelworks landmark. |
 | Whiteout (`Frost`) | `World.Frost.wind`, `World.Frost.relay`, `World.Frost.structure` | `World.Frost.ice`: frozen ridge/outer structure. |
 
-MAP DEV supplies room identity, indoors/outdoors and optional named anchors from actual authored geometry. Keep zone lookup bounded; do not scan every map descendant on each audio frame. `room` is stored for diagnostics/contracts; this proposal does not invent different impulse responses for each named room. The first exterior bed fades to 28% indoors; interior beds use 65% outdoors, with bounded intensity gain. Activity interval is deterministic 18–28 seconds and requires a configured asset plus an authored landmark within rolloff range. No distant activity is mapped to a random location.
+MAP DEV supplies room identity, indoors/outdoors and optional named anchors from actual authored geometry. Keep zone lookup bounded; do not scan every map descendant on each audio frame. `room` is stored for diagnostics/contracts; this implementation does not invent different impulse responses for each named room. The first exterior bed fades to 28% indoors; interior beds use 65% outdoors, with bounded intensity gain. Activity interval is deterministic 18–28 seconds and requires a configured asset plus an authored landmark within rolloff range. No distant activity is mapped to a random location.
 
 Loop and zone fades do not duck critical warnings. Native mixing, mono direction/readability and authored room transitions still need the listening checklist.

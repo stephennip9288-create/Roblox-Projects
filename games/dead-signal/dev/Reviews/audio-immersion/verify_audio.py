@@ -91,10 +91,11 @@ def main() -> None:
         report["passed"] = True
     finally:
         report["runtime_unchanged"] = sha(RUNTIME) == before
-        assert report["runtime_unchanged"], "Verification must not edit runtime Effects.lua"
+        report["passed"] = report.get("passed", False) and report["runtime_unchanged"]
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps(report, indent=2) + "\n")
         print("Audio report:", args.report)
+        assert report["runtime_unchanged"], "Runtime Effects.lua changed while verification was running"
 
 
 if __name__ == "__main__":

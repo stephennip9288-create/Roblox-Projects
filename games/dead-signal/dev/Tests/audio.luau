@@ -4,9 +4,9 @@ local fs=require('@lune/fs')
 local luau=require('@lune/luau')
 local r=require('@lune/roblox')
 local source=fs.readFile('Source/Runtime/client/Effects.lua')
-local proposal=fs.readFile('Reviews/audio-immersion/Effects-audio.luau')
 local candidate=source
 if not source:find('function FX:audioInit()',1,true) then
+    local proposal=fs.readFile('Reviews/audio-immersion/Effects-audio.luau')
     local first=assert(source:find('local stock=',1,true))
     local last=assert(source:find('function FX:part(',1,true))
     candidate=source:sub(1,first-1)..proposal..'\n'..source:sub(last)
@@ -51,10 +51,10 @@ local function setup(low)
         return obj
     end
     local settings={volume=.65,lowEffects=low==true}
-    local config={DefaultSettings=settings,SoundIds={},Evolution={audio={}}}
+    local config={DefaultSettings=settings,SoundIds={},Evolution={audio={}},Weapons={Kestrel={class='Pistol'},Trench={class='Shotgun'},Anchor={class='Heavy'}}}
     local util={copy=table.clone,make=node}
     local soundService=node('SoundService')
-    local world={CurrentCamera={CFrame=r.CFrame.new(0,0,0)},FindFirstChild=function() return nil end}
+    local world={CurrentCamera={CFrame=r.CFrame.new(0,0,0)},FindFirstChild=function(_,name) return name=='DeadSignalMap' and env.map or nil end}
     local rs={DeadSignal={Config='Config',Util='Util',NPCPose='NPCPose'}}
     local services={ReplicatedStorage=rs,SoundService=soundService,TweenService={},Debris={AddItem=function() end}}
     local clock=table.clone(os);clock.clock=function() return env.now end
@@ -193,7 +193,8 @@ do
     local one=fx:sound('Weapon.Reload',nil,{token='reload-1'})
     local two=fx:sound('Weapon.Magazine',nil,{token='reload-2'})
     fx:audioCancel('reload-1');check(one.retired and not two.retired,'reload/swap cancellation scoped to acknowledged lifecycle')
-    check(fx:sound('Weapon.Reload',nil,{token='reload-1'}),'cancel clears matching dedup token')
+    check(not fx:sound('Weapon.Reload',nil,{token='reload-1'}),'cancel invalidates token for late acknowledged-phase callback')
+    check(fx:sound('Weapon.Reload',nil,{token='reload-3'}),'fresh acknowledged reload token is independent')
     two.sound.Ended:Fire();check(two.retired,'Ended cleans immediately')
     fx:audioUpdate(0);check(e:connections()==#fx.audio.voices,'Ended connection removed')
     fx:audioReset('new-character');check(#fx.audio.voices==0 and fx.audio.lastCount==0 and e:connections()==0,'respawn/session reset cleans voice/cooldown state')
@@ -279,4 +280,69 @@ do
     check(#fx.audio.voices<=12,'live quality switch enforces smaller hard limit')
     for _,v in ipairs(fx.audio.voices) do check(v.priority==4,'quality switch preserves threats first') end
 end
-print('Audio proposal assertions passed:',count)
+do
+    local e=setup();local fx=e.fx
+    fx:audioEvent('World.Zone',{map='Station',runId=10,room=2,active=true})
+    check(fx.audio.runId=='10' and fx.audio.state.room=='2','canonical zone normalizes optional run/room facts')
+    local voice=fx:audioEvent('Enemy.Charge.Warn',{position=V.new(8,0,0),sourceId='k9',runId=10,eventId='charge-1',duration=.65})
+    check(voice and voice.source=='k9' and voice.epoch==fx.audio.epoch and voice.priority==4,'canonical warning context and epoch')
+    near(voice.expires-e.now,.65,'warning duration bounded to advertised cue lifetime')
+    check(not fx:audioEvent('Enemy.Charge.Warn',{position=V.new(9,0,0),sourceId='k9',runId=10}),'sourceId alias deduplicates repeated warning')
+    check(not fx:audioEvent('Combat.Hit',{runId=9}),'prior-run confirmation rejected after zone state')
+    local oldEpoch=fx.audio.epoch
+    fx:audioState({map='Station',runId=11,active=true})
+    check(fx.audio.epoch>oldEpoch and voice.retired,'new run epoch cleans old warning immediately')
+    local report=fx:audioEvent('Weapon.Report',{weaponId='Kestrel',position=V.new(4,0,0),firstPerson=true,runId=11,tier=1})
+    check(report and report.key=='Pistol' and not report.anchor,'canonical weapon ID and first-person routing')
+    e:advance(.2)
+    local remote=fx:sound('Weapon.Report',nil,{weapon='Trench',position=V.new(12,0,0),sourceId=2,runId=11})
+    check(remote and remote.key=='Shotgun' and remote.anchor,'legacy weapon alias and third-context position')
+    local phases={'mag-out','mag-in','action-open','action-close','shell-in','cell-out','cell-in','charge','feed-open','feed-close','equip','fire','empty'}
+    for _,phase in ipairs(phases) do
+        fx:audioReset('phase-'..phase)
+        local result=fx:audioEvent('Weapon.Mechanism',{weaponId='Trench',phase=phase,action='reload',token='accepted-'..phase,firstPerson=true})
+        check(result and result.sound.Playing,'approved #24 stage '..phase)
+        if phase=='action-open' or phase=='action-close' then check(result.key=='Weapon.Pump','shotgun action uses pump') end
+    end
+    check(not fx:audioEvent('Weapon.Mechanism',{phase='unapproved'}),'unknown weapon phase stays silent')
+    fx:audioEvent('Weapon.Mechanism',{phase='cancel',token='late'})
+    check(not fx:audioEvent('Weapon.Mechanism',{phase='mag-in',token='late'}),'cancel stage invalidates delayed foley')
+    for i=1,400 do fx:audioCancel('cancel-'..i) end
+    local cancelled=0;for _ in pairs(fx.audio.cancelled) do cancelled+=1 end
+    check(cancelled<=256,'cancelled lifecycle tokens are bounded')
+    fx:audioState({active=false,runId=11})
+    check(#fx.audio.voices==0 and not fx:audioEvent('Weapon.Report',{weaponId='Kestrel',runId=11}),'map-less travel stop rejects late gameplay')
+    check(fx:sound('Victory'),'legacy results/UI cue still works during travel stop')
+    fx:audioState({map='Station',runId=12})
+    local current=fx:audioEvent('Enemy.Armor.Break',{position=V.zero,sourceId='elite',runId=12})
+    check(current and current.sound.Playing,'new run resumes canonical enemy facts')
+    e.map={};fx:audioUpdate(0)
+    check(current.retired and #fx.audio.voices==0,'native map identity change cleans legacy callers without new state hook')
+end
+do
+    local e=setup();e.fx:audioCancel('before-first-sound')
+    check(not e.fx:sound('Weapon.Magazine',nil,{token='before-first-sound'}),'pre-initialization cancellation rejects late phase')
+end
+do
+    local e=setup();local fx=e.fx
+    fx:audioState({map='Station',runId=20})
+    e.map={}
+    check(not fx:audioEvent('Weapon.Mechanism',{phase='mag-in',runId=20,token='old-reload'}),'map replacement rejects old phase before next animation tick')
+    check(not fx:audioEvent('Enemy.Charge.Warn',{position=V.zero,runId=20}),'retired run stays closed until fresh state')
+    fx:audioState({map='Station',runId=21})
+    check(fx:audioEvent('Enemy.Charge.Warn',{position=V.zero,runId=21}),'new map state admits current run warning')
+end
+do
+    local e=setup();local fx=e.fx
+    fx:audioState({map='Station',runId=30})
+    e.map={};e:approve('World.Foundry.machinery',601)
+    fx:audioState({map='Foundry',runId=31,anchors={['World.Foundry.machinery']=V.new(0/0,0,0)}})
+    e:advance(.1)
+    check(fx.audio.state.map=='Foundry' and fx.audio.runId=='31','fresh map state survives next native-map watch tick')
+    local bed=fx.audio.world['World.Foundry.machinery']
+    check(bed and not bed.anchor,'nonfinite zone anchor omitted before touching instance Position')
+    fx:audioState({map='Foundry',runId=31,anchors={['World.Foundry.machinery']=V.new(10,0,0)}})
+    e:advance(.1)
+    check(fx.audio.world['World.Foundry.machinery'].anchor~=nil,'valid zone anchor replaces listener bed safely')
+end
+print('Audio runtime assertions passed:',count)

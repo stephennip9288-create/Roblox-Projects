@@ -135,7 +135,6 @@ function Detail.apply(map,def,layout,P,S,light)
             part(i,"ConduitRiser",Vector3.new(.22,r.h-6,.22),Vector3.new(x,(r.h-6)/2,z),dark)
             for y=3,r.h-4,5 do part(i,"PipeClamp",Vector3.new(.45,.12,.4),Vector3.new(x,y,z),steel) end
         end
-        label(i,"SECTOR 0"..i.." / "..def.rooms[i]:upper(),Vector3.new(r.w/2-12,14.2,z-.1),Vector3.new(18,1.8,.08),0,cream)
         for n=1,14 do
             local x=-r.w/2+3+(n*13.17)%(r.w-6) local zz=-r.d/2+3+(n*17.23)%(r.d-6)
             part(i,"FloorCrack",Vector3.new(.045,.015,1.5+n%4),Vector3.new(x,.017,zz),dark,Enum.Material.Slate,false,CFrame.Angles(0,n*.87,0))
@@ -157,7 +156,6 @@ function Detail.apply(map,def,layout,P,S,light)
     if def.theme=="Station" then
         -- A ruined concrete shelter: field radio, sandbag position and dusty living quarters.
         tableTop(1,0,-layout[1].d/2+10,0,12) radio(1,-2,-layout[1].d/2+10,3.2)
-        label(1,"BLACKWATER / LAST TRANSMISSION 03:17",Vector3.new(0,14.2,-layout[1].d/2+.83),Vector3.new(24,2,.08),math.pi,cream)
         sandbags(1,14,layout[1].d/2-7)
         for _,i in ipairs({3,4,5,6}) do local r=layout[i]
             lockers(i,r.w/2-7,-r.d/2+14,0,3)

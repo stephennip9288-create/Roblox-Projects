@@ -24,10 +24,10 @@ end
 local function sign(parent,text,cf,size,color)
     local p=part(parent,"Sign",size or Vector3.new(12,3,.2),cf,Color3.fromRGB(24,28,30),Enum.Material.Metal,false)
     p.CanQuery=false
-    local gui=U.make("SurfaceGui",p,{Face=Enum.NormalId.Front,PixelsPerStud=48,LightInfluence=0.35,MaxDistance=65,AlwaysOnTop=false})
+    local gui=U.make("SurfaceGui",p,{Face=Enum.NormalId.Front,PixelsPerStud=64,LightInfluence=0,MaxDistance=65,AlwaysOnTop=false})
     local label=U.make("TextLabel",gui,{Size=UDim2.fromScale(.92,.82),Position=UDim2.fromScale(.04,.09),BackgroundTransparency=1,Text=text,
-        TextColor3=color or Color3.fromRGB(221,223,212),Font=Enum.Font.Gotham,TextScaled=true,TextWrapped=true})
-    U.make("UITextSizeConstraint",label,{MinTextSize=8,MaxTextSize=30})
+        TextColor3=color or Color3.fromRGB(221,223,212),Font=Enum.Font.GothamBold,TextScaled=true,TextWrapped=true})
+    U.make("UITextSizeConstraint",label,{MinTextSize=12,MaxTextSize=64})
     U.make("Frame",gui,{Name="HeaderRule",Size=UDim2.new(.92,0,0,2),Position=UDim2.fromScale(.04,.03),BorderSizePixel=0,
         BackgroundColor3=color or Color3.fromRGB(155,170,154),BackgroundTransparency=.35})
     for _,x in ipairs({-.47,.47}) do for _,y in ipairs({-.41,.41}) do
@@ -135,93 +135,188 @@ function M.build(id)
         local p=part(f,name,size*scale,CFrame.new(pos*scale)*(rot or CFrame.new()),col or U.color(def.wall),mat,solid,class)
         if solid==false then p.CanQuery=false end return p
     end
-    local function fit(pos,margin)
-        for _,r in ipairs(layout) do
-            if math.abs(pos.X-r.x)<=r.w/2+.01 and math.abs(pos.Z-r.z)<=r.d/2+.01 then
-                local x,z=Layouts.inset(r,pos.X,pos.Z,margin or 6) return Vector3.new(x,pos.Y,z)
-            end
-        end return pos
-    end
     local function S(text,pos,size,angle,col)
         return sign(f,text,CFrame.new(pos*scale)*CFrame.Angles(0,angle or 0,0),size*scale,col or U.color(def.accent))
     end
     P("ExteriorGround",Vector3.new(680,3,620),Vector3.new(10,-2.5,42),def.theme=="Frost" and Color3.fromRGB(176,188,182) or Color3.fromRGB(54,61,42),def.theme=="Frost" and Enum.Material.Snow or Enum.Material.Ground,true)
     Architecture.build(map,layout,P,S,light,def)
+    -- Allocate against actual solid wall spans. Never pull a wall display toward a room center.
+    -- The same bays own their clear standing/revive approaches and prompt separation.
+    map.mounts={}
+    local occupied={}
+    for _,w in ipairs(map.windows) do table.insert(occupied,{position=w.part.Position,room=w.room}) end
+    for _,d in ipairs(map.doors) do
+        table.insert(occupied,{position=d.part.Position,room=d.a})
+        table.insert(occupied,{position=d.part.Position,room=d.b})
+    end
+    local requests={}
+    local function request(room,key,width,depth,height)
+        table.insert(requests,{room=room,key=key,width=width,depth=depth,height=height})
+    end
+    request(3,"Power",6,2.2,2.5) request(5,"Transmitter",17,3.4,2.7)
+    request(6,"Forge",14,8,3.5) request(2,"Rescue",12,3.4,1.65)
     local perkRooms={1,3,4,2,5,6}
+    for j,key in ipairs(C.PerkOrder) do request(perkRooms[j],"Perk_"..key,6,4,0) end
+    for i,weapon in ipairs(loadouts[id] or loadouts.Station) do
+        request(i,"WallBuy_"..weapon,14,.5,4.7/scale) request(i,"SupplyBox",9/scale,4/scale,1.5/scale)
+    end
+    request(1,"StarterAmmo",8,.5,3.8/scale)
+    for j,room in ipairs({1,4,6}) do request(room,"Fuse_"..j,3,.6,3.2/scale) end
+    for j,room in ipairs({2,4,6}) do request(room,"Frequency_"..j,6,1.6,1.6) end
+    for _,room in ipairs({3,4}) do request(room,"Trap",4,1.5,1.5) end
+    request(1,"Counter_Vent",9,1,3/scale) request(4,"Counter_Sprinkler",9,1,3/scale)
+    local planned={}
+    for room,r in ipairs(layout) do
+        local choices={}
+        for _,spec in ipairs(requests) do if spec.room==room then
+            local candidates={}
+            for _,face in ipairs(map.rooms[room].wallFaces) do
+                local limit=face.length/2-spec.width/2-1.5
+                for offset=-limit,limit,2.5/scale do
+                    local at=face.center+face.tangent*offset-face.normal*(.82+spec.depth/2)+Vector3.new(0,spec.height,0)
+                    local approach=at-face.normal*(spec.depth/2+4/scale)
+                    local clear=Layouts.contains(r,approach.X,approach.Z,3/scale)
+                    for _,dx in ipairs({-spec.width/2,spec.width/2}) do for _,dz in ipairs({-spec.depth/2,spec.depth/2}) do
+                        local corner=at+face.tangent*dx+face.normal*dz
+                        if not Layouts.contains(r,corner.X,corner.Z,.7) then clear=false end
+                    end end
+                    for _,item in ipairs(occupied) do if item.room==room then
+                        local d=at*scale-item.position
+                        if Vector3.new(d.X,0,d.Z).Magnitude<20.5 then clear=false break end
+                    end end
+                    local sector=map.rooms[room]
+                    if sector.stairBase then
+                        local a,b=sector.stairBase/scale,sector.stairTop/scale
+                        local t=math.clamp((at-a):Dot(b-a)/(b-a):Dot(b-a),0,1)
+                        local d=at-(a+(b-a)*t)
+                        if Vector3.new(d.X,0,d.Z).Magnitude<spec.depth/2+8 then clear=false end
+                    end
+                    if clear then table.insert(candidates,{cf=CFrame.fromMatrix(at,face.tangent,Vector3.yAxis,face.normal),
+                        room=room,key=spec.key,width=spec.width,depth=spec.depth,
+                        wall=(face.center+face.tangent*offset)*scale,approach=approach*scale}) end
+                end
+            end
+            table.insert(choices,{spec=spec,candidates=candidates})
+        end end
+        -- Most constrained bays first. Bounded backtracking avoids order-dependent placement
+        -- failures when a small panel consumes the only span wide enough for a cabinet.
+        table.sort(choices,function(a,b) if #a.candidates==#b.candidates then return a.spec.key<b.spec.key end return #a.candidates<#b.candidates end)
+        local selected={} local attempts=0
+        local function solve(index)
+            if index>#choices then return true end
+            for _,candidate in ipairs(choices[index].candidates) do
+                attempts+=1 if attempts>80000 then return false end
+                local clear=true
+                for _,old in ipairs(selected) do
+                    local d=(candidate.cf.Position-old.cf.Position)*scale
+                    if Vector3.new(d.X,0,d.Z).Magnitude<20.5 then clear=false break end
+                end
+                if clear then
+                    selected[index]=candidate
+                    if solve(index+1) then return true end
+                    selected[index]=nil
+                end
+            end return false
+        end
+        assert(solve(1),"No separated wall-bay plan for "..id.." / sector "..room)
+        for _,bay in ipairs(selected) do planned[room..":"..bay.key]=bay end
+    end
+    local function mount(room,key)
+        local bay=assert(planned[room..":"..key],"Unplanned wall bay: "..key)
+        table.insert(map.mounts,bay) return bay.cf
+    end
+    local function at(name,size,cf,col,mat,solid)
+        return P(name,size,cf.Position,col,mat,solid,cf-cf.Position)
+    end
+    local function frontLabel(parent,text,cf,depth,width,height,col)
+        local face=cf*CFrame.new(0,5.4/scale-cf.Position.Y,-depth/2-.14)
+        local p=sign(parent,text,CFrame.new(face.Position*scale)*(face-face.Position),Vector3.new(width,height,.10)*scale,col or Color3.fromRGB(235,238,224))
+        p:SetAttribute("InteractionSign",true) return p
+    end
+    -- Large cabinets reserve their bays before narrow displays and pickups.
+    local powerCF=mount(3,"Power")
+    map.power=at("PowerSwitch",Vector3.new(4,5,1.8),powerCF,Color3.fromRGB(49,58,49),Enum.Material.CorrodedMetal,true)
+    frontLabel(map.power,"MAIN BREAKER / OFF",powerCF,2.2,8,1.5,Color3.fromRGB(245,219,159))
+    map.lever=at("BreakerLever",Vector3.new(.4,1.7,.4),powerCF*CFrame.new(0,.3,-1.25),Color3.fromRGB(171,56,39),Enum.Material.Metal,false) map.lever.Parent=map.power
+    local relayCF=mount(5,"Transmitter")
+    map.relay=at("Transmitter",Vector3.new(10,5.4,3),relayCF,Color3.fromRGB(47,56,47),Enum.Material.Metal,true)
+    for n=1,5 do
+        at("RelayInstrument",Vector3.new(1.4,1.3,.08),relayCF*CFrame.new(-4+n*1.4,.4,-1.54),Color3.fromRGB(158,169,116),Enum.Material.Neon,false).Parent=map.relay
+        local dial=at("InstrumentDial",Vector3.new(.5,.5,.08),relayCF*CFrame.new(-4+n*1.4,-.9,-1.6),Color3.fromRGB(141,141,123),Enum.Material.Metal,false) dial.Parent=map.relay
+    end
+    frontLabel(map.relay,"TRANSMITTER / THREE FUSES",relayCF,3.4,16,1.6)
+    local forgeCF=mount(6,"Forge")
+    map.upgrade=at("UpgradeMachine",Vector3.new(9,7,6),forgeCF,Color3.fromRGB(47,64,62),Enum.Material.Metal,true)
+    for _,dx in ipairs({-3.1,3.1}) do
+        local col=at("ForgeCondenser",Vector3.new(6.2,1.7,1.7),forgeCF*CFrame.new(dx,.1,-3.5)*CFrame.Angles(0,0,math.pi/2),Color3.fromRGB(104,127,123),Enum.Material.Metal,false) col.Shape=Enum.PartType.Cylinder col.Parent=map.upgrade
+        for n=1,7 do at("ForgeRing",Vector3.new(2,.13,2),forgeCF*CFrame.new(dx,-2.7+n*.8,-3.5),Color3.fromRGB(80,191,201),Enum.Material.Neon,false).Parent=map.upgrade end
+    end
+    local glass=at("ForgeInspection",Vector3.new(4.8,3,.15),forgeCF*CFrame.new(0,.4,-3.12),Color3.fromRGB(77,145,145),Enum.Material.Glass,false) glass.Transparency=.35 glass.Parent=map.upgrade
+    frontLabel(map.upgrade,"RESONANCE FORGE\n5000 / 7500 POINTS",forgeCF,8,13,2.2,Color3.fromRGB(177,238,235))
+    local radioCF=mount(2,"Rescue")
+    map.radio=at("ExtractionRadio",Vector3.new(5,3.3,3),radioCF,Color3.fromRGB(66,74,54),Enum.Material.Metal,true)
+    for n=1,4 do at("RadioGrille",Vector3.new(3.7,.06,.08),radioCF*CFrame.new(0,-.7+n*.3,-1.56),Color3.fromRGB(24,30,24),Enum.Material.Metal,false).Parent=map.radio end
+    at("RadioAntenna",Vector3.new(.12,5,.12),radioCF*CFrame.new(1.6,3,0),Color3.fromRGB(155,158,143),Enum.Material.Metal,false).Parent=map.radio
+    frontLabel(map.radio,"RESCUE CHANNEL\nSIGNAL + ROUND 15",radioCF,3.4,12,2.2)
     for j,key in ipairs(C.PerkOrder) do
-        local r=layout[perkRooms[j]] local pos=fit(Vector3.new(r.x+r.w/2-6,0,r.z-r.d/2+4),7)
-        local body,model=Vending.build(f,key,CFrame.new(pos*scale)*CFrame.Angles(0,math.pi,0),scale)
-        map.perks[key]={part=body,model=model,room=perkRooms[j]}
+        local room=perkRooms[j] local cf=mount(room,"Perk_"..key)
+        local body,model=Vending.build(f,key,CFrame.new(cf.Position*scale)*(cf-cf.Position),scale)
+        map.perks[key]={part=body,model=model,room=room}
     end
     for i,weapon in ipairs(loadouts[id] or loadouts.Station) do
-        local r=layout[i] local west=i==3
-        local x=i==1 and r.x+r.w/2-19 or r.x-r.w/2+(i==6 and 6.5 or 9.5)
-        local pos=west and Vector3.new(r.x-r.w/2+1.1,5,r.z-r.d/2+9) or Vector3.new(x,5,r.z-r.d/2+1.1)
-        pos=fit(pos,7)
-        local yaw=west and -math.pi/2 or math.pi local rot=CFrame.Angles(0,yaw,0)
-        local facing=west and Vector3.new(1,0,0) or Vector3.new(0,0,1)
-        local plaque=P("WallBuy_"..weapon,Vector3.new(11.5,3.6,.12),pos,Color3.fromRGB(46,47,39),Enum.Material.Slate,false,rot)
-        for _,dy in ipairs({-1.7,1.7}) do P("ChalkFrame",Vector3.new(11.3,.045,.025),pos+Vector3.new(0,dy,0)+facing*.1,Color3.fromRGB(199,195,169),Enum.Material.SmoothPlastic,false,rot).Parent=plaque end
-        local gun=W.build(weapon,"Factory",0,plaque,false) gun:PivotTo(plaque.CFrame*CFrame.Angles(0,math.pi/2,0))
-        S(C.Weapons[weapon].name.." / "..C.Weapons[weapon].cost.." POINTS",pos+Vector3.new(0,-2.6,0)+facing*.15,Vector3.new(13,1.15,.12),yaw,Color3.fromRGB(211,205,176)).Parent=plaque
+        local cf=mount(i,"WallBuy_"..weapon)
+        local plaque=at("WallBuy_"..weapon,Vector3.new(12,3.1,.16),cf,Color3.fromRGB(29,37,37),Enum.Material.Metal,false)
+        -- Recenter the actual display bounds; weapon blueprints/ADS remain owned by combat.
+        local gun=W.build(weapon,"Factory",0,plaque,false)
+        local side=CFrame.Angles(0,math.pi/2,0) local lo,hi=math.huge,-math.huge
+        local thickness=0
+        for _,p in ipairs(gun:GetDescendants()) do if p:IsA("BasePart") then
+            local c=side*p.CFrame local sz=p.Size*.5
+            local x=math.abs(c.RightVector.X)*sz.X+math.abs(c.UpVector.X)*sz.Y+math.abs(c.LookVector.X)*sz.Z
+            local z=math.abs(c.RightVector.Z)*sz.X+math.abs(c.UpVector.Z)*sz.Y+math.abs(c.LookVector.Z)*sz.Z
+            lo=math.min(lo,c.Position.X-x) hi=math.max(hi,c.Position.X+x) thickness=math.max(thickness,c.Position.Z+z)
+        end end
+        gun:PivotTo(plaque.CFrame*CFrame.new(-(lo+hi)/2,0,-.12-thickness)*side)
+        local labelCF=cf*CFrame.new(0,-2.1/scale,-.4)
+        sign(plaque,C.Weapons[weapon].name.." / "..C.Weapons[weapon].cost,
+            CFrame.new(labelCF.Position*scale)*(labelCF-labelCF.Position),Vector3.new(13,1.3,.1)*scale,Color3.fromRGB(235,224,188))
         map.wallBuys[i]={part=plaque,id=weapon,room=i}
-        local boxPos=fit(Vector3.new(r.x-r.w/2+10,1.5/scale,r.z+r.d/2-10),7)
-        table.insert(map.boxSpots,{room=i,cf=CFrame.new(boxPos*scale)})
+        local boxCF=mount(i,"SupplyBox")
+        table.insert(map.boxSpots,{room=i,cf=CFrame.new(boxCF.Position*scale)*(boxCF-boxCF.Position)})
     end
-    local entry=layout[1]
-    local ammoPos=fit(Vector3.new(entry.x+entry.w/2-9,1,entry.z+entry.d/2-6),7)
-    local ammo=P("StarterAmmunition",Vector3.new(3.4,2,2.1),ammoPos,Color3.fromRGB(75,79,51),Enum.Material.CorrodedMetal,true)
-    S("KESTREL AMMUNITION\n225 POINT REFILL",ammoPos+Vector3.new(0,2,0),Vector3.new(9,1.8,.12),0,Color3.fromRGB(197,183,139)).Parent=ammo
+    local ammoCF=mount(1,"StarterAmmo")
+    local ammo=at("StarterAmmunition",Vector3.new(5,2.2,.25),ammoCF,Color3.fromRGB(75,79,51),Enum.Material.Metal,false)
+    frontLabel(ammo,"KESTREL REFILL / 225",ammoCF,.5,8,1.4,Color3.fromRGB(235,224,188))
     table.insert(map.wallBuys,{part=ammo,id="Kestrel",room=1})
-    local r=layout[3] local powerPos=fit(Vector3.new(r.x+r.w/2-8,2.5,r.z+r.d/2-8),9)
-    map.power=P("PowerSwitch",Vector3.new(4,5,1.8),powerPos,Color3.fromRGB(49,58,49),Enum.Material.CorrodedMetal,true)
-    S("MAIN BREAKER / OFF",powerPos+Vector3.new(0,3.7,-1.1),Vector3.new(10,1.6,.12),0,Color3.fromRGB(218,181,88)).Parent=map.power
-    map.lever=P("BreakerLever",Vector3.new(.4,1.7,.4),powerPos+Vector3.new(0,.3,-1.2),Color3.fromRGB(171,56,39),Enum.Material.Metal,false) map.lever.Parent=map.power
-    for j,roomId in ipairs({1,4,6}) do
-        local room=layout[roomId] local pos=fit(Vector3.new(room.x-room.w/2+13,1.65,room.z-room.d/2+12),7)
-        local fuse=P("Fuse_"..j,Vector3.new(.7,1.8,.7),pos,Color3.fromRGB(95,212,210),Enum.Material.Neon,false)
+    for j,room in ipairs({1,4,6}) do
+        local cf=mount(room,"Fuse_"..j)
+        local bracket=at("FuseCradle",Vector3.new(2,2.5,.3),cf,Color3.fromRGB(35,46,46),Enum.Material.Metal,false)
+        local fuse=at("Fuse_"..j,Vector3.new(.7,1.8,.7),cf*CFrame.new(0,0,-.55),Color3.fromRGB(95,212,210),Enum.Material.Neon,false)
         U.make("PointLight",fuse,{Color=Color3.fromRGB(85,205,219),Brightness=.6,Range=11,Shadows=false})
-        map.fuses[j]={part=fuse,room=roomId,collected=false}
+        frontLabel(bracket,"SIGNAL FUSE "..j,cf,.6,5,1.2)
+        map.fuses[j]={part=fuse,room=room,collected=false}
     end
-    r=layout[5] local relayPos=fit(Vector3.new(r.x,2.7,r.z-r.d/2+8),9)
-    map.relay=P("Transmitter",Vector3.new(10,5.4,3),relayPos,Color3.fromRGB(47,56,47),Enum.Material.Metal,true)
-    for n=1,5 do
-        local screen=P("RelayInstrument",Vector3.new(1.4,1.3,.08),relayPos+Vector3.new(-4+n*1.4,1,-1.54),Color3.fromRGB(158,169,116),Enum.Material.Neon,false) screen.Parent=map.relay
-        local dial=P("InstrumentDial",Vector3.new(.5,.5,.08),relayPos+Vector3.new(-4+n*1.4,-.4,-1.6),Color3.fromRGB(141,141,123),Enum.Material.Metal,false) dial.Shape=Enum.PartType.Cylinder dial.Parent=map.relay
+    for j,room in ipairs({2,4,6}) do
+        local cf=mount(room,"Frequency_"..j)
+        local panel=at("FrequencyPanel"..j,Vector3.new(3.5,3.2,1.4),cf,Color3.fromRGB(66,71,57),Enum.Material.Metal,true)
+        local screen=frontLabel(panel,"FREQUENCY "..j.."\n1",cf,1.6,5.8,2,Color3.fromRGB(218,235,180))
+        map.panels[j]={part=panel,screen=screen,value=1,room=room}
     end
-    S("TRANSMITTER / THREE FUSES REQUIRED",relayPos+Vector3.new(0,4,-1.6),Vector3.new(16,1.7,.12),0).Parent=map.relay
-    for j,roomId in ipairs({2,4,6}) do
-        r=layout[roomId] local pos=fit(Vector3.new(r.x-r.w/2+6,1.6,r.z),7)
-        local panel=P("FrequencyPanel"..j,Vector3.new(3.5,3.2,1.4),pos,Color3.fromRGB(66,71,57),Enum.Material.CorrodedMetal,true)
-        local screen=S("FREQUENCY "..j.."\n1",pos+Vector3.new(0,3,-.8),Vector3.new(5.8,2,.12),0,Color3.fromRGB(172,196,132))
-        screen.Parent=panel map.panels[j]={part=panel,screen=screen,value=1,room=roomId}
-    end
-    r=layout[6] local forgePos=fit(Vector3.new(r.x,3.5,r.z-r.d/2+8),9)
-    map.upgrade=P("UpgradeMachine",Vector3.new(9,7,6),forgePos,Color3.fromRGB(47,64,62),Enum.Material.Metal,true)
-    for _,dx in ipairs({-3.1,3.1}) do
-        local col=P("ForgeCondenser",Vector3.new(6.2,1.7,1.7),forgePos+Vector3.new(dx,.1,-3.5),Color3.fromRGB(104,127,123),Enum.Material.Metal,false,CFrame.Angles(0,0,math.pi/2)) col.Shape=Enum.PartType.Cylinder col.Parent=map.upgrade
-        for n=1,7 do P("ForgeRing",Vector3.new(2,.13,2),forgePos+Vector3.new(dx,-2.7+n*.8,-3.5),Color3.fromRGB(80,191,201),Enum.Material.Neon,false).Parent=map.upgrade end
-    end
-    local glass=P("ForgeInspection",Vector3.new(4.8,3,.15),forgePos+Vector3.new(0,.4,-3.12),Color3.fromRGB(77,145,145),Enum.Material.Glass,false) glass.Transparency=.35 glass.Parent=map.upgrade
-    S("RESONANCE FORGE\n5000 / 7500 POINTS",forgePos+Vector3.new(0,5,-3.6),Vector3.new(13,2.3,.12),0,Color3.fromRGB(113,217,217)).Parent=map.upgrade
-    r=layout[2] local radioPos=fit(Vector3.new(r.x+r.w/2-13,1.65,r.z+r.d/2-10),9)
-    map.radio=P("ExtractionRadio",Vector3.new(5,3.3,3),radioPos,Color3.fromRGB(66,74,54),Enum.Material.Metal,true)
-    for n=1,4 do P("RadioGrille",Vector3.new(3.7,.06,.08),radioPos+Vector3.new(0,-.7+n*.3,-1.56),Color3.fromRGB(24,30,24),Enum.Material.Metal,false).Parent=map.radio end
-    P("RadioAntenna",Vector3.new(.12,5,.12),radioPos+Vector3.new(1.6,3,0),Color3.fromRGB(155,158,143),Enum.Material.Metal,false).Parent=map.radio
-    S("RESCUE CHANNEL\nSIGNAL + ROUND 15",radioPos+Vector3.new(0,3.5,-1.6),Vector3.new(12,2.5,.12),0).Parent=map.radio
-    map.exfilCenter=Vector3.new(r.x,0,r.z)*scale
+    local yard=layout[2] map.exfilCenter=Vector3.new(yard.x,0,yard.z)*scale
     for n=1,16 do local a=n*math.pi/8
-        P("ExtractionMarker",Vector3.new(1.2,.04,.35),Vector3.new(r.x+math.cos(a)*15,.055,r.z+math.sin(a)*15),Color3.fromRGB(195,174,96),Enum.Material.Metal,false,CFrame.Angles(0,-a,0))
+        P("ExtractionMarker",Vector3.new(1.2,.04,.35),Vector3.new(yard.x+math.cos(a)*15,.055,yard.z+math.sin(a)*15),Color3.fromRGB(195,174,96),Enum.Material.Metal,false,CFrame.Angles(0,-a,0))
     end
-    for _,roomId in ipairs({3,4}) do
-        r=layout[roomId] local pos=fit(Vector3.new(r.x-r.w/2+6,1.5,r.z-r.d*.22),7)
-        local controller=P("TrapControl",Vector3.new(2.3,3,1.3),pos,Color3.fromRGB(141,135,85),Enum.Material.CorrodedMetal,true)
-        local center=Vector3.new(r.x,0,r.z)*scale
-        for _,dx in ipairs({-9,9}) do P("TrapEmitter",Vector3.new(.8,7,.8),Vector3.new(r.x+dx,3.5,r.z),Color3.fromRGB(71,81,78),Enum.Material.Metal,true) end
+    for _,room in ipairs({3,4}) do
+        local cf=mount(room,"Trap")
+        local controller=at("TrapControl",Vector3.new(2.3,3,1.3),cf,Color3.fromRGB(141,135,85),Enum.Material.Metal,true)
+        frontLabel(controller,"ARC FENCE / 1000",cf,1.5,7,1.4,Color3.fromRGB(245,219,159))
+        local r=layout[room] local center=Vector3.new(r.x,0,r.z)*scale
+        -- Recessed floor emitters have no posts to snag a revive or a large enemy.
+        for _,dx in ipairs({-9,9}) do P("TrapEmitter",Vector3.new(.8,.08,2),Vector3.new(r.x+dx,.06,r.z),Color3.fromRGB(71,81,78),Enum.Material.Metal,false) end
         local beam=P("TrapField",Vector3.new(17,6,.3),Vector3.new(r.x,3,r.z),Color3.fromRGB(78,208,235),Enum.Material.Neon,false) beam.Transparency=1
-        map.traps[#map.traps+1]={part=controller,center=center,beam=beam,activeUntil=0,cooldownUntil=0,room=roomId}
+        map.traps[#map.traps+1]={part=controller,center=center,beam=beam,activeUntil=0,cooldownUntil=0,room=room}
     end
-    map.spawnPoints={}
+    local entry=layout[1] map.spawnPoints={}
     for _,v in ipairs({Vector3.new(-6,4,-3),Vector3.new(6,4,-3),Vector3.new(-6,4,7),Vector3.new(6,4,7)}) do
         table.insert(map.spawnPoints,(Vector3.new(entry.x,0,entry.z)+v)*scale)
     end
@@ -254,25 +349,21 @@ function M.build(id)
     -- portal, vault, spawn and stair approach. Panels have no movement collision.
     map.counters={}
     for _,spec in ipairs({{room=1,kind="Vent",name="VENTILATION / CLEAR SMOKE"},{room=4,kind="Sprinkler",name=def.theme=="Frost" and "DEICING MIST / SUPPRESS FIRE" or def.theme=="Foundry" and "QUENCH LINE / SUPPRESS FIRE" or "SPRINKLERS / SUPPRESS FIRE"}}) do
-        local room=layout[spec.room] local chosen
-        for n=1,128 do
-            local radius=.43-math.floor((n-1)/32)*.09
-            local a=n*math.pi/16 local x,z=Layouts.inset(room,room.x+math.cos(a)*room.w*radius,room.z+math.sin(a)*room.d*radius,5)
-            local at=Vector3.new(x,3,z)*scale local free=true
-            for _,zone in ipairs(map.interactionZones) do
-                if at.X>zone.minX-3*scale and at.X<zone.maxX+3*scale and at.Z>zone.minZ-3*scale and at.Z<zone.maxZ+3*scale then free=false break end
-            end
-            if free then chosen=Vector3.new(x,3,z) break end
-        end
-        if chosen then
-            local control=P("CounterControl_"..spec.kind,Vector3.new(2.3,2.8,.55),chosen,Color3.fromRGB(57,77,76),Enum.Material.Metal,false)
-            P("CounterPedestal",Vector3.new(.34,1.8,.34),Vector3.new(chosen.X,.9,chosen.Z),Color3.fromRGB(66,74,72),Enum.Material.Metal,false).Parent=control
-            P("CounterFoot",Vector3.new(1.8,.12,1.3),Vector3.new(chosen.X,.08,chosen.Z),Color3.fromRGB(49,57,55),Enum.Material.Metal,false).Parent=control
-            local label=S(spec.name.."\nPOWER REQUIRED / 45s COOLDOWN",chosen+Vector3.new(0,2.5,-.2),Vector3.new(7,1.7,.1),0,Color3.fromRGB(151,209,204));label.Parent=control
-            local fixture=P(spec.kind=="Vent" and "ExtractionFan" or "SuppressionNozzle",Vector3.new(3,.5,3),chosen+Vector3.new(0,5,0),Color3.fromRGB(91,104,97),Enum.Material.Metal,false)
-            for k=-2,2 do P("CounterGrille",Vector3.new(2.6,.08,.12),chosen+Vector3.new(0,4.72,k*.36),Color3.fromRGB(30,38,36),Enum.Material.Metal,false).Parent=fixture end
-            table.insert(map.counters,{part=control,room=spec.room,kind=spec.kind,cooldownUntil=0}) reserve(chosen*scale,Vector3.new(8,7,8)*scale)
-        end
+        local cf=mount(spec.room,"Counter_"..spec.kind)
+        local control=at("CounterControl_"..spec.kind,Vector3.new(2.3,2.8,.55),cf,Color3.fromRGB(57,77,76),Enum.Material.Metal,false)
+        frontLabel(control,spec.name.."\nPOWER / 45s COOLDOWN",cf,1,9,1.8,Color3.fromRGB(186,234,225))
+        local fixture=at(spec.kind=="Vent" and "ExtractionFan" or "SuppressionNozzle",Vector3.new(3,.5,1.2),cf*CFrame.new(0,5,0),Color3.fromRGB(91,104,97),Enum.Material.Metal,false)
+        for k=-2,2 do at("CounterGrille",Vector3.new(2.6,.08,.12),cf*CFrame.new(0,4.72,-.5+k*.2),Color3.fromRGB(30,38,36),Enum.Material.Metal,false).Parent=fixture end
+        table.insert(map.counters,{part=control,room=spec.room,kind=spec.kind,cooldownUntil=0})
+    end
+    -- Reserve the complete bay, display and its standing space, not only its prompt part.
+    for _,bay in ipairs(map.mounts) do
+        local center=bay.cf.Position*scale local inward=bay.cf.LookVector
+        local extra=(bay.approach-center).Magnitude+3
+        local depth=bay.depth*scale+extra local width=bay.width*scale
+        local right=bay.cf.RightVector
+        reserve(center+inward*(extra/2),Vector3.new(math.abs(right.X)*width+math.abs(inward.X)*depth,8*scale,
+            math.abs(right.Z)*width+math.abs(inward.Z)*depth),-1,9*scale)
     end
     Routes.apply(map,P,S)
     Detail.apply(map,def,layout,P,S,light)
@@ -280,7 +371,7 @@ function M.build(id)
     WorldArt.apply(f,def.theme)
     WorldArt.setDressing(map,layout)
     map.model:SetAttribute("MapReady",true)
-    map.model:SetAttribute("LayoutRevision",8)
+    map.model:SetAttribute("LayoutRevision",9)
     return map
 end
 function M.power(map)

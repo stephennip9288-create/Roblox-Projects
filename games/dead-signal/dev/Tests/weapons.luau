@@ -29,7 +29,7 @@ for _,id in ipairs({'Vandal','Harrier','Rook','Carbine','Trench','Halcyon'}) do
 end
 for id in pairs(C.Weapons) do
  local model=W.build(id,'Factory',0,parent,false)
- check(model:GetAttribute('WeaponArtRevision')==9 and model.PrimaryPart~=nil,id..' revised weapon builds')
+ check(model:GetAttribute('WeaponArtRevision')==10 and model.PrimaryPart~=nil,id..' revised weapon builds')
  check(model:FindFirstChild('Muzzle')~=nil,id..' retains authored combat muzzle')
  for _,p in ipairs(model:GetDescendants()) do if p:IsA('BasePart') then check(not p.CanCollide and not p.CanQuery,id..' presentation never blocks shots or movement') end end
  local bytes=r.serializeModel({model});check(#bytes>1000,id..' serialized native model') model:Destroy()

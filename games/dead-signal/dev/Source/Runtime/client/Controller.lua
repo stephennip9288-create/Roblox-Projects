@@ -24,11 +24,24 @@ function Controller.start()
     local remotes=RS.DeadSignal:WaitForChild("Remotes") local action=remotes:WaitForChild("Action") local feed=remotes:WaitForChild("Feed")
     local s={state=nil,profile=nil,fire=false,aim=false,sprint=false,menu=false,nextShot=0,seq=0,pending={},slot=1,guns={},recoil=0,vm=nil,vmKey="",spectateIndex=1,semi=false,reloading=0,meleeAt=0,reloadStarted=0,reloadDuration=1,equipAt=0}
     local fx=FX.new() local ui local aimAlpha=0
+    local audioSerial=0
+    local function cancelPresentation()
+        if s.weaponToken and fx.audioCancel then fx:audioCancel(s.weaponToken) end
+        s.weaponToken=nil s.reloadPresentation=false
+        if s.vm then W.clearEffects(s.vm) end
+    end
+    local function weaponSound(key,phase,actionKind,position,held,remote)
+        held=held or s.guns[s.slot] if not held then return end
+        if not remote and not s.weaponToken then audioSerial+=1 s.weaponToken="weapon:"..player.UserId..":"..audioSerial end
+        fx:sound(key,position,{weaponId=held.id,action=actionKind,phase=phase,token=not remote and s.weaponToken or nil,
+            position=position,firstPerson=not remote,tier=held.tier,sourceId=remote and tostring(remote) or tostring(player.UserId)})
+    end
     local function send(op,args) action:FireServer(op,args or {}) end
     local controls local mobile
     task.spawn(function() local pm=player.PlayerScripts:WaitForChild("PlayerModule",10) if pm then local ok,result=pcall(function() return require(pm):GetControls() end) if ok then controls=result end end end)
     local function resetInput()
         if mobile then mobile:cancel("input reset") end
+        cancelPresentation()
         s.fire=false s.aim=false s.sprint=false s.semi=false
         send("Aim",{enabled=false}) send("Sprint",{enabled=false})
     end
@@ -66,6 +79,7 @@ function Controller.start()
         local newGun=s.guns[s.slot]
         if mobile and (oldSlot~=s.slot or (oldGun and newGun and oldGun.id~=newGun.id)) then mobile:cancelFire("weapon changed") end
         if oldSlot~=s.slot or (oldGun and newGun and oldGun.id~=newGun.id) then
+            cancelPresentation()
             s.reloading=0 s.reloadStarted=0 s.equipAt=os.clock() s.pending={}
             s.fire=false s.aim=false s.semi=false s.recoil=0 aimAlpha=0 send("Aim",{enabled=false})
         end
@@ -75,8 +89,9 @@ function Controller.start()
     local function rebuild()
         local g=gun() local key=g and g.id..":"..g.tier..":"..(s.profile and s.profile.skin or "Factory") or ""
         if key==s.vmKey then return end
-        s.vmKey=key if s.vm then s.vm:Destroy() s.vm=nil end
-        if g then s.vm=W.build(g.id,s.profile and s.profile.skin or "Factory",g.tier,workspace.CurrentCamera,true) s.equipAt=os.clock() fx:sound("Equip") end
+        cancelPresentation()
+        s.vmKey=key if s.vm then W.clearEffects(s.vm,true) s.vm:Destroy() s.vm=nil end
+        if g then s.vm=W.build(g.id,s.profile and s.profile.skin or "Factory",g.tier,workspace.CurrentCamera,true) W.bindEffects(s.vm,fx.folder) s.equipAt=os.clock() weaponSound("Equip","equip","equip") end
     end
     local function spectate(delta)
         if not s.state then return end local targets={}
@@ -104,6 +119,10 @@ function Controller.start()
         if displayMag()>=stat.mag or g.reserve<=0 then return end
         if mobile then mobile:cancelFire("reload") end
         aim(false)
+        cancelPresentation()
+        s.reloadMissing=math.max(1,stat.mag-displayMag())
+        s.reloadAcknowledged=false s.reloadPresentation=true
+        if s.vm then W.beginReload(s.vm,s.reloadMissing,false) end
         s.reloadStarted=os.clock() s.reloadDuration=stat.reload s.reloading=s.reloadStarted+stat.reload s.sprint=false send("Sprint",{enabled=false}) send("Reload",{})
     end
     local function swap(slot)
@@ -139,7 +158,7 @@ function Controller.start()
         local def=C.Weapons[g.id] if pulse then s.semi=false end
         if not def.auto and s.semi then return false end
         if s.sprint then sprint(false) end
-        if displayMag()<=0 then if g.reserve>0 then reload() elseif os.clock()>s.nextShot then fx:sound("Empty") s.nextShot=os.clock()+.4 end return end
+        if displayMag()<=0 then if g.reserve>0 then reload() elseif os.clock()>s.nextShot then weaponSound("Empty","empty","fire") s.nextShot=os.clock()+.4 end return end
         local stats=R.weaponStats(def,g.tier,s.state.perks)
         s.nextShot=os.clock()+stats.interval s.semi=true s.seq=s.seq+1
         s.pending[s.seq]={slot=s.slot,id=g.id,time=os.clock()}
@@ -147,12 +166,8 @@ function Controller.start()
         if point then request.viewOrigin=workspace.CurrentCamera.CFrame.Position end
         send("Fire",request)
         s.recoil=math.min(5,s.recoil+((def.class=="Shotgun" or def.class=="Sniper") and 1.7 or .7))
-        fx:sound(def.class)
-        if s.vm then
-            local muzzle=s.vm:FindFirstChild("Muzzle")
-            if muzzle then fx:muzzle(muzzle) end
-            if muzzle and muzzle:FindFirstChild("Flash") then muzzle.Flash.Brightness=3 task.delay(.05,function() if muzzle.Parent then muzzle.Flash.Brightness=0 end end) end
-        end
+        weaponSound(def.class,"fire","fire")
+        if s.vm then W.shot(s.vm,os.clock(),fx.settings.lowEffects,stats.interval) end
         return true
     end
     local function melee()
@@ -244,7 +259,19 @@ function Controller.start()
             if held and held.reloadUntil<=data.serverTime and os.clock()-s.reloadStarted>.7 then s.reloading=0 end
             if old and (old.status~=data.status or old.phase~=data.phase or old.travelling~=data.travelling) then s.interacting=nil resetInput() s.reloading=0 s.pending={} end
             if data.status=="Eliminated" then spectate(0) end
-            if data.status=="Alive" then rebuild() end
+            if data.status=="Alive" then
+                rebuild()
+                -- A phase/input lifecycle reset is not a server reload cancel.
+                -- Resume from its remaining duration without replaying old cues.
+                local remaining=held and held.reloadUntil-data.serverTime or 0
+                if remaining>0 and s.reloading<=os.clock() then
+                    local stats=R.weaponStats(C.Weapons[held.id],held.tier,data.perks)
+                    s.reloadDuration=stats.reload s.reloading=os.clock()+remaining s.reloadStarted=s.reloading-stats.reload
+                    s.reloadMissing=math.max(1,stats.mag-displayMag())
+                    s.reloadAcknowledged=true s.reloadPresentation=true
+                    if s.vm then W.beginReload(s.vm,s.reloadMissing,true,math.clamp(1-remaining/stats.reload,0,1)) end
+                end
+            end
             ui:setState(data,displayMag())
             fx:event(data.special)
         elseif kind=="Profile" then s.profile=data fx.settings=data.settings mobile:setSettings(data.settings) ui:setProfile(data) s.vmKey="" rebuild()
@@ -264,7 +291,17 @@ function Controller.start()
         elseif kind=="Toast" then ui:toast(data.text,data.color)
         elseif kind=="Hit" then mobile:hit(data.kill) ui:hit(data.kill,data.head) fx:sound(data.kill and "Kill" or "Hit")
         elseif kind=="Hurt" then ui:damage() fx.shake=math.max(fx.shake,1)
-        elseif kind=="Reload" then mobile:cancelFire("server reload") s.fire=false aim(false) s.reloadStarted=os.clock() s.reloadDuration=data.duration s.reloading=s.reloadStarted+data.duration fx:sound("Reload")
+        elseif kind=="Reload" then
+            local held=gun()
+            if held and (not data.weapon or held.id==data.weapon) then
+                mobile:cancelFire("server reload") s.fire=false aim(false)
+                cancelPresentation()
+                local stats=R.weaponStats(C.Weapons[held.id],held.tier,s.state and s.state.perks or {})
+                s.reloadMissing=math.max(1,stats.mag-displayMag())
+                s.reloadAcknowledged=true s.reloadPresentation=true
+                if s.vm then W.beginReload(s.vm,s.reloadMissing,true) end
+                s.reloadStarted=os.clock() s.reloadDuration=data.duration s.reloading=s.reloadStarted+data.duration weaponSound("Reload","begin","reload")
+            end
         elseif kind=="Cue" then fx:sound(data.name)
         elseif kind=="Points" then if s.state then s.state.points=data.total ui.points.Text=data.total.."  P" end
         elseif kind=="Boards" then ui.boards=data if ui.tab=="Records" then ui:open("Records") end
@@ -274,7 +311,7 @@ function Controller.start()
             if own and s.vm and s.vm:FindFirstChild("Muzzle") then origin=s.vm.Muzzle.Position end
             local energy=C.Weapons[data.weapon].class=="Energy"
             for _,point in ipairs(data.ends) do fx:tracer(origin,point,energy) end
-            if not own then fx:sound(C.Weapons[data.weapon].class,data.origin) end
+            if not own then weaponSound(C.Weapons[data.weapon].class,"fire","fire",data.origin,{id=data.weapon,tier=data.tier},data.player) end
         elseif kind=="Explosion" then fx:burst(data.position,data.radius,Color3.fromRGB(255,179,74)) fx:sound("Grenade",data.position) local root=U.root(player) if root and (root.Position-data.position).Magnitude<35 then fx.shake=1.5 end
         elseif kind=="Shock" then fx:burst(data.position,data.radius,Color3.fromRGB(85,205,233)) local root=U.root(player) if root and (root.Position-data.position).Magnitude<35 then fx.shake=1 end
         elseif kind=="ShockWarning" then fx:warning(data) fx:sound("ShockCharge",data.position)
@@ -333,7 +370,7 @@ function Controller.start()
         local aimedFov=held and W.aimFov(held.id) or 57
         aimAlpha=aimAlpha+((isAiming and 1 or 0)-aimAlpha)*math.min(1,dt*18)
         local scoped=held and W.scoped(held.id) and isAiming and aimAlpha>.93
-        optic:update(scoped==true,camera.ViewportSize)
+        optic:update(scoped==true,camera.ViewportSize,held and isAiming and aimAlpha>.93 and W.optic(held.id)=="reflex")
         ui.cross.Visible=living() and aimAlpha<.5 and not (mobile.enabled and mobile.settings.fireLayout=="Tap")
         camera.FieldOfView=camera.FieldOfView+((isAiming and aimedFov or fx.settings.fov)-camera.FieldOfView)*math.min(1,dt*14)
         ui:reticle(held and C.Weapons[held.id],camera.FieldOfView,camera.ViewportSize,s.recoil)
@@ -347,16 +384,29 @@ function Controller.start()
                 local offset=W.viewOffset(held.id,hip,aimAlpha,camera.FieldOfView,camera.ViewportSize)
                 local bob=Vector3.new(math.sin(now*9)*.022*moving,math.abs(math.cos(now*9))*.025*moving,0)*(1-aimAlpha)
                 local progress=now<s.reloading and math.clamp((now-s.reloadStarted)/s.reloadDuration,0,1) or 0
+                if progress>0 and not s.reloadPresentation then
+                    W.beginReload(s.vm,s.reloadMissing,s.reloadAcknowledged,progress) s.reloadPresentation=true
+                elseif progress==0 then s.reloadPresentation=false end
                 local reloadRoll=progress>0 and math.sin(progress*math.pi)*.48 or 0
                 local meleeProgress=now-s.meleeAt<.38 and (now-s.meleeAt)/.38 or 0
                 local meleeRoll=meleeProgress>0 and -math.sin(meleeProgress*math.pi)*.95 or 0
                 local equip=math.max(0,1-(now-s.equipAt)/.3)
                 local sway=Vector3.new(math.sin(now*1.6)*.003,math.cos(now*1.8)*.004,0)*(1-aimAlpha)
                 local kick=s.recoil*(1-aimAlpha*.95)
-                s.vm:PivotTo(camera.CFrame*CFrame.new(offset+bob+sway+Vector3.new(0,-equip*.65,kick*.035-math.sin(meleeProgress*math.pi)*.25))*CFrame.Angles(kick*.012-equip*.3,0,reloadRoll+meleeRoll+(s.sprint and -.35 or 0)))
-                W.pose(s.vm,progress,meleeProgress,equip,s.recoil,displayMag()==0)
+                local physicalKick=W.kickOffset(s.vm,now)*(1-aimAlpha*.8)
+                s.vm:PivotTo(camera.CFrame*CFrame.new(offset+bob+sway+Vector3.new(0,-equip*.65,kick*.035+physicalKick-math.sin(meleeProgress*math.pi)*.25))*CFrame.Angles(kick*.012-equip*.3,0,reloadRoll+meleeRoll+(s.sprint and -.35 or 0)))
+                W.pose(s.vm,progress,meleeProgress,equip,s.recoil,displayMag()==0,{now=now,missing=s.reloadMissing})
                 W.aim(s.vm,scoped==true,W.scoped(held.id) and aimAlpha or 0)
-            else s.vm:PivotTo(CFrame.new(0,-1000,0)) end
+                W.updateEffects(s.vm,now,fx.settings.lowEffects,progress)
+                for _,event in ipairs(W.drainPresentationEvents(s.vm)) do
+                    -- Legacy Effects remains the fallback. No additional report
+                    -- or predicted hit is emitted; acknowledged reload phases
+                    -- opt in only when the approved Audio lifecycle API exists.
+                    if fx.audioCancel and event.acknowledged and event.phase~="eject" then
+                        weaponSound("Weapon.Reload",event.phase,"reload")
+                    end
+                end
+            else cancelPresentation() s.vm:PivotTo(CFrame.new(0,-1000,0)) end
         end
         local char=player.Character local carried=char and char:FindFirstChild("CarriedWeapon")
         if carried then for _,p in ipairs(carried:GetDescendants()) do if p:IsA("BasePart") then p.LocalTransparencyModifier=(mode=="Alive" or mode=="Down") and 1 or 0 end end end

@@ -239,21 +239,30 @@ local function planPath(owner,e,landing,descriptor,window)
     end
     return plan
 end
+function N.entryDescriptor(map,window)
+    local entry=Rules.windowEntry(window);if not entry then return nil end
+    if entry.legacy then return {kind="Window",legacy=true} end
+    local landing=entry.landing.Position
+    local floor=N.floor(map,landing+UP*1.5);if not floor then return nil end
+    local reference=landing.Y-floor.Y local rootReference=3.5*(map.scale or 1)
+    -- Maps #29 preserves legacy navigation-reference anchors (3.5*scale over
+    -- the supported floor, breach at opening center). Also accept explicit
+    -- foot/contact frames. Reject every other height instead of projecting an
+    -- unsupported gallery onto the ground floor.
+    local centered=math.abs(reference-rootReference)<.25
+    if not centered and math.abs(reference)>.6 then return nil end
+    local kinds
+    if entry.allowedKinds then kinds={} for _,kind in ipairs(entry.allowedKinds) do kinds[kind]=true end end
+    return {kind=entry.kind,approach=entry.approach.Position-UP*(centered and reference or 0),
+        contact=entry.breach.Position-UP*(centered and entry.clearance.height*.5 or 0),
+        landing=Vector3.new(landing.X,floor.Y,landing.Z),width=entry.clearance.radius*2,height=entry.clearance.height,
+        kinds=kinds,authored=true,referenceHeight=centered and reference or 0}
+end
 function N.entryPlan(owner,e,window)
     if not window or window.count>0 or window.activeEntry and window.activeEntry~=e.id then return nil end
-    local entry=Rules.windowEntry(window);if not entry then return nil end
-    local descriptor={kind="Window"}
+    local descriptor=N.entryDescriptor(owner.ctx.map,window);if not descriptor then return nil end
     local slots=window
-    if not entry.legacy then
-        local kinds
-        if entry.allowedKinds then kinds={} for _,kind in ipairs(entry.allowedKinds) do kinds[kind]=true end end
-        descriptor={kind=entry.kind,approach=entry.approach.Position,contact=entry.breach.Position,landing=entry.landing.Position,
-            width=entry.clearance.radius*2,height=entry.clearance.height,kinds=kinds,authored=true}
-        local floor=N.floor(owner.ctx.map,descriptor.landing+UP*1.5)
-        -- An upper landing must never project onto a ground-floor recovery slot.
-        if not floor or math.abs(floor.Y-descriptor.landing.Y)>.6 then return nil end
-        slots=table.clone(window);slots.inside=descriptor.landing+UP*1.5;slots.outside=descriptor.approach+UP*1.5
-    end
+    if descriptor.authored then slots=table.clone(window);slots.inside=descriptor.landing+UP*1.5;slots.outside=descriptor.approach+UP*1.5 end
     local selected
     N.entryPoint(owner,e,slots,function(landing)
         if descriptor.authored and math.abs(landing.Y-N.rootHeight(e)-descriptor.landing.Y)>.6 then return false end

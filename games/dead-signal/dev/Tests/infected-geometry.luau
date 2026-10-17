@@ -1,7 +1,7 @@
 -- Real generated maps + retained rigs; conservative offline collider sweeps.
 local fs=require('@lune/fs') local r=require('@lune/roblox') local serde=require('@lune/serde')
 local loader=require('./Support/RuntimeLoader') local Geometry=require('./Support/SourceGeometry')
-local V=r.Vector3 local count=0 local out={engine=false,maps={},rigs={},failures={},rejected={}}
+local V=r.Vector3 local count=0 local out={engine=false,maps={},rigs={},failures={},rejected={},redirectedSectors={}}
 local function check(ok,message) assert(ok,message);count+=1 end
 local function vector(v) return {v.X,v.Y,v.Z} end
 local function parts(model)
@@ -39,7 +39,9 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
    Rigs.evolve(e);owner.list={[si]=e}
    local floor=N.floor(map,w.inside) or N.floor(map,map.rooms[w.room].center+V.new(0,3,0))
    check(floor~=nil,id..' window '..index..' has source floor support')
-   model:PivotTo(r.CFrame.new(V.new(w.outside.X,floor.Y+N.rootHeight(e),w.outside.Z)))
+   local descriptor=N.entryDescriptor(map,w)
+   local origin=descriptor and descriptor.approach or V.new(w.outside.X,floor.Y,w.outside.Z)
+   model:PivotTo(r.CFrame.new(origin+V.new(0,N.rootHeight(e),0)))
    world.lastBlock=nil
    local plan=N.entryPlan(owner,e,w)
    local label=id..' window '..index..' '..spec.kind..(spec.mods and spec.mods.Alpha and ' Alpha' or spec.mods and ' Ironbound' or '')
@@ -63,11 +65,23 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
    model:Destroy()
   end
  end
- for _,spec in ipairs(specs) do for room=1,6 do
+ local Graph=load(folders.shared.NavigationGraph)
+ for _,room in ipairs(map.rooms) do room.unlocked=true end
+ for _,door in ipairs(map.doors) do door.open=true end
+ for _,spec in ipairs(specs) do
+  local initial
+  for _,path in ipairs(report.paths) do if path.kind==spec.kind and path.alpha==(spec.mods and spec.mods.Alpha or false) and map.windows[path.window].room==1 then initial=path;break end end
+  check(initial~=nil,id..' '..spec.kind..' has an initial-sector entry for every purchase state')
+  for room=1,6 do
   local available=0
   for _,path in ipairs(report.paths) do if path.kind==spec.kind and path.alpha==(spec.mods and spec.mods.Alpha or false) and map.windows[path.window].room==room then available+=1 end end
-  check(available>0,id..' '..spec.kind..' has a path in sector '..room..'; no wave/Warden soft lock')
- end
+  if available==0 then
+   local p=initial.samples[#initial.samples].position
+   local route=Graph.route(map,V.new(p[1],p[2],p[3]),map.rooms[room].center+V.new(0,3.08,0))
+   check(route~=nil,id..' '..spec.kind..' reaches a rejected-entry sector through purchased doors')
+   out.redirectedSectors[#out.redirectedSectors+1]={map=id,kind=spec.kind,alpha=spec.mods and spec.mods.Alpha or false,room=room,initialWindow=initial.window,nodes=#route}
+  else check(true,id..' '..spec.kind..' has a direct entry in sector '..room) end
+  end
  end
  owner.list={}
  print(id..': '..#report.paths..'/70 entry plans; '..#world.shapes..' source colliders; '..world.probes..' sweeps')

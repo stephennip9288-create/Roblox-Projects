@@ -66,10 +66,11 @@ function D.entranceEligible(window,kind)
     local height=kind=="Hound" and 4.25 or kind=="Crawler" and 2.75 or kind and kind~="Warden" and 6.65 or 8.6
     return d.clearance.radius*2>=width and d.clearance.height>=height
 end
-function D:window(now,kind)
+function D:window(now,kind,failedEntries)
     local _,_,_,_,players=self:crew() local best,score,fallback,farthest=nil,-math.huge,nil,-math.huge
     for _,window in ipairs(self.ctx.map.windows) do if self.ctx.map.rooms[window.room].unlocked and D.entranceEligible(window,kind)
         and (not kind or now>=((window.entryBlockedUntil or {})[kind] or 0)) then
+        if failedEntries and failedEntries[window]==(self.ctx.map.navigationRevision or 0) then continue end
         local distance,visible=math.huge,false
         for _,p in ipairs(players) do
             distance=math.min(distance,(p.root.Position-window.inside).Magnitude)

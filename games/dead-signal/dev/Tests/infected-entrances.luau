@@ -82,6 +82,11 @@ do
  check(not director:window(h.time,'Warden'),'temporarily blocked Warden entrance is not selected again')
  check(director:window(h.time,'Runner')==large,'blocked species does not exclude smaller agents')
  check(director:window(h.time+8.1,'Warden')==large,'entrance suppression expires without permanent exclusion')
+ large.entryBlockedUntil=nil
+ local failed={[large]=h.ctx.map.navigationRevision}
+ check(not director:window(h.time+20,'Warden',failed),'a recovery cycle does not repeat a rejected entrance merely because its short cooldown expired')
+ h.ctx.map.navigationRevision+=1
+ check(director:window(h.time+20,'Warden',failed)==large,'a purchased-door revision invalidates recovery entrance exclusions')
  local boss=h:enemy('Warden',{},large,true);boss.hp=boss.maxHP*.71
  local spawned={};h.enemies.spawn=function(_,kind,window,position) spawned[#spawned+1]={kind=kind,window=window,position=position} end
  h.enemies:damage(boss,100000,nil,true,'phase','Bullet')
@@ -102,5 +107,24 @@ do
  d.landing=face(V.new(0,0,8));d.approach=CF.new(0,0,-9);check(not h.N.entryPlan(h.enemies,e,e.window),'backwards anchor fails closed')
  d.approach=face(V.new(0,0,-9));d.kind='Vent';check(not h.N.entryPlan(h.enemies,e,e.window),'vent spawning remains gated until kind-specific map review')
  d.kind='Window';d.allowedKinds={Hound=true};check(not h.N.entryPlan(h.enemies,e,e.window),'dictionary is not silently accepted as a canonical allowedKinds list')
+end
+do
+ local h=harness.new();h:player(1,V.new(15,3,30));local e=h:enemy('Hound',{Alpha=true})
+ local function face(p) return CF.lookAt(p,p+V.new(0,0,1)) end
+ h.ctx.map.scale=1.2
+ e.window.entry={schema=1,id='producer-29',kind='Window',room=1,approach=face(V.new(0,4.2,-13.2)),
+  breach=face(V.new(0,7.56,0)),landing=face(V.new(0,4.2,9.6)),clearance={radius=6.1,height=10.8},
+  allowedKinds={'Shambler','Runner','Crawler','Hound','Stalker','Warden'}}
+ local d=h.N.entryDescriptor(h.ctx.map,e.window)
+ check(d and math.abs(d.approach.Y)<.001 and math.abs(d.landing.Y)<.001,'Maps navigation reference frames normalize to physical feet without double scale')
+ check(math.abs(d.contact.Y-2.16)<.001,'Maps opening-center breach resolves the physical sill top')
+ local plan=h.N.entryPlan(h.enemies,e,e.window)
+ check(plan and math.abs(plan.landing.Y-h.N.rootHeight(e))<.001,'Maps producer schema supports the actual evolved K9 root height')
+ h.floorFunction=function() return 12 end
+ e.window.entry.approach=face(V.new(0,16.2,-13.2));e.window.entry.breach=face(V.new(0,19.56,0));e.window.entry.landing=face(V.new(0,16.2,9.6))
+ d=h.N.entryDescriptor(h.ctx.map,e.window)
+ check(d and math.abs(d.landing.Y-12)<.001 and math.abs(d.approach.Y-12)<.001,'navigation reference normalization retains supported upper floor')
+ h.floorFunction=nil
+ check(not h.N.entryDescriptor(h.ctx.map,e.window),'lost upper floor cannot silently become a ground entry')
 end
 print('Batch 1 entrance contract assertions passed:',count)

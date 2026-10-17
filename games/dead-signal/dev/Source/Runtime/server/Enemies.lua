@@ -23,14 +23,14 @@ function E.new(ctx)
     return setmetatable({ctx=ctx,list={},nextId=0,folder=U.make("Folder",workspace,{Name="DeadSignalEnemies"}),
         corpses=U.make("Folder",workspace,{Name="DeadSignalCorpses"}),hazards={},hazardId=0,pathBudget=0,pathTokens=4,pathBudgetAt=os.clock(),recovered=0,targetLoads={}},E)
 end
-function E:spawn(kind,window,position,mods)
+function E:spawn(kind,window,position,mods,failedEntries)
     mods=kind=="Warden" and {} or mods or {}
     if not position and self.ctx.director then
-        window=self.ctx.director:window(os.clock(),kind) or window
+        window=self.ctx.director:window(os.clock(),kind,failedEntries) or window
     end
     self.nextId=self.nextId+1 local id=self.nextId
-    local entry=window and DirectorRules.windowEntry(window)
-    local origin=entry and not entry.legacy and entry.approach.Position
+    local entry=window and Navigation.entryDescriptor and Navigation.entryDescriptor(self.ctx.map,window)
+    local origin=entry and entry.approach
     local pos=position or U.finiteVector(origin) and origin+Vector3.new(0,3.5*(self.ctx.map.scale or 1),0) or window.outside
     if not position then
         local outward=Vector3.new(pos.X-window.inside.X,0,pos.Z-window.inside.Z)
@@ -58,14 +58,14 @@ function E:spawn(kind,window,position,mods)
         entered=position~=nil,attack=0,nextPath=0,index=1,path=nil,computing=false,
         shock=now+8,lastPosition=pos,lastMoved=now,spawned=now,runId=self.ctx.run.id,
         damage=stats and stats.damage or R.enemyDamage(self.ctx.run.round,kind,C.Modes[self.ctx.run.mode]),targetAt=now+(id%7)*.07,phase=1,attackDamage={},damageWindow=now,windowDamage=0}
-    enemy.mods=mods enemy.baseSpeed=hum.WalkSpeed
+    enemy.mods=mods enemy.baseSpeed=hum.WalkSpeed enemy.failedEntries=failedEntries
     enemy.armor=mods.Armored and {Head=hp*T.armored.plateHealth,Body=hp*T.armored.plateHealth} or nil
     enemy.reactor=mods.Volatile and hp*T.volatile.reactorHealth or nil
     enemy.packRole=mods.Alpha and "Alpha" or id%3==0 and "Flanker" or "Charger"
     if kind=="Stalker" then enemy.damage=math.min(T.stalker.damageCap,enemy.damage) end
     Rigs.evolve(enemy)
     if not position then
-        local ground=entry and not entry.legacy and entry.approach.Position or Navigation.floor(self.ctx.map,pos) or Navigation.floor(self.ctx.map,window.inside)
+        local ground=entry and entry.approach or Navigation.floor(self.ctx.map,pos) or Navigation.floor(self.ctx.map,window.inside)
         if ground then
             pos=Vector3.new(pos.X,ground.Y+Navigation.rootHeight(enemy),pos.Z)
             model:PivotTo(CFrame.lookAt(pos,pos+Vector3.new(window.inside.X-pos.X,0,window.inside.Z-pos.Z)))
@@ -238,12 +238,14 @@ end
 function E:recover(enemy)
     if enemy.dead then return end
     self:stopTraversal(enemy,false)
+    local failedEntries=enemy.failedEntries or {}
     if not enemy.entered and enemy.window then
         -- A rejected sill/ceiling or blocked landing must not keep selecting
         -- the same entrance for this species. This is transient, never a quota
         -- change or an interior reposition, and does not blacklist other kinds.
         enemy.window.entryBlockedUntil=enemy.window.entryBlockedUntil or {}
         enemy.window.entryBlockedUntil[enemy.kind]=os.clock()+8
+        failedEntries[enemy.window]=self.ctx.map.navigationRevision or 0
     end
     local attempts=(enemy.recoveryAttempts or 0)+1
     if attempts>=3 and enemy.kind~="Warden" then
@@ -254,8 +256,16 @@ function E:recover(enemy)
     local hp=enemy.hp local rewards=enemy.hitRewards local kind=enemy.kind local window=enemy.window
     local maxHP,phase,overload=enemy.maxHP,enemy.phase,enemy.overloadUntil
     enemy.dead=true Navigation.invalidate(enemy) self.list[enemy.id]=nil enemy.model:Destroy()
-    local nextWindow=self.ctx.director and self.ctx.director:window(os.clock(),kind) or window
-    local replacement=self:spawn(kind,nextWindow or window,nil,enemy.mods)
+    local nextWindow=window
+    if self.ctx.director then
+        nextWindow=self.ctx.director:window(os.clock(),kind,failedEntries)
+        if not nextWindow then
+            -- Try each eligible entrance before repeating one. A fresh bounded
+            -- cycle lets temporary occupancy clear without permanent exclusions.
+            failedEntries={};nextWindow=self.ctx.director:window(os.clock(),kind)
+        end
+    end
+    local replacement=self:spawn(kind,nextWindow or window,nil,enemy.mods,failedEntries)
     replacement.armor=enemy.armor replacement.reactor=enemy.reactor
     if enemy.armor then for zone,value in pairs(enemy.armor) do if value<=0 then Rigs.breakArmor(replacement,zone) end end end
     replacement.recoveryAttempts=attempts

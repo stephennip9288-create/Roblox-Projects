@@ -3,6 +3,9 @@ name: Dead Signal Production Candidate Readiness (No Publish)
 on:
   push:
     paths:
+      - 'scripts/dead_signal_release_guard.py'
+      - 'games/dead-signal/releases/**'
+      - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
       - 'scripts/patch_dead_signal_rbxl.py'
       - 'scripts/check_dead_signal_production.py'
@@ -13,6 +16,9 @@ on:
       - '.github/workflows/dead-signal-production-readiness.yml'
   pull_request:
     paths:
+      - 'scripts/dead_signal_release_guard.py'
+      - 'games/dead-signal/releases/**'
+      - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
       - 'scripts/patch_dead_signal_rbxl.py'
       - 'scripts/check_dead_signal_production.py'

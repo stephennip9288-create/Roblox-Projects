@@ -3,7 +3,8 @@
 
 No production key, production IDs, or production files can be used.
 This tool is invoked only after all offline and binary-fidelity checks pass.
-The checked-in known-working staging .rbxl files are the rollback baseline.
+Recovery uses exact hash-pinned artifacts from the recorded staging release.
+Historical checked-in binaries are retained for offline diagnostics only.
 """
 import argparse
 import hashlib
@@ -15,8 +16,9 @@ import sys
 
 from common import ROOT, check_place, load_manifest
 from generate_dead_signal_place_configs import ROLES, read_identifiers
-from patch_dead_signal_rbxl import split_binary, parse_headers
+from patch_dead_signal_rbxl import split_binary, parse_headers, desired_scripts
 from publish import publish
+import dead_signal_release_guard as release_guard
 
 SOURCE_BASELINE = ROOT / "games/dead-signal/places"
 CANDIDATES = ROOT / "build/dead-signal-lossless/staging"
@@ -72,6 +74,9 @@ def validate_candidate(place, original, modified, configs):
     desired = configs["staging"]["places"]
     banned = set(configs["production"]["places"].values())
     sources = source_texts(modified)
+    expected_sources = {path: content for path, (_, content) in desired_scripts(place, "staging").items()}
+    if sources != expected_sources:
+        raise ValueError("Staging binary sources differ from the reviewed checkout")
     config = sources.get("ReplicatedStorage/DeadSignal/PlaceConfig")
     if not config:
         raise ValueError("Missing final staging PlaceConfig")
@@ -96,7 +101,7 @@ def validate_candidate(place, original, modified, configs):
 
 
 def verified_baselines():
-    """Rollback must remain usable even if candidate build/report is broken."""
+    """Historical-file diagnostic only; never selected by an actual rollout."""
     ids = staging_manifest()
     if set(ROLES) != set(ORDER):
         raise ValueError("Unexpected number of staging places")
@@ -126,9 +131,23 @@ def verified_baselines():
     return reviewed
 
 
-def preflight():
+def current_baselines():
+    """The exact artifacts of the last recorded successful staging release."""
+    return {place: {"staging_place_id": row["place_id"], "staging_universe_id": row["universe_id"],
+                    "rollback_baseline_sha256": row["sha256"], "rollback_baseline_bytes": row["bytes"],
+                    "rollback_file": row["path"], "recovery_source_sha": row["source_sha"],
+                    "recovery_deployment_run": row["deployment_run"], "recovery_version": row["version"]}
+            for place, row in release_guard.verify_recovery("staging").items()}
+
+
+def approved_release_source():
+    record = json.loads((release_guard.RECORDS / "batch-1.json").read_text())
+    release_guard.verify_source(ROOT, record, os.getenv("RELEASE_SOURCE_SHA", ""))
+
+
+def preflight(current=False):
     ids = staging_manifest()
-    reviewed = verified_baselines()
+    reviewed = current_baselines() if current else verified_baselines()
     expected = set(ORDER)
     report = json.loads((CANDIDATES / "LOSSLESS-REPORT.json").read_text("utf-8"))
     fidelity = json.loads((CANDIDATES / "BINARY-FIDELITY-REPORT.json").read_text("utf-8"))
@@ -162,14 +181,17 @@ def preflight():
 def prepare_upload(place, operation, approved):
     if operation not in ALLOWED_MODES or place not in ORDER:
         raise ValueError("Unsupported rollout mode or place")
-    source = (CANDIDATES / f"{place}.rbxl") if operation == "deploy" else (SOURCE_BASELINE / place / "staging.rbxl")
+    entry = approved[place]
+    source = (CANDIDATES / f"{place}.rbxl") if operation == "deploy" else (ROOT / entry["rollback_file"])
+    expected = entry["candidate_sha256"] if operation == "deploy" else entry["rollback_baseline_sha256"]
+    if sha256(source.read_bytes()) != expected:
+        raise ValueError("Publish/recovery bytes changed after preflight: " + place)
     directory = OUTPUT / "publish"
     if directory.exists():
         shutil.rmtree(directory)
     directory.mkdir(parents=True)
     shutil.copy2(source, directory / "place.rbxl")
     check_place(directory / "place.rbxl")
-    entry = approved[place]
     metadata = {
         "game": "dead-signal", "place": place, "target": "staging", "mode": "file",
         "universe_id": entry["staging_universe_id"], "place_id": entry["staging_place_id"],
@@ -183,9 +205,11 @@ def write_backup_manifest(approved):
     OUTPUT.mkdir(parents=True, exist_ok=True)
     backup = {
         "game": "dead-signal", "target": "staging",
-        "source": "Committed original staging.rbxl files under games/dead-signal/places/",
+        "source": "Verified published-release artifacts" if all("rollback_file" in v for v in approved.values()) else "Historical committed files (offline audit only; not selected for deployment)",
         "rollback_files": {k: {"place_id": v["staging_place_id"], "sha256": v["rollback_baseline_sha256"],
-                                  "byte_count": v["rollback_baseline_bytes"]} for k, v in approved.items()},
+                                  "byte_count": v["rollback_baseline_bytes"], "file": v.get("rollback_file"),
+                                  "source_sha": v.get("recovery_source_sha"), "deployment_run": v.get("recovery_deployment_run"),
+                                  "version": v.get("recovery_version")} for k, v in approved.items()},
         "production_touched": False,
     }
     (OUTPUT / "ROLLBACK-MANIFEST.json").write_text(json.dumps(backup, indent=2) + "\n", encoding="utf-8")
@@ -205,7 +229,9 @@ def run(operation, confirmation):
     if not os.environ.get("ROBLOX_API_KEY"):
         raise ValueError("Missing staging-only Roblox API key")
     # Every publish is staged-only. Rollback works even when candidate CI is broken.
-    approved = preflight() if operation == "deploy" else verified_baselines()
+    if operation == "deploy":
+        approved_release_source()
+    approved = preflight(current=True) if operation == "deploy" else current_baselines()
     write_backup_manifest(approved)
     print("STAGING preflight complete: 4 rollback baselines recorded; operation=" + operation, flush=True)
     uploaded = []
@@ -221,7 +247,7 @@ def run(operation, confirmation):
             {"operation": operation, "places": results, "production_touched": False}, indent=2) + "\n", encoding="utf-8")
         print("All four STAGING places published; complete actual-device acceptance testing next.", flush=True)
     except Exception as first_error:
-        print("STAGING PUBLISH FAILED. Attempting rollback of all four staging places using checked-in known-working baselines.", file=sys.stderr, flush=True)
+        print("STAGING PUBLISH FAILED. Attempting rollback of all four places using verified release artifacts.", file=sys.stderr, flush=True)
         rollback_failures = []
         # When a network timeout occurs Roblox might have accepted the in-flight upload:
         # always restore all four, regardless of prior published count.

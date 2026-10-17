@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       operation:
-        description: "Deploy v1.8 candidate or restore the previous production source binaries"
+        description: "Deploy reviewed candidate or restore the exact recorded production release"
         type: choice
         options:
           - rollback
@@ -23,6 +23,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: dead-signal-four-place-production-promotion
@@ -33,10 +34,22 @@ jobs:
     if: github.repository == 'stephennip9288-create/Roblox-Projects' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: candidate
+    env:
+      PYTHONPATH: ''
     # Configure approval-required environment protection in GitHub settings before production use.
     environment: dead-signal-production
     steps:
+      - name: Check out reviewed main controls
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: release-control
+          persist-credentials: false
       - name: Validate optional source commit
+        working-directory: ${{ github.workspace }}
         env:
           SOURCE_SHA: ${{ inputs.source_sha }}
           OPERATION: ${{ inputs.operation }}
@@ -51,6 +64,9 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: ${{ inputs.source_sha || github.sha }}
+          path: candidate
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
@@ -61,14 +77,29 @@ jobs:
         shell: bash
         run: |
           if [ "$OPERATION" = "deploy" ] && [ "$CONFIRMATION" = "PUBLISH-V18-PRODUCTION" ]; then
-            echo "Owner authorized four-place v1.8 production release."
+            echo "Owner authorized the selected four-place production release."
           elif [ "$OPERATION" = "rollback" ] && [ "$CONFIRMATION" = "RESTORE-PREVIOUS-PRODUCTION" ]; then
             echo "Owner authorized four-place production rollback."
           else
             echo "::error::Production action not authorized by exact confirmation phrase" >&2
             exit 1
           fi
+      - name: Install trusted production controls
+        working-directory: ${{ github.workspace }}
+        env:
+          OPERATION: ${{ inputs.operation }}
+          SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
+        run: |
+          selected="$SOURCE_SHA"
+          if [ "$OPERATION" = "rollback" ]; then selected=""; fi
+          python release-control/scripts/dead_signal_release_guard.py controls --control release-control --candidate candidate --operation "$OPERATION" --source-sha "$selected" --environment production
+      - name: Fetch and verify the recorded current production recovery set
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OPERATION: ${{ inputs.operation }}
+        run: python scripts/dead_signal_release_guard.py recovery --environment production --operation "$OPERATION"
       - name: Check publisher manifest and production guard tests
+        if: ${{ inputs.operation == 'deploy' }}
         run: |
           python -m unittest discover -s tests -v
           python scripts/validate.py
@@ -77,7 +108,7 @@ jobs:
         if: ${{ inputs.operation == 'deploy' }}
         uses: CompeyDev/setup-rokit@v0.1.2
         with:
-          path: games/dead-signal/dev
+          path: candidate/games/dead-signal/dev
       - name: Run original Work regression suites (new release only)
         if: ${{ inputs.operation == 'deploy' }}
         shell: bash
@@ -104,6 +135,15 @@ jobs:
       - name: Verify production place IDs, source parity, and all four rollback binaries
         if: ${{ inputs.operation == 'deploy' }}
         run: python scripts/check_dead_signal_production.py
+      - name: Reinstall trusted production controls after candidate tests
+        working-directory: ${{ github.workspace }}
+        env:
+          OPERATION: ${{ inputs.operation }}
+          SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
+        run: |
+          selected="$SOURCE_SHA"
+          if [ "$OPERATION" = "rollback" ]; then selected=""; fi
+          python release-control/scripts/dead_signal_release_guard.py controls --control release-control --candidate candidate --operation "$OPERATION" --source-sha "$selected" --environment production
       - name: Create backup manifest BEFORE any production upload
         env:
           OPERATION: ${{ inputs.operation }}
@@ -112,8 +152,8 @@ jobs:
           python - <<'PY'
           import os,sys
           sys.path.insert(0,"scripts")
-          from dead_signal_production_rollout import preflight, verified_rollback_files, manifest
-          data=preflight() if os.getenv("OPERATION")=="deploy" else verified_rollback_files()
+          from dead_signal_production_rollout import preflight, current_rollback_files, manifest
+          data=preflight(current=True) if os.getenv("OPERATION")=="deploy" else current_rollback_files()
           assert len(data)==4
           manifest(data)
           print("Four exact PRODUCTION baseline rollback files ready.")
@@ -122,11 +162,20 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: dead-signal-production-rollback-${{ github.run_id }}
-          path: build/dead-signal-production-release/ROLLBACK-MANIFEST.json
+          path: candidate/build/dead-signal-production-release/ROLLBACK-MANIFEST.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Retain exact production candidates for future recovery
+        if: ${{ inputs.operation == 'deploy' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-reviewed-production-${{ github.run_id }}
+          path: candidate/build/dead-signal-lossless/production/
           retention-days: 90
           if-no-files-found: error
       - name: Publish four production places with automatic rollback on error
         env:
+          RELEASE_SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
           GITHUB_REF: ${{ github.ref }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           ROBLOX_API_KEY: ${{ secrets.ROBLOX_PRODUCTION_API_KEY }}
@@ -140,8 +189,8 @@ jobs:
         with:
           name: dead-signal-production-result-${{ github.run_id }}
           path: |
-            build/dead-signal-production-release/ROLLBACK-MANIFEST.json
-            build/dead-signal-production-release/PUBLISH-RESULT.json
+            candidate/build/dead-signal-production-release/ROLLBACK-MANIFEST.json
+            candidate/build/dead-signal-production-release/PUBLISH-RESULT.json
           retention-days: 90
           if-no-files-found: warn
 

@@ -62,6 +62,7 @@ class StagingRolloutTests(unittest.TestCase):
                                           "ROBLOX_API_KEY": "not-a-real-key"}), \
                  patch.object(rollout, "OUTPUT", Path(temp)), \
                  patch.object(rollout, "preflight", return_value={p: {"staging_place_id": str(101 + i)} for i, p in enumerate(rollout.ORDER)}), \
+                 patch.object(rollout, "approved_release_source"), \
                  patch.object(rollout, "prepare_upload", side_effect=fake_prepare), \
                  patch.object(rollout, "write_backup_manifest"), \
                  patch.object(rollout, "publish", side_effect=calls) as uploader:
@@ -85,6 +86,7 @@ class StagingRolloutTests(unittest.TestCase):
                                           "ROBLOX_API_KEY": "not-a-real-key"}), \
                  patch.object(rollout, "OUTPUT", Path(temp)), \
                  patch.object(rollout, "CANDIDATES", Path("/nonexistent")), \
+                 patch.object(rollout, "current_baselines", return_value=rollout.verified_baselines()), \
                  patch.object(rollout, "prepare_upload", side_effect=fake_prepare), \
                  patch.object(rollout, "publish") as uploader:
                 rollout.run("rollback", "RESTORE-PRIVATE-STAGING")

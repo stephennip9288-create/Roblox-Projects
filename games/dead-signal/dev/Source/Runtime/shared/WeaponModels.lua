@@ -1,5 +1,6 @@
 local RS=game:GetService("ReplicatedStorage")
 local C=require(RS.DeadSignal.Config)
+local Rules=require(RS.DeadSignal.Rules)
 local U=require(RS.DeadSignal.Util)
 local Blueprints=require(RS.DeadSignal.WeaponBlueprints)
 local Detail=require(RS.DeadSignal.WeaponDetail)
@@ -7,6 +8,11 @@ local ThirdPerson=require(RS.DeadSignal.ThirdPerson)
 local ArtAssets=require(RS.DeadSignal.ArtAssets)
 local W={} local poses=setmetatable({},{__mode="k"})
 local cosmeticSources=setmetatable({},{__mode="k"})
+local tubeCapacities={}
+for id,bp in pairs(Blueprints) do if bp.reloadStyle=="tube" then
+    tubeCapacities[id]=Rules.weaponStats(C.Weapons[id],3,{}).mag
+end end
+local function tubeRounds(id,missing) return math.clamp(math.floor(missing or 3),1,tubeCapacities[id]) end
 function W.aimHeight(id) return Blueprints[id].sight end
 function W.aimFov(id) return Blueprints[id].aimFov or 57 end
 function W.scoped(id) return Blueprints[id].scope==true end
@@ -28,7 +34,7 @@ function W.build(id,skin,tier,parent,arms)
     local dark=Color3.fromRGB(22,26,27)
     local edge=Color3.fromRGB(107,115,115) local wood=Color3.fromRGB(115,76,42) local rubber=Color3.fromRGB(33,36,34)
     for _,s in ipairs(C.Skins) do if s.id==skin and skin~="Factory" then paint=U.color(s.color) wood=paint end end
-    local pose={parts={},bp=bp,arms=arms} poses[m]=pose
+    local pose={parts={},bp=bp,arms=arms,capacity=Rules.weaponStats(def,tier,{}).mag} poses[m]=pose
     local function raw(name,size,pos,color,material,group,rot,class)
         local part=U.make(class or "Part",m,{Name=name,Size=size,CFrame=CFrame.new(pos)*(rot or CFrame.new()),Color=color or paint,
             Material=material or Enum.Material.Metal,Reflectance=material==Enum.Material.SmoothPlastic and 0 or .035,
@@ -68,8 +74,8 @@ function W.build(id,skin,tier,parent,arms)
             p("RevolverFrame",Vector3.new(.27,.3,.8),Vector3.new(0,.02,-.25),metal)
             p("TopStrap",Vector3.new(.23,.12,.85),Vector3.new(0,.24,-.35),edge)
             tube("Cylinder",.24,.53,Vector3.new(0,.02,-.19),metal,"cylinder")
-            for n=1,6 do local a=n*math.pi/3
-                tube("CylinderChamber",.064,.035,Vector3.new(math.cos(a)*.155,.02+math.sin(a)*.155,-.475),dark,"cylinder")
+            for n=1,pose.capacity do local a=n*math.pi*2/pose.capacity
+                tube("CylinderChamber",math.min(.064,math.pi*.155/pose.capacity*.78),.035,Vector3.new(math.cos(a)*.155,.02+math.sin(a)*.155,-.475),dark,"cylinder")
                 p("CylinderFlute",Vector3.new(.04,.04,.43),Vector3.new(math.cos(a)*.239,.02+math.sin(a)*.239,-.19),edge,nil,"cylinder")
             end
             p("Hammer",Vector3.new(.12,.17,.15),Vector3.new(0,.20,.23),metal,nil,"hammer")
@@ -267,8 +273,8 @@ function W.build(id,skin,tier,parent,arms)
         if bp.reloadStyle=="break" then for side=-1,1,2 do
             local shell=tube("BreechLoadShell",.064,.26,Vector3.new(side*.115,.025,-.30),Color3.fromRGB(155,58,40),"loadshell") shell.Transparency=1
         end end
-        if bp.reloadStyle=="cylinder" then for n=1,6 do local a=n*math.pi/3
-            tube("SpeedLoadRound",.045,.23,Vector3.new(math.cos(a)*.155,.02+math.sin(a)*.155,.16),Color3.fromRGB(166,135,72),"loadshell").Transparency=1
+        if bp.reloadStyle=="cylinder" then for n=1,pose.capacity do local a=n*math.pi*2/pose.capacity
+            tube("SpeedLoadRound",math.min(.045,math.pi*.155/pose.capacity*.6),.23,Vector3.new(math.cos(a)*.155,.02+math.sin(a)*.155,.16),Color3.fromRGB(166,135,72),"loadshell").Transparency=1
         end end
     end
     m:SetAttribute("WeaponId",id) m:SetAttribute("Blueprint",kind) m:SetAttribute("SightHeight",bp.sight)
@@ -360,7 +366,7 @@ function W.reloadFrame(id,progress,missing)
         frame.left=Vector3.new(out*.2,-out*.26,out*.62) frame.action=0
         frame.shell=t>.36 and t<.70 frame.shellOffset=Vector3.new(0,0,(1-smooth(.38,.68,t))*.32)
     elseif style=="tube" then
-        local rounds=math.clamp(math.floor(missing or 3),1,8)
+        local rounds=tubeRounds(id,missing)
         local raw=math.clamp((t-.12)/.68,0,.9999)*rounds local q=raw%1
         local feed=pulse(0,.52,1,q)
         frame.left=Vector3.new(feed*.12,-feed*.24,feed*.84)
@@ -375,8 +381,9 @@ function W.reloadEvents(id,from,to,missing)
     local style=Blueprints[id].reloadStyle local stages
     if style=="tube" then
         stages={{.84,"action-open"},{.97,"action-close"}}
-        for n=1,math.clamp(math.floor(missing or 3),1,8) do
-            stages[#stages+1]={.12+.68*(n-.25)/math.clamp(math.floor(missing or 3),1,8),"shell-in"}
+        local rounds=tubeRounds(id,missing)
+        for n=1,rounds do
+            stages[#stages+1]={.12+.68*(n-.25)/rounds,"shell-in"}
         end
     elseif style=="cylinder" or style=="break" then stages={{.08,"action-open"},{.26,"eject"},{.58,"shell-in"},{.93,"action-close"}}
     elseif style=="belt" then stages={{.08,"feed-open"},{.30,"mag-out"},{.65,"mag-in"},{.91,"feed-close"},{.96,"action-close"}}
@@ -430,7 +437,7 @@ local function muzzleEmitter(muzzle,name,smoke,energy)
 end
 function W.shot(model,now,lowEffects,interval)
     local data=poses[model] if not data or not data.arms then return end
-    data.clean=false data.id=model:GetAttribute("WeaponId") data.firedAt=now data.shots=((data.shots or 0)+1)%6
+    data.clean=false data.id=model:GetAttribute("WeaponId") data.firedAt=now data.shots=((data.shots or 0)+1)%data.capacity
     data.cycleDuration=math.min(.12,(interval or .16)*.8)
     record(data,"fire",false)
     local muzzle=model:FindFirstChild("Muzzle") if not muzzle then return end
@@ -484,7 +491,7 @@ function W.updateEffects(model,now,lowEffects,progress)
         if progress<(data.lastReload or 0) then data.lastReload=progress end
         for _,event in ipairs(W.reloadEvents(data.id,data.lastReload or 0,progress,data.reloadMissing)) do
             record(data,event.phase,data.reloadAcknowledged)
-            if event.phase=="eject" then eject(model,data,now,lowEffects,data.bp.reloadStyle=="cylinder" and 6 or 2) end
+            if event.phase=="eject" then eject(model,data,now,lowEffects,data.bp.reloadStyle=="cylinder" and data.capacity or 2) end
         end
         data.lastReload=progress
     elseif data.lastReload and data.lastReload>0 then data.reloadActive=false data.lastReload=0 end
@@ -534,7 +541,7 @@ function W.pose(model,reload,melee,equip,recoil,empty,context)
         if g=="mag" then cf=frame.mag*cf
         elseif g=="cylinder" then
             local turn=(data.shots or 0)-(age and 1-smooth(0,.12,age) or 0)
-            cf=CFrame.new(-cylinder*.32,0,0)*CFrame.Angles(0,0,cylinder*.2+turn*math.pi/3)*cf
+            cf=CFrame.new(-cylinder*.32,0,0)*CFrame.Angles(0,0,cylinder*.2+turn*math.pi*2/data.capacity)*cf
         elseif g=="bolt" then cf=CFrame.new(0,0,frame.action*.20+(bp.action=="bolt" and action*.20 or cycle*.09))*cf
         elseif g=="slide" then cf=CFrame.new(0,0,empty and reload==0 and .14 or cycle*.14)*cf
         elseif g=="trigger" then cf=cf*CFrame.Angles(cycle*.18,0,0)

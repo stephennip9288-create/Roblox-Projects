@@ -4,7 +4,7 @@ local fs=require('@lune/fs') local r=require('@lune/roblox') local loader=requir
 r.implementMethod('ParticleEmitter','Emit',function(p,n) p:SetAttribute('Emitted',(p:GetAttribute('Emitted') or 0)+n) end)
 r.implementMethod('ParticleEmitter','Clear',function(p) p:SetAttribute('Cleared',(p:GetAttribute('Cleared') or 0)+1) end)
 local dm=r.deserializePlace(fs.readFile('Places/DeadSignal-v1.8.0-Lobby.rbxl'));local f=loader.install(dm);local load=loader.new(dm)
-local W=load(f.shared.WeaponModels);local B=load(f.shared.WeaponBlueprints);local C=load(f.shared.Config)
+local W=load(f.shared.WeaponModels);local B=load(f.shared.WeaponBlueprints);local C=load(f.shared.Config);local Rules=load(f.shared.Rules)
 local count=0 local function check(ok,msg) assert(ok,msg);count+=1 end
 local maximum=0 local models=0 local effects=r.Instance.new('Folder')
 for id,def in pairs(C.Weapons) do for tier=0,3 do for _,skin in ipairs({'Factory','Copper'}) do
@@ -44,6 +44,20 @@ for id,def in pairs(C.Weapons) do for tier=0,3 do for _,skin in ipairs({'Factory
  if B[id].reloadStyle=='tube' then
   local shell=0 for _,event in ipairs(stages) do if event.phase=='shell-in' then shell+=1 end end
   check(shell==6,id..' shell presentation count uses missing-round context')
+  local capacity=Rules.weaponStats(def,tier,{}).mag
+  for _,missing in ipairs({1,capacity-1,capacity}) do
+   local total=0 local sequence=W.reloadEvents(id,0,1,missing)
+   for _,event in ipairs(sequence) do if event.phase=='shell-in' then total+=1 end end
+   check(total==missing and #sequence<=16,id..' partial/full upgraded shell count '..missing)
+  end
+ end
+ if B[id].action=='revolver' then
+  local chambers,rounds=0,0
+  for _,p in ipairs(model:GetChildren()) do
+   if p.Name=='CylinderChamber' then chambers+=1 elseif p.Name=='SpeedLoadRound' then rounds+=1 end
+  end
+  local capacity=Rules.weaponStats(def,tier,{}).mag
+  check(chambers==capacity and rounds==capacity,id..' cylinder/loader matches current upgrade capacity')
  end
  -- Actual poses move the entire front action/feeds together, then restore.
  local moving=model:FindFirstChild(id=='Breaker' and 'SightFront' or id=='Anchor' and 'FeedRound' or 'Magazine')

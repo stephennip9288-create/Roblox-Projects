@@ -6,7 +6,8 @@ local function check(ok,msg) assert(ok,msg);count+=1 end
 local function place(root,pos) root.Position=pos;root.CFrame=CF.new(pos) end
 local testOs=table.clone(os);testOs.clock=function() return now end
 local routeClear=true local entry=nil
-local nav={invalidate=function(e) e.invalidated=(e.invalidated or 0)+1 end,
+local nav={invalidate=function(e) e.invalidated=(e.invalidated or 0)+1 end,rootHeight=function() return 3 end,
+ traversalTuning={planInterval=.8},entryPlan=function() return entry and {} or nil end,contextPlan=function() return nil end,
  goal=function(_,_,target) return target end,clearRoute=function() return routeClear end,
  floor=function(_,pos) return V.new(pos.X,0,pos.Z) end,entryPoint=function() return entry end,
  move=function(_,e,target,time) e.hum:MoveTo(target);e.lastMoved=time end}
@@ -137,6 +138,7 @@ do
  check(not who.entered,'entry recovery fixture starts outside')
  who.lastMoved=now-17;e:tick(now)
  check(who.dead and e.recovered==1 and e:count()==1,'blocked breach slot relocates instead of holding a wave forever')
+ check(window.entryBlockedUntil.Shambler==now+8,'failed exterior route temporarily excludes that window for the same species')
  for attempt=2,3 do
   local nextEnemy=next(e.list) and select(2,next(e.list));nextEnemy.lastMoved=now-17;e:tick(now)
  end
@@ -144,8 +146,9 @@ do
  local tearing=spawn('Shambler',{},false);window.count=1;window.boards={r.Instance.new('Part')};window.nextTear=now-1
  tearing.lastMoved=now-15;e:tick(now)
  check(not tearing.dead and tearing.lastMoved==now,'tearing a board counts as legitimate entry progress')
- window.count=0;entry=V.new(0,3,0);e:tick(now+.5)
- check(tearing.entered,'entry resumes through the free slot without teleporting into a blocked slot')
+ window.count=0;entry=V.new(0,3,0);local began=false
+ e.startTraversal=function() began=true end;e:tick(now+.5)
+ check(began and not tearing.entered,'free slot starts traversal while the enemy remains outside until landing')
 end
 do
  local e,ctx,_,_,_,_,spawn,window=setup()

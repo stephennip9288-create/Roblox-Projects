@@ -3,7 +3,8 @@ local D={}
 D.tuning={minSpawnDistance=22,fallbackSpawnDistance=14,pathRequestsPerSecond=12,
     maxConcurrentPaths=3,targetSeconds=.65,quotaSettleSeconds=6,recoverySeconds=4,
     recoveryCooldown=22,crewHealth=.14,crewDamage=.05,crewSpeed=.025,weaponHealth=.12,
-    gearStartRound=6,targetLoadWeight=.13,targetStickiness=.83}
+    gearStartRound=6,targetLoadWeight=.13,targetStickiness=.83,
+    flankSeconds=1.75,flankCooldown=2.5,entryRecoverySeconds=16}
 function D.threat(crew,weaponTier,round)
     crew=math.clamp(crew,1,4)
     local gear=round>=D.tuning.gearStartRound and math.clamp(weaponTier or 0,0,2)*D.tuning.weaponHealth or 0
@@ -23,7 +24,7 @@ function D.spawnScore(distance,visible,usedAgo,nearby)
     return math.min(distance,120)*.14+(visible and -14 or 12)+math.min(usedAgo,15)-nearby*8
 end
 function D.event(round,phase,cfg,bossRound)
-    if not cfg.enabled or phase=="Exfil" or bossRound or round<cfg.firstRound then return nil end
+    if not cfg.enabled or phase=="Exfil" or bossRound or round<cfg.firstRound or #cfg.events==0 then return nil end
     if (round-cfg.firstRound)%math.max(1,cfg.interval)~=0 then return nil end
     return cfg.events[(math.floor((round-cfg.firstRound)/math.max(1,cfg.interval)))%#cfg.events+1]
 end

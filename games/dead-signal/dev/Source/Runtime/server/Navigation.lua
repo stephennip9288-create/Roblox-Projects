@@ -70,16 +70,20 @@ function N.compute(owner,e,goal,now)
         owner.activePaths=math.max(0,owner.activePaths-1)
         if e.dead or owner.ctx.run.id~=run or e.requestToken~=token then return end
         e.computing=false
-        if not ok or path.Status~=Enum.PathStatus.Success then
+        local points={}
+        -- Waypoint retrieval/normalization can fail as well as ComputeAsync.
+        -- Reject empty and jumping paths without replacing a usable old route.
+        if ok and path.Status==Enum.PathStatus.Success then ok=pcall(function()
+            for _,point in ipairs(path:GetWaypoints()) do
+                if point.Action==Enum.PathWaypointAction.Jump then error("Jumping route rejected") end
+                local ground=owner.ctx.map and N.floor(owner.ctx.map,point.Position+UP*3)
+                points[#points+1]={Position=ground or point.Position,Action=point.Action}
+            end
+        end) end
+        if not ok or not path or path.Status~=Enum.PathStatus.Success or #points==0 then
             e.pathFailures=(e.pathFailures or 0)+1 e.nextPath=os.clock()+.65
             e.model:SetAttribute("NavigationState","Retrying") return
         end
-        local raw=path:GetWaypoints() local points={}
-        for _,point in ipairs(raw) do
-            local ground=owner.ctx.map and N.floor(owner.ctx.map,point.Position+UP*3)
-            points[#points+1]={Position=ground or point.Position,Action=point.Action}
-        end
-        for _,point in ipairs(points) do if point.Action==Enum.PathWaypointAction.Jump then e.nextPath=os.clock()+.7 return end end
         release(e) e.path=points e.index=1 e.pathGoal=goal e.pathObject=path e.pathFailures=0
         e.nextPath=os.clock()+1.05+(e.id%7)*.035 e.model:SetAttribute("NavigationState","Pursuing")
         if path.Blocked then e.blockedConnection=path.Blocked:Connect(function(index)
@@ -135,7 +139,7 @@ function N.move(owner,e,target,now)
         if e.path or e.computing then N.invalidate(e) end
         destination=goal e.model:SetAttribute("NavigationState","Direct")
     else
-        if now>=(e.nextPath or 0) or e.pathGoal and flat(e.pathGoal-goal).Magnitude>6 then N.compute(owner,e,goal,now) end
+        if now>=(e.nextPath or 0) or (e.pathFailures or 0)==0 and e.pathGoal and flat(e.pathGoal-goal).Magnitude>6 then N.compute(owner,e,goal,now) end
         local point=e.path and e.path[e.index]
         while point and N.waypointReached(e,point.Position,e.index>1 and e.path[e.index-1].Position) do e.index+=1 point=e.path[e.index] end
         if point then destination=point.Position+UP*N.rootHeight(e)

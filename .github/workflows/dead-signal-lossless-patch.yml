@@ -3,6 +3,9 @@ name: Dead Signal Lossless Source Patch (No Publish)
 on:
   push:
     paths:
+      - 'scripts/dead_signal_release_guard.py'
+      - 'games/dead-signal/releases/**'
+      - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
       - 'scripts/patch_dead_signal_rbxl.py'
       - 'games/dead-signal/full-baselines/**'
@@ -12,6 +15,9 @@ on:
       - '.github/workflows/dead-signal-lossless-patch.yml'
   pull_request:
     paths:
+      - 'scripts/dead_signal_release_guard.py'
+      - 'games/dead-signal/releases/**'
+      - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
       - 'scripts/patch_dead_signal_rbxl.py'
       - 'games/dead-signal/full-baselines/**'

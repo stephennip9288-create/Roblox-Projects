@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-1",
+  "ready_for_staging": false,
+  "source_sha": null,
+  "owner_instruction": "Wait for all four complete specialist assignments; one complete current release; no partial staging. Publishing needs separate explicit owner approval.",
+  "coordination_issue": 28,
+  "lanes": {
+    "maps": {
+      "complete": false,
+      "reviewed": false,
+      "pr": 29,
+      "head_sha": "069d247b39988801fb067c16843e322a34649a5d"
+    },
+    "enemies": {
+      "complete": false,
+      "reviewed": false,
+      "pr": null,
+      "head_sha": null
+    },
+    "combat_ui": {
+      "complete": false,
+      "reviewed": false,
+      "pr": 27,
+      "head_sha": "14960d82bdbabcb7c0032d7446a1ed40e47be0e6"
+    },
+    "audio": {
+      "complete": false,
+      "reviewed": false,
+      "pr": 26,
+      "head_sha": "bd4394d598af0539078dee747e2355653ab588c6"
+    }
+  },
+  "requirements": {
+    "MAP-01": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-02": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-03": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-04": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-05": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-06": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-07": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-08": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-09": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-10": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-11": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "MAP-12": {
+      "lane": "maps",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-01": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-02": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-03": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-04": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-05": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-06": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-07": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-08": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "EN-09": {
+      "lane": "enemies",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-01": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-02": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-03": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-04": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-05": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-06": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-07": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-08": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "WPN-09": {
+      "lane": "combat_ui",
+      "implementation": "pending",
+      "evidence": []
+    },
+    "AUD-01": {
+      "lane": "audio",
+      "implementation": "pending",
+      "evidence": []
+    }
+  },
+  "verification": {
+    "regression": false,
+    "four_place_fidelity": false,
+    "config_isolation": false,
+    "shared_contracts": false,
+    "recovery": false
+  }
+}

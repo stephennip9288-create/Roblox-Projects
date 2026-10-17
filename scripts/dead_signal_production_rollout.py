@@ -2,7 +2,8 @@
 """Explicitly authorized four-place production deployment/rollback.
 
 NEVER part of push/PR CI; manually dispatched on main only.
-Current production binaries in the repository are the rollback sources.
+Exact hash-pinned artifacts of the recorded production release are recovery.
+Historical committed binaries are retained for offline diagnostics only.
 """
 import argparse
 import hashlib
@@ -17,6 +18,7 @@ from dead_signal_staging_rollout import source_texts, ORDER
 from generate_dead_signal_place_configs import ROLES, read_identifiers
 from publish import publish
 from check_dead_signal_production import inspect
+import dead_signal_release_guard as release_guard
 
 PRODUCTION_UNIVERSE = "10770732078"
 STAGING_UNIVERSE = "10771141095"
@@ -31,7 +33,7 @@ def digest(blob):
 
 
 def verified_rollback_files():
-    """Rollback never depends on successful build of new candidate binaries."""
+    """Historical-file diagnostic only; never selected by an actual rollout."""
     ids = read_identifiers()
     if (ids["production"]["universe_id"] != PRODUCTION_UNIVERSE or
             ids["staging"]["universe_id"] != STAGING_UNIVERSE or set(ORDER) != set(ROLES)):
@@ -64,18 +66,31 @@ def verified_rollback_files():
     return approved
 
 
-def preflight():
-    baseline = verified_rollback_files()
+def current_rollback_files():
+    return {place: {"place_id": row["place_id"], "universe_id": row["universe_id"],
+                    "rollback_file": row["path"], "rollback_sha256": row["sha256"], "rollback_bytes": row["bytes"],
+                    "recovery_source_sha": row["source_sha"], "recovery_deployment_run": row["deployment_run"],
+                    "recovery_version": row["version"]}
+            for place, row in release_guard.verify_recovery("production").items()}
+
+
+def approved_release_source():
+    release_guard.verify_checkout(ROOT, os.getenv("RELEASE_SOURCE_SHA", ""))
+
+
+def preflight(current=False):
+    baseline = current_rollback_files() if current else verified_rollback_files()
     reviewed = inspect()
     if reviewed.get("approval_to_publish") is not False or reviewed.get("production_touched") is not False:
         raise ValueError("Unexpected non-offline readiness report")
     for place in ORDER:
         entry = reviewed["production_rollbacks"][place]
-        if entry["rollback_sha256"] != baseline[place]["rollback_sha256"]:
+        if not current and entry["rollback_sha256"] != baseline[place]["rollback_sha256"]:
             raise ValueError("Production rollback baseline unexpectedly changed: " + place)
         if entry["place_id"] != baseline[place]["place_id"]:
             raise ValueError("Production deployment target mismatch: " + place)
         check_place(CANDIDATES / f"{place}.rbxl")
+        baseline[place]["candidate_sha256"] = entry["candidate_sha256"]
     return baseline
 
 
@@ -85,7 +100,7 @@ def manifest(approved):
         "environment": "production",
         "universe_id": PRODUCTION_UNIVERSE,
         "existing_production_files": approved,
-        "warning": "These are committed rollback binaries, NOT downloaded live Roblox versions. Verify no external changes before starting.",
+        "warning": "Recovery uses verified recorded-release artifacts, not a live Roblox download. Check for out-of-pipeline changes before authorizing deployment.",
     }
     (ROOT_OUTPUT / "ROLLBACK-MANIFEST.json").write_text(json.dumps(result,indent=2) + "\n",encoding="utf-8")
     return result
@@ -100,6 +115,9 @@ def prepare(place,operation,approved):
         source = CANDIDATES / f"{place}.rbxl"
     else:
         source = ROOT / approved[place]["rollback_file"]
+    expected = approved[place]["candidate_sha256"] if operation == "deploy" else approved[place]["rollback_sha256"]
+    if digest(source.read_bytes()) != expected:
+        raise ValueError("Publish/recovery bytes changed after preflight: " + place)
     shutil.copy2(source,directory/"place.rbxl")
     size=check_place(directory/"place.rbxl")
     metadata={
@@ -120,7 +138,9 @@ def deploy(operation,confirmation):
         raise ValueError("Production backend confirmation missing")
     if not os.getenv("ROBLOX_API_KEY"):
         raise ValueError("Production Open Cloud secret unavailable")
-    approved=preflight() if operation=="deploy" else verified_rollback_files()
+    if operation == "deploy":
+        approved_release_source()
+    approved=preflight(current=True) if operation=="deploy" else current_rollback_files()
     manifest(approved)
     updated=[]
     try:

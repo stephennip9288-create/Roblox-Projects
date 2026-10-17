@@ -66,6 +66,7 @@ class ProductionRolloutTests(unittest.TestCase):
                 "ROBLOX_API_KEY": "synthetic-only",
                 "PRODUCTION_CONFIRMED": "PUBLISH"
             }), patch.object(production, "ROOT_OUTPUT", Path(temporary)), \
+                 patch.object(production, "current_rollback_files", return_value=production.verified_rollback_files()), \
                  patch.object(production, "prepare", side_effect=prepare), \
                  patch.object(production, "publish") as uploader:
                 production.deploy("rollback", "RESTORE-PREVIOUS-PRODUCTION")
@@ -87,6 +88,7 @@ class ProductionRolloutTests(unittest.TestCase):
                 "PRODUCTION_CONFIRMED": "PUBLISH"
             }), patch.object(production, "ROOT_OUTPUT", Path(temporary)), \
                  patch.object(production, "preflight", return_value=production.verified_rollback_files()), \
+                 patch.object(production, "approved_release_source"), \
                  patch.object(production, "prepare", side_effect=prepare), \
                  patch.object(production, "publish", side_effect=outcomes) as uploader:
                 with self.assertRaisesRegex(RuntimeError, "four production baselines restored"):

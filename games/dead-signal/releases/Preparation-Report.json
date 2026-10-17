@@ -103,6 +103,6 @@
     "tests/test_dead_signal_production_rollout.py": "4c3230a92394064d3d1020cf9310a0b4839a2cff03a2faa332441c1be24498ca",
     "tests/test_dead_signal_staging_rollout.py": "692e3c5053cb2136d784bdac626dc998ee78c8fab267d8d75d192537bd0b8f68",
     "scripts/dead_signal_release_guard.py": "25ac44e77eefe4c4491c2e8eded6f15677b8c4bc6d1f5ff769bd6f3bc16d6a4f",
-    "tests/test_dead_signal_release_guard.py": "5dde4f9ed57febe636bc3ac7b1dd1596490c578d83cf674977f9593cfb4187bf"
+    "tests/test_dead_signal_release_guard.py": "77fd989a7f92bc33a363863ae1fbf6ac00ac904fc311c513a8698096f9923a21"
   }
 }

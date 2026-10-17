@@ -78,6 +78,9 @@ class CheckoutTests(unittest.TestCase):
         runtime = root / "games/dead-signal/dev/Source/Runtime/shared";runtime.mkdir(parents=True)
         for n in range(61): (runtime / f"M{n}.lua").write_text("return " + str(n))
         subprocess.run(["git", "init", "-q", str(root)], check=True)
+        # Git maintenance may otherwise outlive commit and race temp cleanup.
+        subprocess.run(["git", "-C", str(root), "config", "gc.auto", "0"], check=True)
+        subprocess.run(["git", "-C", str(root), "config", "maintenance.auto", "false"], check=True)
         subprocess.run(["git", "-C", str(root), "add", "."], check=True)
         subprocess.run(["git", "-C", str(root), "-c", "user.name=Test", "-c", "user.email=test@example.invalid", "commit", "-qm", "fixture"], check=True)
         return subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()

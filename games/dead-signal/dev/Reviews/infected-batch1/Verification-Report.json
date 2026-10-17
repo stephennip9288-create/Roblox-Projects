@@ -1,0 +1,253 @@
+{
+  "verified_on": "2026-10-17",
+  "branch": "feature/dead-signal-infected-batch1",
+  "verification_base": "2b7073cda226882343b925569bcc2b51fa7dfd88",
+  "parent_pr": 19,
+  "parent_head": "7d5f23f48eb61fb57a0f785378b22010594237c9",
+  "runtime_records": 61,
+  "runtime_source_blobs": [
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/Enemies.lua",
+      "git_blob_sha": "f0e1cbf249485580c46c21be43b39c9904fa948e"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/EnemyRigs.lua",
+      "git_blob_sha": "19d7990d66e6c8e612d18d40b9c34082c4062a82"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/HoundRig.lua",
+      "git_blob_sha": "f68c6adb565808e479a2be826ce1df6b56fca4e5"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/InfectedWardrobe.lua",
+      "git_blob_sha": "5e78d38823c905febcbf0606ad60a532ae8fd7cf"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/Navigation.lua",
+      "git_blob_sha": "a5aa2aa85824912b651d77ae3d1f5f8d9b62e347"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/WaveDirector.lua",
+      "git_blob_sha": "037d63520c955a966b312cbc6fb511170b2e3a60"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/shared/DirectorRules.lua",
+      "git_blob_sha": "6701272b8d2d885472b82bed936bfe7cb158a03d"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/shared/NPCPose.lua",
+      "git_blob_sha": "57754c4ffa66f88f9edc26500c6a33a8d00d14cf"
+    }
+  ],
+  "unchanged_other_runtime_records": 53,
+  "unchanged_protected_staging_production_binaries": 8,
+  "combined": {
+    "passed": true,
+    "suite_count": 20,
+    "assertions": 580330,
+    "suites": [
+      {
+        "suite": "loading",
+        "passed": true,
+        "assertions": 63,
+        "seconds": 13.854
+      },
+      {
+        "suite": "loadingpreview",
+        "passed": true,
+        "assertions": 36,
+        "seconds": 8.637
+      },
+      {
+        "suite": "evolution",
+        "passed": true,
+        "assertions": 3378,
+        "seconds": 7.468
+      },
+      {
+        "suite": "events",
+        "passed": true,
+        "assertions": 18,
+        "seconds": 0.61
+      },
+      {
+        "suite": "presentation",
+        "passed": true,
+        "assertions": 55,
+        "seconds": 0.562
+      },
+      {
+        "suite": "director",
+        "passed": true,
+        "assertions": 431,
+        "seconds": 0.071
+      },
+      {
+        "suite": "server",
+        "passed": true,
+        "assertions": 35,
+        "seconds": 0.746
+      },
+      {
+        "suite": "navigation",
+        "passed": true,
+        "assertions": 13,
+        "seconds": 0.735
+      },
+      {
+        "suite": "pursuit",
+        "passed": true,
+        "assertions": 90,
+        "seconds": 1.46
+      },
+      {
+        "suite": "rigs",
+        "passed": true,
+        "assertions": 318,
+        "seconds": 0.72
+      },
+      {
+        "suite": "weapons",
+        "passed": true,
+        "assertions": 7612,
+        "seconds": 1.197
+      },
+      {
+        "suite": "arrival",
+        "passed": true,
+        "assertions": 28,
+        "seconds": 0.737
+      },
+      {
+        "suite": "extraction",
+        "passed": true,
+        "assertions": 20,
+        "seconds": 0.038
+      },
+      {
+        "suite": "map_remaster",
+        "passed": true,
+        "assertions": 19444,
+        "seconds": 12.786
+      },
+      {
+        "suite": "enemy-lifecycle",
+        "passed": true,
+        "assertions": 71,
+        "seconds": 0.463
+      },
+      {
+        "suite": "enemy-path-recovery",
+        "passed": true,
+        "assertions": 48,
+        "seconds": 0.462
+      },
+      {
+        "suite": "combat-ui",
+        "passed": true,
+        "assertions": 547642,
+        "seconds": 32.246
+      },
+      {
+        "suite": "combat-input",
+        "passed": true,
+        "assertions": 29,
+        "seconds": 0.7
+      },
+      {
+        "suite": "touch",
+        "passed": true,
+        "assertions": 512,
+        "seconds": 0.066
+      },
+      {
+        "suite": "integration-contracts",
+        "passed": true,
+        "assertions": 487,
+        "seconds": 23.098
+      }
+    ],
+    "compile": {
+      "run": true,
+      "scripts": 61,
+      "passed": true,
+      "errors": []
+    }
+  },
+  "enemy_follow_up": {
+    "passed": true,
+    "suite_count": 3,
+    "assertions": 22992,
+    "suites": [
+      {
+        "suite": "infected-batch1",
+        "passed": true,
+        "assertions": 3362,
+        "seconds": 3.689
+      },
+      {
+        "suite": "infected-entrances",
+        "passed": true,
+        "assertions": 64,
+        "seconds": 1.644
+      },
+      {
+        "suite": "infected-geometry",
+        "passed": true,
+        "assertions": 19566,
+        "seconds": 88.021
+      }
+    ],
+    "registered_in_standard_CI": false,
+    "independent_runner": "Tests/run-infected.py"
+  },
+  "total_luau_assertions": 603322,
+  "python_pipeline_tests": {
+    "passed": true,
+    "tests": 59
+  },
+  "geometry": {
+    "method": "Continuous AABB/OBB source sweeps; conservative wedge boxes; source ground polygons and upper-floor support rays. Does not model Terrain/native physics.",
+    "tested_combinations": 210,
+    "usable": 209,
+    "rejected": [
+      {
+        "block": "Workspace.DeadSignalMap.Maintenance.UpperGalleryDeck",
+        "label": "Station window 6 Warden"
+      }
+    ],
+    "all_sectors_have_each_agent_profile": true,
+    "maps": [
+      {
+        "map": "Station",
+        "usable": 69,
+        "colliders": 694
+      },
+      {
+        "map": "Foundry",
+        "usable": 70,
+        "colliders": 795
+      },
+      {
+        "map": "Frost",
+        "usable": 70,
+        "colliders": 762
+      }
+    ],
+    "accepted_paths_have_no_sweep_failures": true,
+    "assertions": 19566
+  },
+  "roblox_engine_playtest": false,
+  "published_multiplayer_playtest": false,
+  "physical_phone_playtest": false,
+  "asset_permissions_verified": false,
+  "published": false,
+  "pending_integration": [
+    "MAIN DEV registers the three new suites additively.",
+    "Maps reviews foot/contact anchor interpretation, authors exterior footing and contextual links, and resolves or explicitly excludes Blackwater Maintenance window 6 for Warden.",
+    "Controller/Audio #26 adapter consumes entry lifecycle attributes and prevents duplicate Board fallback.",
+    "Native 1/2/4-client all-map movement/hit alignment, art, audio and performance acceptance."
+  ],
+  "evidence_kind": "Offline source/service-double tests and generated geometry projections; no Studio screenshots or native acceptance claim.",
+  "tested_implementation_commit": "5a6dd3832c1f5f7d9fe4895c446f91d6e2d36bdc"
+}

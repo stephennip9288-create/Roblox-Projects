@@ -1,32 +1,32 @@
 {
   "schema": 1,
   "release": "dead-signal-batch-1",
-  "ready_for_staging": false,
-  "source_sha": null,
+  "ready_for_staging": true,
+  "source_sha": "9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7",
   "owner_instruction": "Wait for all four complete specialist assignments; one complete current release; no partial staging. Publishing needs separate explicit owner approval.",
   "coordination_issue": 28,
   "lanes": {
     "maps": {
-      "complete": false,
-      "reviewed": false,
+      "complete": true,
+      "reviewed": true,
       "pr": 29,
       "head_sha": "069d247b39988801fb067c16843e322a34649a5d"
     },
     "enemies": {
-      "complete": false,
-      "reviewed": false,
-      "pr": null,
-      "head_sha": null
+      "complete": true,
+      "reviewed": true,
+      "pr": 31,
+      "head_sha": "7c1b15a79a154c36c86a890db46ca3a72fc80673"
     },
     "combat_ui": {
-      "complete": false,
-      "reviewed": false,
+      "complete": true,
+      "reviewed": true,
       "pr": 27,
       "head_sha": "14960d82bdbabcb7c0032d7446a1ed40e47be0e6"
     },
     "audio": {
-      "complete": false,
-      "reviewed": false,
+      "complete": true,
+      "reviewed": true,
       "pr": 26,
       "head_sha": "bd4394d598af0539078dee747e2355653ab588c6"
     }
@@ -34,165 +34,304 @@
   "requirements": {
     "MAP-01": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_remaster, map_batch1; ground and elevated audits"
+      ]
     },
     "MAP-02": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1 facility/trace contracts"
+      ]
     },
     "MAP-03": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_remaster; check_map_remaster.py"
+      ]
     },
     "MAP-04": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1 actual purchase callbacks"
+      ]
     },
     "MAP-05": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "30 purchase states in ground audit"
+      ]
     },
     "MAP-06": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1, infected-geometry; elevated sweep"
+      ]
     },
     "MAP-07": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1 scenery bounds/counts"
+      ]
     },
     "MAP-08": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1 facility/story contracts"
+      ]
     },
     "MAP-09": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1; infected-geometry support/swept links"
+      ]
     },
     "MAP-10": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1 lifecycle and collision invariance"
+      ]
     },
     "MAP-11": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1 barrier/sign clearance"
+      ]
     },
     "MAP-12": {
       "lane": "maps",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "map_batch1 source budgets; native rendering pending"
+      ]
     },
     "EN-01": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "infected-batch1 hitbox/rig comparisons"
+      ]
     },
     "EN-02": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "infected-batch1 deterministic family/wear tests"
+      ]
     },
     "EN-03": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "infected-batch1, rigs"
+      ]
     },
     "EN-04": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "infected-batch1, infected-entrances, infected-geometry"
+      ]
     },
     "EN-05": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "infected-batch1 family and collision checks"
+      ]
     },
     "EN-06": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "infected-batch1, infected-geometry actual Alpha envelope"
+      ]
     },
     "EN-07": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "63 contextual plans and continuous sweeps; no-jump pad support; pursuit/recovery suites"
+      ]
     },
     "EN-08": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "infected-batch1; existing damage/precision/armor tests"
+      ]
     },
     "EN-09": {
       "lane": "enemies",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "210 actual agent/window combinations; no instantaneous interior spawn; entry audio adapters"
+      ]
     },
     "WPN-01": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "weapons, weapons-batch1, combat-ui"
+      ]
     },
     "WPN-02": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "160 model constructions plus base geometry tests"
+      ]
     },
     "WPN-03": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "weapons-batch1, combat-input"
+      ]
     },
     "WPN-04": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "80 ADS tier models; 270 HUD scenarios"
+      ]
     },
     "WPN-05": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "weapons-batch1 physical chamber/capacity check"
+      ]
     },
     "WPN-06": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "combat-ui, combat-input sight-axis checks"
+      ]
     },
     "WPN-07": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "weapons-batch1, combat-input, audio"
+      ]
     },
     "WPN-08": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "weapons-batch1 shared-source caps/teardown"
+      ]
     },
     "WPN-09": {
       "lane": "combat_ui",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "weapons-batch1 all tier/finish cases"
+      ]
     },
     "AUD-01": {
       "lane": "audio",
-      "implementation": "pending",
-      "evidence": []
+      "implementation": "complete",
+      "evidence": [
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
+        "audio, batch1-integration, combat-input; six Python patch guards; asset matrix"
+      ]
     }
   },
   "verification": {
-    "regression": false,
-    "four_place_fidelity": false,
-    "config_isolation": false,
-    "shared_contracts": false,
-    "recovery": false
+    "regression": true,
+    "four_place_fidelity": true,
+    "config_isolation": true,
+    "shared_contracts": true,
+    "recovery": true
+  },
+  "candidate": {
+    "integration_pr": 34,
+    "tested_runtime_commit": "82cbf594729f33816f953ebc46eae4a578ff6d49",
+    "evidence_head": "ac1cb2aa886a07ca567fd37548dec5e395b3e89a",
+    "staging_binaries": {
+      "dispatch": {
+        "sha256": "c91691452756b65f30da72a2343b440268b572b845e6489ed443061637235b5d",
+        "bytes": 2720966,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "blackwater": {
+        "sha256": "c4969232c3df95fc3ba62baf18c58fafbf0135408a46ba4d88c36e8b866fe7f7",
+        "bytes": 2692046,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "cinderworks": {
+        "sha256": "c7d1607c33f88b9cac0da14c86d7abdc57e175712cec098c41aa3335db9b9ab5",
+        "bytes": 2699891,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "whiteout": {
+        "sha256": "44c4ea24e267da9f2403edb4a5fa20ab6e57adb11fb864c3d32240ddc087df28",
+        "bytes": 2701352,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      }
+    },
+    "ci_artifact": {
+      "id": 12105612156,
+      "run_id": 39045133676,
+      "head_sha": "82cbf594729f33816f953ebc46eae4a578ff6d49",
+      "sha256": "824df67688710dcd372a2df52cda79a2904878919048ca8725b7d78a1251b469",
+      "four_binaries_byte_equal": true
+    },
+    "owner_private_staging_authorization": "pending",
+    "production_authorization": false,
+    "native_engine_or_device_acceptance": false,
+    "physical_mobile_comparison": "deferred"
   }
 }

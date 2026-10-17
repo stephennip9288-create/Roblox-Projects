@@ -9,6 +9,13 @@ local Movement=require(RS.DeadSignal.Movement)
 local DirectorRules=require(RS.DeadSignal.DirectorRules)
 local T=C.Evolution
 local E={} E.__index=E
+-- Selection and damage must agree, including during the travel/disconnect handoff.
+local function living(ctx,player)
+    local p=player and ctx.players[player]
+    if player and player.Parent and p and p.participating and p.status=="Alive" and not p.travelling then
+        return p,U.root(player)
+    end
+end
 function E.new(ctx)
     local old=workspace:FindFirstChild("DeadSignalEnemies") if old then old:Destroy() end
     local bodies=workspace:FindFirstChild("DeadSignalCorpses") if bodies then bodies:Destroy() end
@@ -142,34 +149,48 @@ function E:clear(keepCorpses)
     if not keepCorpses then for _,m in ipairs(self.corpses:GetChildren()) do m:Destroy() end end
 end
 function E:target(enemy,now)
-    local current=enemy.target local state=current and self.ctx.players[current] local root=current and U.root(current)
-    local valid=state and current.Parent and state.participating and state.status=="Alive" and not state.travelling and root
-    if valid and now<(enemy.targetAt or 0) then return current,(root.Position-enemy.root.Position).Magnitude end
+    local current=enemy.target local _,root=living(self.ctx,current)
+    local replaced=current and enemy.targetRoot and enemy.targetRoot~=root
+    if root and not replaced and now<(enemy.targetAt or 0) then
+        enemy.targetRoot=root return current,(root.Position-enemy.root.Position).Magnitude
+    end
     enemy.targetAt=now+DirectorRules.tuning.targetSeconds+(enemy.id%5)*.035
-    local target,distance,minimum=nil,math.huge,math.huge
-    for plr,p in pairs(self.ctx.players) do
-        local pr=U.root(plr)
-        if plr.Parent and p.participating and p.status=="Alive" and not p.travelling and pr then
+    local target,targetRoot,distance,minimum=nil,nil,math.huge,math.huge
+    for plr in pairs(self.ctx.players) do
+        local _,pr=living(self.ctx,plr)
+        if pr then
             local d=(pr.Position-enemy.root.Position).Magnitude
             local load=math.max(0,(self.targetLoads[plr] or 0)-(current==plr and 1 or 0))
             local score=d*(1+math.min(load,10)*DirectorRules.tuning.targetLoadWeight)*(current==plr and DirectorRules.tuning.targetStickiness or 1)
-            if enemy.packLeader and enemy.packLeader.target==plr then score*=.72 end
+            if enemy.packLeader and not enemy.packLeader.dead and enemy.packLeader.target==plr then score*=.72 end
             if enemy.kind=="Stalker" then
                 local ally=math.huge
-                for other,op in pairs(self.ctx.players) do if other~=plr and op.participating and op.status=="Alive" then
-                    local ort=U.root(other) if ort then ally=math.min(ally,(ort.Position-pr.Position).Magnitude) end
+                for other in pairs(self.ctx.players) do if other~=plr then
+                    local _,ort=living(self.ctx,other) if ort then ally=math.min(ally,(ort.Position-pr.Position).Magnitude) end
                 end end
                 if ally>25 then score*=.6 end
             end
-            if score<minimum then target=plr distance=d minimum=score end
+            if score<minimum then target=plr targetRoot=pr distance=d minimum=score end
         end
     end
-    if current~=target then
+    if current~=target or replaced then
         if current then self.targetLoads[current]=math.max(0,(self.targetLoads[current] or 0)-1) end
         if target then self.targetLoads[target]=(self.targetLoads[target] or 0)+1 end
+        self:cancelActions(enemy)
         enemy.target=target enemy.route=nil Navigation.invalidate(enemy)
     end
+    enemy.targetRoot=targetRoot
     return target,distance
+end
+function E:cancelActions(e)
+    -- Keep nextCharge/nextAmbush: losing a target or being interrupted is not a
+    -- free cooldown reset. A replacement target needs its own fresh warning.
+    e.windup=nil e.windupTarget=nil e.chargeUntil=nil e.chargeAt=nil e.chargeGoal=nil
+    e.ambushAt=nil e.ambushUntil=nil e.cover=nil e.coverAt=nil
+    e.flankGoal=nil e.flankUntil=nil
+    if e.model and e.model.SetAttribute then
+        e.model:SetAttribute("ChargeUntil",0) e.model:SetAttribute("AmbushAt",0)
+    end
 end
 function E:clearSight(a,b)
     local params=RaycastParams.new() params.FilterType=Enum.RaycastFilterType.Include
@@ -193,16 +214,20 @@ function E:recover(enemy)
     replacement.armor=enemy.armor replacement.reactor=enemy.reactor
     if enemy.armor then for zone,value in pairs(enemy.armor) do if value<=0 then Rigs.breakArmor(replacement,zone) end end end
     replacement.recoveryAttempts=attempts
-    replacement.hp=hp replacement.hum.Health=math.max(1,hp) replacement.hitRewards=rewards
+    replacement.nextCharge=enemy.nextCharge replacement.nextAmbush=enemy.nextAmbush
+    replacement.nextFlank=enemy.nextFlank replacement.precisionAt=enemy.precisionAt
+    -- A smaller crew can produce a lower fresh MaxHealth. Restore the original
+    -- maximum before Health so the engine cannot clamp surviving HP on recovery.
     replacement.damage=enemy.damage replacement.maxHP=maxHP replacement.hum.MaxHealth=maxHP replacement.phase=phase replacement.overloadUntil=overload
+    replacement.hp=hp replacement.hum.Health=math.max(1,hp) replacement.hitRewards=rewards
     replacement.model:SetAttribute("MaxHP",maxHP) replacement.model:SetAttribute("BossPhase",phase)
     replacement.model:SetAttribute("HP",hp) self.recovered=self.recovered+1
 end
 function E:stun(e,seconds)
     if e.dead or e.kind=="Warden" then return end
     e.stunnedUntil=math.max(e.stunnedUntil or 0,os.clock()+seconds)
-    e.windup=nil e.windupTarget=nil e.chargeUntil=nil e.chargeAt=nil
-    e.model:SetAttribute("StunnedUntil",workspace:GetServerTimeNow()+seconds)
+    self:cancelActions(e)
+    e.model:SetAttribute("StunnedUntil",workspace:GetServerTimeNow()+math.max(0,e.stunnedUntil-os.clock()))
 end
 function E:pendingBlasts()
     local n=0 for _,h in ipairs(self.hazards or {}) do if not h.detonated then n+=1 end end return n
@@ -248,9 +273,9 @@ function E:tickHazards(now)
                 h.detonated=true
                 self.ctx.feed:FireAllClients("HazardBlast",{id=h.id,position=h.position,radius=cfg.radius,smoke=h.smokeCleared and 0 or cfg.smoke,
                     flames=h.fireSuppressed and 0 or cfg.flames,opacity=cfg.opacity})
-                for player,p in pairs(self.ctx.players) do local root=U.root(player)
+                for player in pairs(self.ctx.players) do local _,root=living(self.ctx,player)
                     local distance=root and (root.Position-h.position).Magnitude or math.huge
-                    if p.participating and p.status=="Alive" and distance<cfg.radius and self:clearSight(h.position+Vector3.new(0,2,0),root.Position) then
+                    if distance<cfg.radius and self:clearSight(h.position+Vector3.new(0,2,0),root.Position) then
                         self.ctx.combat:hurt(player,h.damage*(1-.4*distance/cfg.radius),h.position,"Enemy")
                     end
                 end
@@ -262,8 +287,8 @@ function E:tickHazards(now)
             end
             if h.detonated and not h.fireSuppressed and now<h.at+cfg.flames and now>=h.nextBurn then
                 h.nextBurn=now+T.hazards.tick
-                for player,p in pairs(self.ctx.players) do local root=U.root(player)
-                    if root and p.participating and p.status=="Alive" and not p.perks.Insulator and (root.Position-h.position).Magnitude<cfg.radius*.65
+                for player in pairs(self.ctx.players) do local p,root=living(self.ctx,player)
+                    if root and not p.perks.Insulator and (root.Position-h.position).Magnitude<cfg.radius*.65
                         and self:clearSight(h.position+Vector3.new(0,2,0),root.Position) then self.ctx.combat:hurt(player,T.hazards.flameDamage*T.hazards.tick,h.position,"Enemy") end
                 end
             end
@@ -293,21 +318,34 @@ function E:behavior(e,tr,now,distance)
         if e.chargeAt then hold=true allow=false
         elseif e.chargeUntil then
             destination=e.chargeGoal e.hum.WalkSpeed=T.pack.chargeSpeed
-            if not Navigation.clearRoute(self.ctx,e,destination) then e.chargeUntil=nil destination=Navigation.goal(self.ctx,e,tr.Position,now) end
+            if not Navigation.clearRoute(self.ctx,e,destination) then
+                e.chargeUntil=nil e.chargeGoal=nil e.recoverUntil=now+.4
+                e.model:SetAttribute("ChargeUntil",0)
+                destination=Navigation.goal(self.ctx,e,tr.Position,now) hold=true allow=false
+            end
         elseif now<(e.recoverUntil or 0) then hold=true allow=false
         elseif distance>8 and distance<21 and now>=(e.nextCharge or 0) and e.packRole~="Flanker" and Navigation.clearRoute(self.ctx,e,destination) then
             e.nextCharge=now+T.pack.chargeCooldown+(e.id%3)*.5 e.chargeAt=now+T.pack.chargeWarning e.chargeGoal=destination
             e.model:SetAttribute("ChargeUntil",workspace:GetServerTimeNow()+T.pack.chargeWarning+T.pack.chargeSeconds)
             self.ctx.feed:FireAllClients("EnemyTelegraph",{position=e.root.Position,finish=tr.Position,radius=2,duration=T.pack.chargeWarning,cue="Howl"})
             hold=true allow=false
-        elseif e.packRole=="Flanker" and self.ctx.run.round>=T.pack.flankStart and distance>6 and distance<32 and now-e.lastMoved<1.4 then
-            local side=e.id%2==0 and 1 or -1 local radius=math.min(T.pack.flankMax,5+self.ctx.run.round*.12)
-            local candidate=tr.Position+tr.CFrame.RightVector*side*radius-tr.CFrame.LookVector*3
-            candidate=Navigation.goal(self.ctx,e,candidate,now)
-            if Navigation.clearRoute(self.ctx,e,candidate) then destination=candidate end
+        elseif e.packRole=="Flanker" and self.ctx.run.round>=T.pack.flankStart then
+            if e.flankGoal and (now>=(e.flankUntil or 0) or distance<=6 or distance>=32 or now-e.lastMoved>=1.4
+                or (e.root.Position-e.flankGoal).Magnitude<2 or not Navigation.clearRoute(self.ctx,e,e.flankGoal)) then
+                e.flankGoal=nil e.flankUntil=nil e.nextFlank=now+DirectorRules.tuning.flankCooldown
+            end
+            if not e.flankGoal and now>=(e.nextFlank or 0) and distance>6 and distance<32 and now-e.lastMoved<1.4 then
+                local side=e.id%2==0 and 1 or -1 local radius=math.min(T.pack.flankMax,5+self.ctx.run.round*.12)
+                local candidate=tr.Position+tr.CFrame.RightVector*side*radius-tr.CFrame.LookVector*3
+                candidate=Navigation.goal(self.ctx,e,candidate,now)
+                if Navigation.clearRoute(self.ctx,e,candidate) then
+                    e.flankGoal=candidate e.flankUntil=now+DirectorRules.tuning.flankSeconds
+                else e.nextFlank=now+DirectorRules.tuning.flankCooldown end
+            end
+            if e.flankGoal then destination=e.flankGoal end
         end
         -- Nearby Alpha directs the pack's focus, without overriding fair target validation.
-        if e.packLeader and e.packLeader~=e and e.packRole=="Flanker" then e.hum.WalkSpeed=math.min(24,e.hum.WalkSpeed*1.06) end
+        if e.packLeader and not e.packLeader.dead and e.packLeader~=e and e.packRole=="Flanker" then e.hum.WalkSpeed=math.min(24,e.hum.WalkSpeed*1.06) end
     elseif e.kind=="Stalker" then
         allow=now<(e.ambushUntil or 0)
         if e.ambushAt and now>=e.ambushAt then e.ambushAt=nil e.ambushUntil=now+T.stalker.ambushSeconds allow=true end
@@ -351,7 +389,8 @@ function E:tick(now)
     -- Rotate budget access so low IDs cannot consume every path request forever.
     for offset=1,#scheduled do
         local enemy=scheduled[(start+offset-2)%#scheduled+1]
-        if not enemy.root.Parent then self:recover(enemy)
+        if enemy.dead or self.list[enemy.id]~=enemy then continue end
+        if not enemy.root.Parent or enemy.root.Position.Y < -15 then self:recover(enemy)
         elseif not enemy.entered then
             local window=enemy.window
             enemy.hum:MoveTo(enemy.root.Position)
@@ -367,20 +406,22 @@ function E:tick(now)
                 end
             elseif now>window.nextTear then
                 window.nextTear=now+R.breachInterval(self.ctx.run.round) window.boards[window.count].Transparency=1 window.count=window.count-1
+                enemy.lastMoved=now
                 self.ctx.feed:FireAllClients("Board",{position=window.part.Position,count=window.count})
             end
+            if not enemy.entered and now-enemy.lastMoved>DirectorRules.tuning.entryRecoverySeconds then self:recover(enemy) end
         else
             local target,distance=self:target(enemy,now) local tr=target and U.root(target)
             if tr then
                 local destination,hold,allowAttack=self:behavior(enemy,tr,now,distance)
                 local stunned=now<(enemy.stunnedUntil or 0)
-                if stunned then enemy.windup=nil enemy.windupTarget=nil end
+                if stunned or not allowAttack then enemy.windup=nil enemy.windupTarget=nil end
                 local direct=distance<R.enemyAttackRange(enemy.kind)+1 and self:clearSight(enemy.root.Position,tr.Position)
                 if enemy.windup and now>=enemy.windup then
                     enemy.windup=nil
-                    local victim=enemy.windupTarget local vp=victim and self.ctx.players[victim] local vr=victim and U.root(victim)
+                    local victim=enemy.windupTarget local _,vr=living(self.ctx,victim)
                     enemy.windupTarget=nil
-                    if vp and vp.participating and vp.status=="Alive" and vr and (vr.Position-enemy.root.Position).Magnitude<R.enemyAttackRange(enemy.kind)+.5
+                    if victim==target and vr and (vr.Position-enemy.root.Position).Magnitude<R.enemyAttackRange(enemy.kind)+.5
                         and self:clearSight(enemy.root.Position,vr.Position) then
                         self.ctx.combat:hurt(victim,enemy.damage,enemy.root.Position,"Enemy")
                     end
@@ -395,9 +436,9 @@ function E:tick(now)
                         enemy.shockAt=nil enemy.model:SetAttribute("Charging",false)
                         local radius=20+(enemy.phase-1)*2
                         self.ctx.feed:FireAllClients("Shock",{position=enemy.shockPosition,radius=radius})
-                        for plr,p in pairs(self.ctx.players) do
-                            local pr=U.root(plr)
-                            if p.participating and p.status=="Alive" and pr and (pr.Position-enemy.shockPosition).Magnitude<radius and self:clearSight(enemy.shockPosition,pr.Position) then
+                        for plr in pairs(self.ctx.players) do
+                            local _,pr=living(self.ctx,plr)
+                            if pr and (pr.Position-enemy.shockPosition).Magnitude<radius and self:clearSight(enemy.shockPosition,pr.Position) then
                                 self.ctx.combat:hurt(plr,32+(enemy.phase-1)*6,enemy.shockPosition,"Enemy")
                             end
                         end
@@ -409,7 +450,11 @@ function E:tick(now)
                 end
                 if stunned or hold or enemy.shockAt or enemy.windup then enemy.hum:MoveTo(enemy.root.Position) enemy.movingTo=nil enemy.lastMoved=now
                 else Navigation.move(self,enemy,destination,now) end
-                if now-enemy.lastMoved>16 or enemy.root.Position.Y < -15 then self:recover(enemy) end
+                if now-enemy.lastMoved>16 then self:recover(enemy) end
+            else
+                self:cancelActions(enemy)
+                if enemy.shockAt then enemy.shockAt=nil enemy.model:SetAttribute("Charging",false) end
+                enemy.hum:MoveTo(enemy.root.Position) enemy.movingTo=nil enemy.lastMoved=now
             end
         end
     end

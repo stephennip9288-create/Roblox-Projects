@@ -9,6 +9,15 @@ local W={} local poses=setmetatable({},{__mode="k"})
 function W.aimHeight(id) return Blueprints[id].sight end
 function W.aimFov(id) return Blueprints[id].aimFov or 57 end
 function W.scoped(id) return Blueprints[id].scope==true end
+-- Keep the authored sight axis on the camera ray while FOV/aspect change.
+-- Moving the eye back (rather than moving the sights sideways) also keeps a
+-- narrow portrait viewport from cropping the rear notch and operator's hands.
+function W.viewOffset(id,hip,alpha,fov,viewport)
+    local bp=Blueprints[id]
+    local aspect=viewport and math.max(1,viewport.Y/math.max(1,viewport.X)) or 1
+    local depth=.78*math.tan(math.rad(57/2))/math.tan(math.rad(math.clamp(fov,30,110)/2))*aspect
+    return hip:Lerp(Vector3.new(0,-bp.sight,-.37-depth),math.clamp(alpha,0,1))
+end
 function W.build(id,skin,tier,parent,arms)
     local def=C.Weapons[id] local bp=Blueprints[id] assert(bp,"Missing weapon blueprint: "..tostring(id))
     local m=U.make("Model",parent,{Name="Weapon_"..id})
@@ -59,7 +68,7 @@ function W.build(id,skin,tier,parent,arms)
                 tube("CylinderChamber",.064,.035,Vector3.new(math.cos(a)*.155,.02+math.sin(a)*.155,-.475),dark,"cylinder")
                 p("CylinderFlute",Vector3.new(.04,.04,.43),Vector3.new(math.cos(a)*.239,.02+math.sin(a)*.239,-.19),edge,nil,"cylinder")
             end
-            p("Hammer",Vector3.new(.12,.17,.15),Vector3.new(0,.20,.23),metal)
+            p("Hammer",Vector3.new(.12,.17,.15),Vector3.new(0,.20,.23),metal,nil,"hammer")
             p("Grip",Vector3.new(.32,.65,.32),Vector3.new(0,-.43,.27),wood,Enum.Material.Wood,nil,CFrame.Angles(-.32,0,0))
             tube("Barrel",.095,bp.barrel,Vector3.new(0,.09,-.52-bp.barrel/2),metal)
         else
@@ -78,7 +87,7 @@ function W.build(id,skin,tier,parent,arms)
         end
         p("TriggerGuardLower",Vector3.new(.25,.075,.43),Vector3.new(0,-.42,-.22),metal)
         p("TriggerGuardFront",Vector3.new(.25,.25,.07),Vector3.new(0,-.29,-.42),metal)
-        p("Trigger",Vector3.new(.055,.17,.07),Vector3.new(0,-.25,-.22),dark)
+        p("Trigger",Vector3.new(.055,.17,.07),Vector3.new(0,-.25,-.22),dark,nil,"trigger")
         p("Magazine",Vector3.new(.24,bp.mag,.24),Vector3.new(0,-.46,.15),metal,nil,"mag")
         if kind=="Revolver" then m.Magazine.Transparency=1 end
         if kind=="MachinePistol" then
@@ -120,7 +129,7 @@ function W.build(id,skin,tier,parent,arms)
         end
         p("TriggerGuard",Vector3.new(.28,.08,.46),Vector3.new(0,-.44,-.12),metal)
         p("TriggerGuardFront",Vector3.new(.28,.23,.08),Vector3.new(0,-.3,-.34),metal)
-        p("Trigger",Vector3.new(.055,.15,.065),Vector3.new(0,-.3,-.09),dark)
+        p("Trigger",Vector3.new(.055,.15,.065),Vector3.new(0,-.3,-.09),dark,nil,"trigger")
         local magZ=(kind=="Bullpup") and .45 or -.3
         local mag=p("Magazine",Vector3.new(.24,bp.mag,.36),Vector3.new(0,-.38-bp.mag/2,magZ),metal,nil,"mag",CFrame.Angles(-.1,0,0))
         for side=-1,1,2 do for n=1,3 do p("MagazineRib",Vector3.new(.016,bp.mag*.74,.02),Vector3.new(side*.135,-.4-bp.mag/2,magZ-.16+n*.08),edge,nil,"mag") end end
@@ -182,7 +191,7 @@ function W.build(id,skin,tier,parent,arms)
         elseif kind=="Belt" then
             mag.Transparency=1
             p("AmmoBox",Vector3.new(.74,.68,.62),Vector3.new(.25,-.57,-.27),paint,nil,"mag")
-            p("FeedCover",Vector3.new(.51,.14,.9),Vector3.new(0,.26,-.04),metal)
+            p("FeedCover",Vector3.new(.51,.14,.9),Vector3.new(0,.26,-.04),metal,nil,"feed")
             for n=1,6 do tube("FeedRound",.045,.33,Vector3.new(.24+n*.075,-.04,-.3),Color3.fromRGB(175,141,62)) end
         end
         if kind=="WoodBolt" or kind=="Precision" or kind=="DMR" then
@@ -208,12 +217,19 @@ function W.build(id,skin,tier,parent,arms)
     end
     -- Iron sights, serial plaque and finish details exist on every model.
     -- A true open rear notch leaves the shot axis visible; the front post ends below it.
-    p("SightRear",Vector3.new(.27,.045,.08),Vector3.new(0,bp.sight-.115,.37),dark)
-    for side=-1,1,2 do p("RearSightEar",Vector3.new(.06,.12,.08),Vector3.new(side*.105,bp.sight-.05,.37),dark) end
-    p("SightNotch",Vector3.new(.055,.02,.025),Vector3.new(0,bp.sight-.086,.319),edge)
-    p("FrontSightTower",Vector3.new(.11,bp.sight-.045,.10),Vector3.new(0,(bp.sight-.045)/2,barrelEnd+.1),metal)
-    p("SightFront",Vector3.new(.045,.11,.07),Vector3.new(0,bp.sight-.075,barrelEnd+.1),dark)
-    p("FrontSightDot",Vector3.new(.024,.021,.015),Vector3.new(0,bp.sight-.025,barrelEnd+.144),Color3.fromRGB(212,213,173))
+    local function sights(front)
+        p("SightRear",Vector3.new(.27,.045,.08),Vector3.new(0,bp.sight-.115,.37),dark)
+        for side=-1,1,2 do
+            p("RearSightEar",Vector3.new(.06,.12,.08),Vector3.new(side*.105,bp.sight-.05,.37),dark)
+            p("RearSightIndex",Vector3.new(.021,.022,.012),Vector3.new(side*.105,bp.sight-.017,.416),Color3.fromRGB(212,213,173))
+            p("FrontSightGuard",Vector3.new(.025,.10,.08),Vector3.new(side*.095,bp.sight-.07,front),metal)
+        end
+        p("SightNotch",Vector3.new(.055,.02,.025),Vector3.new(0,bp.sight-.086,.319),edge)
+        p("FrontSightTower",Vector3.new(.11,bp.sight-.045,.10),Vector3.new(0,(bp.sight-.045)/2,front),metal)
+        p("SightFront",Vector3.new(.035,.11,.07),Vector3.new(0,bp.sight-.075,front),dark)
+        p("FrontSightDot",Vector3.new(.019,.018,.015),Vector3.new(0,bp.sight-.029,front+.044),Color3.fromRGB(212,213,173))
+    end
+    sights(barrelEnd+.1)
     local plaque=p("SerialPlate",Vector3.new(.018,.09,.27),Vector3.new(pistol and .175 or .252,-.07,-.06),edge)
     local gui=U.make("SurfaceGui",plaque,{Face=Enum.NormalId.Right,PixelsPerStud=120,MaxDistance=18})
     U.make("TextLabel",gui,{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Text="09.6 / "..id:upper(),TextColor3=dark,Font=Enum.Font.Code,TextScaled=true})
@@ -249,11 +265,20 @@ function W.build(id,skin,tier,parent,arms)
     m:SetAttribute("Scoped",bp.scope==true)
     for _,entry in ipairs(pose.parts) do entry.transparency=entry.part.Transparency
         entry.optic=entry.part.Name:find("Scope")~=nil end
-    local imported=ArtAssets.family("Weapon_"..id)
     if arms then ArtAssets.viewArms(m,pose,pistol) end
     if id=="Kestrel" or id=="Longwatch" then
-        ArtAssets.weapon(m,id,pose,skin~="Factory" and paint or nil)
+        if ArtAssets.weapon(m,id,pose,skin~="Factory" and paint or nil) then
+            -- Imported geometry replaces the procedural sights. Restore the open
+            -- sight assembly against its actual muzzle, not the fallback barrel.
+            sights(m.Muzzle.Position.Z+.2)
+            for _,entry in ipairs(pose.parts) do
+                if entry.transparency==nil then entry.transparency=entry.part.Transparency end
+                if entry.optic==nil then entry.optic=entry.part.Name:find("Scope")~=nil end
+            end
+        end
     end
+    -- Runtime-only authoring references: no new script/native asset records.
+    U.make("Attachment",root,{Name="SightAxis",CFrame=CFrame.new(0,bp.sight,.37)})
     -- Continuous bevels and fixed receiver webs replace the open chamfer shells.
     for _,entry in ipairs(pose.parts) do local q=entry.part
         if q:IsA("MeshPart") then q.DoubleSided=true
@@ -261,32 +286,46 @@ function W.build(id,skin,tier,parent,arms)
         elseif q.Material==Enum.Material.Wood then q.Material=Enum.Material.WoodPlanks q.MaterialVariant="DS_Wood"
         elseif q.Material==Enum.Material.Rubber then q.MaterialVariant="DS_Rubber" end
     end
-    m:SetAttribute("WeaponArtRevision",8)
+    m:SetAttribute("WeaponArtRevision",9)
     return m
 end
 function W.groups(model)
     local out={} for _,entry in ipairs((poses[model] or {}).parts or {}) do out[entry.part.Name]=entry.group end return out
 end
-function W.aim(model,enabled)
+function W.aim(model,enabled,alpha)
     local data=poses[model] if not data then return end
+    local fade=math.clamp(((alpha or (enabled and 1 or 0))-.35)/.45,0,1)
+    if data.aimEnabled==enabled and data.opticFade==fade then return end
+    data.aimEnabled=enabled data.opticFade=fade
     for _,entry in ipairs(data.parts) do
-        if entry.optic then entry.part.LocalTransparencyModifier=enabled and 1 or 0 end
+        -- The full model leaves the circular scope view clear at full ADS.
+        -- Fade its solid optic housing before the hip crosshair disappears.
+        entry.part.LocalTransparencyModifier=enabled and 1 or (entry.optic and fade or 0)
     end
 end
-function W.pose(model,reload,melee,equip,recoil)
+function W.pose(model,reload,melee,equip,recoil,empty)
     local data=poses[model] if not data or not model.PrimaryPart then return end
     local root=model.PrimaryPart.CFrame local out=reload>0 and math.sin(math.pi*math.clamp((reload-.07)/.7,0,1)) or 0
     local hand=reload>0 and math.sin(reload*math.pi) or 0
     local rack=reload>.78 and math.sin((reload-.78)/.22*math.pi)*.2 or 0
+    local style=data.bp.reloadStyle or "magazine"
+    local cycle=math.clamp((recoil or 0)/1.7,0,1)
     for _,entry in ipairs(data.parts) do local p=entry.part if p.Parent and p~=model.PrimaryPart then
         local cf=entry.cf local g=entry.group
         if g=="mag" then cf=CFrame.new(0,-out*.7,out*.13)*cf*CFrame.Angles(0,0,out*.18)
         elseif g=="cylinder" then cf=CFrame.new(-out*.32,0,0)*cf*CFrame.Angles(0,0,out*.5)
-        elseif g=="bolt" then cf=CFrame.new(0,0,rack)*cf
-        elseif g=="slide" then cf=CFrame.new(0,0,(recoil or 0)*.045)*cf
+        elseif g=="bolt" then cf=CFrame.new(0,0,rack+cycle*.06)*cf
+        elseif g=="slide" then cf=CFrame.new(0,0,empty and reload==0 and .14 or cycle*.14)*cf
+        elseif g=="trigger" then cf=cf*CFrame.Angles(cycle*.18,0,0)
+        elseif g=="hammer" then cf=cf*CFrame.Angles(-cycle*.28,0,0)
+        elseif g=="feed" then cf=CFrame.new(0,.26,.41)*CFrame.Angles(-hand*.8,0,0)*CFrame.new(0,-.26,-.41)*cf
         elseif g=="front" then cf=CFrame.new(0,0,-.4)*CFrame.Angles(-hand*.55,0,0)*CFrame.new(0,0,.4)*cf
         elseif g=="pump" then cf=CFrame.new(0,0,(recoil or 0)*.025+hand*.08)*cf
-        elseif g=="left" then cf=CFrame.new(hand*.24,-hand*.5,hand*.52)*cf*CFrame.Angles(hand*.5,0,-hand*.28)
+        elseif g=="left" then
+            local reach=style=="tube" and .78 or style=="cell" and .62 or .52
+            local lift=style=="belt" and hand*.24 or -hand*.5
+            cf=CFrame.new(hand*.24,lift,hand*reach)*cf*CFrame.Angles(hand*.5,0,-hand*.28)
+        elseif g=="right" and style=="bolt" then cf=CFrame.new(rack*.35,rack*.25,rack*.8)*cf
         elseif g=="knife" then p.Transparency=melee>0 and 0 or 1
         elseif g=="shell" then p.Transparency=reload>.12 and reload<.77 and 0 or 1 end
         p.CFrame=root*cf

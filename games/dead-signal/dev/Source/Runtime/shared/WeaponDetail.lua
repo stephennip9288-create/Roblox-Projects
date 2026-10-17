@@ -46,8 +46,8 @@ function D.build(model,bp,p,tube,ball,c,arms)
             tube("Underlug",.066,.85,Vector3.new(0,-.09,-1.01),c.metal)
             p("CylinderLatch",Vector3.new(.05,.095,.16),Vector3.new(-.175,.06,.18),c.edge)
             round("SidePlate",Vector3.new(.035,.26,.45),Vector3.new(.15,-.055,.08),c.metal)
-            p("HammerSpur",Vector3.new(.14,.035,.16),Vector3.new(0,.244,.29),c.dark)
-            for j=1,3 do p("HammerKnurl",Vector3.new(.14,.02,.018),Vector3.new(0,.269,.22+j*.035),c.edge) end
+            p("HammerSpur",Vector3.new(.14,.035,.16),Vector3.new(0,.244,.29),c.dark,nil,"hammer")
+            for j=1,3 do p("HammerKnurl",Vector3.new(.14,.02,.018),Vector3.new(0,.269,.22+j*.035),c.edge,nil,"hammer") end
         else
             p("BreechFace",Vector3.new(.026,.09,.21),Vector3.new(.188,.07,-.29),c.edge,nil,"slide")
             p("Extractor",Vector3.new(.025,.035,.22),Vector3.new(.195,.13,-.22),c.metal,nil,"slide")

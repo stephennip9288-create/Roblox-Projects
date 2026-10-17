@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1080" viewBox="0 0 960 1080">
+<defs><clipPath id="viewport"><rect width="568" height="280"/></clipPath></defs><rect width="960" height="1080" fill="#10171d"/>
+<text x="48" y="42" fill="#dbe7e9" font-family="Arial,sans-serif" font-size="23">DEAD SIGNAL / COMBAT UI</text>
+<text x="48" y="69" fill="#dbe7e9" font-family="Arial,sans-serif" font-size="14">568 × 280 safe-area pixels • Classic controls • maximum concurrent status panels</text>
+<text x="48" y="91" fill="#c3b4a6" font-family="Arial,sans-serif" font-size="13">Offline rectangle audit. Not a Roblox screenshot or a native font/rendering test.</text>
+<text x="48" y="128" fill="#dbe7e9" font-family="Arial,sans-serif" font-size="18">BEFORE / fixed HUD and notice positions</text>
+<g transform="translate(48,140) scale(1.5)" clip-path="url(#viewport)"><rect width="568" height="280" rx="5" fill="#17252d"/>
+<rect x="47.98" y="169.90" width="85.80" height="85.80" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="50.98" y="212.8" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">MOVE</text>
+<rect x="405.38" y="155.62" width="63.96" height="63.96" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="408.38" y="187.60000000000002" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">FIRE</text>
+<rect x="500.56" y="126.40" width="44.00" height="44.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="503.56000000000006" y="148.4" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">AIM</text>
+<rect x="440.08" y="100.40" width="40.00" height="40.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="443.08000000000004" y="120.39999999999999" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">G</text>
+<rect x="349.20" y="198.40" width="40.00" height="40.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="352.2" y="218.4" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">MELEE</text>
+<rect x="504.24" y="205.60" width="48.00" height="48.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="507.24" y="229.6" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">RELOAD</text>
+<rect x="423.04" y="232.00" width="40.00" height="40.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="426.04" y="252.0" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">SWAP</text>
+<rect x="18.00" y="20.00" width="50.00" height="38.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="21" y="31" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">ROUND</text>
+<rect x="78.00" y="26.00" width="220.00" height="26.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="81" y="37" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">WAVEINFO</text>
+<rect x="392.00" y="13.00" width="108.00" height="30.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="395" y="24" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">POINTS</text>
+<rect x="512.00" y="12.00" width="40.00" height="40.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="515" y="23" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">MENU</text>
+<rect x="18.00" y="76.00" width="280.00" height="20.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="21" y="87" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">HEALTHTEXT</text>
+<rect x="18.00" y="211.00" width="240.00" height="28.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="21" y="222" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">PERKS</text>
+<rect x="18.00" y="108.00" width="420.00" height="36.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="21" y="119" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">OBJECTIVE</text>
+<rect x="18.00" y="152.00" width="240.00" height="50.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="21" y="163" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">TEAM</text>
+<rect x="18.00" y="248.00" width="532.00" height="22.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="21" y="259" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">EFFECTS</text>
+<rect x="184.00" y="232.00" width="200.00" height="32.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="187" y="243" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">AMMO</text>
+<rect x="174.00" y="210.00" width="220.00" height="18.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="177" y="221" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">WEAPON</text>
+<rect x="194.00" y="282.00" width="180.00" height="16.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="197" y="293" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">BOSSNAME</text>
+<rect x="16.00" y="56.00" width="536.00" height="68.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="19" y="67" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">BANNER</text>
+<rect x="74.00" y="210.00" width="420.00" height="48.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="77" y="221" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">TOAST</text>
+<circle cx="284" cy="140" r="2" fill="#fff3c7"/></g>
+<text x="48" y="578" fill="#dbe7e9" font-family="Arial,sans-serif" font-size="18">AFTER / HUD placed around saved controls</text>
+<g transform="translate(48,590) scale(1.5)" clip-path="url(#viewport)"><rect width="568" height="280" rx="5" fill="#17252d"/>
+<rect x="47.98" y="169.90" width="85.80" height="85.80" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="50.98" y="212.8" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">MOVE</text>
+<rect x="405.38" y="155.62" width="63.96" height="63.96" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="408.38" y="187.60000000000002" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">FIRE</text>
+<rect x="500.56" y="126.40" width="44.00" height="44.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="503.56000000000006" y="148.4" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">AIM</text>
+<rect x="440.08" y="100.40" width="40.00" height="40.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="443.08000000000004" y="120.39999999999999" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">G</text>
+<rect x="349.20" y="198.40" width="40.00" height="40.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="352.2" y="218.4" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">MELEE</text>
+<rect x="504.24" y="205.60" width="48.00" height="48.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="507.24" y="229.6" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">RELOAD</text>
+<rect x="423.04" y="232.00" width="40.00" height="40.00" rx="9" fill="#744b47" fill-opacity=".48" stroke="#cf8a7c" stroke-width=".8"/>
+<text x="426.04" y="252.0" fill="#ffbdad" font-family="Arial,sans-serif" font-size="8">SWAP</text>
+<rect x="12.00" y="6.00" width="228.00" height="34.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="15" y="17" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">HEADING</text>
+<rect x="402.00" y="6.00" width="154.00" height="34.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="405" y="17" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">ACCOUNT</text>
+<rect x="12.00" y="46.00" width="420.00" height="30.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="15" y="57" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">OBJECTIVE</text>
+<rect x="184.00" y="218.00" width="150.00" height="44.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="187" y="229" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">AMMO</text>
+<rect x="12.00" y="86.00" width="116.00" height="32.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="15" y="97" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">VITALS</text>
+<rect x="12.00" y="126.00" width="96.00" height="26.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="15" y="137" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">CREW</text>
+<rect x="184.60" y="168.00" width="149.10" height="44.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="187.60000000000002" y="179" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">BANNER</text>
+<rect x="194.00" y="84.00" width="120.00" height="24.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="197" y="95" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">BOSS</text>
+<rect x="438.00" y="50.40" width="120.00" height="44.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="441" y="61.39999999999999" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">TOAST</text>
+<rect x="129.60" y="125.03" width="120.00" height="26.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="132.6" y="136.03" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">EFFECTS</text>
+<rect x="246.00" y="22.00" width="120.00" height="18.00" rx="2" fill="#335d63" fill-opacity=".48" stroke="#93c6c4" stroke-width=".7"/>
+<text x="249" y="33" fill="#c7eeeb" font-family="Arial,sans-serif" font-size="8">PERKS</text>
+<circle cx="284" cy="140" r="2" fill="#fff3c7"/></g>
+<text x="48" y="1040" fill="#dbe7e9" font-family="Arial,sans-serif" font-size="13">Warm rectangles: unchanged controls. Cool rectangles: information regions. Dot: shot axis.</text>
+<text x="48" y="1062" fill="#c3b4a6" font-family="Arial,sans-serif" font-size="12">Actual legibility, animation and thumb comfort still require Studio/device review.</text>
+</svg>

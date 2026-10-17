@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "map": "Station",
+      "samples": 1139,
+      "agentRadius": 2.006,
+      "agentHeight": 8.33,
+      "sampleSpacing": 0.65,
+      "failures": [],
+      "method": "inflated oriented collider hulls and vertical intervals; excludes support geometry",
+      "robloxPhysics": false
+    },
+    {
+      "map": "Foundry",
+      "samples": 1652,
+      "agentRadius": 2.006,
+      "agentHeight": 8.33,
+      "sampleSpacing": 0.65,
+      "failures": [],
+      "method": "inflated oriented collider hulls and vertical intervals; excludes support geometry",
+      "robloxPhysics": false
+    },
+    {
+      "map": "Frost",
+      "samples": 1226,
+      "agentRadius": 2.006,
+      "agentHeight": 8.33,
+      "sampleSpacing": 0.65,
+      "failures": [],
+      "method": "inflated oriented collider hulls and vertical intervals; excludes support geometry",
+      "robloxPhysics": false
+    }
+  ],
+  "engine": false
+}

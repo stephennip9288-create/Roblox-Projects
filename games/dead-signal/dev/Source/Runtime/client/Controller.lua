@@ -1,5 +1,6 @@
 local Players=game:GetService("Players")
 local UIS=game:GetService("UserInputService")
+local GuiService=game:GetService("GuiService")
 local CAS=game:GetService("ContextActionService")
 local RunService=game:GetService("RunService")
 local RS=game:GetService("ReplicatedStorage")
@@ -52,7 +53,7 @@ function Controller.start()
     RunService.PreSimulation:Connect(function()
         for _,plr in ipairs(Players:GetPlayers()) do if plr.Character then ThirdPerson.client(plr.Character) Downed.client(plr.Character,plr==player) end end
     end)
-    local function living() return s.state and s.state.status=="Alive" and s.state.participating and not s.menu and not s.state.travelling and not s.travelLock and not ui.loading.frame.Visible and (s.state.phase=="Wave" or s.state.phase=="Preparing" or s.state.phase=="Intermission" or s.state.phase=="Exfil") end
+    local function living() return s.state and s.state.status=="Alive" and s.state.participating and not s.menu and not s.interacting and not GuiService.MenuIsOpen and not UIS:GetFocusedTextBox() and not s.state.travelling and not s.travelLock and not ui.loading.frame.Visible and (s.state.phase=="Wave" or s.state.phase=="Preparing" or s.state.phase=="Intermission" or s.state.phase=="Exfil") end
     local function gun() return s.guns[s.slot] end
     local function displayMag()
         local g=gun() if not g then return 0 end local pending=0
@@ -64,7 +65,10 @@ function Controller.start()
         s.guns=data.guns or s.guns s.slot=data.slot or s.slot
         local newGun=s.guns[s.slot]
         if mobile and (oldSlot~=s.slot or (oldGun and newGun and oldGun.id~=newGun.id)) then mobile:cancelFire("weapon changed") end
-        if oldSlot~=s.slot or (oldGun and newGun and oldGun.id~=newGun.id) then s.reloading=0 s.reloadStarted=0 s.equipAt=os.clock() s.pending={} end
+        if oldSlot~=s.slot or (oldGun and newGun and oldGun.id~=newGun.id) then
+            s.reloading=0 s.reloadStarted=0 s.equipAt=os.clock() s.pending={}
+            s.fire=false s.aim=false s.semi=false s.recoil=0 aimAlpha=0 send("Aim",{enabled=false})
+        end
         local ack=data.accepted or 0
         for seq in pairs(s.pending) do if seq<=ack then s.pending[seq]=nil end end
     end
@@ -85,7 +89,7 @@ function Controller.start()
     end
     ui.cycle=spectate
     local function aim(enabled)
-        s.aim=enabled and living() or false s.sprint=false
+        s.aim=enabled and living() and os.clock()>=s.reloading or false s.sprint=false
         send("Aim",{enabled=s.aim}) send("Sprint",{enabled=false})
     end
     local function sprint(enabled)
@@ -101,6 +105,15 @@ function Controller.start()
         if mobile then mobile:cancelFire("reload") end
         aim(false)
         s.reloadStarted=os.clock() s.reloadDuration=stat.reload s.reloading=s.reloadStarted+stat.reload s.sprint=false send("Sprint",{enabled=false}) send("Reload",{})
+    end
+    local function swap(slot)
+        local index=(slot==1 or slot==2) and slot or (s.slot==1 and 2 or 1)
+        if not living() or index==s.slot or not s.guns[index] then return end
+        if mobile then mobile:cancelFire("swap") end
+        s.fire=false s.semi=false aim(false)
+        send("Swap",{slot=index}) s.nextShot=os.clock()+.28
+        -- Reload animation/ammo are reconciled only when the server confirms
+        -- the new slot. A rejected swap cannot locally cancel a real reload.
     end
     local function direction(point)
         local camera=workspace.CurrentCamera
@@ -161,9 +174,9 @@ function Controller.start()
     bind("Fire",{Enum.UserInputType.MouseButton1,Enum.KeyCode.ButtonR2},function(state) if state==Enum.UserInputState.Begin then s.fire=living() s.semi=false elseif state==Enum.UserInputState.End or state==Enum.UserInputState.Cancel then s.fire=false s.semi=false end end)
     bind("Aim",{Enum.UserInputType.MouseButton2,Enum.KeyCode.ButtonL2},function(state) if state==Enum.UserInputState.Begin then aim(true) elseif state==Enum.UserInputState.End or state==Enum.UserInputState.Cancel then aim(false) end end)
     bind("Reload",{Enum.KeyCode.R,Enum.KeyCode.ButtonY},function(state) if state==Enum.UserInputState.Begin then reload() end end)
-    bind("Swap",{Enum.KeyCode.Q,Enum.KeyCode.ButtonB},function(state) if state==Enum.UserInputState.Begin and living() then send("Swap",{}) s.reloading=0 s.nextShot=os.clock()+.28 end end)
-    bind("Slot1",{Enum.KeyCode.One},function(state) if state==Enum.UserInputState.Begin and living() then send("Swap",{slot=1}) s.reloading=0 end end)
-    bind("Slot2",{Enum.KeyCode.Two},function(state) if state==Enum.UserInputState.Begin and living() then send("Swap",{slot=2}) s.reloading=0 end end)
+    bind("Swap",{Enum.KeyCode.Q,Enum.KeyCode.ButtonB},function(state) if state==Enum.UserInputState.Begin then swap() end end)
+    bind("Slot1",{Enum.KeyCode.One},function(state) if state==Enum.UserInputState.Begin then swap(1) end end)
+    bind("Slot2",{Enum.KeyCode.Two},function(state) if state==Enum.UserInputState.Begin then swap(2) end end)
     bind("Melee",{Enum.KeyCode.V,Enum.KeyCode.ButtonR3},function(state) if state==Enum.UserInputState.Begin then melee() end end)
     bind("Grenade",{Enum.KeyCode.G,Enum.KeyCode.ButtonR1},function(state) if state==Enum.UserInputState.Begin then grenade() end end)
     bind("SpectatePrevious",{Enum.KeyCode.LeftBracket,Enum.KeyCode.ButtonL1},function(state) if state==Enum.UserInputState.Begin and s.state and s.state.status=="Eliminated" then spectate(-1) end end)
@@ -173,6 +186,8 @@ function Controller.start()
     end)
     bind("Menu",{Enum.KeyCode.M,Enum.KeyCode.ButtonSelect},function(state) if state==Enum.UserInputState.Begin then ui:toggle() end end)
     UIS.WindowFocusReleased:Connect(resetInput)
+    UIS.TextBoxFocused:Connect(resetInput)
+    GuiService.MenuOpened:Connect(resetInput)
     mobile=MobileControls.new(ui,{
         weapon=function() local g=gun() return g and C.Weapons[g.id] end,
         fire=shoot,
@@ -193,7 +208,7 @@ function Controller.start()
         action=function(name)
             if name=="AIM" then aim(not s.aim)
             elseif name=="RELOAD" then reload()
-            elseif name=="SWAP" and living() then mobile:cancelFire("swap") send("Swap",{}) s.reloading=0 s.nextShot=os.clock()+.28
+            elseif name=="SWAP" then swap()
             elseif name=="MELEE" then melee()
             elseif name=="G" then grenade() end
         end,
@@ -213,12 +228,21 @@ function Controller.start()
     PPS.PromptShown:Connect(function(prompt)
         if prompt:GetAttribute("RevivePrompt") then prompt.HoldDuration=R.reviveTime(s.state and s.state.perks or {}) end
     end)
+    PPS.PromptButtonHoldBegan:Connect(function(prompt,who)
+        if not who or who==player then s.interacting=prompt resetInput() end
+    end)
+    local function endInteraction(prompt,who)
+        if s.interacting==prompt and (not who or who==player) then s.interacting=nil resetInput() end
+    end
+    PPS.PromptButtonHoldEnded:Connect(endInteraction)
+    PPS.PromptTriggered:Connect(endInteraction)
+    PPS.PromptHidden:Connect(endInteraction)
     feed.OnClientEvent:Connect(function(kind,data)
         if kind=="State" then
             local old=s.state s.state=data ammo(data)
             local held=gun()
             if held and held.reloadUntil<=data.serverTime and os.clock()-s.reloadStarted>.7 then s.reloading=0 end
-            if old and (old.status~=data.status or old.phase~=data.phase or old.travelling~=data.travelling) then resetInput() s.reloading=0 s.pending={} end
+            if old and (old.status~=data.status or old.phase~=data.phase or old.travelling~=data.travelling) then s.interacting=nil resetInput() s.reloading=0 s.pending={} end
             if data.status=="Eliminated" then spectate(0) end
             if data.status=="Alive" then rebuild() end
             ui:setState(data,displayMag())
@@ -231,7 +255,7 @@ function Controller.start()
         elseif kind=="CloseBay" then ui:close()
         elseif kind=="OpenTerminal" then ui:open(data.tab)
         elseif kind=="Travel" then
-            s.travelLock=data.active==true resetInput() ui:close() ui:travel(data)
+            s.travelLock=data.active==true s.interacting=nil resetInput() ui:close() ui:travel(data)
             if data.active then
                 pcall(function() game:GetService("TeleportService"):SetTeleportGui(ui:loadingGui(data.message,data.map)) end)
                 if data.token then send("TravelReady",{token=data.token}) end
@@ -240,7 +264,7 @@ function Controller.start()
         elseif kind=="Toast" then ui:toast(data.text,data.color)
         elseif kind=="Hit" then mobile:hit(data.kill) ui:hit(data.kill,data.head) fx:sound(data.kill and "Kill" or "Hit")
         elseif kind=="Hurt" then ui:damage() fx.shake=math.max(fx.shake,1)
-        elseif kind=="Reload" then mobile:cancelFire("server reload") s.reloadStarted=os.clock() s.reloadDuration=data.duration s.reloading=s.reloadStarted+data.duration fx:sound("Reload")
+        elseif kind=="Reload" then mobile:cancelFire("server reload") s.fire=false aim(false) s.reloadStarted=os.clock() s.reloadDuration=data.duration s.reloading=s.reloadStarted+data.duration fx:sound("Reload")
         elseif kind=="Cue" then fx:sound(data.name)
         elseif kind=="Points" then if s.state then s.state.points=data.total ui.points.Text=data.total.."  P" end
         elseif kind=="Boards" then ui.boards=data if ui.tab=="Records" then ui:open("Records") end
@@ -311,7 +335,8 @@ function Controller.start()
         local scoped=held and W.scoped(held.id) and isAiming and aimAlpha>.93
         optic:update(scoped==true,camera.ViewportSize)
         ui.cross.Visible=living() and aimAlpha<.5 and not (mobile.enabled and mobile.settings.fireLayout=="Tap")
-        camera.FieldOfView=camera.FieldOfView+((s.aim and living() and aimedFov or fx.settings.fov)-camera.FieldOfView)*math.min(1,dt*14)
+        camera.FieldOfView=camera.FieldOfView+((isAiming and aimedFov or fx.settings.fov)-camera.FieldOfView)*math.min(1,dt*14)
+        ui:reticle(held and C.Weapons[held.id],camera.FieldOfView,camera.ViewportSize,s.recoil)
         s.recoil=s.recoil*math.exp(-dt*15) fx.shake=fx.shake*math.exp(-dt*7)
         local shake=fx.settings.lowEffects and 0 or fx.settings.shake*fx.shake
         if living() then camera.CFrame=camera.CFrame*CFrame.Angles(math.rad(s.recoil),math.sin(now*57)*shake*.005,0) end
@@ -319,17 +344,18 @@ function Controller.start()
             if living() then
                 local moving=hum and hum.MoveDirection.Magnitude or 0
                 local hip=mobile.enabled and mobile.settings.fireLayout=="Tap" and Vector3.new(.78,-.94,-1.2) or Vector3.new(.64,-.67,-1.1)
-                local offset=hip:Lerp(Vector3.new(0,-W.aimHeight(gun().id),-1.15),aimAlpha)
-                local bob=Vector3.new(math.sin(now*9)*.022*moving,math.abs(math.cos(now*9))*.025*moving,0)*(1-aimAlpha*.92)
+                local offset=W.viewOffset(held.id,hip,aimAlpha,camera.FieldOfView,camera.ViewportSize)
+                local bob=Vector3.new(math.sin(now*9)*.022*moving,math.abs(math.cos(now*9))*.025*moving,0)*(1-aimAlpha)
                 local progress=now<s.reloading and math.clamp((now-s.reloadStarted)/s.reloadDuration,0,1) or 0
                 local reloadRoll=progress>0 and math.sin(progress*math.pi)*.48 or 0
                 local meleeProgress=now-s.meleeAt<.38 and (now-s.meleeAt)/.38 or 0
                 local meleeRoll=meleeProgress>0 and -math.sin(meleeProgress*math.pi)*.95 or 0
                 local equip=math.max(0,1-(now-s.equipAt)/.3)
                 local sway=Vector3.new(math.sin(now*1.6)*.003,math.cos(now*1.8)*.004,0)*(1-aimAlpha)
-                s.vm:PivotTo(camera.CFrame*CFrame.new(offset+bob+sway+Vector3.new(0,-equip*.65,s.recoil*.035-math.sin(meleeProgress*math.pi)*.25))*CFrame.Angles(s.recoil*.012-equip*.3,0,reloadRoll+meleeRoll+(s.sprint and -.35 or 0)))
-                W.pose(s.vm,progress,meleeProgress,equip,s.recoil)
-                W.aim(s.vm,aimAlpha>.8 and W.scoped(gun().id))
+                local kick=s.recoil*(1-aimAlpha*.95)
+                s.vm:PivotTo(camera.CFrame*CFrame.new(offset+bob+sway+Vector3.new(0,-equip*.65,kick*.035-math.sin(meleeProgress*math.pi)*.25))*CFrame.Angles(kick*.012-equip*.3,0,reloadRoll+meleeRoll+(s.sprint and -.35 or 0)))
+                W.pose(s.vm,progress,meleeProgress,equip,s.recoil,displayMag()==0)
+                W.aim(s.vm,scoped==true,W.scoped(held.id) and aimAlpha or 0)
             else s.vm:PivotTo(CFrame.new(0,-1000,0)) end
         end
         local char=player.Character local carried=char and char:FindFirstChild("CarriedWeapon")
@@ -342,7 +368,7 @@ function Controller.start()
             else fx:sound("Dispatch") end
         end
     end)
-    player.CharacterAdded:Connect(function(char) resetInput() cameraMode="" s.vmKey="" task.delay(.6,function() noJump(char) if s.state and s.state.status=="Alive" then rebuild() end end) end)
+    player.CharacterAdded:Connect(function(char) s.interacting=nil resetInput() cameraMode="" s.vmKey="" task.delay(.6,function() noJump(char) if s.state and s.state.status=="Alive" then rebuild() end end) end)
     task.spawn(function() while not s.profile do send("Ready",{}) task.wait(2) end end)
     send("Ready",{})
 end

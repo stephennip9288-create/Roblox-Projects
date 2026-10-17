@@ -1,33 +1,42 @@
 -- Six sectors retain their IDs/objectives; footprints and connectivity are authored independently.
 local L={}
+-- Blackwater: compact rectilinear station blocks, one maintenance watch gallery.
 L.Station={
-    {x=-86,z=-12,w=60,d=68,h=25,shape="octagon",upper=true},
-    {x=0,z=-32,w=78,d=78,h=27,shape="rotunda",outdoor=true},
-    {x=92,z=-4,w=66,d=72,h=25,shape="hexagon"},
-    {x=-84,z=92,w=72,d=78,h=27,shape="rectangle",upper=true},
-    {x=0,z=94,w=78,d=74,h=27,shape="octagon"},
-    {x=100,z=100,w=72,d=86,h=28,shape="hexagon"},
+    {x=-94,z=-14,w=78,d=106,h=22,shape="rectangle"},
+    {x=0,z=-20,w=72,d=70,h=24,shape="rectangle",outdoor=true},
+    {x=88,z=-8,w=62,d=84,h=23,shape="rectangle"},
+    {x=-96,z=130,w=82,d=124,h=25,shape="rectangle",upper=true},
+    {x=0,z=100,w=70,d=80,h=24,shape="octagon"},
+    {x=94,z=118,w=72,d=106,h=25,shape="rectangle"},
 }
 L.Foundry={
-    {x=-108,z=-18,w=72,d=82,h=29,shape="octagon"},
-    {x=0,z=-40,w=102,d=92,h=33,shape="hexagon",outdoor=true},
-    {x=112,z=-2,w=78,d=84,h=31,shape="rotunda"},
-    {x=-104,z=112,w=82,d=112,h=32,shape="rectangle",upper=true},
-    {x=0,z=116,w=94,d=96,h=32,shape="octagon",upper=true},
-    {x=120,z=122,w=82,d=108,h=32,shape="octagon"},
+    {x=-126,z=-24,w=84,d=68,h=27,shape="rectangle"},
+    {x=0,z=-34,w=122,d=96,h=36,shape="rectangle",outdoor=true},
+    {x=132,z=-14,w=84,d=104,h=34,shape="rectangle"},
+    {x=-126,z=138,w=84,d=150,h=32,shape="rectangle",upper=true},
+    {x=0,z=134,w=112,d=110,h=35,shape="rectangle",upper=true},
+    {x=144,z=158,w=98,d=138,h=34,shape="octagon"},
 }
 L.Frost={
-    {x=-102,z=-18,w=72,d=86,h=28,shape="hexagon"},
-    {x=0,z=-46,w=98,d=96,h=30,shape="rotunda",outdoor=true},
-    {x=108,z=-6,w=74,d=86,h=28,shape="octagon"},
-    {x=-100,z=114,w=84,d=112,h=29,shape="octagon"},
-    {x=0,z=112,w=96,d=90,h=31,shape="hexagon",upper=true},
-    {x=116,z=124,w=80,d=110,h=30,shape="rectangle",upper=true},
+    {x=-108,z=-32,w=78,d=82,h=23,shape="hexagon"},
+    {x=0,z=-64,w=102,d=104,h=27,shape="octagon",outdoor=true},
+    {x=124,z=-26,w=78,d=100,h=25,shape="hexagon"},
+    {x=-104,z=128,w=94,d=116,h=24,shape="octagon"},
+    {x=14,z=122,w=96,d=100,h=30,shape="rotunda",upper=true},
+    {x=148,z=150,w=84,d=116,h=26,shape="hexagon"},
 }
 -- Each pair appears once. Diagonal links join different sectors and create two new flanking loops.
 L.Links={{1,2,750,"CONCOURSE ACCESS"},{1,4,900,"WEST SERVICE PASSAGE"},{2,3,1250,"POWER ANNEX"},
     {2,5,1000,"CENTRAL SERVICE SPINE"},{4,5,750,"LOWER TRANSFER"},{5,6,1500,"FORGE ACCESS"},{3,6,1000,"EAST PROCESS PASSAGE"},
     {1,5,1100,"DIAGONAL / SIGNAL UNDERPASS"},{3,5,900,"DIAGONAL / AUXILIARY RETURN"}}
+-- Preserve the seven progression purchases. Each site authors its optional flanking loops.
+function L.links(id)
+    if id~="Foundry" and id~="Frost" then return L.Links end
+    local links={} for i=1,7 do links[i]=L.Links[i] end
+    links[8]=id=="Foundry" and {2,4,1100,"GANTRY TRANSFER"} or {1,5,1100,"LISTENING TUNNEL"}
+    links[9]=id=="Foundry" and {3,5,900,"BOILER RETURN"} or {2,6,900,"EAST AIRLOCK"}
+    return links
+end
 L.Windows={{1,"N"},{1,"W"},{2,"N"},{3,"N"},{3,"E"},{4,"S"},{4,"W"},{5,"S"},{6,"S"},{6,"E"}}
 function L.polygon(r)
     local w,d=r.w/2,r.d/2 local shape=r.shape local v={}

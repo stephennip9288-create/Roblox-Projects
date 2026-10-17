@@ -22,7 +22,7 @@ Conservative world-stud spans of tier-3 Factory wall models at identity Root, in
 | Signal | 0.847 | 1.316 | 4.010 | -0.808 to 0.507 | -2.460 to 1.550 |
 | Trench | 0.725 | 1.010 | 4.509 | -0.710 to 0.300 | -2.751 to 1.758 |
 | Vandal | 0.677 | 1.773 | 4.001 | -1.296 to 0.477 | -2.451 to 1.550 |
-| Vigil | 0.518 | 1.119 | 2.425 | -0.789 to 0.330 | -1.901 to 0.524 |
+| Vigil | 0.516 | 1.119 | 2.425 | -0.789 to 0.330 | -1.901 to 0.524 |
 | Wasp | 0.652 | 1.703 | 3.031 | -1.236 to 0.467 | -1.601 to 1.430 |
 
 Retain front approach, prompt/sign clearances and non-queryable decoration. Validate the rotated bounding envelope against the mounting wall in Studio. These source measurements do not establish actual mesh contact, readable signs, navigation clearance or native visual acceptance.

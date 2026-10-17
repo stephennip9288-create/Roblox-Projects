@@ -1,5 +1,5 @@
 {
-  "tested_source_commit": "d4d36718ca64ac826fa76862172e726905578464",
+  "tested_source_commit": "adf8b1955d477751e429ede1ff4dfb7be1a0a4c5",
   "integration_base": "2b7073cda226882343b925569bcc2b51fa7dfd88",
   "parent_combat_pr": 20,
   "lune": "0.11.0",
@@ -8,130 +8,130 @@
       "suite": "loading",
       "passed": true,
       "assertions": 63,
-      "seconds": 1.644
+      "seconds": 1.252
     },
     {
       "suite": "loadingpreview",
       "passed": true,
       "assertions": 36,
-      "seconds": 0.37
+      "seconds": 0.646
     },
     {
       "suite": "evolution",
       "passed": true,
       "assertions": 3098,
-      "seconds": 7.5
+      "seconds": 16.5
     },
     {
       "suite": "events",
       "passed": true,
       "assertions": 18,
-      "seconds": 0.881
+      "seconds": 0.78
     },
     {
       "suite": "presentation",
       "passed": true,
       "assertions": 55,
-      "seconds": 0.383
+      "seconds": 0.534
     },
     {
       "suite": "director",
       "passed": true,
       "assertions": 431,
-      "seconds": 0.051
+      "seconds": 0.093
     },
     {
       "suite": "server",
       "passed": true,
       "assertions": 35,
-      "seconds": 0.506
+      "seconds": 0.594
     },
     {
       "suite": "navigation",
       "passed": true,
       "assertions": 13,
-      "seconds": 0.503
+      "seconds": 0.662
     },
     {
       "suite": "pursuit",
       "passed": true,
       "assertions": 90,
-      "seconds": 2.567
+      "seconds": 2.993
     },
     {
       "suite": "rigs",
       "passed": true,
       "assertions": 309,
-      "seconds": 0.924
+      "seconds": 0.713
     },
     {
       "suite": "weapons",
       "passed": true,
       "assertions": 7929,
-      "seconds": 1.065
+      "seconds": 1.378
     },
     {
       "suite": "arrival",
       "passed": true,
       "assertions": 28,
-      "seconds": 0.564
+      "seconds": 0.458
     },
     {
       "suite": "extraction",
       "passed": true,
       "assertions": 20,
-      "seconds": 0.061
+      "seconds": 0.06
     },
     {
       "suite": "map_remaster",
       "passed": true,
       "assertions": 19998,
-      "seconds": 8.337
+      "seconds": 10.89
     },
     {
       "suite": "enemy-lifecycle",
       "passed": true,
       "assertions": 70,
-      "seconds": 0.717
+      "seconds": 0.666
     },
     {
       "suite": "enemy-path-recovery",
       "passed": true,
       "assertions": 48,
-      "seconds": 0.787
+      "seconds": 0.475
     },
     {
       "suite": "combat-ui",
       "passed": true,
-      "assertions": 636942,
-      "seconds": 31.056
+      "assertions": 638211,
+      "seconds": 46.03
     },
     {
       "suite": "combat-input",
       "passed": true,
       "assertions": 46,
-      "seconds": 1.312
+      "seconds": 1.258
     },
     {
       "suite": "touch",
       "passed": true,
       "assertions": 512,
-      "seconds": 0.109
+      "seconds": 0.076
     },
     {
       "suite": "integration-contracts",
       "passed": true,
       "assertions": 487,
-      "seconds": 5.359
+      "seconds": 5.971
     },
     {
       "suite": "weapons-batch1",
       "passed": true,
-      "assertions": 64105,
-      "seconds": 78.048
+      "assertions": 64239,
+      "seconds": 63.902
     }
   ],
-  "unit_assertions": 734333,
+  "unit_assertions": 735736,
   "runtime_compile": {
     "run": true,
     "scripts": 61,
@@ -210,7 +210,7 @@
     "Source/Runtime/shared/Util.lua": "cdc2811eda9ac577b0ee8760fbc9d24ba3fb6ce181ef422600d1407fac5e3ffa",
     "Source/Runtime/shared/WeaponBlueprints.lua": "dee97fb39657933f9acb53d93deb752b2c33f64764c705c2283311b28b57c2c9",
     "Source/Runtime/shared/WeaponDetail.lua": "f1f97967da488103338fa44c90817ad22cb85729cb0aa227f20fa33266a4ac11",
-    "Source/Runtime/shared/WeaponModels.lua": "9ff82f2331c5dc894f25d931d595276c51d480c1ef45c2b53db515a246d4b727"
+    "Source/Runtime/shared/WeaponModels.lua": "79762f30d0149e30d7b12e5e2db4fb26b8e27abf15398c5a71847f349b389bff"
   },
   "source_only_lane_runtime_files": [
     "client/Controller.lua",
@@ -272,7 +272,7 @@
       "patched_prop_chunk_count": 1,
       "untouched_chunk_count": 1513,
       "source_sha256": "a3fc4cab05e07d9a2901757007a6b52b7cf3e9acf2cbb49858a52d0a961f596c",
-      "candidate_sha256": "1b0b96195a2a0c6551b68b8355ac8194d95ec7144522488e83be8f5ba61049da",
+      "candidate_sha256": "f3131601f27d98969fdc606cab2bb3bef1dfc02c0b6ba777f905145935afa7b1",
       "all_untouched_chunks_byte_identical": true,
       "place": "dispatch",
       "environment": "staging",
@@ -316,7 +316,7 @@
       "patched_prop_chunk_count": 1,
       "untouched_chunk_count": 1496,
       "source_sha256": "b7181f8204d43dcccb37aa79797ff2a7408f4c9bc9751f3d2baf07ebd4d4d515",
-      "candidate_sha256": "a1c9ade233f7d435a6f54a38e9a5018f491eeeda9bd56c0a800f50d61c67a182",
+      "candidate_sha256": "c62f353ec860a98abbf1cda8f781926ef33a666435e070206e8137d3d48fff13",
       "all_untouched_chunks_byte_identical": true,
       "place": "blackwater",
       "environment": "staging",
@@ -360,7 +360,7 @@
       "patched_prop_chunk_count": 1,
       "untouched_chunk_count": 1500,
       "source_sha256": "b1b89378c2ed8cc54d5aa3b95ec6419eb4a6e23b687046ef36915d320a02127f",
-      "candidate_sha256": "fde414dec40ac93051b0b7451b6bec8d2138f1947c38ae54502a8d0bd0518df6",
+      "candidate_sha256": "b2c3c0d86d11ce0529947f61c804a2a567c66862d1c45dbb245a5617380eca52",
       "all_untouched_chunks_byte_identical": true,
       "place": "cinderworks",
       "environment": "staging",
@@ -404,7 +404,7 @@
       "patched_prop_chunk_count": 1,
       "untouched_chunk_count": 1500,
       "source_sha256": "445bd3403794f65214822161b14e287363f21d7ff3713ee4079573228d78d168",
-      "candidate_sha256": "158bdb1c38199bbe5da4593173eb81bd834c42c0cb8cb2a8dc79297ff8ed602f",
+      "candidate_sha256": "623545946aeba3901d51df71d833c0037707ab7a66878a4c69d0fa01b2f628d7",
       "all_untouched_chunks_byte_identical": true,
       "place": "whiteout",
       "environment": "staging",
@@ -480,5 +480,19 @@
     "python scripts/patch_dead_signal_rbxl.py --environment staging",
     "python scripts/audit_dead_signal_binary.py --baseline-dir games/dead-signal/full-baselines/v1.8.0 --candidate-dir build/dead-signal-lossless/staging",
     "git diff --check"
-  ]
+  ],
+  "capacity_coverage": {
+    "Trench_upgraded": 9,
+    "Sable_upgraded": 12,
+    "Vigil_base": 6,
+    "Vigil_upgraded": 9,
+    "reads_existing_Rules": true,
+    "server_stats_changed": false
+  },
+  "integration_art_decision": {
+    "weapon": "Breaker",
+    "existing_upgraded_capacity": 3,
+    "original_barrels": 2,
+    "status": "Existing mismatch retained; integrator decision on fictional upgrade or separate art/gameplay change, not physical cartridge-count acceptance."
+  }
 }

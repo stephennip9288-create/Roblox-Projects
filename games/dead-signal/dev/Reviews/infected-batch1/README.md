@@ -54,26 +54,36 @@ checked against the actual evolved agent, including Alpha/Ironbound/Warden.
 Malformed/backwards/unsupported descriptors fail closed. No alternate
 `window.traversal` schema is used.
 
-**Proposed anchor interpretation for Maps/MAIN DEV review:** approach and landing
-positions are foot/ground contact frames; breach position is the top of the sill
-or equivalent contact surface. The planner adds actual root height and a small
-clearance margin. Supported upper landings must match the supplied height;
-they cannot project down to ground. Maps still needs to supply explicit exterior
-footing/approach evidence; legacy exterior queuing uses the interior floor level
-and a kinematic hold, not a claim of authored terrain support.
+The consumer accepts two bounded interpretations against the actual supported
+landing floor: explicit foot/contact CFrames, or Maps #29's existing navigation
+reference (approach/landing 3.5*scale above floor, breach at opening center).
+For the latter it subtracts the physical reference height and half the declared
+opening height to derive feet/sill coordinates. Other heights fail closed; an
+unsupported upper landing cannot project onto the ground. Queue spawning and
+traversal use the same normalized feet. The producer's coordinates are never
+scaled twice. Exterior terrain/footing still needs native Maps acceptance.
 
-Current source geometry: 210 window/species/modifier combinations (30 windows,
-seven agent profiles). **209 have usable swept plans.** Blackwater window 6,
-Maintenance, rejects the Warden because `UpperGalleryDeck` obstructs its standing
-envelope. No map geometry or collision is bypassed to admit it. Every profile
-has another usable entrance in every sector, including the initial sector.
-After bounded outside failure, recovery suppresses that window for the species
-for eight seconds and reselects a route. Ordinary agents keep the parent's
-three-recovery retirement policy; Warden state/HP/phase are preserved.
+| Source geometry | Usable / tested | Safely rejected |
+| --- | --- | --- |
+| Integrated parent maps at 2b7073c | 209 / 210 | Blackwater window 6 Warden, Maintenance UpperGalleryDeck. |
+| Maps #29 at 069d247 | 207 / 210 | Blackwater windows 6/7 Warden beneath Maintenance UpperGalleryDeck, and window 8 beneath Control Room UpperGalleryDeck. |
 
-Maps/MAIN DEV should resolve that Warden clearance or supply an eligible
-descriptor before final map acceptance. Re-run this audit on the subsequent
-Batch 1 Maps PR; this evidence covers integrated parent maps, not unseen maps.
+Every agent profile has an initial-sector entry. On Maps #29, the two sectors
+without a direct Warden entrance have purchased-door graph recovery routes from
+an eligible entry. This checks source graph hints, not a native navmesh. Smaller
+profiles fit every new map window. Collision is never bypassed for an oversized
+agent. After bounded outside failure, recovery suppresses the window for the
+species for eight seconds and carries failed windows through a bounded recovery
+cycle (maximum ten keys). It tries alternatives before repeating; a navigation
+revision or exhausted cycle allows fresh attempts. Warden HP/phase/cooldowns are
+preserved; ordinary agents keep the parent's three-recovery retirement policy.
+
+Maps/MAIN DEV should review the three Warden eligibility/clearance exclusions
+before final acceptance; the descriptors currently include Warden. No map source
+is changed in this branch. Exact seven-map-module hashes and the cross-branch
+**19,405-assertion** audit are recorded in Verification-Report.json.
+
+![Maps 29 entry sections](entry-sections-maps29.png)
 
 The optional **contextual-link proposal** is separate from canonical window
 spawning. No current map supplies these links. `map.traversals` entries use:
@@ -119,11 +129,13 @@ logic; the geometry audit uses actual generated colliders with continuous
 AABB/OBB sweeps, conservative wedge boxes and source floor polygons. It does
 not run Roblox Terrain, navmesh, physical contacts or networking.
 
-- Standard combined integration: 20 suites, **580,330 assertions**, all pass.
-- Enemy follow-up: 3 suites, **22,992 assertions**, all pass.
+- Standard combined integration: 20 suites, **580,333 assertions**, all pass.
+- Enemy follow-up: 3 suites, **23,020 assertions**, all pass.
 - All **61 runtime scripts compile**; **59 Python pipeline tests pass**.
-- Source geometry: **19,566 assertions**, 209 usable combinations, one safely
-  rejected Warden route; downed bodies, blocked/static/occupied landing, target
+- Source geometry: **19,587 assertions**, 209 usable combinations, one safely
+  rejected Warden route; the Maps #29 compatibility run adds 19,405 assertions.
+  Total across the two geometry contexts and core regressions: **622,758**.
+  Downed bodies, blocked/static/occupied landing, target
   loss, repaired barriers, cancellation, death/Volatile cleanup and source cue
   lifetime are covered by the other follow-up suites.
 

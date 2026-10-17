@@ -103,6 +103,7 @@ fig, axes = plt.subplots(1, 3, figsize=(12, 5))
 colors = {'Approach': '#8dd0cc', 'Contact': '#efd68b', 'Cross': '#dba17b', 'Land': '#a3c997', 'Settle': '#a3c997'}
 for ax, site in zip(axes, data['maps']):
     paths = [p for p in site['paths'] if p['window'] == 1]
+    xmin = -12
     window = site['windows'][0]
     origin = np.array(window['barrier']); inward = np.array(window['inside']) - np.array(window['outside'])
     inward[1] = 0; inward /= np.linalg.norm(inward)
@@ -121,6 +122,7 @@ for ax, site in zip(axes, data['maps']):
     for path in paths:
         positions = np.array([s['position'] for s in path['samples']])
         x = (positions - origin) @ inward
+        xmin = min(xmin, float(x.min()) - 1)
         feet = positions[:, 1] - path['rootHeight']
         if path['kind'] == 'Warden':
             ax.fill_between(x, feet, feet + path['height'], color='#b18bd0', alpha=.16, label='Warden envelope')
@@ -132,7 +134,7 @@ for ax, site in zip(axes, data['maps']):
         s = next(s for s in human['samples'] if s['stage'] == stage)
         point = np.array(s['position']); x = (point - origin) @ inward
         ax.scatter([x], [point[1] - human['rootHeight']], color=colors[stage], s=22, zorder=10)
-    ax.set(title=site['id'] + ' / breach 1', xlim=(-12, 15), ylim=(-1, 21), xlabel='Studs along approach', ylabel='World Y (studs)')
+    ax.set(title=site['id'] + ' / breach 1', xlim=(xmin, 15), ylim=(-1, 21), xlabel='Studs along approach', ylabel='World Y (studs)')
     ax.tick_params(colors='#b9c9cf'); ax.xaxis.label.set_color('#b9c9cf'); ax.yaxis.label.set_color('#b9c9cf')
     for spine in ax.spines.values(): spine.set_color('#334852')
     ax.grid(alpha=.15); ax.legend(fontsize=7, facecolor='#16232c', labelcolor='#e5ebeb')

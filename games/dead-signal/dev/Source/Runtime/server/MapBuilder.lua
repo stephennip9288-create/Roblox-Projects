@@ -185,8 +185,8 @@ function M.build(id)
                         if Vector3.new(d.X,0,d.Z).Magnitude<20.5 then clear=false break end
                     end end
                     local sector=map.rooms[room]
-                    if sector.stairBase then
-                        local a,b=sector.stairBase/scale,sector.stairTop/scale
+                    for _,stair in ipairs(sector.stairs or {}) do
+                        local a,b=stair.base/scale,stair.top/scale
                         local t=math.clamp((at-a):Dot(b-a)/(b-a):Dot(b-a),0,1)
                         local d=at-(a+(b-a)*t)
                         if Vector3.new(d.X,0,d.Z).Magnitude<spec.depth/2+8 then clear=false end
@@ -322,9 +322,9 @@ function M.build(id)
     end
     NavGraph.build(map)
     -- Furniture is authored around objective volumes and their standing approaches.
-    map.interactionZones={}
-    local function reserve(pos,size,minY,maxY)
-        table.insert(map.interactionZones,{minX=pos.X-size.X/2-3*scale,maxX=pos.X+size.X/2+3*scale,
+    map.interactionZones={} map.detailZones={}
+    local function reserve(pos,size,minY,maxY,zones)
+        table.insert(zones or map.interactionZones,{minX=pos.X-size.X/2-3*scale,maxX=pos.X+size.X/2+3*scale,
             minZ=pos.Z-size.Z/2-3*scale,maxZ=pos.Z+size.Z/2+3*scale,minY=minY or -1,maxY=maxY or 8*scale})
     end
     local function reservePart(p)
@@ -342,8 +342,14 @@ function M.build(id)
     for id,node in pairs(map.navigation.nodes) do
         if id:sub(1,4)=="door" then reserve(node.position,Vector3.new(12,7,12)*scale,-1,8*scale) end
     end
-    for _,room in ipairs(map.rooms) do if room.stairBase then
-        reserve((room.stairBase+room.stairTop)*.5,Vector3.new(9,room.rise/scale+6,36)*scale,-1,room.rise+5*scale)
+    for _,room in ipairs(map.rooms) do for _,stair in ipairs(room.stairs or {}) do
+        reserve((stair.base+stair.top)*.5,Vector3.new(stair.width/scale+2,stair.rise/scale+6,36)*scale,-1,stair.rise+5*scale)
+    end end
+    -- Keep the elevated service circuit clear of colliding dressing at actor height.
+    for _,room in ipairs(map.rooms) do if room.upperRing then
+        for i,a in ipairs(room.upperRing) do local b=room.upperRing[i%#room.upperRing+1]
+            reserve((a+b)*.5,Vector3.new(math.abs(a.X-b.X)+8*scale,8*scale,math.abs(a.Z-b.Z)+8*scale),room.rise-.6*scale,room.rise+9*scale,map.detailZones)
+        end
     end end
     -- Reserve counter panels before set dressing; candidates avoid every objective,
     -- portal, vault, spawn and stair approach. Panels have no movement collision.
@@ -370,6 +376,15 @@ function M.build(id)
     VisualPass.apply(map,def,layout)
     WorldArt.apply(f,def.theme)
     WorldArt.setDressing(map,layout)
+    Cinematic.exterior(map,def,layout)
+    Cinematic.publishSemantics(map)
+    map.model:SetAttribute("Batch1MapRevision",1)
+    local started=os.clock()
+    local function updateWorld()
+        if Cinematic.worldStep(map,os.clock()-started) then task.delay(1,updateWorld) end
+    end
+    -- Only scenery changes; this loop owns no combat/round state and ends with its map.
+    task.delay(1,updateWorld)
     map.model:SetAttribute("MapReady",true)
     map.model:SetAttribute("LayoutRevision",9)
     return map
@@ -384,15 +399,21 @@ function M.power(map)
 end
 function M.environment(id)
     local def=C.Maps[id] or C.Maps.Station
-    Lighting.ClockTime=id=="Lobby" and 5.7 or 3.4 Lighting.Brightness=id=="Lobby" and 2.1 or 1.85
-    Lighting.Ambient=Color3.fromRGB(29,33,38) Lighting.OutdoorAmbient=Color3.fromRGB(81,91,103)
-    Lighting.EnvironmentDiffuseScale=.85 Lighting.EnvironmentSpecularScale=1 Lighting.ShadowSoftness=.23
-    -- Studio/Command Bar can set the protected style; runtime keeps the saved style.
+    local presets={
+        Station={clock=3.4,brightness=2.0,ambient={42,48,45},outside={86,99,102},start=135,finish=600,density=.14},
+        Foundry={clock=4.1,brightness=2.1,ambient={54,44,36},outside={118,104,87},start=170,finish=650,density=.13},
+        Frost={clock=6.2,brightness=2.2,ambient={53,65,78},outside={143,162,174},start=120,finish=560,density=.17},
+    }
+    local look=presets[id] or (id~="Lobby" and presets.Station or nil)
+    Lighting.ClockTime=id=="Lobby" and 5.7 or look.clock Lighting.Brightness=id=="Lobby" and 2.1 or look.brightness
+    Lighting.Ambient=id=="Lobby" and Color3.fromRGB(29,33,38) or U.color(look.ambient)
+    Lighting.OutdoorAmbient=id=="Lobby" and Color3.fromRGB(81,91,103) or U.color(look.outside)
+    Lighting.EnvironmentDiffuseScale=.85 Lighting.EnvironmentSpecularScale=1 Lighting.ShadowSoftness=.28
     pcall(function() Lighting.LightingStyle=Enum.LightingStyle.Realistic end)
-    Lighting.FogColor=U.color(def.sky) Lighting.FogStart=120 Lighting.FogEnd=420
+    Lighting.FogColor=U.color(def.sky) Lighting.FogStart=look and look.start or 120 Lighting.FogEnd=look and look.finish or 420
     Lighting.GlobalShadows=true Lighting.ExposureCompensation=.05
     for _,name in ipairs({"DeadSignalAtmosphere","DeadSignalGrade","DeadSignalBloom"}) do local old=Lighting:FindFirstChild(name) if old then old:Destroy() end end
-    U.make("Atmosphere",Lighting,{Name="DeadSignalAtmosphere",Density=id=="Lobby" and .08 or def.theme=="Frost" and .25 or .18,Offset=.12,Color=U.color(def.sky),Decay=U.color(def.wall),Glare=.05,Haze=.85})
+    U.make("Atmosphere",Lighting,{Name="DeadSignalAtmosphere",Density=id=="Lobby" and .08 or look.density,Offset=.12,Color=U.color(def.sky),Decay=U.color(def.wall),Glare=.05,Haze=.65})
     U.make("ColorCorrectionEffect",Lighting,{Name="DeadSignalGrade",Brightness=.015,Contrast=.12,Saturation=-.10,TintColor=def.theme=="Foundry" and Color3.fromRGB(255,242,222) or Color3.fromRGB(239,245,251)})
     U.make("BloomEffect",Lighting,{Name="DeadSignalBloom",Intensity=.065,Size=16,Threshold=2.2})
 end

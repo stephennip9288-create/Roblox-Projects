@@ -24,6 +24,14 @@ function V.apply(map,def,layout)
             if world.X>zone.minX-2*s and world.X<zone.maxX+2*s and world.Z>zone.minZ-2*s and world.Z<zone.maxZ+2*s then return false end
         end return true
     end
+    local function crossSection(room,z)
+        local lo,hi=math.huge,-math.huge local poly=map.rooms[room].polygon
+        for i,a in ipairs(poly) do local b=poly[i%#poly+1]
+            if math.abs(a.Z-b.Z)>.001 and z>=math.min(a.Z,b.Z) and z<=math.max(a.Z,b.Z) then
+                local x=a.X+(b.X-a.X)*(z-a.Z)/(b.Z-a.Z) lo=math.min(lo,x) hi=math.max(hi,x)
+            end
+        end return lo,hi
+    end
     -- Architectural identity is built in source, not baked into a replacement place.
     -- All additions are scenery/query-free; the tested structural shell owns collision.
     for i,r in ipairs(layout) do
@@ -40,7 +48,7 @@ function V.apply(map,def,layout)
                 p("StationPictureRail",Vector3.new(span-.1,.16,.24),face.center+Vector3.new(0,8.8,0)+inward*.85,Color3.fromRGB(130,111,77),nil,rot)
             elseif def.theme=="Foundry" then
                 -- Deep corrugated steel and pipe headers read as a working industrial shed.
-                for x=-span/2+1,span/2-1,3.5 do
+                for x=-span/2+1,span/2-1,5.5 do
                     p("FoundryCladdingFold",Vector3.new(.24,r.h-3,.3),face.center+face.tangent*x+Vector3.new(0,r.h/2,0)+inward*.78,steel,nil,rot)
                 end
                 p("SteamHeader",Vector3.new(span,.65,.65),face.center+Vector3.new(0,r.h-5,0)+inward*1.2,Color3.fromRGB(133,96,61),Enum.Material.CorrodedMetal,rot,Enum.PartType.Cylinder)
@@ -57,12 +65,19 @@ function V.apply(map,def,layout)
         if def.theme=="Station" then
             if i==1 then
                 for _,z in ipairs({-r.d*.22,r.d*.22}) do
-                    p("StationTransomBeam",Vector3.new(r.w-2,.7,1),origin+Vector3.new(0,r.h-2,z),Color3.fromRGB(102,112,97))
-                    for x=-r.w/2+6,r.w/2-4,6 do p("StationTransomPane",Vector3.new(4.9,2.3,.15),origin+Vector3.new(x,r.h-3.8,z),Color3.fromRGB(143,174,163),Enum.Material.Glass).Transparency=.4 end
+                    local lo,hi=crossSection(i,r.z+z)
+                    p("StationTransomBeam",Vector3.new(hi-lo-1,.7,1),Vector3.new((lo+hi)/2,r.h-2,r.z+z),Color3.fromRGB(102,112,97))
+                    for x=lo+4,hi-4,6 do p("StationTransomPane",Vector3.new(4.9,2.3,.15),Vector3.new(x,r.h-3.8,r.z+z),Color3.fromRGB(143,174,163),Enum.Material.Glass).Transparency=.4 end
                 end
-                local clock=p("StationStoppedClock",Vector3.new(.3,4,4),origin+Vector3.new(0,r.h-5,-r.d/2+.9),Color3.fromRGB(219,211,179),Enum.Material.SmoothPlastic,CFrame.Angles(0,math.pi/2,0),Enum.PartType.Cylinder)
-                p("StationClockHour0317",Vector3.new(.15,1,.08),clock.Position/s+Vector3.new(.55,0,.2),shadow,Enum.Material.SmoothPlastic,CFrame.Angles(0,0,-1.57))
-                p("StationClockMinute0317",Vector3.new(.10,1.5,.08),clock.Position/s+Vector3.new(.5,-.4,.21),shadow,Enum.Material.SmoothPlastic,CFrame.Angles(0,0,-1.78))
+                local face
+                for _,candidate in ipairs(map.rooms[i].wallFaces) do if candidate.normal.Z<-.4 and candidate.length>6 and (not face or candidate.length>face.length) then face=candidate end end
+                if face then
+                    local cf=CFrame.fromMatrix(face.center,face.tangent,Vector3.yAxis,face.normal)
+                    local at=cf*CFrame.new(0,r.h-5,-.95)
+                    p("StationStoppedClock",Vector3.new(.3,4,4),at.Position,Color3.fromRGB(219,211,179),Enum.Material.SmoothPlastic,(cf-cf.Position)*CFrame.Angles(0,math.pi/2,0),Enum.PartType.Cylinder)
+                    p("StationClockHour0317",Vector3.new(.15,1,.08),(at*CFrame.new(.55,0,-.2)).Position,shadow,Enum.Material.SmoothPlastic,(cf-cf.Position)*CFrame.Angles(0,0,-1.57))
+                    p("StationClockMinute0317",Vector3.new(.10,1.5,.08),(at*CFrame.new(.5,-.4,-.21)).Position,shadow,Enum.Material.SmoothPlastic,(cf-cf.Position)*CFrame.Angles(0,0,-1.78))
+                end
             end
             -- Dashed platform bands mark the long axis without creating a low ledge.
             for z=-r.d/2+10,r.d/2-8,8 do
@@ -72,12 +87,13 @@ function V.apply(map,def,layout)
         elseif def.theme=="Foundry" then
             if not r.outdoor then
                 for z=-r.d/2+14,r.d/2-12,24 do
-                    local at=origin+Vector3.new(0,r.h-3,z)
-                    p("FoundryGantryWeb",Vector3.new(r.w-3,1.4,.3),at,Color3.fromRGB(151,103,49))
-                    for _,dy in ipairs({-.75,.75}) do p("FoundryGantryFlange",Vector3.new(r.w-3,.17,1.4),at+Vector3.new(0,dy,0),steel) end
+                    local lo,hi=crossSection(i,r.z+z) local span=hi-lo-2
+                    local at=Vector3.new((lo+hi)/2,r.h-3,r.z+z)
+                    p("FoundryGantryWeb",Vector3.new(span,1.4,.3),at,Color3.fromRGB(151,103,49))
+                    for _,dy in ipairs({-.75,.75}) do p("FoundryGantryFlange",Vector3.new(span,.17,1.4),at+Vector3.new(0,dy,0),steel) end
                     -- Sawtooth clerestories are visible above the sealed roof from the yard.
-                    p("FoundrySawtoothRoof",Vector3.new(r.w-1,1.7,13),origin+Vector3.new(0,r.h+3.4,z),Color3.fromRGB(91,94,87),Enum.Material.CorrodedMetal,CFrame.Angles(-.22,0,0))
-                    p("FoundryClerestoryGlass",Vector3.new(r.w-7,2.7,.2),origin+Vector3.new(0,r.h+3.4,z+6),Color3.fromRGB(193,154,94),Enum.Material.Glass).Transparency=.25
+                    p("FoundrySawtoothRoof",Vector3.new(span+1,1.7,13),Vector3.new((lo+hi)/2,r.h+3.4,r.z+z),Color3.fromRGB(91,94,87),Enum.Material.CorrodedMetal,CFrame.Angles(-.22,0,0))
+                    p("FoundryClerestoryGlass",Vector3.new(span-3,2.7,.2),Vector3.new((lo+hi)/2,r.h+3.4,r.z+z+6),Color3.fromRGB(193,154,94),Enum.Material.Glass).Transparency=.25
                 end
             end
             for _,x in ipairs({-r.w*.18,r.w*.18}) do
@@ -86,8 +102,10 @@ function V.apply(map,def,layout)
             end
         else
             if not r.outdoor then
-                for _,side in ipairs({-1,1}) do
-                    p("PolarFacetedRoof",Vector3.new(r.w*.53,.8,r.d*.78),origin+Vector3.new(side*r.w*.24,r.h+3,0),Color3.fromRGB(178,198,205),Enum.Material.Snow,CFrame.Angles(0,0,side*.19))
+                local poly=map.rooms[i].polygon
+                for n,a in ipairs(poly) do local b=poly[n%#poly+1] local tangent=(b-a).Unit local normal=Vector3.new(tangent.Z,0,-tangent.X)
+                    local rot=CFrame.fromMatrix(Vector3.zero,tangent,Vector3.yAxis,normal)
+                    p("PolarFacetedRoof",Vector3.new((b-a).Magnitude+.3,.8,12),(a+b)*.5-normal*4.5+Vector3.new(0,r.h+2.2,0),Color3.fromRGB(178,198,205),Enum.Material.Snow,rot*CFrame.Angles(.19,0,0))
                 end
             end
             -- An interrupted tracking line and anchor plates distinguish the listening post.
@@ -128,7 +146,7 @@ function V.apply(map,def,layout)
             local mount=p("PendantHousing",Vector3.new(3.1,.32,1.4),at,shadow)
             local lens=p("PendantLens",Vector3.new(2.7,.08,1.1),at-Vector3.new(0,.22,0),key,Enum.Material.Neon)
             for _,dz in ipairs({-.59,.59}) do p("PendantGuard",Vector3.new(3,.09,.08),at+Vector3.new(0,-.25,dz),steel) end
-            local light=U.make("SurfaceLight",lens,{Face=Enum.NormalId.Bottom,Angle=115,Range=math.min(38,r.h+8)*s,Brightness=.55,Color=key,Shadows=dx<0})
+            local light=U.make("SurfaceLight",lens,{Face=Enum.NormalId.Bottom,Angle=115,Range=math.min(38,r.h+8)*s,Brightness=.55,Color=key,Shadows=dx<0 and i%2==1})
             light:SetAttribute("PoweredBrightness",1.5)
             beam("HangerCable",at+Vector3.new(0,.3,0),at+Vector3.new(0,2.1,0),.045,shadow)
         end
@@ -153,44 +171,6 @@ function V.apply(map,def,layout)
                 local at=origin+Vector3.new(math.cos(a)*radius,r.h-3.7,math.sin(a)*radius)
                 p("RotundaRingRib",Vector3.new(radius*.27,.30,.40),at,steel,nil,CFrame.Angles(0,-a+math.pi/2,0))
             end
-        end
-    end
-    -- Exterior silhouettes establish each location without placing obstacles in playable routes.
-    local b=map.bounds local center=Vector3.new((b.minX+b.maxX)/2,0,b.minZ-25)
-    if def.theme=="Station" then
-        for n=1,4 do
-            local at=center+Vector3.new(-70+n*28,0,-10-n%2*13)
-            p("StationServiceBlock",Vector3.new(23,18+n*3,16),at+Vector3.new(0,9+n*1.5,0),Color3.fromRGB(60,66,64),Enum.Material.Brick)
-            for window=1,3 do p("DistantStationWindow",Vector3.new(2,3,.06),at+Vector3.new(-8+window*4,11,8.05),Color3.fromRGB(150,131,87),Enum.Material.Neon) end
-        end
-        local at=center+Vector3.new(0,0,-18)
-        for _,x in ipairs({-4,4}) do beam("RelayTowerLeg",at+Vector3.new(x,0,0),at+Vector3.new(x*.3,62,0),.40,steel) end
-        for y=6,60,6 do beam("RelayCrossBracing",at+Vector3.new(-4,y,0),at+Vector3.new(4,y+5,0),.16,steel) end
-        p("TowerBeacon",Vector3.new(.8,.8,.8),at+Vector3.new(0,64,0),Color3.fromRGB(198,66,43),Enum.Material.Neon,nil,Enum.PartType.Ball)
-    elseif def.theme=="Foundry" then
-        for n=1,4 do
-            local at=center+Vector3.new(-66+n*28,0,-12)
-            p("FoundryStack",Vector3.new(55+n*3,6,6),at+Vector3.new(0,(55+n*3)/2,0),Color3.fromRGB(77,71,61),Enum.Material.CorrodedMetal,CFrame.Angles(0,0,math.pi/2),Enum.PartType.Cylinder)
-            for y=9,48,13 do p("StackBand",Vector3.new(.55,6.35,6.35),at+Vector3.new(0,y,0),steel,nil,CFrame.Angles(0,0,math.pi/2),Enum.PartType.Cylinder) end
-        end
-        local r=layout[3] local at=Vector3.new(r.x,r.h-1,r.z)
-        p("OverheadCraneBridge",Vector3.new(r.w*.65,1.7,3),at,Color3.fromRGB(151,111,53),Enum.Material.CorrodedMetal)
-        beam("CraneCable",at-Vector3.new(0,1,0),at-Vector3.new(0,8,0),.08,shadow)
-        p("CraneHook",Vector3.new(.8,1.1,.5),at-Vector3.new(0,8.4,0),steel)
-    else
-        local at=center+Vector3.new(12,0,-12)
-        p("RadarPedestal",Vector3.new(8,30,8),at+Vector3.new(0,15,0),steel,Enum.Material.Metal)
-        for n=1,8 do
-            local radius=n*1.5
-            for j=1,24 do
-                local a=j*math.pi/12
-                p("RadarParabolicRib",Vector3.new(.16,.12,radius*.27),at+Vector3.new(math.cos(a)*radius,33+radius*radius*.025,math.sin(a)*radius),Color3.fromRGB(163,179,174),Enum.Material.Metal,CFrame.Angles(0,-a,0))
-            end
-        end
-        beam("RadarFeed",at+Vector3.new(0,33,0),at+Vector3.new(0,41,0),.25,steel)
-        for n=1,7 do
-            local at2=center+Vector3.new(-100+n*30,3,-22-n%3*9)
-            p("SnowRidge",Vector3.new(43,8+n%3*4,22),at2,Color3.fromRGB(194,204,202),Enum.Material.Snow,CFrame.Angles(0,n*.6,0),Enum.PartType.Ball)
         end
     end
     folder:SetAttribute("ArtRevision",9) map.model:SetAttribute("VisualRevision",9)

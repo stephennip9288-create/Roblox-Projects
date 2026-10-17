@@ -1,0 +1,26 @@
+# Studio, multiplayer and real-device audio acceptance
+
+**All listening and native-engine rows below are pending.** Offline Sound/clock/signal doubles prove admission, limits and lifecycle, not audible quality. The audio runtime is applied on the feature branch under the #23 grant. Integrate the reviewed source and remaining lane-owned caller hooks, then use approved assets before assessing the complete AUD-01 soundscape.
+
+Record exact source/build SHA, four candidate hashes, grant/contract decision, asset IDs and permissions, Studio/client version, map, mode, round, crew count, device/output route, normal/Low Effects, result, output log and short clip for each test. Keep these observations separate from the committed offline report.
+
+| Test | Pass condition |
+| --- | --- |
+| Legacy smoke test | Dispatch navigation, all original UI/action sounds, weapon classes, board/armor/hazard/round/return cues still work. Loading artwork/teleports/save namespaces are unchanged. |
+| Three-map identity | Blackwater, Cinderworks and Whiteout are recognizable by coherent soundscape; room/yard transitions are smooth, authored world sources align with visible machinery/landmarks, no wrong-map bed persists. Empty IDs are recorded as unavailable, not certified as an audible pass. |
+| First/third person | Own report/handling is listener-routed once; teammate fire/entry/attacks are positioned at real sources. Camera spectating and respawn move the listener without stale sources or doubled reports. |
+| Direction and urgency | On headphones and mobile mono, player can infer approximate threat direction/urgency. Hound charge, Stalker, blast, Warden and extraction cues remain distinguishable by rhythm/timbre, not just gain. Keep visible warnings for players who mute/cannot hear. |
+| Dense waves | Solo, 2-player and 4-player, 40 living NPCs plus hazards, gunfire and special event. Imminent warnings cut through; no long warning queue, howl spam, sharp clipping or overwhelming peaks. Test nearest danger admission when critical slots fill. |
+| Low Effects | 12-voice limit and 2-bed mix hold, critical warnings retain priority, FPS/frametime/memory are acceptable relative to the target phone's baseline. Settings changes while sounds play enforce the smaller cap. |
+| Settings | Existing saved master volume works after profile replacement, mute affects playing beds/cues, unmute recovers, transient category gains clamp safely, custom mobile layouts/controls remain unchanged. No new saved category UI is implied. |
+| Reload/equip timing | Single authoritative acknowledgment starts the appropriate sound; per-weapon magazine/pump/bolt/shell/equip phases follow accepted animation. Swap/reload cancel/rejected request/death prevents stale foley. Hit/kill confirmation only follows server result. Audit the currently predicted own-shot caller separately. |
+| Infected entry/locomotion | Window approach/scrape/vault/landing corresponds to real animated/colliding geometry. K9 gait/breath/snarl/Alpha and military kit differ from zombies, without each enemy starting a sound every frame. |
+| Special-wave and Warden precedence | Hunt/Redline/Iron March/Breach/Critical Mass prep cues play once per transition. Warden/extraction precedence remains unchanged. Repeated State/SpecialWave feeds do not multiply cues. |
+| Down/revive/extraction | Downed operator still hears fair danger; revive/respawn cancels invalid character/weapon tokens; results/elimination/travel stop old loops; extraction warning does not repeat each frame. |
+| Repeated lifecycle | At least ten map/session changes, death/revive/respawn, travel abort and success. No old ambience after moving maps; no persistent nonspatial SoundService sounds or Ended connections after owner teardown. |
+| Asset failure and slow load | Remove experience permission / use unavailable test slot in unpublished Studio. No blocking load waits or late hidden-warning substitution; stock equivalent remains audible where available; unavailable ambience is silent; requests back off and resources retire. Repeat on real slow network to tune the five-second threshold. |
+| Distance/acoustics | Near/far reports, min/max rolloff, interior/exterior gains and optional occlusion EQ behave naturally. Walls are not assumed to block engine audio. Critical warnings never receive routine occlusion filtering. No full room reverb simulation is claimed. |
+| Performance/resources | Measure Sound count, spatial anchors, CPU/frame spikes, client/server FPS and memory across long rounds on actual target devices. Normal ≤20 voices, Low Effects ≤12; routine admission preserves 8/6 critical slots. Temporary stopped/retired instances clean within next update/watchdog. |
+| Whole-game compatibility | Both modes and all maps: movement, ADS, downed/revive, waves, hounds/elite/Warden, objectives/extraction, Dispatch travel, loading art, points/credits/XP and rejoin persistence. No gameplay/schema regression. |
+
+Studio Play on unpublished candidates is not a cross-place/private-client acceptance result. **Private staging publication requires explicit owner authorization; production requires a separate later authorization.** This work does not dispatch either publishing workflow.

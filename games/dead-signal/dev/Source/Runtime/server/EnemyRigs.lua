@@ -2,7 +2,15 @@ local RS=game:GetService("ReplicatedStorage")
 local U=require(RS.DeadSignal.Util)
 local Pose=require(RS.DeadSignal.NPCPose)
 local Anatomy=require(script.Parent.RigAnatomy)
-local R={build=Anatomy.build}
+local Wardrobe=require(script.Parent.InfectedWardrobe)
+local Hound=require(script.Parent.HoundRig)
+local R={}
+function R.build(parent,kind,position,id,mapId)
+    if kind=="Hound" then return Hound.build(parent,position,id,mapId) end
+    local model,root,hum=Anatomy.build(parent,kind,position,id)
+    Wardrobe.apply(model,id,kind=="Warden" and 1.4 or 1,mapId,kind)
+    return model,root,hum
+end
 -- Original welded details follow the shared articulated skeleton and its ragdoll.
 function R.evolve(e)
     local model=e.model local mods=e.mods or {} local torso=model.Torso local head=model.Head local crawler=e.kind=="Crawler"
@@ -36,6 +44,7 @@ function R.evolve(e)
         detail("TornRestraint",torso,crawler and Vector3.new(1.56,.85,.17) or Vector3.new(1.56,.17,1),crawler and Vector3.new(0,.1,.25) or Vector3.new(0,.8,0),Color3.fromRGB(59,42,33),Enum.Material.Leather)
     end
     if mods.Armored then
+        Wardrobe.armor(model)
         e.armorParts={} e.weakParts={}
         for _,def in ipairs({{zone="Body",b=torso,size=crawler and Vector3.new(1.62,.22,1.65) or Vector3.new(1.62,1.65,.26),at=crawler and Vector3.new(0,.49,.10) or Vector3.new(0,.75,-.61)},
             {zone="Head",b=head,size=Vector3.new(1.12,.9,.23),at=Vector3.new(0,.16,-.57)}}) do
@@ -113,6 +122,7 @@ function R.breakArmor(e,zone)
     local weak=e.weakParts and e.weakParts[zone]
     if weak then weak.Transparency=0 weak.CanQuery=true end
     e.model:SetAttribute(zone.."ArmorBroken",true)
+    Wardrobe.degrade(e.model,zone)
 end
 function R.corpse(model,folder)
     if model:GetAttribute("Dead") then return end
@@ -130,6 +140,7 @@ function R.corpse(model,folder)
                 TwistLimitsEnabled=true,TwistLowerAngle=-25,TwistUpperAngle=25,MaxFrictionTorque=2,Restitution=0})
             obj.Enabled=false
         elseif obj:IsA("BasePart") then
+            obj.Anchored=false
             local core=obj:GetAttribute("RagdollBody")==true
             obj.CollisionGroup="DeadSignalCorpses" obj.CanQuery=false obj.CanTouch=false obj.CanCollide=core obj.Massless=not core
             if core then bodies[#bodies+1]=obj end
@@ -137,7 +148,11 @@ function R.corpse(model,folder)
         end
     end
     local torso=model:FindFirstChild("Torso")
-    if torso then pcall(function() torso:ApplyImpulse((-torso.CFrame.LookVector*3+Vector3.new(.4,.4,0))*torso.AssemblyMass) end) end
+    if torso then pcall(function()
+        local direction=model:GetAttribute("DeathVector") or model:GetAttribute("HitVector") or -torso.CFrame.LookVector
+        if typeof(direction)~="Vector3" or not U.finiteVector(direction) or direction.Magnitude<.01 then direction=-torso.CFrame.LookVector end
+        torso:ApplyImpulse((direction.Unit*3+Vector3.new(0,.65,0))*torso.AssemblyMass)
+    end) end
     -- Freeze only a supported, motionless pose after six seconds; never suspend a falling corpse.
     local quiet=0 local checks=0
     local function settle()

@@ -1,0 +1,19 @@
+local stock={Click="unsheath.wav",Equip="unsheath.wav",Board="impact_water.mp3",Attack="uuhhh.mp3",ShockCharge="unsheath.wav",Reload="unsheath.wav",Empty="unsheath.wav",Hit="impact_water.mp3",Kill="uuhhh.mp3",Down="uuhhh.mp3",Revive="action_get_up.mp3",Grenade="impact_water.mp3",Round="action_get_up.mp3",Power="unsheath.wav",Box="unsheath.wav",Perk="action_get_up.mp3",Victory="action_get_up.mp3",Enemy="uuhhh.mp3",Pistol="swordslash.wav",Rifle="swordslash.wav",SMG="swordslash.wav",Shotgun="swordlunge.wav",Heavy="swordlunge.wav",Sniper="swordlunge.wav",Energy="swordlunge.wav"}
+function FX.new()
+    local self=setmetatable({settings=U.copy(C.DefaultSettings),rigs=setmetatable({},{__mode="k"}),animTime=0,shake=0},FX)
+    self.folder=U.make("Folder",workspace,{Name="DeadSignalLocalEffects"}) return self
+end
+function FX:sound(key,position)
+    local evolutionStock={Howl="uuhhh.mp3",Redline="action_get_up.mp3",IronMarch="unsheath.wav",Volatile="unsheath.wav",Stalker="uuhhh.mp3",ArmorBreak="impact_water.mp3",Vent="impact_water.mp3"}
+    local pitches={Howl=.48,Redline=.72,IronMarch=.55,Volatile=1.8,Stalker=.65,ArmorBreak=1.35,Vent=.65}
+    local id=C.Evolution.audio[key] or C.SoundIds[key] local custom=id and tostring(id)~=""
+    local stockFile=evolutionStock[key] or stock[key]
+    if not custom and not stockFile then return end
+    local parent=SoundService local anchor
+    if position then anchor=U.make("Part",self.folder,{Size=Vector3.new(.1,.1,.1),Position=position,Transparency=1,Anchored=true,CanCollide=false,CanQuery=false,CanTouch=false}) parent=anchor Debris:AddItem(anchor,4) end
+    local sound=U.make("Sound",parent,{SoundId=custom and "rbxassetid://"..tostring(id) or "rbxasset://sounds/"..stockFile,
+        Volume=self.settings.volume*(custom and .6 or evolutionStock[key] and .30 or .17),PlaybackSpeed=custom and 1 or pitches[key] or ((key=="Pistol" or key=="SMG" or key=="Rifle") and 1.8 or 1),
+        RollOffMinDistance=8,RollOffMaxDistance=115})
+    sound:Play() Debris:AddItem(sound,key=="Ambient" and 45 or 4)
+    if not custom and (key=="Pistol" or key=="Rifle" or key=="SMG" or key=="Heavy") then task.delay(.1,function() if sound.Parent then sound:Stop() end end) end
+end

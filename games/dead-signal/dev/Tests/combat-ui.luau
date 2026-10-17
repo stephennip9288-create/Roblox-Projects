@@ -29,7 +29,7 @@ end
 local models=0
 for id in pairs(C.Weapons) do for tier=0,3 do
  local model=W.build(id,'Factory',tier,nil,true) models+=1
- check(model:GetAttribute('WeaponArtRevision')==9,id..' art revision')
+ check(model:GetAttribute('WeaponArtRevision')==10,id..' art revision')
  check(model.Root:FindFirstChild('SightAxis')~=nil,id..' sight authoring reference')
  check(model:FindFirstChild('RearSightIndex')~=nil,id..' readable rear sight, including imported art')
  for _,size in ipairs(sizes) do for _,fov in ipairs({34,44,57,80,100}) do

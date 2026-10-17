@@ -36,7 +36,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-01",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_remaster, map_batch1; ground and elevated audits"
       ]
     },
@@ -44,7 +44,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-02",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1 facility/trace contracts"
       ]
     },
@@ -52,7 +52,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-03",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_remaster; check_map_remaster.py"
       ]
     },
@@ -60,7 +60,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-04",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1 actual purchase callbacks"
       ]
     },
@@ -68,7 +68,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-05",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "30 purchase states in ground audit"
       ]
     },
@@ -76,7 +76,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-06",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1, infected-geometry; elevated sweep"
       ]
     },
@@ -84,7 +84,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-07",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1 scenery bounds/counts"
       ]
     },
@@ -92,7 +92,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-08",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1 facility/story contracts"
       ]
     },
@@ -100,7 +100,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-09",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1; infected-geometry support/swept links"
       ]
     },
@@ -108,7 +108,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-10",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1 lifecycle and collision invariance"
       ]
     },
@@ -116,7 +116,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-11",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1 barrier/sign clearance"
       ]
     },
@@ -124,7 +124,7 @@
       "lane": "maps",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#map-12",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "map_batch1 source budgets; native rendering pending"
       ]
     },
@@ -132,7 +132,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-01",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "infected-batch1 hitbox/rig comparisons"
       ]
     },
@@ -140,7 +140,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-02",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "infected-batch1 deterministic family/wear tests"
       ]
     },
@@ -148,7 +148,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-03",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "infected-batch1, rigs"
       ]
     },
@@ -156,7 +156,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-04",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "infected-batch1, infected-entrances, infected-geometry"
       ]
     },
@@ -164,7 +164,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-05",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "infected-batch1 family and collision checks"
       ]
     },
@@ -172,7 +172,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-06",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "infected-batch1, infected-geometry actual Alpha envelope"
       ]
     },
@@ -180,7 +180,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-07",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "63 contextual plans and continuous sweeps; no-jump pad support; pursuit/recovery suites"
       ]
     },
@@ -188,7 +188,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-08",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "infected-batch1; existing damage/precision/armor tests"
       ]
     },
@@ -196,7 +196,7 @@
       "lane": "enemies",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#en-09",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "210 actual agent/window combinations; no instantaneous interior spawn; entry audio adapters"
       ]
     },
@@ -204,7 +204,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-01",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "weapons, weapons-batch1, combat-ui"
       ]
     },
@@ -212,7 +212,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-02",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "160 model constructions plus base geometry tests"
       ]
     },
@@ -220,7 +220,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-03",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "weapons-batch1, combat-input"
       ]
     },
@@ -228,7 +228,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-04",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "80 ADS tier models; 270 HUD scenarios"
       ]
     },
@@ -236,7 +236,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-05",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "weapons-batch1 physical chamber/capacity check"
       ]
     },
@@ -244,7 +244,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-06",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "combat-ui, combat-input sight-axis checks"
       ]
     },
@@ -252,7 +252,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-07",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "weapons-batch1, combat-input, audio"
       ]
     },
@@ -260,7 +260,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-08",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "weapons-batch1 shared-source caps/teardown"
       ]
     },
@@ -268,7 +268,7 @@
       "lane": "combat_ui",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#wpn-09",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "weapons-batch1 all tier/finish cases"
       ]
     },
@@ -276,16 +276,16 @@
       "lane": "audio",
       "implementation": "complete",
       "evidence": [
-        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md#aud-01",
+        "games/dead-signal/dev/BATCH-1-TRACEABILITY.md",
         "audio, batch1-integration, combat-input; six Python patch guards; asset matrix"
       ]
     }
   },
   "verification": {
-    "regression": false,
-    "four_place_fidelity": false,
-    "config_isolation": false,
-    "shared_contracts": false,
-    "recovery": false
+    "regression": true,
+    "four_place_fidelity": true,
+    "config_isolation": true,
+    "shared_contracts": true,
+    "recovery": true
   }
 }

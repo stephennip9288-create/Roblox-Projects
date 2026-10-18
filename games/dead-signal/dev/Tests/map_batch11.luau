@@ -1,5 +1,7 @@
 -- Produced geometry regressions for DS-B1-002/003/004/005. Source evidence only.
--- `lune run Tests/map_batch11.luau before` records defects without asserting.
+-- `before` requires a complete 206ae616 runtime extraction in
+-- Validation/MapBatch11/BeforeSource, with SHA.txt containing that full SHA.
+-- It records defects without asserting; default tests the current source.
 local fs=require('@lune/fs') local r=require('@lune/roblox') local serde=require('@lune/serde')
 local process=require('@lune/process') local loader=require('./Support/RuntimeLoader')
 local Geometry=require('./Support/SourceGeometry') local V=r.Vector3
@@ -28,6 +30,19 @@ end
 fs.writeDir('Validation/MapBatch11')
 for _,id in ipairs({'Station','Foundry','Frost'}) do
  local dm=r.deserializePlace(fs.readFile('Places/DeadSignal-v1.8.0-'..id..'.rbxl')) local f=loader.install(dm)
+ if before then
+  local base='Validation/MapBatch11/BeforeSource/'
+  assert(fs.readFile(base..'SHA.txt'):match('206ae616a7de4fe8dd69b1c8019bae6ea8b6863d'),'Require exact staged-runtime coordination base')
+  local installed=0
+  for _,group in ipairs({'server','shared','client'}) do for _,file in ipairs(fs.readDir(base..group)) do
+   if file:sub(-4)=='.lua' and file~='PlaceConfig.lua' then
+    local name=file:gsub('%.server%.lua$',''):gsub('%.client%.lua$',''):gsub('%.lua$','')
+    local script=assert(f[group]:FindFirstChild(name),'Missing baseline script '..name)
+    script.Source=fs.readFile(base..group..'/'..file);installed+=1
+   end
+  end end
+  assert(installed==60,'Require all 60 non-PlaceConfig runtime sources')
+ end
  local load=loader.new(dm) local map=load(f.server.MapBuilder).build(id)
  local world=Geometry.world({model=map.model,floorParts=map.floorParts,floorRegions={}})
  local params={FilterType=r.Enum.RaycastFilterType.Include,FilterDescendantsInstances={map.model}}
@@ -40,6 +55,13 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
   local inward=V.new(bay.approach.X-bay.wall.X,0,bay.approach.Z-bay.wall.Z).Unit
   check(cf.LookVector:Dot(inward)>.999,id..' '..bay.key..' front faces room approach')
   visual.mounts[#visual.mounts+1]={room=bay.room,key=bay.key,frame={cf:GetComponents()},wall=vec(bay.wall),approach=vec(bay.approach)}
+ end
+ for _,display in ipairs(map.facilityDisplays or {}) do
+  local body=display.part local center=map.rooms[display.room].center
+  check(body.CFrame.LookVector:Dot(V.new(center.X-body.CFrame.X,0,center.Z-body.CFrame.Z).Unit)>0,id..' facility front faces usable room')
+  for _,p in ipairs(body:GetChildren()) do if p:IsA('BasePart') and p:FindFirstChildOfClass('SurfaceGui') then
+   check(p.CFrame.LookVector:Dot(body.CFrame.LookVector)>.999,id..' actual facility SurfaceGui front faces room')
+  end end
  end
  for _,part in ipairs(map.model:GetDescendants()) do
   if part:IsA('BasePart') then
@@ -127,6 +149,9 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
   end
  end
  check(report.parts<6500,id..' retained 6500 static-part ceiling')
+ local exterior=map.exteriorFloor
+ check(exterior and exterior.CanCollide and table.find(map.floorParts,exterior),id..' real exterior ground available to floor-projected queue search')
+ if exterior then check(math.abs(exterior.CFrame.Y+exterior.Size.Y/2+map.scale)<.001,id..' deep exterior floor retains actual -1*scale height') end
  check(report.shadowLights<=3,id..' retained shadow-light ceiling')
  out.maps[#out.maps+1]=report
  fs.writeFile('Validation/MapBatch11/'..phase..'-'..id..'-Geometry.json',serde.encode('json',visual))

@@ -148,6 +148,9 @@ function Detail.apply(map,def,layout,P,S,light)
                 for y=3,r.h-5,7 do wallPart("PipeClamp",Vector3.new(.45,.12,.4),Vector3.new(x,y,0),steel) end
             end
             for n=1,3 do wallPart("WaterStain",Vector3.new(.6,2+n*.4,.018),Vector3.new(-face.length*.2+n*1.2,6+n*.4,.2),Color3.fromRGB(79,83,64),Enum.Material.Concrete) end
+            if def.theme=="Frost" then for n=1,6 do
+                wallPart("IceDrip",Vector3.new(.12,.6+n%3*.4,.12),Vector3.new(-face.length*.3+n*face.length*.08,r.h-1.1,-.1),Color3.fromRGB(172,204,216),Enum.Material.Ice)
+            end end
         end
         for n=1,14 do
             local x=-r.w/2+3+(n*13.17)%(r.w-6) local zz=-r.d/2+3+(n*17.23)%(r.d-6)
@@ -179,21 +182,25 @@ function Detail.apply(map,def,layout,P,S,light)
         end
         local r=layout[2]
         for _,x in ipairs({-r.w/2+8,r.w/2-8}) do
-            part(2,"AerialFoundation",Vector3.new(5,1,5),Vector3.new(x,.5,-r.d/2+15),cream,Enum.Material.Concrete,true)
+            local base=part(2,"AerialFoundation",Vector3.new(5,1,5),Vector3.new(x,.5,-r.d/2+15),cream,Enum.Material.Concrete,true)
+            if base.Parent then
             part(2,"LatticeMast",Vector3.new(.5,22,.5),Vector3.new(x,12,-r.d/2+15),steel,nil,true)
             for y=4,20,4 do part(2,"AerialCrossbar",Vector3.new(4,.18,.18),Vector3.new(x,y,-r.d/2+15),steel) end
             light(map.rooms[2].model,CFrame.new((Vector3.new(r.x+x,22,r.z-r.d/2+15))*map.scale),accent,false)
+            end
         end
     elseif def.theme=="Foundry" then
         tableTop(1,0,-layout[1].d/2+12,0,12) radio(1,0,-layout[1].d/2+12,3.2) lockers(1,layout[1].w/2-6,layout[1].d/2-9,0,3)
         for _,i in ipairs({3,4,6}) do local r=layout[i]
             tank(i,-r.w/2+7,r.d/2-17,rust) tank(i,r.w/2-7,-r.d/2+17,rust)
             local x=r.w/2-8 local z=r.d/2-17
+            if free(i,x-2,z,11,5.5,0,5.5) then
             part(i,"LatheBase",Vector3.new(10,2,5),Vector3.new(x-2,1,z),steel,nil,true)
             part(i,"LatheBed",Vector3.new(10,.45,3),Vector3.new(x-2,3,z),Color3.fromRGB(74,98,75),nil,true)
             cylinder(i,"LatheChuck",1.4,2,Vector3.new(x-6,4.1,z),cream,"X",false)
             cylinder(i,"WorkStock",6,.6,Vector3.new(x-2,4.1,z),steel,"X",false)
             part(i,"Carriage",Vector3.new(2.4,.6,3.2),Vector3.new(x,3.5,z),rust,nil,true)
+            end
         end
         local r=layout[2]
         for _,x in ipairs({-r.w/2+10,r.w/2-10}) do
@@ -201,10 +208,12 @@ function Detail.apply(map,def,layout,P,S,light)
             cylinder(2,"LadleRim",.4,8.5,Vector3.new(x,7,-r.d/2+18),dark,"Y",false)
             cylinder(2,"CoolingSlag",.1,6.7,Vector3.new(x,7.1,-r.d/2+18),accent,"Y",false).Material=Enum.Material.Neon
         end
-        part(2,"GantryBeam",Vector3.new(r.w-8,1.8,1.4),Vector3.new(0,23,-r.d/2+18),rust,nil,true)
+        local gantry=part(2,"GantryBeam",Vector3.new(r.w-8,1.8,1.4),Vector3.new(0,23,-r.d/2+18),rust,nil,true)
+        if gantry.Parent then
         for _,x in ipairs({-r.w/2+5,r.w/2-5}) do part(2,"CraneColumn",Vector3.new(1.4,23,1.4),Vector3.new(x,11.5,-r.d/2+18),steel,nil,true) end
         part(2,"HoistBlock",Vector3.new(4,2.8,3),Vector3.new(5,20,-r.d/2+18),rust,nil,true)
         cylinder(2,"HoistCable",8,.15,Vector3.new(5,15,-r.d/2+18),dark,"Y",false)
+        end
         console(5,0,layout[5].d/2-8,0,"FURNACE MONITOR / INTERLOCK OFFLINE")
         for _,i in ipairs({4,5,6}) do local q=layout[i] crate(i,q.w/2-7,q.d/2-27) rack(i,-q.w/2+7,-q.d/2+17,0) end
     else
@@ -221,13 +230,14 @@ function Detail.apply(map,def,layout,P,S,light)
         console(5,0,layout[5].d/2-8,0,"WHITEOUT / ECHO TRACKING")
         local r=layout[2]
         for _,x in ipairs({-r.w/2+10,r.w/2-10}) do
+            if free(2,x,-r.d/2+16,18,10,0,15) then
             part(2,"DishPedestal",Vector3.new(4,7,4),Vector3.new(x,3.5,-r.d/2+17),steel,nil,true)
             for n=-3,3 do part(2,"DishPetal",Vector3.new(2.2,7,.5),Vector3.new(x+n*1.8,11+math.abs(n)*.35,-r.d/2+17),cream,nil,false,CFrame.Angles(.2,0,n*.12)) end
             cylinder(2,"DishFeed",6,.35,Vector3.new(x,11,-r.d/2+13),steel,"Z",false)
+            end
         end
         for i,q in ipairs(layout) do
             for n=1,7 do part(i,"WindblownSnow",Vector3.new(2+n*.6,.08,1.7),Vector3.new(-q.w/2+4+n*2,.06,-q.d/2+5),Color3.fromRGB(191,205,204),Enum.Material.Snow,false,CFrame.Angles(0,n*.2,0)) end
-            for n=1,8 do cylinder(i,"IceDrip",.6+n%3*.4,.12,Vector3.new(-q.w/2+3+n*1.1,q.h-1.5,-q.d/2+.9),Color3.fromRGB(172,204,216),"Y",false).Material=Enum.Material.Ice end
         end
     end
     -- Small cover islands give the expanded interiors readable training routes.

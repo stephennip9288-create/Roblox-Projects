@@ -5,6 +5,7 @@ local PF=game:GetService("PathfindingService")
 local U=require(RS.DeadSignal.Util)
 local R=require(RS.DeadSignal.Rules)
 local Rules=require(RS.DeadSignal.DirectorRules)
+local Pose=require(RS.DeadSignal.NPCPose)
 local T=Rules.tuning
 local N={} local UP=Vector3.new(0,1,0)
 N.traversalTuning={maxConcurrent=4,planInterval=.8,maxStep=1.1,stepSeconds=.08,blockedSeconds=.45,retrySeconds=1.2,timeout=7}
@@ -28,8 +29,97 @@ function N.invalidate(e,keepPending)
     release(e) e.nextPath=0 e.pathGoal=nil
 end
 function N.floor(map,pos)
-    local p=RaycastParams.new() p.FilterType=Enum.RaycastFilterType.Include p.FilterDescendantsInstances=map.floorParts or {}
+    local floors=table.clone(map.floorParts or {})
+    local exterior=map.model and map.model:FindFirstChild("ExteriorGround")
+    if exterior then floors[#floors+1]=exterior end
+    local p=RaycastParams.new() p.FilterType=Enum.RaycastFilterType.Include p.FilterDescendantsInstances=floors
+    p.RespectCanCollide=true
     local hit=workspace:Raycast(pos+UP,Vector3.new(0,-40,0),p) return hit and hit.Position
+end
+-- Complete retained rig bounds, sampled once per stage. Mesh bounds are
+-- conservative; they include art, gear, hit zones and the live body collider.
+function N.rigBounds(e,style,stage)
+    e.entryBounds=e.entryBounds or {} local key=(style or "Rest")..":"..(stage or "Rest")
+    if e.entryBounds[key] then return e.entryBounds[key] end
+    local root=e.root
+    if not e.entryGeometry then
+        local rest=Pose.frames(e.model,{}) local groups={}
+        for _,p in ipairs(e.model:GetDescendants()) do
+            if p:IsA("BasePart") and p~=root and (p.Transparency<.95 or p.CanQuery or p:GetAttribute("AliveCollider")) then
+                local weld=p:FindFirstChildOfClass("WeldConstraint")
+                local bone=weld and weld.Part0 or p
+                local bind=weld and weld.Part0 and weld.Part0.CFrame:ToObjectSpace(p.CFrame) or CFrame.identity
+                if not rest[bone] then bone=root;bind=root.CFrame:ToObjectSpace(p.CFrame) end
+                local group=groups[bone]
+                if not group then group={low=Vector3.new(math.huge,math.huge,math.huge)};group.high=-group.low;groups[bone]=group end
+                for x=-1,1,2 do for y=-1,1,2 do for z=-1,1,2 do
+                    local v=bind:PointToWorldSpace(p.Size*Vector3.new(x,y,z)*.5)
+                    group.low=Vector3.new(math.min(group.low.X,v.X),math.min(group.low.Y,v.Y),math.min(group.low.Z,v.Z))
+                    group.high=Vector3.new(math.max(group.high.X,v.X),math.max(group.high.Y,v.Y),math.max(group.high.Z,v.Z))
+                end end end
+            end
+        end
+        e.entryGeometry=groups
+    end
+    local low=Vector3.new(math.huge,math.huge,math.huge) local high=-low
+    for sample=0,8 do
+        local u=sample/8 local poses={}
+        if stage then
+            poses=Pose.transforms(e.kind,u*math.pi*2,stage=="Approach" and 8 or 0,0,e.model:GetAttribute("PoseSeed"))
+            for name,pose in pairs(Pose.traversal(e.kind,style,stage,u)) do poses[name]=pose end
+        end
+        local frames=Pose.frames(e.model,poses)
+        for bone,group in pairs(e.entryGeometry) do
+            local cf=frames[bone] or CFrame.identity
+            for _,x in ipairs({group.low.X,group.high.X}) do for _,y in ipairs({group.low.Y,group.high.Y}) do for _,z in ipairs({group.low.Z,group.high.Z}) do
+                local v=cf:PointToWorldSpace(Vector3.new(x,y,z))
+                low=Vector3.new(math.min(low.X,v.X),math.min(low.Y,v.Y),math.min(low.Z,v.Z))
+                high=Vector3.new(math.max(high.X,v.X),math.max(high.Y,v.Y),math.max(high.Z,v.Z))
+            end end end
+        end
+    end
+    local bounds={low=low,high=high};e.entryBounds[key]=bounds return bounds
+end
+function N.supported(owner,e,position,forward)
+    local cf=CFrame.lookAt(position,position+forward) local feetY=position.Y-N.rootHeight(e)
+    local names={"Left Foot","Right Foot"}
+    if e.kind=="Hound" or e.kind=="Crawler" then names[#names+1]="Left Hand";names[#names+1]="Right Hand" end
+    if not e.entrySupport then
+        e.entrySupport={} local frames=Pose.frames(e.model,{})
+        for _,name in ipairs(names) do local foot=e.model:FindFirstChild(name)
+            if foot then e.entrySupport[name]={frame=frames[foot] or e.root.CFrame:ToObjectSpace(foot.CFrame),size=foot.Size} end
+        end
+    end
+    local tested=0
+    for _,name in ipairs(names) do local foot=e.entrySupport[name]
+        if foot then
+            tested+=1 local bind=foot.frame
+            for _,offset in ipairs({Vector3.zero,Vector3.new(-foot.size.X*.4,0,-foot.size.Z*.4),Vector3.new(foot.size.X*.4,0,foot.size.Z*.4)}) do
+                local p=cf:PointToWorldSpace(bind.Position+offset)
+                local floor=N.floor(owner.ctx.map,Vector3.new(p.X,feetY+1.5,p.Z))
+                if not floor or math.abs(floor.Y-feetY)>.6 then return false end
+            end
+        end
+    end
+    return tested>0
+end
+function N.queueHead(owner,e,window)
+    if window.activeEntry then return window.activeEntry==e.id end
+    local descriptor=N.entryDescriptor(owner.ctx.map,window)
+    if not descriptor then return false end
+    local approach=descriptor.approach or window.outside local best,score
+    local into=flat(window.inside-window.outside).Unit
+    local tangent=Vector3.new(into.Z,0,-into.X)
+    for _,other in pairs(owner.list) do
+        if not other.dead and not other.entered and not other.entryRerouting and other.window==window then
+            -- Drain the front row before letting a nearer diagonal from the
+            -- next row cut across its waiting bodies.
+            local delta=flat(other.root.Position-approach)
+            local distance=math.max(0,-delta:Dot(into))*1024+math.abs(delta:Dot(tangent))
+            if not score or distance<score-.05 or math.abs(distance-score)<=.05 and other.id<best.id then best=other;score=distance end
+        end
+    end
+    return best==e
 end
 function N.goal(ctx,e,target,_now)
     local ground=N.floor(ctx.map,target)
@@ -146,31 +236,66 @@ local function entryIgnore(owner,e,window)
     if window and window.part and window.part.CollisionGroup=="DeadSignalWindow" and (window.count<=0 or window.activeEntry==e.id) then list[#list+1]=window.part end
     return list
 end
-function N.traversalClear(owner,e,a,b,window,overlap)
+function N.worldBox(e,position,bounds,forward)
+    bounds=bounds or N.rigBounds(e)
+    forward=flat(forward or e.root.CFrame.LookVector)
+    if forward.Magnitude<.01 then forward=Vector3.new(0,0,-1) end
+    local rotation=CFrame.lookAt(Vector3.zero,forward.Unit)
+    local half=(bounds.high-bounds.low)*.5
+    local right,back=rotation.RightVector,-rotation.LookVector
+    local size=Vector3.new(math.abs(right.X)*half.X+math.abs(back.X)*half.Z,half.Y,
+        math.abs(right.Z)*half.X+math.abs(back.Z)*half.Z)*2
+    return position+rotation:VectorToWorldSpace((bounds.low+bounds.high)*.5),size
+end
+function N.traversalClear(owner,e,a,b,window,overlap,bounds,forward)
     if not U.finiteVector(a) or not U.finiteVector(b) then return false end
-    local agent=N.agent(e) local size=Vector3.new(agent.AgentRadius*2,agent.AgentHeight-.25,agent.AgentRadius*2)
-    local offset=UP*(agent.AgentHeight*.5-N.rootHeight(e)+.16)
+    local center,size=N.worldBox(e,b,bounds,forward)
+    -- Contact skin only: a sole touching its supporting floor is permitted.
+    size-=UP*.02;center+=UP*.01
+    local offset=center-b
     local params=RaycastParams.new();params.FilterType=Enum.RaycastFilterType.Exclude
     params.FilterDescendantsInstances=entryIgnore(owner,e,window);params.CollisionGroup="DeadSignalEnemies";params.RespectCanCollide=true
     local delta=b-a
-    if delta.Magnitude>.005 and workspace:Blockcast(CFrame.new(a+offset),size,delta,params) then return false end
+    if delta.Magnitude>.005 and workspace:Blockcast(CFrame.new(a+offset),size,delta,params) then return false,"Geometry" end
     if overlap then
         local op=OverlapParams.new();op.FilterType=Enum.RaycastFilterType.Exclude
         op.FilterDescendantsInstances=params.FilterDescendantsInstances;op.CollisionGroup=params.CollisionGroup;op.RespectCanCollide=true
-        for _,part in ipairs(workspace:GetPartBoundsInBox(CFrame.new(b+offset),size,op)) do if part.CanCollide then return false end end
+        for _,part in ipairs(workspace:GetPartBoundsInBox(CFrame.new(b+offset),size,op)) do if part.CanCollide then return false,"Geometry" end end
     end
-    local function occupied(root,radius,height,bodyHeight)
-        if not root then return false end
-        local feet=b.Y-N.rootHeight(e) local otherFeet=root.Position.Y-height
-        return flat(root.Position-b).Magnitude<agent.AgentRadius+radius+.2 and feet<otherFeet+bodyHeight and otherFeet<feet+agent.AgentHeight
+    local function occupied(otherCenter,otherSize)
+        local d=otherCenter-center local half=(otherSize+size)*.5
+        return math.abs(d.X)<half.X+.1 and math.abs(d.Y)<half.Y and math.abs(d.Z)<half.Z+.1
     end
     for player,state in pairs(owner.ctx.players or {}) do
         if player.Parent and state.participating and not state.travelling and (state.status=="Alive" or state.status=="Down")
-            and occupied(U.root(player),1.15,3,6) then return false end
+            and U.root(player) and occupied(U.root(player).Position,Vector3.new(2.3,6,2.3)) then return false,"Occupied" end
     end
-    for _,other in pairs(owner.list or {}) do if other~=e and not other.dead and other.root.Parent
-        and occupied(other.root,N.agent(other).AgentRadius,N.rootHeight(other),N.agent(other).AgentHeight) then return false end end
+    for _,other in pairs(owner.list or {}) do if other~=e and not other.dead and other.root.Parent then
+        local otherCenter,otherSize=N.worldBox(other,other.root.Position,N.rigBounds(other,"Walk","Approach"))
+        if occupied(otherCenter,otherSize) then return false,"Occupied" end
+    end end
     return true
+end
+function N.queuePosition(owner,e,window)
+    local d=N.entryDescriptor(owner.ctx.map,window);if not d then return nil end
+    local into=flat(window.inside-window.outside).Unit
+    local origin=d.approach or N.floor(owner.ctx.map,window.outside)
+    if not origin then return nil end
+    local tangent=Vector3.new(into.Z,0,-into.X) local s=owner.ctx.map.scale or 1
+    local bounds=N.rigBounds(e,"Walk","Approach")
+    -- A short shambler at the front must reserve enough depth for the next
+    -- crawler/Alpha, whose complete animated body is much longer.
+    local step=math.max(8*s,bounds.high.X-bounds.low.X+.4,bounds.high.Z-bounds.low.Z+.4)
+    for slot=0,44 do
+        local column=slot%5 local lateral=column==0 and 0 or (column%2==1 and 1 or -1)*math.ceil(column/2)
+        local feet=origin+tangent*(lateral*step)-into*(math.floor(slot/5)*step)
+        local floor=N.floor(owner.ctx.map,feet+UP*2)
+        if floor and math.abs(floor.Y-origin.Y)<=1.3*s then
+            local position=Vector3.new(feet.X,floor.Y+N.rootHeight(e),feet.Z)
+            if N.traversalClear(owner,e,position,position,window,true,bounds,into) and N.supported(owner,e,position,into) then return position end
+        end
+    end
+    return nil
 end
 function N.traversalSample(plan,elapsed)
     elapsed=math.clamp(elapsed,0,plan.duration)
@@ -212,11 +337,17 @@ local function planPath(owner,e,landing,descriptor,window)
     -- Keep the complete swept agent outside the sill before lifting, and hold
     -- that height until the trailing edge has cleared it. Angled walls need
     -- the axis-aligned sweep's projected radius, including evolved agents.
-    local projected=agent.AgentRadius*(math.abs(forward.X)+math.abs(forward.Z))
-    local standOff=projected+.75*s+.3
-    local before=center-forward*math.max(2.2*s,standOff)+UP*h
+    local front,back,lowest=agent.AgentRadius,agent.AgentRadius,-h
+    local style=e.kind=="Crawler" and "Crawl" or e.kind=="Hound" and "Leap" or "Vault"
+    for _,name in ipairs({"Contact","Cross","Land"}) do
+        local bounds=N.rigBounds(e,style,name)
+        front=math.max(front,-bounds.low.Z);back=math.max(back,bounds.high.Z);lowest=math.min(lowest,bounds.low.Y)
+    end
+    raise+=math.max(0,-lowest-h)
+    if raise>6*s then return nil,"Geometry" end
+    local before=center-forward*math.max(2.2*s,front+.75*s+.3)+UP*h
     local lifted=before+UP*raise
-    local after=center+forward*math.max(3*s,standOff)+UP*(h+math.max(landing.Y-outside.Y+.15,raise))
+    local after=center+forward*math.max(3*s,back+.75*s+.3)+UP*(h+math.max(landing.Y-outside.Y+.15,raise))
     if kind=="Door" or kind=="Tunnel" or kind=="Vent" then before=outside;lifted=outside;after=landing end
     local fast=e.kind=="Hound" local crawl=e.kind=="Crawler" or kind=="Vent"
     local stages={}
@@ -232,11 +363,13 @@ local function planPath(owner,e,landing,descriptor,window)
     if kind=="Door" or kind=="Tunnel" then plan.style="Walk" end
     for _,v in ipairs(stages) do plan.duration+=v.duration end
     local previous=e.root.Position
-    for index=0,16 do
-        local at=N.traversalSample(plan,plan.duration*index/16)
-        if not N.traversalClear(owner,e,previous,at,window,index==0 or index==16) then return nil end
+    for index=0,32 do
+        local at,name=N.traversalSample(plan,plan.duration*index/32)
+        local clear,reason=N.traversalClear(owner,e,previous,at,window,true,N.rigBounds(e,plan.style,name),forward)
+        if not clear then return nil,reason end
         previous=at
     end
+    if not N.supported(owner,e,e.root.Position,forward) or not N.supported(owner,e,landing,forward) then return nil,"Support" end
     return plan
 end
 function N.entryDescriptor(map,window)
@@ -251,6 +384,9 @@ function N.entryDescriptor(map,window)
     -- unsupported gallery onto the ground floor.
     local centered=math.abs(reference-rootReference)<.25
     if not centered and math.abs(reference)>.6 then return nil end
+    local approach=entry.approach.Position-UP*(centered and reference or 0)
+    local approachFloor=N.floor(map,approach+UP*1.5)
+    if not approachFloor or math.abs(approachFloor.Y-approach.Y)>.6 then return nil end
     local kinds
     if entry.allowedKinds then kinds={} for _,kind in ipairs(entry.allowedKinds) do kinds[kind]=true end end
     return {kind=entry.kind,approach=entry.approach.Position-UP*(centered and reference or 0),
@@ -260,16 +396,19 @@ function N.entryDescriptor(map,window)
 end
 function N.entryPlan(owner,e,window)
     if not window or window.count>0 or window.activeEntry and window.activeEntry~=e.id then return nil end
-    local descriptor=N.entryDescriptor(owner.ctx.map,window);if not descriptor then return nil end
+    if e.failedEntries and e.failedEntries[window]==(owner.ctx.map.navigationRevision or 0) then return nil,"Geometry" end
+    local descriptor=N.entryDescriptor(owner.ctx.map,window);if not descriptor then return nil,"Support" end
     local slots=window
     if descriptor.authored then slots=table.clone(window);slots.inside=descriptor.landing+UP*1.5;slots.outside=descriptor.approach+UP*1.5 end
-    local selected
+    local selected local failure
     N.entryPoint(owner,e,slots,function(landing)
         if descriptor.authored and math.abs(landing.Y-N.rootHeight(e)-descriptor.landing.Y)>.6 then return false end
-        local plan=planPath(owner,e,landing,descriptor,window)
-        if plan then selected=plan;return true end return false
+        local plan,reason=planPath(owner,e,landing,descriptor,window)
+        if plan then selected=plan;return true end
+        if failure~="Occupied" then failure=reason or "Geometry" end
+        return false
     end)
-    return selected
+    return selected,selected and nil or failure or "Occupied"
 end
 function N.contextPlan(owner,e,target,now)
     if now<(e.nextTraversal or 0) then return nil end

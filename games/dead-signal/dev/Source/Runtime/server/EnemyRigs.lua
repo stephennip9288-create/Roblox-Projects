@@ -6,9 +6,17 @@ local Wardrobe=require(script.Parent.InfectedWardrobe)
 local Hound=require(script.Parent.HoundRig)
 local R={}
 function R.build(parent,kind,position,id,mapId)
-    if kind=="Hound" then return Hound.build(parent,position,id,mapId) end
-    local model,root,hum=Anatomy.build(parent,kind,position,id)
-    Wardrobe.apply(model,id,kind=="Warden" and 1.4 or 1,mapId,kind)
+    local model,root,hum
+    if kind=="Hound" then model,root,hum=Hound.build(parent,position,id,mapId)
+    else
+        model,root,hum=Anatomy.build(parent,kind,position,id)
+        Wardrobe.apply(model,id,kind=="Warden" and 1.4 or 1,mapId,kind)
+    end
+    -- Visual torso lean must not tip/lift the live physical collider. Retain
+    -- its exact rest size/position and collision group, bound to the root.
+    local collider=model:FindFirstChild("BodyCollider")
+    local weld=collider and collider:FindFirstChildOfClass("WeldConstraint")
+    if weld then weld.Part0=root;model:SetAttribute("ColliderRootBound",true) end
     return model,root,hum
 end
 -- Original welded details follow the shared articulated skeleton and its ragdoll.

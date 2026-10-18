@@ -38,3 +38,10 @@ Following the owner's staging retest and acceptance, prepare the reviewed final 
 Integration #34 at `9743b3e` retained all four specialist parents; source admission #35 and documentation #36 changed main controls/docs while main gameplay remains the production source. Baseline evidence was 26 suites / 998,937 assertions, 78 pipeline Python tests plus six audio guards, 61 runtime compilations, 210 window profiles, 63 contextual profiles, 30 purchase states and 4,017 elevated samples, eight lossless/config/fidelity builds and four reader reopens. The original LoadingScreen source and 113 protected blobs were unchanged.
 
 Owner testing has since found real defects; those offline passes did not establish native physics, asset quality, sound quality/permissions, networking or device FPS. Physical two-thumb controls comparison remains deferred. Preserve the initial test report and exact deployment while tracking corrective evidence separately.
+
+
+## Batch 1.1 integration review — 2026-10-18
+
+Reviewed Maps #39, Enemies #42, MAIN adapters #41 and Audio #43 are integrated on integration/dead-signal-batch1-1 at source 89fa864f6e5413a8f55780c4f6769b3b9807b077. Draft PR #44 targets integration/dead-signal-next-release. Combined 33-suite/1,026,487 assertion and 10-check CI gates pass, and all four native staging candidates/eight environment outputs reproduce and pass raw fidelity/config/source checks. See ../dev/Reviews/batch1-1/README.md and Build-Report.json for full evidence and hashes.
+
+**NOT READY:** realistic recording activation/permissions and authored undead art remain incomplete; actual Studio/private-staging physics/appearance/listening acceptance is pending. None of the six bugs is Verified. batch-1-1.json is informational and blocked, source_sha=null, ready_for_staging=false, both authorizations=false. Its candidate_source_sha is evidence only. Do not change the trusted main batch-1.json pin to admit this incomplete patch. The actual Batch 1 staging recovery record from #38 remains the rollback; historical backup files and production remain unchanged. No publication or new asset upload is authorized.

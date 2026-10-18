@@ -52,3 +52,10 @@ AUD-01 retains documented bundled treatments. Bespoke map beds/radio/realistic w
 The approved existing window/sill entry, low cover, supported ledges, no-jump ramps and opened-door pursuit are enabled. Optional generic Door/Vent/Tunnel consumers remain gated for future authored content; this release does not invent those entrances.
 
 No new staging or production release is authorized by this table. The independent trusted-main release record must select the final reviewed integration SHA, and the owner must separately authorize private staging and later production.
+
+
+## Batch 1.1 corrective acceptance override — 2026-10-18
+
+The original 31 requirement IDs and their existing gameplay remain in the combined patch. Their historical source table is not a declaration that owner-reported native quality defects are resolved. Batch 1.1 integrates reviewed Maps #39, Enemies #42, MAIN #41 and Audio #43; see Reviews/batch1-1/README.md for current exact-SHA evidence.
+
+The earlier Audio asset-dependency/nonblocking statement above applied to the previous Batch 1 source handoff. For the owner-required corrective overhaul, missing realistic recordings/Roblox activation (DS-B1-001) and missing authored undead face/skin/body/uniform art (DS-B1-006) are explicit release blockers. Source poses, equipment and mixer tests do not complete those quality requirements. No requirement or any of the six defects is marked gameplay Verified by this integration. Physical two-thumb comparison remains deferred.

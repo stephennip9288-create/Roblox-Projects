@@ -18,3 +18,14 @@ For reproducible entry reports, use the existing WindowBarrier EntryId/EntryRoom
 Repeat whole-game checks: Dispatch -> all three maps -> extraction/return; Survival and Lockdown; solo/2/4; spawns and revive; purchases/all doors/upgrades; server-confirmed shots/damage; rounds/named special waves/Warden/extraction precedence and victory; original loading artwork; saved credits/XP/settings and environment isolation. Keep physical two-thumb comparison deferred. Follow the complete baseline checklist in ../batch1-integration/ACCEPTANCE.md as well.
 
 Record Pass/Fail and evidence per bug. Move a bug to Verified only after its implemented fix passes its relevant actual staging retest. Owner acceptance and a separate explicit production authorization remain required.
+
+
+## Combined Batch 1.1 entry/physics stress cases
+
+Use the exact artifact/source hash from Build-Report.json; keep the prior deployed Batch 1 versions 11/10/10/10 as the rollback. Test all 12 stairs and both gallery directions, full-width edge approaches and low head/shoulder clearance, including passing players, downed/revive bodies, Warden and extraction escorts.
+
+For Cinderworks/Foundry window 10, inspect the canonical foot-floor target near world X 229.3600006: the offline exact-center ray detects a narrow wedge seam. The Navigation consumer may shift the supported target by at most 0.05 world studs and still checks real foot/paw support and complete sweeps. In Studio, walk the actual seam/apron/landing with player and each of 7 eligible profiles. A source-ray workaround is not proof that native collision is safe. Record whether that bounded target remains supported under real Roblox rays/physics and network replication.
+
+Exercise mixed queues at 4/12/24/40 units, several approaching one window and converging nearby windows; blocked entry during approach/contact/cross/descent; repairs/death/stun; alive/downed player occupying destination. Confirm actual collision, fair queue drain, alternate supported landing, checked reversal and bounded physical recovery. With no safe admission slot, tickets must remain outside the live model list yet count toward cap/quota; no transient unsafe spawn, interior pop-in, silent retirement or false Warden defeat. Loss/removal of a live model must preserve HP/maxHP, armor/weak points/rewards and boss/ability cooldowns through readmission. If every eligible route is genuinely impossible, report a release-blocking geometry/navigation defect rather than deleting quota to end the wave.
+
+Record actual Studio server/client and private-staging evidence separately for Survival/Lockdown and solo/2/4 crews. No test row can become Verified based on CI, SAT/rays, SVG bounds or Lune read-only deserialization.

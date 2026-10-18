@@ -46,6 +46,15 @@ for _,kind in ipairs({'Shambler','Runner','Crawler','Hound','Stalker','Warden'})
  local collider=e.model.BodyCollider;check(collider:FindFirstChildOfClass('WeldConstraint').Part0==e.root,'visual lean cannot animate the physical collider')
 end
 -- Reverse animation phase uses the same named stage, decreasing continuously.
+for _,kind in ipairs({'Shambler','Runner','Stalker','Warden'}) do
+ local e=h:enemy(kind)
+ local frames=h.Pose.frames(e.model,h.Pose.traversal(kind,'Vault','Cross',.5))
+ for _,side in ipairs({'Left','Right'}) do
+  local hand=frames[e.model:FindFirstChild(side..' Hand')].Position
+  local torso=frames[e.model.Torso].Position
+  check(hand.Y>torso.Y+.5 and hand.Z<torso.Z-1,'vaulting hands brace ahead of chest instead of hanging below the waist')
+ end
+end
 do
  local e=h:enemy('Shambler');e.model:SetAttribute('TraversalStage','Cross');e.model:SetAttribute('TraversalStyle','Vault')
  e.model:SetAttribute('TraversalDirection',-1);e.model:SetAttribute('TraversalStageAt',101);e.model:SetAttribute('TraversalStageDuration',1)

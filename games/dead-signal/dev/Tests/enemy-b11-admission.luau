@@ -75,6 +75,21 @@ do
  check(h.enemies:count()==1 and #h.enemies.pending==0,'root restoration cannot duplicate the wave unit')
 end
 do
+ local h=setup();h.ctx.run.spawnRemaining=1;h.ctx.game:spawnEnemy(h.time)
+ local e=h.enemies.list[1];e.phase=2;e.hp=e.maxHP*.5;e.hum.Health=e.hp;e.overloadUntil=120;e.shock=130
+ e.attack=115;e.stunnedUntil=110;e.windowDamage=7;e.attackDamage={kept=3}
+ local remaining=h.ctx.run.spawnRemaining;local spawned=h.ctx.director.spawned
+ e.model:Destroy();h.noFloor=true
+ check(h.enemies:recover(e) and h.enemies:count()==1 and h.ctx.run.bossAlive,'removed Warden model retains the boss quota gate')
+ h.noFloor=false;h.time+=1;h.enemies:tick(h.time)
+ local restored=h.enemies.list[1]
+ check(restored and restored.phase==2 and restored.hp==e.hp and restored.model:GetAttribute('BossPhase')==2,'restored Warden retains phase and damage')
+ check(restored.overloadUntil==120 and restored.shock==130 and restored.model:GetAttribute('OverloadUntil')==120,'boss cooldown and active overload presentation survive removal')
+ check(restored.attack==115 and restored.stunnedUntil==110 and restored.model:GetAttribute('StunnedUntil')==110,'attack and stun clocks are not reset by recovery')
+ check(restored.windowDamage==7 and restored.attackDamage.kept==3,'boss damage throttles survive recovery')
+ check(h.ctx.run.spawnRemaining==remaining and h.ctx.director.spawned==spawned and h.ctx.run.bossAlive,'boss restoration never consumes another spawn or marks defeated')
+end
+do
  local h=setup();h.noFloor=true;h.enemies:spawn('Hound',h.ctx.map.windows[1]);h.enemies:spawn('Runner',h.ctx.map.windows[1],nil,{Volatile=true})
  h.ctx.game.addPoints=function() end;h.ctx.game.broadcast=function() end
  h.ctx.game:powerup('Nuke')

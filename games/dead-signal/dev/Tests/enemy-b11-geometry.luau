@@ -3,6 +3,10 @@ local fs=require('@lune/fs');local r=require('@lune/roblox');local serde=require
 local loader=require('./Support/RuntimeLoader');local G=require('./Support/EnemyB11Geometry');local V=r.Vector3
 local process=require('@lune/process')
 local report={engine=false,logical_floor_fill=false,base='206ae616a7de4fe8dd69b1c8019bae6ea8b6863d',profiles=7,windows=0,plans=0,passed=0,failures={},envelopes={}}
+local consumed={}
+for _,group in ipairs({'server','shared','client'}) do for _,file in ipairs(fs.readDir('Source/Runtime/'..group)) do
+ if file:sub(-4)=='.lua' then local path='Source/Runtime/'..group..'/'..file;consumed[path]=fs.readFile(path) end
+end end
 report.map_ref=process.args[1] or report.base
 report.enemy_ref=process.args[2] or "working"
 local specs={{'Shambler',{}},{'Runner',{Armored=true,Enraged=true}},{'Crawler',{}},{'Hound',{}},{'Hound',{Alpha=true}},{'Stalker',{}},{'Warden',{}}}
@@ -48,6 +52,8 @@ for _,id in ipairs(process.args[3] and {process.args[3]} or {'Station','Foundry'
  print(id..': strict physical support audit complete')
  parent:Destroy();map.model:Destroy()
 end
+for path,source in pairs(consumed) do assert(fs.readFile(path)==source,'Runtime changed during geometry audit: '..path) end
+report.source_stable=true
 fs.writeDir('Validation/EnemyB11');fs.writeFile('Validation/EnemyB11/'..(process.args[3] and 'Geometry-'..process.args[3]..'-'..(process.args[4] or 'all') or 'Geometry')..'.json',serde.encode('json',report))
 print('Strict window/profile plans:',report.passed,'/',report.plans,'windows:',report.windows)
 local expected=process.args[4] and 1 or process.args[3] and 10 or 30

@@ -361,7 +361,12 @@ local function planPath(owner,e,landing,descriptor,window)
     stage("Contact",before,lifted,fast and .18 or crawl and .36 or .30)
     local control=kind~="Door" and kind~="Tunnel" and kind~="Vent" and center+UP*(h+raise+.45*s) or nil
     stage("Cross",lifted,after,fast and .48 or crawl and .85 or .65,control)
-    stage("Land",after,landing,fast and .24 or .38)
+    -- Clear the opening before sidestepping toward a free landing. A straight
+    -- diagonal descent can sweep through the downed player that caused the
+    -- lateral alternative to be selected in the first place.
+    local lateral=flat(landing-after)-forward*flat(landing-after):Dot(forward)
+    local landingControl=kind=="Window" and lateral.Magnitude>.1 and after+lateral or nil
+    stage("Land",after,landing,fast and .24 or .38,landingControl)
     stage("Settle",landing,landing,.18)
     local plan={stages=stages,duration=0,landing=landing,forward=forward,window=window,kind=kind,descriptor=descriptor,
         style=crawl and "Crawl" or fast and "Leap" or "Vault"}

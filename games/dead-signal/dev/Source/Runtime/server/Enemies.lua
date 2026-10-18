@@ -10,6 +10,7 @@ local Movement=require(RS.DeadSignal.Movement)
 local DirectorRules=require(RS.DeadSignal.DirectorRules)
 local T=C.Evolution
 local E={} E.__index=E
+local recoveryClocks={"attack","nextCharge","nextAmbush","nextFlank","precisionAt","overloadUntil","stunnedUntil","shock","damageWindow","windowDamage","attackDamage"}
 local function serverOwner(root) pcall(function() root:SetNetworkOwner(nil) end) end
 -- Selection and damage must agree, including during the travel/disconnect handoff.
 local function living(ctx,player)
@@ -58,9 +59,12 @@ function E:spawn(kind,window,position,mods,failedEntries,admission)
         enemy.hp=state.hp;hum.Health=math.max(1,state.hp);model:SetAttribute("HP",state.hp)
         enemy.armor=state.armor;enemy.reactor=state.reactor;enemy.phase=state.phase
         enemy.hitRewards=state.hitRewards;enemy.recoveryAttempts=state.recoveryAttempts
-        for _,key in ipairs({"nextCharge","nextAmbush","nextFlank","precisionAt","overloadUntil","shock","damageWindow","windowDamage","attackDamage"}) do enemy[key]=state[key] end
+        for _,key in ipairs(recoveryClocks) do enemy[key]=state[key] end
         if enemy.armor then for zone,value in pairs(enemy.armor) do if value<=0 then Rigs.breakArmor(enemy,zone) end end end
         model:SetAttribute("BossPhase",enemy.phase)
+        for _,clock in ipairs({{"overloadUntil","OverloadUntil"},{"stunnedUntil","StunnedUntil"}}) do
+            if state[clock[1]] and state[clock[1]]>now then model:SetAttribute(clock[2],workspace:GetServerTimeNow()+state[clock[1]]-now) end
+        end
     end
     if not position then
         local queued=Navigation.queuePosition(self,enemy,window)
@@ -268,7 +272,7 @@ function E:recover(enemy,terminal)
         self:stopTraversal(enemy,false);Navigation.invalidate(enemy)
         local state={hp=enemy.hp,armor=enemy.armor and table.clone(enemy.armor),reactor=enemy.reactor,
             phase=enemy.phase,hitRewards=enemy.hitRewards,recoveryAttempts=(enemy.recoveryAttempts or 0)+1}
-        for _,key in ipairs({"nextCharge","nextAmbush","nextFlank","precisionAt","overloadUntil","shock","damageWindow","windowDamage","attackDamage"}) do state[key]=enemy[key] end
+        for _,key in ipairs(recoveryClocks) do state[key]=enemy[key] end
         local ticket={id=enemy.id,kind=enemy.kind,mods=table.clone(enemy.mods or {}),window=enemy.window,
             failedEntries=enemy.failedEntries,stats={hp=enemy.maxHP,speed=enemy.baseSpeed,damage=enemy.damage},
             runId=self.ctx.run.id,map=self.ctx.map,pending=true,recovery=state}

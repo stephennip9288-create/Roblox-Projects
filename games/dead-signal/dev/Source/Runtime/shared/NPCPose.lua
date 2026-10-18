@@ -83,8 +83,12 @@ function P.traversal(kind,style,stage,phase)
         local pitch=cross and -.45 or contact and -.20 or -.08*(1-phase)
         out.RootJoint=CFrame.new(0,cross and -.18*wave or landing and -.06*(1-phase)^2 or 0,cross and -.10 or 0)*CFrame.Angles(pitch,0,0)
         for _,side in ipairs({-1,1}) do local name=side==1 and "Right" or "Left"
-            out[name.." Shoulder"]=CFrame.Angles(contact and (side==1 and .95 or 1.10) or cross and (side==1 and 1.12 or .97)-phase*.52 or .32,0,side*.12)
-            out[name.." Elbow"]=CFrame.Angles(cross and -.55 or -.20,0,0)
+            -- Reach ahead of the face to brace/pull, then release into landing.
+            -- The old sub-radian angles left both hands hanging below the waist.
+            local reach=1.70+(side==1 and .06 or -.06)
+            out[name.." Shoulder"]=CFrame.Angles(contact and .32+(reach-.32)*phase
+                or cross and reach+.25*wave-.20*phase or (reach-.20)*(1-phase)+.32*phase,0,side*.12)
+            out[name.." Elbow"]=CFrame.Angles(contact and .20+.10*phase or cross and .30-.15*phase or .15-.35*phase,0,0)
             local hip=cross and (side==1 and .6 or .25)*wave or contact and -.1 or -.1*(1-phase)
             local knee=cross and -1.1*wave or contact and -.15 or -.15*(1-phase)
             out[name.." Hip"]=CFrame.Angles(hip,0,0)

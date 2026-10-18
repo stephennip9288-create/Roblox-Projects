@@ -39,7 +39,7 @@ for _,map in ipairs({'Station','Foundry','Frost'}) do
   for _,j in ipairs(model:GetDescendants()) do if j:IsA('Motor6D') then
    check(((j.Part0.CFrame*j.C0).Position-(j.Part1.CFrame*j.C1).Position).Magnitude<.001,'new visual joints have coincident rest frames')
   end end
-  local reopened=r.deserializeModel(r.serializeModel({model}))[1];check(reopened:GetAttribute(kind=='Hound' and 'K9Revision' or 'MilitaryRevision')==1,'presentation survives native serialization')
+  local reopened=r.deserializeModel(r.serializeModel({model}))[1];check(reopened:GetAttribute(kind=='Hound' and 'K9Revision' or 'MilitaryRevision')==(kind=='Hound' and 1 or 2),'presentation survives native serialization')
   before:Destroy();model:Destroy();reopened:Destroy()
  end
 end
@@ -60,7 +60,7 @@ for _,kind in ipairs({'Shambler','Crawler','Hound','Warden'}) do
   check(delta<=w.N.traversalTuning.maxStep+.001,'every visible traversal displacement is bounded')
   if delta>.001 then moves+=1 end
   previous=e.root.Position;seen[e.model:GetAttribute('TraversalStage')]=true
-  if e.traversal then check(not e.entered and not e.model.BodyCollider.CanCollide and e.root.Anchored,'transit cannot attack or pin a player') end
+  if e.traversal then check(not e.entered and e.model.BodyCollider.CanCollide and e.root.Anchored and e.model.BodyCollider:FindFirstChildOfClass('WeldConstraint').Part0==e.root,'checked transit retains root-bound live collision and attack gating') end
   if not e.traversal then break end
  end
  check(e.entered and (e.root.Position-plan.landing).Magnitude<.001,'landing precedes pursuit')
@@ -135,11 +135,15 @@ do
  local hp=e.hp;local at=e.model:GetAttribute('HitAt');local stun=e.stunnedUntil
  w:step(.05);w.enemies:damage(e,20,p,true,'hit2','Bullet',e.model.Head)
  check(e.hp==hp-20 and e.model:GetAttribute('HitAt')==at and e.stunnedUntil==stun,'visual flinch throttle neither suppresses damage nor adds stun-lock')
+ local strength=e.model:GetAttribute('HitStrength');e.model:SetAttribute('HitStrength',0)
+ local neutral=w.Pose.sample(e.model,e.root,at+.15);e.model:SetAttribute('HitStrength',strength)
  local poses=w.Pose.sample(e.model,e.root,at+.15)
- check(poses.RootJoint.UpVector.X>0,'left-side shot bends away from the incoming hit')
+ check(poses.RootJoint.UpVector.X>neutral.RootJoint.UpVector.X+.001,'left-side shot bends away from the incoming hit')
  root.Position=V.new(8,3,0);w:step(.2);w.enemies:damage(e,20,p,true,'hit3','Bullet',e.model.Head)
+ strength=e.model:GetAttribute('HitStrength');e.model:SetAttribute('HitStrength',0)
+ neutral=w.Pose.sample(e.model,e.root,w.time+.15);e.model:SetAttribute('HitStrength',strength)
  poses=w.Pose.sample(e.model,e.root,w.time+.15)
- check(poses.RootJoint.UpVector.X<0,'right-side shot produces an opposite directional reaction')
+ check(poses.RootJoint.UpVector.X<neutral.RootJoint.UpVector.X-.001,'right-side shot produces an opposite directional reaction')
  w.enemies:damage(e,10000,p,false,'kill','Bullet',e.model.Torso)
  check(e.dead and e.model:GetAttribute('DeathVector').X<0,'lethal reaction preserves the force direction for ragdoll')
 end

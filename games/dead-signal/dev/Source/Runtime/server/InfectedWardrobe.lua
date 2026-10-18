@@ -41,16 +41,26 @@ function V.apply(model,id,scale,mapId,kind)
         detail(arm,"TornSleeveEdge",Vector3.new(.46,.10,.53),Vector3.new(0,-.37,0),dark,Enum.Material.Fabric,true)
     end
     front("SplitLoadVest",Vector3.new(1.12,1.04,.17),Vector3.new(0,.62,-.60),archetype=="SpecialOps" and dark or cloth,nil,true)
-    for j=-1,1 do front("RetentionPouch",Vector3.new(.27,.43,.18),Vector3.new(j*.36,.40,-.74),trim) end
+    for j=-1,1 do
+        if j~=(wear==0 and 2 or id%2==0 and -1 or 1) then
+            front("RetentionPouch",Vector3.new(.27,.43,.18),Vector3.new(j*.36,.40,-.74),trim,nil,false,CFrame.Angles(0,0,j*.08*wear))
+        end
+    end
     front("Buckle",Vector3.new(.22,.15,.10),Vector3.new(0,-.04,-.62),dark,Enum.Material.Metal)
     front("NameTape",Vector3.new(.48,.08,.045),Vector3.new(-.24,1.04,-.73),U.color(theme.patch))
     front("UnitBars",Vector3.new(.23,.055,.04),Vector3.new(.40,1.02,-.73),U.color(theme.patch))
     front("Radio",Vector3.new(.22,.33,.17),Vector3.new(.60,1.27,-.49),dark,Enum.Material.Metal)
     front("Antenna",Vector3.new(.025,.40,.025),Vector3.new(.60,1.64,-.49),dark,Enum.Material.Metal)
     if archetype=="Infantry" or archetype=="Security" or archetype=="Heavy" then
-        detail(head,"DamagedHelmet",Vector3.new(1.05,.50,.99),Vector3.new(0,.42,.02),archetype=="Security" and dark or trim,Enum.Material.Metal,true)
-        detail(head,"HelmetRim",Vector3.new(1.08,.08,1.02),Vector3.new(0,.24,.01),dark,Enum.Material.Rubber,true)
-        detail(head,"LooseChinStrap",Vector3.new(.10,.47,.08),Vector3.new(.43,-.02,-.29),trim,Enum.Material.Fabric,false,CFrame.Angles(0,0,-.20))
+        if archetype~="Infantry" then
+            detail(head,"DamagedHelmet",Vector3.new(1.05,.50,.99),Vector3.new(0,.42,.02),archetype=="Security" and dark or trim,Enum.Material.Metal,true,CFrame.Angles(.08,0,id%2==0 and -.12 or .10))
+            detail(head,"HelmetRim",Vector3.new(1.08,.08,1.02),Vector3.new(0,.24,.01),dark,Enum.Material.Rubber,true)
+            detail(head,"LooseChinStrap",Vector3.new(.10,.47,.08),Vector3.new(.43,-.02,-.29),trim,Enum.Material.Fabric,false,CFrame.Angles(0,0,-.20))
+        else
+            -- Expose the retained textured face on communications personnel;
+            -- avoid covering every infected silhouette with clean soldier gear.
+            detail(head,"BrokenFieldHeadset",Vector3.new(.14,.29,.28),Vector3.new(-.44,.10,.02),dark,Enum.Material.Rubber,true)
+        end
         if archetype=="Security" then
             detail(head,"RaisedVisor",Vector3.new(.79,.30,.08),Vector3.new(0,.40,-.53),Color3.fromRGB(86,103,106),Enum.Material.Glass,true,CFrame.Angles(-.35,0,0))
             front("SecurityWebbing",Vector3.new(.82,.12,.08),Vector3.new(0,.78,-.74),U.color(theme.patch))
@@ -96,11 +106,14 @@ function V.apply(model,id,scale,mapId,kind)
         detail(head,"InfectionFissure",Vector3.new(.035,.12+index*.018,.025),Vector3.new(-.26+index*.09,-.28+index*.06,-.46),Color3.fromRGB(82,92,69),Enum.Material.SmoothPlastic,false,CFrame.Angles(0,0,index*.24))
     end
     front("FrayedUniformTear",Vector3.new(.22,.43,.035),Vector3.new(id%2==0 and .27 or -.27,.18,-.77),Color3.fromRGB(90,95,74),Enum.Material.Fabric,false,CFrame.Angles(0,0,.20))
+    front("CollapsedVestFold",Vector3.new(.37,.52,.085),Vector3.new(.35,.68,-.76),dark,Enum.Material.Fabric,false,CFrame.Angles(.08,0,.22))
+    front("BrokenStrapTail",Vector3.new(.11,.49,.08),Vector3.new(-.62,.06,-.59),trim,Enum.Material.Fabric,false,CFrame.Angles(0,0,-.28))
     local forearm=model:FindFirstChild(id%2==0 and "Left Forearm" or "Right Forearm")
     detail(forearm,"ExposedTendon",Vector3.new(.085,.53,.055),Vector3.new(.09,0,-.23),skin,Enum.Material.SmoothPlastic,true)
     model:SetAttribute("OutfitVariant",variant) model:SetAttribute("OutfitName",archetype)
     model:SetAttribute("MilitaryOrigin",theme.name) model:SetAttribute("InfectionStage",wear+1)
-    model:SetAttribute("MilitaryRevision",1) model:SetAttribute("MilitaryDetailCount",n)
+    model:SetAttribute("MilitaryRevision",2) model:SetAttribute("MilitaryDetailCount",n)
+    model:SetAttribute("VisualAcceptance","StudioAndAuthoredArtPending")
 end
 local equipment={DamagedHelmet="Head",HelmetRim="Head",LooseChinStrap="Head",RaisedVisor="Head",
     SplitLoadVest="Body",RetentionPouch="Body",NameTape="Body",UnitBars="Body",RankChevrons="Body",FrayedUniformTear="Body"}

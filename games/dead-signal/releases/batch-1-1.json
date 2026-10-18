@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-1-1",
+  "coordination_issue": 37,
+  "baseline_source_sha": "9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7",
+  "ready_for_staging": false,
+  "source_sha": null,
+  "private_staging_authorization": false,
+  "production_authorization": false,
+  "bugs": {
+    "DS-B1-001": {
+      "status": "In Progress",
+      "source_commit": null,
+      "staging_retest": "pending"
+    },
+    "DS-B1-002": {
+      "status": "In Progress",
+      "source_commit": null,
+      "staging_retest": "pending"
+    },
+    "DS-B1-003": {
+      "status": "In Progress",
+      "source_commit": null,
+      "staging_retest": "pending"
+    },
+    "DS-B1-004": {
+      "status": "In Progress",
+      "source_commit": null,
+      "staging_retest": "pending"
+    },
+    "DS-B1-005": {
+      "status": "In Progress",
+      "source_commit": null,
+      "staging_retest": "pending"
+    },
+    "DS-B1-006": {
+      "status": "In Progress",
+      "source_commit": null,
+      "staging_retest": "pending"
+    }
+  },
+  "blockers": [
+    "No specialist implementation commits/PRs were available at this intake audit.",
+    "DS-B1-001 needs suitable authorized sound recordings and permission/listening evidence; silent slots or counterfeit stock effects are insufficient."
+  ],
+  "policy": "Informational patch record; trusted main batch-1.json remains pinned to the existing Batch 1 source and does not admit this patch. No partial publication."
+}

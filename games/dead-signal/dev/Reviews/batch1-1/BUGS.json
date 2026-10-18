@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "release": "Dead Signal Batch 1.1",
+  "coordination_issue": 37,
+  "audit_date_utc": "2026-10-18",
+  "baseline_source_sha": "9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7",
+  "deployed_run": 39056526660,
+  "baseline_versions": {
+    "dispatch": 11,
+    "blackwater": 10,
+    "cinderworks": 10,
+    "whiteout": 10
+  },
+  "private_staging_authorization": false,
+  "production_authorization": false,
+  "bugs": [
+    {
+      "id": "DS-B1-001",
+      "priority": "High",
+      "category": "Audio",
+      "owner": "AUDIO DEV",
+      "status": "In Progress",
+      "source_commit": null,
+      "pull_request": null,
+      "staging_retest": "pending",
+      "likely_cause": "Artificial physical effects, unsuitable stock substitutions and empty bespoke audio slots.",
+      "required_evidence": "Suitable authorized recordings, Roblox permissions and native listening evidence are outstanding."
+    },
+    {
+      "id": "DS-B1-002",
+      "priority": "High",
+      "category": "Enemies",
+      "owner": "ENEMY DEV + MAP DEV",
+      "status": "In Progress",
+      "source_commit": null,
+      "pull_request": null,
+      "staging_retest": "pending",
+      "likely_cause": "Exterior support, queue footprint, actual posed-envelope and occupancy/transition/recovery faults.",
+      "required_evidence": "Require exact Maps geometry plus Enemies consumer source; no lost quota or visible interior teleport."
+    },
+    {
+      "id": "DS-B1-003",
+      "priority": "Medium",
+      "category": "Maps",
+      "owner": "MAP DEV",
+      "status": "In Progress",
+      "source_commit": null,
+      "pull_request": null,
+      "staging_retest": "pending",
+      "likely_cause": "Reflected wall coordinate frames reported by specialist produced-geometry audit.",
+      "required_evidence": "Require real front-face/placement regressions on every map shape."
+    },
+    {
+      "id": "DS-B1-004",
+      "priority": "Medium",
+      "category": "Maps",
+      "owner": "MAP DEV",
+      "status": "In Progress",
+      "source_commit": null,
+      "pull_request": null,
+      "staging_retest": "pending",
+      "likely_cause": "Insufficient purposeful room dressing and thematic density.",
+      "required_evidence": "Require functional detail, reservations, bounds and native visual/performance review."
+    },
+    {
+      "id": "DS-B1-005",
+      "priority": "High",
+      "category": "Maps",
+      "owner": "MAP DEV",
+      "status": "In Progress",
+      "source_commit": null,
+      "pull_request": null,
+      "staging_retest": "pending",
+      "likely_cause": "Actual wedge footprints can exceed logical deck cuts; stair/landing/head/shoulder alignment.",
+      "required_evidence": "Require produced-solid tests, both ramp directions, off-center full-player sweeps and support."
+    },
+    {
+      "id": "DS-B1-006",
+      "priority": "High",
+      "category": "Enemies",
+      "owner": "ENEMY DEV",
+      "status": "In Progress",
+      "source_commit": null,
+      "pull_request": null,
+      "staging_retest": "pending",
+      "likely_cause": "Undead anatomy, skin/clothing, face and animation read as equipped mannequins.",
+      "required_evidence": "Require actual model/animation changes with hitbox, collision, elite and ragdoll preservation."
+    }
+  ]
+}

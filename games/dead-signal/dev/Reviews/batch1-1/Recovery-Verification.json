@@ -1,0 +1,70 @@
+{
+  "method": "Independent read-only archive/hash/source/config inspection; publisher not invoked",
+  "recovery_binaries": [
+    {
+      "environment": "staging",
+      "place": "dispatch",
+      "source_records": 61,
+      "sha256": "c91691452756b65f30da72a2343b440268b572b845e6489ed443061637235b5d",
+      "exact_environment_config": true,
+      "profile_namespace_preserved": true
+    },
+    {
+      "environment": "staging",
+      "place": "blackwater",
+      "source_records": 61,
+      "sha256": "c4969232c3df95fc3ba62baf18c58fafbf0135408a46ba4d88c36e8b866fe7f7",
+      "exact_environment_config": true,
+      "profile_namespace_preserved": true
+    },
+    {
+      "environment": "staging",
+      "place": "cinderworks",
+      "source_records": 61,
+      "sha256": "c7d1607c33f88b9cac0da14c86d7abdc57e175712cec098c41aa3335db9b9ab5",
+      "exact_environment_config": true,
+      "profile_namespace_preserved": true
+    },
+    {
+      "environment": "staging",
+      "place": "whiteout",
+      "source_records": 61,
+      "sha256": "44c4ea24e267da9f2403edb4a5fa20ab6e57adb11fb864c3d32240ddc087df28",
+      "exact_environment_config": true,
+      "profile_namespace_preserved": true
+    },
+    {
+      "environment": "production",
+      "place": "dispatch",
+      "source_records": 61,
+      "sha256": "6fa9cd5f1a6dee73d9cebde3b1db99e513ac8dc7112df9c760d8594f93d8c60c",
+      "exact_environment_config": true,
+      "profile_namespace_preserved": true
+    },
+    {
+      "environment": "production",
+      "place": "blackwater",
+      "source_records": 61,
+      "sha256": "2a4a8dee7c84b8bf377836c4d3209a2f14353fd186362ab1061c8f4726db9a20",
+      "exact_environment_config": true,
+      "profile_namespace_preserved": true
+    },
+    {
+      "environment": "production",
+      "place": "cinderworks",
+      "source_records": 61,
+      "sha256": "d8d18798ff99f5d522f3a3c36ee241b4430fac23da73d6b7e77279ad9cc73ecb",
+      "exact_environment_config": true,
+      "profile_namespace_preserved": true
+    },
+    {
+      "environment": "production",
+      "place": "whiteout",
+      "source_records": 61,
+      "sha256": "353828433231561c09763a7151f2977b67e0872b27c78819d92b050f10440fe2",
+      "exact_environment_config": true,
+      "profile_namespace_preserved": true
+    }
+  ],
+  "native_gameplay_tested": false
+}

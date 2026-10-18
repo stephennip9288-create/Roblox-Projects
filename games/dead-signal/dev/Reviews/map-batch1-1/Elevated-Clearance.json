@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "map": "Station",
+      "samples": 2027,
+      "agentRadius": 2.006,
+      "agentHeight": 8.33,
+      "sampleSpacing": 0.65,
+      "failures": [],
+      "method": "inflated oriented collider hulls/vertical intervals; five ramp lanes on actual flat-slope-flat profile; support geometry tested separately",
+      "robloxPhysics": false
+    },
+    {
+      "map": "Foundry",
+      "samples": 2712,
+      "agentRadius": 2.006,
+      "agentHeight": 8.33,
+      "sampleSpacing": 0.65,
+      "failures": [],
+      "method": "inflated oriented collider hulls/vertical intervals; five ramp lanes on actual flat-slope-flat profile; support geometry tested separately",
+      "robloxPhysics": false
+    },
+    {
+      "map": "Frost",
+      "samples": 2214,
+      "agentRadius": 2.006,
+      "agentHeight": 8.33,
+      "sampleSpacing": 0.65,
+      "failures": [],
+      "method": "inflated oriented collider hulls/vertical intervals; five ramp lanes on actual flat-slope-flat profile; support geometry tested separately",
+      "robloxPhysics": false
+    }
+  ],
+  "engine": false
+}

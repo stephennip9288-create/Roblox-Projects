@@ -32,22 +32,43 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
  local world=Geometry.world({model=map.model,floorParts=map.floorParts,floorRegions={}})
  local params={FilterType=r.Enum.RaycastFilterType.Include,FilterDescendantsInstances={map.model}}
  local report={id=id,scale=map.scale,parts=0,mounts=0,reflectedFrames=0,leakingDecks=0,ramps={},windows={},rooms={},dressing=map.dressingManifest or {},lights=0,shadowLights=0}
- local visual={id=id,scale=map.scale,rooms={},parts={}}
+ local visual={id=id,scale=map.scale,rooms={},parts={},mounts={}}
  for _,bay in ipairs(map.mounts) do
   local cf=bay.cf local determinant=cf.RightVector:Cross(cf.UpVector):Dot(-cf.LookVector)
   check(determinant>.999,id..' '..bay.key..' right-handed wall mount');report.mounts+=1
   if determinant<0 then report.reflectedFrames+=1 end
   local inward=V.new(bay.approach.X-bay.wall.X,0,bay.approach.Z-bay.wall.Z).Unit
   check(cf.LookVector:Dot(inward)>.999,id..' '..bay.key..' front faces room approach')
+  visual.mounts[#visual.mounts+1]={room=bay.room,key=bay.key,frame={cf:GetComponents()},wall=vec(bay.wall),approach=vec(bay.approach)}
  end
  for _,part in ipairs(map.model:GetDescendants()) do
   if part:IsA('BasePart') then
    report.parts+=1
    local determinant=part.CFrame.RightVector:Cross(part.CFrame.UpVector):Dot(-part.CFrame.LookVector)
    check(determinant>.999,id..' '..part.Name..' produced proper rotation')
-   visual.parts[#visual.parts+1]={name=part.Name,class=part.ClassName,cf={part.CFrame:GetComponents()},size=vec(part.Size),color={part.Color.R,part.Color.G,part.Color.B},transparency=part.Transparency,collide=part.CanCollide,query=part.CanQuery,dressing=part:GetAttribute('RoomDressing'),room=part.Parent:GetAttribute('SectorId')}
+   local room=part.Parent
+   while room and room~=map.model and not room:GetAttribute('SectorId') do room=room.Parent end
+   local row={name=part.Name,class=part.ClassName,cf={part.CFrame:GetComponents()},size=vec(part.Size),color={part.Color.R,part.Color.G,part.Color.B},transparency=part.Transparency,collide=part.CanCollide,query=part.CanQuery,dressing=part:GetAttribute('RoomDressing'),room=room and room:GetAttribute('SectorId')}
+   local gui=part:FindFirstChildOfClass('SurfaceGui')
+   if gui then local label=gui:FindFirstChildOfClass('TextLabel');if label then row.text=label.Text;row.face=gui.Face.Name;row.textColor={label.TextColor3.R,label.TextColor3.G,label.TextColor3.B} end end
+   visual.parts[#visual.parts+1]=row
+   if part:GetAttribute('RoomDressing') then check(not part.CanCollide and not part.CanQuery and not part.CanTouch,id..' incidental dressing cannot create perches or query cost') end
   end
   if part:IsA('Light') then report.lights+=1;if part.Shadows then report.shadowLights+=1 end end
+ end
+ check(#report.dressing==12,id..' two functional dressing assemblies in every room')
+ for index,room in ipairs(map.rooms) do
+  local assemblies=0
+  for _,item in ipairs(report.dressing) do if item.room==index then
+   assemblies+=1
+   check(item.purpose==map.layout[index].purpose and item.parts>=8 and item.parts<=25,id..' purpose-specific bounded dressing '..index)
+   -- Independent output audit of the reservation, not planner return values.
+   local b=item.bounds local s=map.scale
+   for _,zones in ipairs({map.interactionZones,map.detailZones}) do for _,z in ipairs(zones) do
+    check(not (b.minX*s<z.maxX and b.maxX*s>z.minX and b.minZ*s<z.maxZ and b.maxZ*s>z.minZ and b.minY*s<z.maxY and b.maxY*s>z.minY),id..' dressing keeps route/interaction reservation')
+   end end
+  end end
+  check(assemblies==2,id..' room '..index..' is intentionally dressed')
  end
  for index,room in ipairs(map.rooms) do
   local row={room=index,purpose=map.layout[index].purpose,details=0,deckParts=0,leakingDecks=0}
@@ -90,6 +111,20 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
   check(hit and math.abs(hit.Position.Y-at.Y)<.02,id..' '..e.id..' exterior feet have actual floor support')
   check(e.approach.LookVector:Dot(e.inward)>.999 and e.landing.LookVector:Dot(e.inward)>.999,id..' '..e.id..' inward transforms')
   report.windows[#report.windows+1]={id=e.id,room=w.room,approach=vec(at),supported=hit~=nil}
+  local apron=w.approachFloor
+  check(apron and apron.CanCollide and table.find(map.floorParts,apron),id..' '..e.id..' real apron registered as support')
+  if apron then
+   -- Three disjoint waiting footprints: lead actor and two rear queue slots.
+   -- Engine movement, live queue ownership and separation remain ENEMY's tests.
+   for _,offset in ipairs({V.zero,V.new(-3.3,0,6),V.new(3.3,0,6)}) do
+    local center=e.approach:PointToWorldSpace(V.new(offset.X,0,offset.Z)*map.scale)
+    for angle=1,12 do
+     local point=center+V.new(math.cos(angle*math.pi/6),0,math.sin(angle*math.pi/6))*2.4
+     local localAt=apron.CFrame:PointToObjectSpace(point) local h=apron.Size*.5
+     check(math.abs(localAt.X)<h.X and math.abs(localAt.Z)<h.Z and math.abs(localAt.Y-h.Y)<.02,id..' '..e.id..' supported 2.4-stud-radius queue footprint')
+    end
+   end
+  end
  end
  check(report.parts<6500,id..' retained 6500 static-part ceiling')
  check(report.shadowLights<=3,id..' retained shadow-light ceiling')

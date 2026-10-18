@@ -138,8 +138,12 @@ function M.build(id)
     local function S(text,pos,size,angle,col)
         return sign(f,text,CFrame.new(pos*scale)*CFrame.Angles(0,angle or 0,0),size*scale,col or U.color(def.accent))
     end
-    P("ExteriorGround",Vector3.new(680,3,620),Vector3.new(10,-2.5,42),def.theme=="Frost" and Color3.fromRGB(176,188,182) or Color3.fromRGB(54,61,42),def.theme=="Frost" and Enum.Material.Snow or Enum.Material.Ground,true)
+    local exteriorFloor=P("ExteriorGround",Vector3.new(680,3,620),Vector3.new(10,-2.5,42),def.theme=="Frost" and Color3.fromRGB(176,188,182) or Color3.fromRGB(54,61,42),def.theme=="Frost" and Enum.Material.Snow or Enum.Material.Ground,true)
     Architecture.build(map,layout,P,S,light,def)
+    -- Deep exterior queue candidates must resolve this real -1*scale surface,
+    -- rather than assuming the apron/canonical approach's zero-height floor.
+    exteriorFloor:SetAttribute("NPCExteriorSupport",true)
+    map.exteriorFloor=exteriorFloor map.floorParts[#map.floorParts+1]=exteriorFloor
     -- Allocate against actual solid wall spans. Never pull a wall display toward a room center.
     -- The same bays own their clear standing/revive approaches and prompt separation.
     map.mounts={}

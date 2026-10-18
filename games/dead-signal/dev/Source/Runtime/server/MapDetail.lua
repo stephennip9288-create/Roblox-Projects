@@ -2,6 +2,7 @@
 local RS=game:GetService("ReplicatedStorage")
 local U=require(RS.DeadSignal.Util)
 local Layouts=require(RS.DeadSignal.MapLayouts)
+local Art=require(script.Parent.WorldArt)
 local Detail={}
 function Detail.apply(map,def,layout,P,S,light)
     local steel=Color3.fromRGB(59,66,62) local dark=Color3.fromRGB(31,35,32)
@@ -38,7 +39,7 @@ function Detail.apply(map,def,layout,P,S,light)
             for _,dz in ipairs({-1.95,1.95}) do part(i,"CrateBatten",Vector3.new(.36,3.4,.16),Vector3.new(x+dx,y+1.6,z+dz),cream,Enum.Material.Wood,false) end
             part(i,"CrateTopBatten",Vector3.new(.36,.16,4),Vector3.new(x+dx,y+3.3,z),cream,Enum.Material.Wood,false)
         end
-        label(i,"D.S. / FIELD SUPPLY",Vector3.new(x,y+1.9,z-1.99),Vector3.new(3.5,.8,.03),math.pi,cream)
+        label(i,"D.S. / FIELD SUPPLY",Vector3.new(x,y+1.9,z-1.99),Vector3.new(3.5,.8,.03),0,cream)
     end
     local function tableTop(i,x,z,y,w)
         y=y or 0 w=w or 10
@@ -48,6 +49,7 @@ function Detail.apply(map,def,layout,P,S,light)
         part(i,"DeskBrace",Vector3.new(w-1,.2,.2),Vector3.new(x,y+.7,z+1.5),steel)
         for n=1,3 do part(i,"PaperRecord",Vector3.new(1.6,.025,1.1),Vector3.new(x-2+n*.7,y+3.2,z-.2+n*.28),cream,Enum.Material.SmoothPlastic,false,CFrame.Angles(0,n*.23,0)) end
         cylinder(i,"EnamelMug",.48,.38,Vector3.new(x+w/2-1,y+3.45,z-.5),cream,"Y",false)
+        return true
     end
     local function radio(i,x,z,y)
         if not free(i,x,z,4,2.5,math.max(0,y-3.2),6) then return end
@@ -107,7 +109,7 @@ function Detail.apply(map,def,layout,P,S,light)
     end
     local function console(i,x,z,y,text)
         if not free(i,x,z,12,5,y,7) then return end
-        tableTop(i,x,z,y,11)
+        if not tableTop(i,x,z,y,11) then return end
         local facing=z<0 and -1 or 1
         for dx=-3.5,3.5,3.5 do
             part(i,"InstrumentHousing",Vector3.new(2.5,2,1.5),Vector3.new(x+dx,y+4.1,z+facing*.6),steel,nil,true)
@@ -115,7 +117,7 @@ function Detail.apply(map,def,layout,P,S,light)
             for n=1,3 do part(i,"ScopeTrace",Vector3.new(.55,.03,.02),Vector3.new(x+dx-.8+n*.42,y+4.15+math.sin(n)*.3,z-facing*.24),Color3.fromRGB(153,175,102),Enum.Material.Neon) end
             cylinder(i,"ControlKnob",.14,.18,Vector3.new(x+dx+.8,y+3.45,z-facing*.3),dark,"Z",false)
         end
-        label(i,text,Vector3.new(x,y+6,z+.7),Vector3.new(10,1,.06),0,cream)
+        label(i,text,Vector3.new(x,y+5.8,z-facing*1.1),Vector3.new(10,1,.06),facing==1 and 0 or math.pi,cream)
     end
     local function tank(i,x,z,col)
         if not free(i,x,z,6.5,6,0,10) then return end
@@ -129,19 +131,28 @@ function Detail.apply(map,def,layout,P,S,light)
     end
     -- Small-scale wear is distributed deterministically, never as player collision.
     for i,r in ipairs(layout) do
-        local z=r.d/2-1.05
-        part(i,"UtilityConduit",Vector3.new(r.w-4,.22,.22),Vector3.new(0,r.h-5,z),dark)
-        for _,x in ipairs({-r.w/2+2,r.w/2-2}) do
-            part(i,"ConduitRiser",Vector3.new(.22,r.h-6,.22),Vector3.new(x,(r.h-6)/2,z),dark)
-            for y=3,r.h-4,5 do part(i,"PipeClamp",Vector3.new(.45,.12,.4),Vector3.new(x,y,z),steel) end
+        -- Services follow one real solid wall span, rather than the old
+        -- rectangular room bounds (which crossed angled walls and floated).
+        local face
+        for _,candidate in ipairs(map.rooms[i].wallFaces) do if not face or candidate.length>face.length then face=candidate end end
+        if face then
+            local cf=Layouts.wallFrame(face.center-face.normal*1.05,face.normal)
+            local function wallPart(name,size,offset,col,mat)
+                local at=cf*CFrame.new(offset)
+                local p=part(i,name,size,at.Position-Vector3.new(r.x,0,r.z),col,mat,false,cf-cf.Position)
+                p:SetAttribute("WallFixture",true) return p
+            end
+            wallPart("UtilityConduit",Vector3.new(face.length-1,.22,.22),Vector3.new(0,r.h-5,0),dark)
+            for _,x in ipairs({-face.length*.30,face.length*.30}) do
+                wallPart("ConduitRiser",Vector3.new(.22,r.h-6,.22),Vector3.new(x,(r.h-6)/2,0),dark)
+                for y=3,r.h-5,7 do wallPart("PipeClamp",Vector3.new(.45,.12,.4),Vector3.new(x,y,0),steel) end
+            end
+            for n=1,3 do wallPart("WaterStain",Vector3.new(.6,2+n*.4,.018),Vector3.new(-face.length*.2+n*1.2,6+n*.4,.2),Color3.fromRGB(79,83,64),Enum.Material.Concrete) end
         end
         for n=1,14 do
             local x=-r.w/2+3+(n*13.17)%(r.w-6) local zz=-r.d/2+3+(n*17.23)%(r.d-6)
             part(i,"FloorCrack",Vector3.new(.045,.015,1.5+n%4),Vector3.new(x,.017,zz),dark,Enum.Material.Slate,false,CFrame.Angles(0,n*.87,0))
             if n%3==0 then part(i,"PlasterChip",Vector3.new(.5+n%2,.06,.55),Vector3.new(x+1,.04,zz),cream,Enum.Material.Concrete,false,CFrame.Angles(0,n,0)) end
-        end
-        for n=1,4 do
-            part(i,"WaterStain",Vector3.new(1.4+n*.3,2.7+n*.7,.018),Vector3.new(-r.w/2+2+n*1.4,6+n*.4,-r.d/2+.73),Color3.fromRGB(79,83,64),Enum.Material.Concrete)
         end
         local gx=r.w/2-5 local gz=-r.d/2+14
         part(i,"DrainBed",Vector3.new(2,.04,4),Vector3.new(gx,.025,gz),dark)
@@ -162,9 +173,10 @@ function Detail.apply(map,def,layout,P,S,light)
         end
         console(4,0,-layout[4].d/2+12,0,"WORKSHOP / FAULT 0317")
         console(5,0,layout[5].d/2-7,0,"CARRIER ARRAY / NO RESPONSE")
-        tableTop(6,0,layout[6].d/2-12,0,10)
-        part(6,"SpecimenTray",Vector3.new(6,.3,2),Vector3.new(0,3.35,layout[6].d/2-12),cream,nil,true)
-        for n=1,5 do cylinder(6,"SpecimenVial",.6,.35,Vector3.new(-2+n*.7,3.8,layout[6].d/2-12),accent,"Y",false) end
+        if tableTop(6,0,layout[6].d/2-12,0,10) then
+            part(6,"SpecimenTray",Vector3.new(6,.3,2),Vector3.new(0,3.35,layout[6].d/2-12),cream,nil,true)
+            for n=1,5 do cylinder(6,"SpecimenVial",.6,.35,Vector3.new(-2+n*.7,3.8,layout[6].d/2-12),accent,"Y",false) end
+        end
         local r=layout[2]
         for _,x in ipairs({-r.w/2+8,r.w/2-8}) do
             part(2,"AerialFoundation",Vector3.new(5,1,5),Vector3.new(x,.5,-r.d/2+15),cream,Enum.Material.Concrete,true)
@@ -222,7 +234,7 @@ function Detail.apply(map,def,layout,P,S,light)
     -- Door approaches stay on the central fourteen-stud axes; yard defence stays clear.
     if def.theme=="Foundry" then
         for _,i in ipairs({3,4,5,6}) do local r=layout[i] local z=-r.d*.18
-            tableTop(i,0,z,0,16)
+            if tableTop(i,0,z,0,16) then
             part(i,"WorkIslandCabinet",Vector3.new(6,2.6,3.2),Vector3.new(-4,1.3,z),Color3.fromRGB(75,91,72),nil,true)
             for n=1,3 do
                 part(i,"ToolDrawer",Vector3.new(5.7,.67,.08),Vector3.new(-4,.45+n*.62,z-1.66),steel)
@@ -232,21 +244,26 @@ function Detail.apply(map,def,layout,P,S,light)
             part(i,"BenchVise",Vector3.new(1.3,.8,1.3),Vector3.new(6,3.5,z-.5),rust,nil,true)
             cylinder(i,"ViseHandle",1.9,.1,Vector3.new(6,3.4,z-1.3),cream,"X",false)
             for _,x in ipairs({-6,6}) do for n=1,4 do part(i,"FadedSafetyStripe",Vector3.new(2,.025,.35),Vector3.new(x,.04,z+3+n*.65),cream,nil,false,CFrame.Angles(0,.65,0)) end end
+            end
         end
     elseif def.theme=="Frost" then
         for _,i in ipairs({4,5,6}) do local r=layout[i] local z=-r.d*.18
             for _,x in ipairs({-r.w*.2,r.w*.2}) do
+                if free(i,x,z,6,5.5,0,7.5) then
                 part(i,"SupplyPallet",Vector3.new(5.5,.32,5.2),Vector3.new(x,.16,z),wood,Enum.Material.WoodPlanks,true)
                 crate(i,x,z,.4) crate(i,x,z,3.65)
                 part(i,"LooseThermalCanvas",Vector3.new(5.2,.14,4.8),Vector3.new(x,7,z),Color3.fromRGB(102,129,128),Enum.Material.Fabric)
+                end
             end
         end
     else
         local r=layout[1] lockers(1,-r.w/2+5,-r.d/2+13,0,3)
         for _,i in ipairs({3,4,5,6}) do local q=layout[i] local x=q.w/2-8 local z=-q.d*.15
+            if free(i,x,z,6.2,3.2,0,3.5) then
             part(i,"FieldFootlocker",Vector3.new(6,2.5,3),Vector3.new(x,1.25,z),Color3.fromRGB(91,102,73),nil,true)
             for _,dx in ipairs({-2,2}) do part(i,"FootlockerStrap",Vector3.new(.18,2.6,3.08),Vector3.new(x+dx,1.25,z),steel) end
             part(i,"CanvasBedroll",Vector3.new(4.5,.75,2.7),Vector3.new(x,2.9,z),Color3.fromRGB(132,126,89),Enum.Material.Fabric,true)
+            end
         end
     end
     -- Each sector gets one functional, wall-backed outbreak trace, not a random center prop.
@@ -306,6 +323,149 @@ function Detail.apply(map,def,layout,P,S,light)
             local yaw=math.atan2(-labelCF.LookVector.X,-labelCF.LookVector.Z)
             local caption=S(traces[map.id][i],labelCF.Position,Vector3.new(8.4,1.15,.1),yaw,cream);caption.Parent=body
             table.insert(map.facilityDisplays,{id=map.id.."_facility_"..i,room=i,purpose=r.purpose,trace=traces[map.id][i],part=body})
+        end
+    end
+    -- Purposeful equipment replaces the old rectangle-corner placements that
+    -- were culled on the remastered polygons. Reserve each complete assembly
+    -- before emitting any companion detail, so no tray/canvas/tool floats alone.
+    map.dressingManifest={}
+    local kits={Station={"Triage","Patch","Diesel","Repair","Carrier","Signal"},
+        Foundry={"PPE","Casting","Pressure","Machining","Interlock","Metallurgy"},
+        Frost={"Deicing","Rescue","Thermal","Rations","Listening","Cryogenic"}}
+    local allocated={} local blockers={}
+    local function box(cf,size,bottom,height)
+        local hx,hz=size.X/2,size.Z/2 local x,z=cf.RightVector,cf.LookVector
+        local ex=math.abs(x.X)*hx+math.abs(z.X)*hz local ez=math.abs(x.Z)*hx+math.abs(z.Z)*hz
+        local points={}
+        for _,dx in ipairs({-hx,hx}) do for _,dz in ipairs({-hz,hz}) do local p=cf:PointToWorldSpace(Vector3.new(dx,0,dz));points[#points+1]={p.X,p.Z} end end
+        return {minX=cf.X-ex,maxX=cf.X+ex,minZ=cf.Z-ez,maxZ=cf.Z+ez,minY=bottom,maxY=bottom+height,points=points}
+    end
+    local function overlaps(a,b,pad)
+        pad=pad or 0
+        if not (a.minX<b.maxX+pad and a.maxX>b.minX-pad and a.minZ<b.maxZ+pad and a.maxZ>b.minZ-pad and a.minY<b.maxY and a.maxY>b.minY) then return false end
+        local function points(b) return b.points or {{b.minX,b.minZ},{b.minX,b.maxZ},{b.maxX,b.minZ},{b.maxX,b.maxZ}} end
+        local ap,bp=points(a),points(b)
+        -- Exact horizontal OBB separation matters beside diagonal/hex walls;
+        -- their world AABBs overlap much of the usable interior.
+        for _,poly in ipairs({ap,bp}) do for _,edge in ipairs({{1,2},{1,3}}) do
+            local x,z=poly[edge[2]][1]-poly[edge[1]][1],poly[edge[2]][2]-poly[edge[1]][2]
+            local length=math.sqrt(x*x+z*z) local ax,az=-z/length,x/length
+            local alo,ahi,blo,bhi=math.huge,-math.huge,math.huge,-math.huge
+            for _,p in ipairs(ap) do local d=p[1]*ax+p[2]*az;alo=math.min(alo,d);ahi=math.max(ahi,d) end
+            for _,p in ipairs(bp) do local d=p[1]*ax+p[2]*az;blo=math.min(blo,d);bhi=math.max(bhi,d) end
+            if ahi<=blo-pad or bhi<=alo-pad then return false end
+        end end return true
+    end
+    for _,p in ipairs(map.model:GetDescendants()) do if p:IsA("BasePart") and p.CanCollide and p.CollisionGroup~="DeadSignalBounds" then
+        local cf=p.CFrame local h=p.Size*.5
+        local ey=math.abs(cf.RightVector.Y)*h.X+math.abs(cf.UpVector.Y)*h.Y+math.abs(cf.LookVector.Y)*h.Z
+        -- Floor slabs touch the assembly's feet, never its occupied volume.
+        if cf.Y+ey>.05*map.scale then
+            local a=box(cf,p.Size,cf.Y-ey,ey*2)
+            for _,key in ipairs({"minX","maxX","minZ","maxZ","minY","maxY"}) do a[key]/=map.scale end
+            for _,p in ipairs(a.points) do p[1]/=map.scale;p[2]/=map.scale end
+            blockers[#blockers+1]=a
+        end
+    end end
+    local function slot(i,size,bottom,height,offset)
+        local room=map.rooms[i] local r=layout[i]
+        for _,face in ipairs(room.wallFaces) do
+            local limit=face.length/2-size.X/2-1
+            for along=-limit,limit,2 do
+                local cf=Layouts.wallFrame(face.center+face.tangent*along-face.normal*offset,face.normal)
+                local a=box(cf,size,bottom,height) local clear=true
+                for _,x in ipairs({-size.X/2,size.X/2}) do for _,z in ipairs({-size.Z/2,size.Z/2}) do
+                    local at=cf:PointToWorldSpace(Vector3.new(x,0,z))
+                    if not Layouts.contains(r,at.X,at.Z,.65) then clear=false end
+                end end
+                for _,zones in ipairs({map.interactionZones,map.detailZones}) do for _,world in ipairs(zones) do
+                    local b={} for _,key in ipairs({"minX","maxX","minZ","maxZ","minY","maxY"}) do b[key]=world[key]/map.scale end
+                    if overlaps(a,b) then clear=false break end
+                end end
+                if clear then for _,b in ipairs(blockers) do if overlaps(a,b,.12) then clear=false break end end end
+                if clear then for _,b in ipairs(allocated) do if overlaps(a,b,.5) then clear=false break end end end
+                if clear then allocated[#allocated+1]=a return cf,a end
+            end
+        end
+    end
+    for i,r in ipairs(layout) do
+        local kit=kits[map.id][i] local paint=def.theme=="Frost" and Color3.fromRGB(122,151,162) or def.theme=="Foundry" and Color3.fromRGB(145,103,54) or Color3.fromRGB(93,114,80)
+        for _,kind in ipairs({"Equipment","WallServices"}) do
+            local size=kind=="Equipment" and Vector3.new(8.4,0,3.8) or Vector3.new(6.4,0,1.3)
+            local bottom=kind=="Equipment" and .03 or 3
+            local cf,bounds=slot(i,size,bottom,kind=="Equipment" and 6.4 or 4,kind=="Equipment" and 3 or 1.4)
+            assert(cf,"No reserved room dressing slot: "..map.id.." / "..i.." / "..kind)
+            local group=U.make("Model",map.rooms[i].model,{Name=kit..kind})
+            local function q(name,sz,offset,col,mat,solid,rotation)
+                if kind=="WallServices" then offset+=Vector3.new(0,0,.55) end
+                local at=cf*CFrame.new(offset)
+                local p=P(name,sz,at.Position,col or paint,mat or Enum.Material.Metal,solid==true,(cf-cf.Position)*(rotation or CFrame.identity))
+                p.Parent=group p:SetAttribute("RoomDressing",kit) p:SetAttribute("DressingAssembly",kind)
+                return p
+            end
+            local function tube(name,x,y,z,length,diameter,col)
+                local p=q(name,Vector3.new(length,diameter,diameter),Vector3.new(x,y,z),col,nil,false,CFrame.Angles(0,0,math.pi/2))
+                p.Shape=Enum.PartType.Cylinder return p
+            end
+            if kind=="Equipment" then
+                local body=q(kit.."Workstation",Vector3.new(8,3,3.2),Vector3.new(0,1.5,0),paint,nil,false)
+                -- Retained native furniture supplies the visible body. These
+                -- incidental assemblies add neither collision nor jump perches.
+                if Art.fit(group,"OfficeDesk",CFrame.new(cf.Position*map.scale)*(cf-cf.Position),Vector3.new(8,3,3.2)*map.scale) then body.Transparency=1 end
+                q("EquipmentBackRail",Vector3.new(7.8,.25,.3),Vector3.new(0,3.15,1.4),steel)
+                if kit=="Patch" or kit=="Carrier" or kit=="Signal" or kit=="Interlock" or kit=="Listening" then
+                    q(kit.."Receiver",Vector3.new(4.2,2.2,1.7),Vector3.new(-1.5,4.1,0),steel)
+                    q("CrackedInstrumentGlass",Vector3.new(3.6,1.2,.08),Vector3.new(-1.5,4.4,-.9),Color3.fromRGB(96,156,146),Enum.Material.Glass)
+                    for n=1,3 do q("DeadChannelTrace",Vector3.new(2.5,.035,.03),Vector3.new(-1.5,4+n*.22,-.96),cream) end
+                    for _,x in ipairs({1.5,3}) do
+                        local reel=q("SignalSpool",Vector3.new(.35,1.5,1.5),Vector3.new(x,4.1,0),dark,nil,false,CFrame.Angles(0,math.pi/2,0));reel.Shape=Enum.PartType.Cylinder
+                        q("SpoolHub",Vector3.new(.35,.35,.15),Vector3.new(x,4.1,-.82),cream)
+                    end
+                elseif kit=="Diesel" or kit=="Pressure" or kit=="Thermal" or kit=="Cryogenic" or kit=="Metallurgy" then
+                    for _,x in ipairs({-2,1.4}) do
+                        tube(kit.."Canister",x,4.1,0,2,1.4,paint)
+                        tube("SealedCanisterCap",x,5.16,0,.16,1.5,cream)
+                        q("SpecimenBatchSeal",Vector3.new(.75,.7,.04),Vector3.new(x,4.2,-.73),cream,Enum.Material.SmoothPlastic)
+                    end
+                    q("RemovedFilterTray",Vector3.new(1.7,.18,2),Vector3.new(3,3.18,0),dark)
+                    q("IsolatedFeedLine",Vector3.new(6,.22,.22),Vector3.new(0,3.45,1.1),rust)
+                elseif kit=="Repair" or kit=="Machining" or kit=="Casting" then
+                    q("BenchViseBase",Vector3.new(1.5,.6,1.7),Vector3.new(-2.5,3.4,0),rust)
+                    for _,x in ipairs({-2.85,-2.15}) do q("ViseJaw",Vector3.new(.25,.5,1.5),Vector3.new(x,3.95,0),steel) end
+                    for n=1,3 do
+                        q("RemovedMachineTool",Vector3.new(2.1,.16,.3),Vector3.new(.4+n*.6,3.15,-.9+n*.6),cream,nil,false,CFrame.Angles(0,n*.12,0))
+                    end
+                    tube("RotorHousing",1,3.8,.2,1.3,1.1,steel)
+                    q("InterruptedJobSheet",Vector3.new(1.4,.03,1.6),Vector3.new(3,3.1,.2),cream,Enum.Material.SmoothPlastic)
+                elseif kit=="Triage" or kit=="Rescue" then
+                    q("EmergencyMedicalCase",Vector3.new(3.5,1.3,2.1),Vector3.new(-1.6,3.7,0),paint)
+                    q("MedicalCaseSeal",Vector3.new(.8,.6,.05),Vector3.new(-1.6,3.75,-1.08),cream)
+                    for n=1,3 do tube("SterileBandageRoll",1+n*.55,3.5,.1,.7,.6,cream) end
+                    q("FoldedRescueCanvas",Vector3.new(2.8,.3,1.6),Vector3.new(1.7,3.15,0),cream,Enum.Material.Fabric)
+                    q("UnansweredCasualtyList",Vector3.new(1.1,.03,1.7),Vector3.new(3.2,3.45,-.2),cream,Enum.Material.SmoothPlastic)
+                else
+                    q("DryingRackBack",Vector3.new(7,2.7,.22),Vector3.new(0,4.35,1.4),paint)
+                    for n=1,3 do
+                        q(kit=="Rations" and "SealedRationTin" or "AbandonedColdWeatherKit",Vector3.new(1.6,1.5,1.8),Vector3.new(-3+n*1.7,3.85,0),cream,kit=="Rations" and Enum.Material.Metal or Enum.Material.Fabric)
+                        q("InventoryTag",Vector3.new(.6,.35,.04),Vector3.new(-3+n*1.7,4,-.93),dark)
+                    end
+                    q("LastShiftClipboard",Vector3.new(1,.03,1.5),Vector3.new(3,3.1,0),cream,Enum.Material.SmoothPlastic)
+                end
+            else
+                q("WallServiceBackplate",Vector3.new(6.2,3.8,.18),Vector3.new(0,5,0),steel)
+                q("IsolatedServiceBox",Vector3.new(2.4,2,.32),Vector3.new(-1.5,5,-.18),paint)
+                q("OpenServiceCover",Vector3.new(2.3,1.9,.08),Vector3.new(-1.5,5,-.4),dark,nil,false,CFrame.Angles(0,0,.08))
+                for n=1,3 do q("ServiceCable",Vector3.new(.09,2.7,.09),Vector3.new(.6+n*.4,5.1,-.18),n==2 and rust or cream) end
+                q("ServiceIsolationTag",Vector3.new(1.4,.65,.06),Vector3.new(1.8,4.4,-.22),cream,Enum.Material.SmoothPlastic)
+                local at=cf*CFrame.new(0,6.5/map.scale,.30)
+                local caption=S(kit:upper().." / "..traces[map.id][i],at.Position,Vector3.new(6.2,.75,.08),math.atan2(-cf.LookVector.X,-cf.LookVector.Z),cream)
+                caption.Parent=group
+            end
+            local parts=0
+            for _,p in ipairs(group:GetDescendants()) do if p:IsA("BasePart") then
+                parts+=1 p:SetAttribute("RoomDressing",kit) p:SetAttribute("DressingAssembly",kind)
+            end end
+            map.dressingManifest[#map.dressingManifest+1]={room=i,purpose=r.purpose,kit=kit,assembly=kind,parts=parts,frame={cf:GetComponents()},bounds=bounds}
         end
     end
     -- Exterior silhouettes are scenery only. Players remain inside the authored rooms.

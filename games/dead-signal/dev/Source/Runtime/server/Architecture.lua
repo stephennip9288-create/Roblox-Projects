@@ -261,7 +261,7 @@ function A.build(map,layout,P,S,light,def)
                     -- Real support for the canonical foot-floor approach, not
                     -- just a logical region or the lower exterior scenery floor.
                     -- Remains outside the player BoundaryGuard footprint.
-                    local apron=q("EntryApproachFloor",Vector3.new(gap+2,1,15),mid+e.normal*7.5-UP*.5,
+                    local apron=q("EntryApproachFloor",Vector3.new(gap+6,1,26),mid+e.normal*13-UP*.5,
                         concrete,def.theme=="Frost" and Enum.Material.Snow or Enum.Material.Concrete,true,Layouts.wallFrame(Vector3.zero,e.normal))
                     apron:SetAttribute("EntryId",window.entry.id) apron:SetAttribute("NPCEntrySupport",true)
                     map.floorParts[#map.floorParts+1]=apron window.approachFloor=apron

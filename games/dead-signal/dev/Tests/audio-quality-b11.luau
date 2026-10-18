@@ -162,8 +162,9 @@ do
         previous=v.sound.SoundId;seen[previous]=true;v.sound.Ended:Fire();fx:sound('Click');e:advance(.15)
     end
     local total=0;for _ in pairs(seen) do total+=1 end;check(total==3,'all real sample variants used')
+    e:approve('Hit',11004)
     for i=1,300 do fx:sound('Hit',nil,{class='unique-'..i,sourceId=i});e:advance(.11) end
-    total=0;for _ in pairs(fx.audio.variation) do total+=1 end;check(total<=128,'variant history is bounded')
+    total=0;for _ in pairs(fx.audio.variation) do total+=1 end;check(total==128,'variant history reaches and enforces its cap')
 end
 -- Close/far recordings crossfade continuously while both consume native slots.
 do
@@ -212,10 +213,14 @@ do
     zone('hall',0,50,50,'Machine hall',true);zone('corridor',100,8,30,'Service corridor',true);zone('exterior',200,50,50,'Ice apron',false)
     fx:audioState({map='Foundry',runId=1,room='hall',indoors=true})
     check(fx:audioSpace(V.new(0,3,0))=='hall' and fx:audioSpace(V.new(100,3,0))=='corridor' and fx:audioSpace(V.new(200,3,0))=='outdoor','source footprints resolve acoustic profiles')
+    local queries=0;local resolve=fx.audioSpace
+    fx.audioSpace=function(self,position) queries+=1;return resolve(self,position) end
     e:approve('Rifle',14001);local v=fx:sound('Rifle',nil,{firstPerson=true});e:advance(.2)
     check(v.reverb and v.reverb.DecayTime==1.4 and v.reverb.WetLevel>-80,'first-person report gets actual hall character')
+    check(queries==1,'static source room lookup is cached across audio frames')
     fx:audioState({map='Foundry',runId=1,room='corridor',indoors=true});e:advance(.2)
     near(v.reverb.DecayTime,.8,'corridor has shorter decay')
+    check(queries==2,'room lookup only repeats at a real zone change')
     fx:audioState({map='Foundry',runId=1,room='exterior',indoors=false});local wet=v.reverb.WetLevel;e:advance(.2)
     check(v.reverb.WetLevel<wet,'outdoor transition smoothly removes wet return')
     local warning=fx:sound('Howl',V.new(2,3,0));check(not warning.reverb and not warning.equalizer,'critical warning remains dry/readable')
@@ -242,11 +247,80 @@ for _,low in ipairs({false,true}) do
     local close=fx:sound('Warden.Warning',V.new(2,0,0),{sourceId='warden'})
     check(close and close.sound.Playing,'critical nearby warning preempts dense mix')
     check(fx:audioDiagnostics().voices<=max and e:activeSounds()<=max,'native decoder hard limit at 40 enemies')
+    local peak=0;for _,v in ipairs(fx.audio.voices) do peak+=v.sound.Volume+(v.farSound and v.farSound.Volume or 0) end
+    check(peak<=.820001 and fx:audioDiagnostics().peakBudget<=.820001,'owned-FX mono peak sum remains within explicit headroom')
     fx.settings.volume=0;e:advance(.1)
     for _,v in ipairs(fx.audio.voices) do check(v.sound.Volume==0 and (not v.farSound or v.farSound.Volume==0),'mute reaches every report layer') end
     local plays=e.plays;check(not fx:sound('Rifle') and e.plays==plays,'mute queues no new gameplay sound')
     fx.settings.volume=.65
     for i=1,30 do fx:audioState({map=({'Station','Foundry','Frost'})[(i-1)%3+1],runId=i,token='scene-'..i});fx:sound('Rifle');e:advance(.1) end
     fx:audioDestroy();check(e:live('Sound')==0 and e:live('Part')==0 and e:connections()==0,'thirty travel/respawn sessions leave no voices/cache/anchors/connections')
+end
+for _,low in ipairs({false,true}) do
+    local e=setup(low);local fx=e.fx
+    for i=1,(low and 2 or 4) do check(fx:sound('Enemy',V.new(i,0,0),{sourceId=i}),'fill routine infected cap') end
+    local attack=fx:sound('Zombie.Attack',V.new(3,0,0),{sourceId='attacking'})
+    check(attack and attack.priority==3,'actual attack replaces lower-priority groan within same category cap')
+    local hound=fx:sound('Hound.Attack',V.new(4,0,0),{sourceId='biting'})
+    check(hound and hound.priority==3,'hound attack has a dedicated readable slot')
+end
+-- Long recorded tails cannot suppress acknowledged automatic-fire transients.
+for _,low in ipairs({false,true}) do
+    local e=setup(low);local fx=e.fx;e:approve('Pistol',18001)
+    for shot=1,100 do
+        local v=fx:sound('Weapon.Report',nil,{class='Pistol',sourceId='operator',firstPerson=true})
+        check(v and v.born==e.now and v.sound.Playing,'900 RPM acknowledged onset admitted '..shot)
+        local reports=0;for _,voice in ipairs(fx.audio.voices) do if voice.spec.report and voice.source=='operator' then reports+=1 end end
+        check(reports<=(low and 1 or 2),'per-emitter natural-tail pool remains bounded '..shot)
+        e:advance(1/15)
+    end
+    check(e.plays==100 and e:activeSounds()<=(low and 1 or 2),'no missing onsets or late replay during sustained automatic fire')
+    e:advance(4.1);check(e:activeSounds()==0 and e:connections()==0,'last recorded automatic-fire tails clean up')
+end
+-- Room-specific loop recordings crossfade; short structure cues stay intermittent.
+do
+    local e=setup();local fx=e.fx
+    for _,id in ipairs({17001,17002,17003}) do e.loaded['rbxassetid://'..id]=true end
+    e.config.SoundIds['World.Frost.wind']={indoor={'17001'},outdoor={'17002'}}
+    e.config.SoundIds['World.Frost.structure']={variants={'17003'},interval=18,duration=.7}
+    fx:audioState({map='Frost',runId=1,token='winter',indoors=false});e:advance(.2)
+    local exterior=fx.audio.world['World.Frost.wind'];local structure=fx.audio.world['World.Frost.structure']
+    check(exterior.sound.SoundId=='rbxassetid://17002','exterior recording selected')
+    check(structure and not structure.sound.Looped and structure.interval==18,'short metal movement is a finite texture, not a loop')
+    structure.sound.Ended:Fire();local plays=e.plays;e:advance(8)
+    check(e.plays==plays,'retired structure texture does not restart every second')
+    fx:audioState({map='Frost',runId=1,token='winter',indoors=true});e:advance(.2)
+    local interior=fx.audio.world['World.Frost.wind']
+    check(interior~=exterior and exterior.targetFade==0 and interior.sound.SoundId=='rbxassetid://17001','interior/exterior physical recordings crossfade without a scene reset')
+    e:advance(1);check(exterior.retired and interior.fade==1,'old bed is cleaned after crossfade')
+    e:advance(18);check(e.plays>plays+1,'intermittent texture recurs after natural bounded interval')
+    fx:audioDestroy();check(e:live('Sound')==0 and e:connections()==0,'world variations leave no playing or cached Sounds')
+end
+do
+    local e=setup();local inventory=e.fx:audioInventory();local keys={}
+    for _,row in ipairs(inventory) do
+        check(not keys[row.key] and not row.configured,'unique event inventory with honest empty-slot availability')
+        keys[row.key]=true
+    end
+    check(keys['Enemy.Entry.Contact'] and keys['Hound.Attack'] and keys['Weapon.Magazine'] and keys['World.Frost.wind'],'inventory includes canonical events and optional hound refinement')
+    local process=require('@lune/process')
+    if process.env.DEAD_SIGNAL_AUDIO_WRITE_INVENTORY=='1' then
+        fs.writeFile('Reviews/audio-quality-b11/EVENT-INVENTORY.json',require('@lune/serde').encode('json',inventory,true)..'\n')
+    end
+end
+-- Consume MAIN #41's existing kind fact without borrowing the wrong family.
+do
+    local e=setup();local fx=e.fx
+    e:approve('Enemy',19011);e:approve('Board',19012);e:approve('Zombie.Footstep',19013)
+    check(not fx:audioEvent('Hound.Breath',{kind='Hound',sourceId='hound'}),'human vocal bank cannot become hound breathing')
+    check(not fx:audioEvent('Zombie.Gear',{sourceId='zombie'}),'wood impact bank cannot become cloth/gear')
+    check(not fx:audioEvent('Zombie.Footstep',{kind='Hound',sourceId='hound'}),'kind fact cannot turn human boots into paws')
+    check(not fx:audioEvent('Enemy.Death',{kind='Hound',sourceId='hound'}),'kind fact cannot turn human death into canine death')
+    e:approve('Hound.Footstep',19014)
+    local step=fx:audioEvent('Zombie.Footstep',{kind='Hound',sourceId='hound'})
+    check(step and step.key=='Hound.Footstep' and step.sound.SoundId=='rbxassetid://19014','existing movement event routes to approved canine bank')
+    e:approve('Hound.Death',19015)
+    local death=fx:audioEvent('Enemy.Death',{kind='Hound',sourceId='hound'})
+    check(death and death.key=='Hound.Death' and death.sound.SoundId=='rbxassetid://19015','existing server death fact routes to independent canine bank')
 end
 print('Audio quality Batch 1.1 assertions passed:',count)

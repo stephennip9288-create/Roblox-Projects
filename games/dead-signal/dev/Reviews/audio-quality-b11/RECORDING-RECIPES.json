@@ -1,0 +1,990 @@
+[
+  {
+    "name": "pistol_near_1",
+    "source": "firearms",
+    "role": "Pistol near report, separate recorded microphone position, take 1.",
+    "slots": [
+      "Pistol.near"
+    ],
+    "take": 1,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Walther PPQ/X_39P.wav"
+  },
+  {
+    "name": "pistol_near_2",
+    "source": "firearms",
+    "role": "Pistol near report, separate recorded microphone position, take 2.",
+    "slots": [
+      "Pistol.near"
+    ],
+    "take": 2,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Walther PPQ/X_39P.wav"
+  },
+  {
+    "name": "pistol_far_1",
+    "source": "firearms",
+    "role": "Pistol far report, separate recorded microphone position, take 1. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "Pistol.far"
+    ],
+    "take": 1,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Walther PPQ/X_31P.wav"
+  },
+  {
+    "name": "pistol_far_2",
+    "source": "firearms",
+    "role": "Pistol far report, separate recorded microphone position, take 2. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "Pistol.far"
+    ],
+    "take": 2,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Walther PPQ/X_31P.wav"
+  },
+  {
+    "name": "rifle_near_1",
+    "source": "firearms",
+    "role": "Rifle near report, separate recorded microphone position, take 1.",
+    "slots": [
+      "Rifle.near"
+    ],
+    "take": 1,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/AR-15/D_32P.wav"
+  },
+  {
+    "name": "rifle_near_2",
+    "source": "firearms",
+    "role": "Rifle near report, separate recorded microphone position, take 2.",
+    "slots": [
+      "Rifle.near"
+    ],
+    "take": 2,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/AR-15/D_32P.wav"
+  },
+  {
+    "name": "rifle_far_1",
+    "source": "firearms",
+    "role": "Rifle far report, separate recorded microphone position, take 1. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "Rifle.far"
+    ],
+    "take": 1,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/AR-15/D_24P.wav"
+  },
+  {
+    "name": "rifle_far_2",
+    "source": "firearms",
+    "role": "Rifle far report, separate recorded microphone position, take 2. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "Rifle.far"
+    ],
+    "take": 2,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/AR-15/D_24P.wav"
+  },
+  {
+    "name": "smg_near_1",
+    "source": "firearms",
+    "role": "SMG near report, separate recorded microphone position, take 1.",
+    "slots": [
+      "SMG.near"
+    ],
+    "take": 1,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Carl Gustav M45/G_31P.wav"
+  },
+  {
+    "name": "smg_near_2",
+    "source": "firearms",
+    "role": "SMG near report, separate recorded microphone position, take 2.",
+    "slots": [
+      "SMG.near"
+    ],
+    "take": 2,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Carl Gustav M45/G_31P.wav"
+  },
+  {
+    "name": "smg_near_3",
+    "source": "firearms",
+    "role": "SMG near report, separate recorded microphone position, take 3.",
+    "slots": [
+      "SMG.near"
+    ],
+    "take": 3,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Carl Gustav M45/G_31P.wav"
+  },
+  {
+    "name": "smg_far_1",
+    "source": "firearms",
+    "role": "SMG far report, separate recorded microphone position, take 1. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "SMG.far"
+    ],
+    "take": 1,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Carl Gustav M45/G_20P.wav"
+  },
+  {
+    "name": "smg_far_2",
+    "source": "firearms",
+    "role": "SMG far report, separate recorded microphone position, take 2. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "SMG.far"
+    ],
+    "take": 2,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Carl Gustav M45/G_20P.wav"
+  },
+  {
+    "name": "smg_far_3",
+    "source": "firearms",
+    "role": "SMG far report, separate recorded microphone position, take 3. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "SMG.far"
+    ],
+    "take": 3,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Carl Gustav M45/G_20P.wav"
+  },
+  {
+    "name": "shotgun_near_1",
+    "source": "firearms",
+    "role": "Shotgun near report, separate recorded microphone position, take 1.",
+    "slots": [
+      "Shotgun.near"
+    ],
+    "take": 1,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Model 12/K_22P.wav"
+  },
+  {
+    "name": "shotgun_near_2",
+    "source": "firearms",
+    "role": "Shotgun near report, separate recorded microphone position, take 2.",
+    "slots": [
+      "Shotgun.near"
+    ],
+    "take": 2,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Model 12/K_22P.wav"
+  },
+  {
+    "name": "shotgun_far_1",
+    "source": "firearms",
+    "role": "Shotgun far report, separate recorded microphone position, take 1. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "Shotgun.far"
+    ],
+    "take": 1,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Model 12/K_17P.wav"
+  },
+  {
+    "name": "shotgun_far_2",
+    "source": "firearms",
+    "role": "Shotgun far report, separate recorded microphone position, take 2. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "Shotgun.far"
+    ],
+    "take": 2,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Model 12/K_17P.wav"
+  },
+  {
+    "name": "heavy_near_1",
+    "source": "firearms",
+    "role": "Heavy near report, separate recorded microphone position, take 1. Provisional 7.62 automatic-rifle proxy, not a dedicated LMG recording; owner acceptance or replacement needed.",
+    "slots": [
+      "Heavy.near"
+    ],
+    "take": 1,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/AK-47/C_28P.wav"
+  },
+  {
+    "name": "heavy_near_2",
+    "source": "firearms",
+    "role": "Heavy near report, separate recorded microphone position, take 2. Provisional 7.62 automatic-rifle proxy, not a dedicated LMG recording; owner acceptance or replacement needed.",
+    "slots": [
+      "Heavy.near"
+    ],
+    "take": 2,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/AK-47/C_28P.wav"
+  },
+  {
+    "name": "heavy_far_1",
+    "source": "firearms",
+    "role": "Heavy far report, separate recorded microphone position, take 1. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture. Provisional 7.62 automatic-rifle proxy, not a dedicated LMG recording; owner acceptance or replacement needed.",
+    "slots": [
+      "Heavy.far"
+    ],
+    "take": 1,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/AK-47/C_31P.wav"
+  },
+  {
+    "name": "heavy_far_2",
+    "source": "firearms",
+    "role": "Heavy far report, separate recorded microphone position, take 2. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture. Provisional 7.62 automatic-rifle proxy, not a dedicated LMG recording; owner acceptance or replacement needed.",
+    "slots": [
+      "Heavy.far"
+    ],
+    "take": 2,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/AK-47/C_31P.wav"
+  },
+  {
+    "name": "sniper_near_1",
+    "source": "firearms",
+    "role": "Sniper near report, separate recorded microphone position, take 1.",
+    "slots": [
+      "Sniper.near"
+    ],
+    "take": 1,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Tikka/W_29P.wav"
+  },
+  {
+    "name": "sniper_near_2",
+    "source": "firearms",
+    "role": "Sniper near report, separate recorded microphone position, take 2.",
+    "slots": [
+      "Sniper.near"
+    ],
+    "take": 2,
+    "seconds": 1.35,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Tikka/W_29P.wav"
+  },
+  {
+    "name": "sniper_far_1",
+    "source": "firearms",
+    "role": "Sniper far report, separate recorded microphone position, take 1. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "Sniper.far"
+    ],
+    "take": 1,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Tikka/W_24P.wav"
+  },
+  {
+    "name": "sniper_far_2",
+    "source": "firearms",
+    "role": "Sniper far report, separate recorded microphone position, take 2. Source labelled MID distance; distant-timbre mix role, not extreme-distance capture.",
+    "slots": [
+      "Sniper.far"
+    ],
+    "take": 2,
+    "seconds": 1.85,
+    "peak": 0.53,
+    "member": "Prepared SFX Library/Tikka/W_24P.wav"
+  },
+  {
+    "name": "mag_out",
+    "source": "reload_pistol",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Magazine.mag-out"
+    ],
+    "start": 0.1,
+    "seconds": 0.36,
+    "peak": 0.36
+  },
+  {
+    "name": "mag_in",
+    "source": "reload_rifle",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Magazine.mag-in"
+    ],
+    "start": 1,
+    "seconds": 0.34,
+    "peak": 0.36
+  },
+  {
+    "name": "bolt_open",
+    "source": "reload_rifle",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Bolt.action-open"
+    ],
+    "start": 0.15,
+    "seconds": 0.34,
+    "peak": 0.36
+  },
+  {
+    "name": "bolt_close",
+    "source": "reload_rifle",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Bolt.action-close"
+    ],
+    "start": 1.28,
+    "seconds": 0.27,
+    "peak": 0.36
+  },
+  {
+    "name": "pump_open",
+    "source": "pump",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Pump.action-open"
+    ],
+    "start": 0,
+    "seconds": 0.21,
+    "peak": 0.36
+  },
+  {
+    "name": "pump_close",
+    "source": "pump",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Pump.action-close"
+    ],
+    "start": 0.2,
+    "seconds": 0.27,
+    "peak": 0.36
+  },
+  {
+    "name": "equip",
+    "source": "mechanical_mechanical1",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Equip"
+    ],
+    "start": 0,
+    "seconds": 0.65,
+    "peak": 0.36
+  },
+  {
+    "name": "empty",
+    "source": "mechanical_typewriter",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Empty"
+    ],
+    "start": 0,
+    "seconds": 0.2,
+    "peak": 0.36
+  },
+  {
+    "name": "shell_in",
+    "source": "mechanical_lightclunk1",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Shell.shell-in"
+    ],
+    "start": 0,
+    "seconds": 0.25,
+    "peak": 0.36
+  },
+  {
+    "name": "feed_open",
+    "source": "mechanical_mechanical1",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Feed.feed-open"
+    ],
+    "start": 0,
+    "seconds": 0.45,
+    "peak": 0.36
+  },
+  {
+    "name": "feed_close",
+    "source": "mechanical_mechanical2",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Weapon.Feed.feed-close"
+    ],
+    "start": 0,
+    "seconds": 0.45,
+    "peak": 0.36
+  },
+  {
+    "name": "armor_break",
+    "source": "mechanical_clank1",
+    "role": "Recorded physical-mechanism candidate; exact phase/action and animation fit await listening.",
+    "slots": [
+      "Enemy.Armor.Break"
+    ],
+    "start": 0,
+    "seconds": 0.7,
+    "peak": 0.36
+  },
+  {
+    "name": "zombie_groan_1",
+    "source": "zombies",
+    "role": "Distinct performed infected recording, original pitch; acting fit pending.",
+    "slots": [
+      "Zombie.Groan"
+    ],
+    "seconds": 2.4,
+    "peak": 0.42,
+    "member": "zombienoise1.ogg"
+  },
+  {
+    "name": "zombie_groan_2",
+    "source": "zombies",
+    "role": "Distinct performed infected recording, original pitch; acting fit pending.",
+    "slots": [
+      "Zombie.Groan"
+    ],
+    "seconds": 2.4,
+    "peak": 0.42,
+    "member": "zombienoise2.ogg"
+  },
+  {
+    "name": "zombie_groan_3",
+    "source": "zombies",
+    "role": "Distinct performed infected recording, original pitch; acting fit pending.",
+    "slots": [
+      "Zombie.Groan"
+    ],
+    "seconds": 2.4,
+    "peak": 0.42,
+    "member": "zombienoise3.ogg"
+  },
+  {
+    "name": "zombie_groan_4",
+    "source": "zombies",
+    "role": "Distinct performed infected recording, original pitch; acting fit pending.",
+    "slots": [
+      "Zombie.Groan"
+    ],
+    "seconds": 2.4,
+    "peak": 0.42,
+    "member": "fastzombie1.ogg"
+  },
+  {
+    "name": "zombie_attack",
+    "source": "zombies",
+    "role": "Performed attack candidate, timing and acting pending.",
+    "slots": [
+      "Zombie.Attack"
+    ],
+    "seconds": 0.8,
+    "peak": 0.43,
+    "member": "fastzombie1.ogg"
+  },
+  {
+    "name": "zombie_death",
+    "source": "zombies",
+    "role": "Performed death candidate, not accepted as final death acting.",
+    "slots": [
+      "Enemy.Death"
+    ],
+    "seconds": 1.2,
+    "peak": 0.35,
+    "member": "zombienoise2.ogg"
+  },
+  {
+    "name": "hound_growl",
+    "source": "hound_vocals",
+    "role": "Actual dog play vocal; threat reading and source noise await review.",
+    "slots": [
+      "Hound.Snarl",
+      "Hound.Attack"
+    ],
+    "seconds": 1.2,
+    "peak": 0.42,
+    "member": "dog/dog-growl.flac"
+  },
+  {
+    "name": "hound_grumble",
+    "source": "hound_vocals",
+    "role": "Actual dog play vocal; threat reading and source noise await review.",
+    "slots": [
+      "Hound.Snarl",
+      "Hound.Attack"
+    ],
+    "seconds": 1.2,
+    "peak": 0.42,
+    "member": "dog/dog-grumble.flac"
+  },
+  {
+    "name": "hound_snarl",
+    "source": "hound_vocals",
+    "role": "Actual dog play vocal; threat reading and source noise await review.",
+    "slots": [
+      "Hound.Snarl",
+      "Hound.Attack"
+    ],
+    "seconds": 1.2,
+    "peak": 0.42,
+    "member": "dog/dog-snarl.flac"
+  },
+  {
+    "name": "hound_growl_short",
+    "source": "hound_growl",
+    "role": "Actual canine growl, original pitch.",
+    "slots": [
+      "Hound.Snarl"
+    ],
+    "seconds": 0.62,
+    "peak": 0.42
+  },
+  {
+    "name": "hound_bark_1",
+    "source": "hound_barks",
+    "role": "Actual dog bark charge candidate; not represented as a howl.",
+    "slots": [
+      "Hound.Charge",
+      "Enemy.Charge.Warn"
+    ],
+    "seconds": 0.7,
+    "peak": 0.43,
+    "member": "Dog/Dog Bark 1.wav"
+  },
+  {
+    "name": "hound_bark_2",
+    "source": "hound_barks",
+    "role": "Actual dog bark charge candidate; not represented as a howl.",
+    "slots": [
+      "Hound.Charge",
+      "Enemy.Charge.Warn"
+    ],
+    "seconds": 0.7,
+    "peak": 0.43,
+    "member": "Dog/Dog Bark 2.wav"
+  },
+  {
+    "name": "hound_bark_3",
+    "source": "hound_barks",
+    "role": "Actual dog bark charge candidate; not represented as a howl.",
+    "slots": [
+      "Hound.Charge",
+      "Enemy.Charge.Warn"
+    ],
+    "seconds": 0.7,
+    "peak": 0.43,
+    "member": "Dog/Dog Bark 3.wav"
+  },
+  {
+    "name": "hound_death_candidate",
+    "source": "hound_barks",
+    "role": "Canine yelp candidate; performance/noise not yet accepted.",
+    "slots": [
+      "Hound.Death"
+    ],
+    "seconds": 1.2,
+    "peak": 0.3,
+    "member": "Dog/Sad Dog 1.wav"
+  },
+  {
+    "name": "footstep_concrete_1",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Concrete",
+      "Zombie.Footstep"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_concrete_000.ogg"
+  },
+  {
+    "name": "footstep_concrete_2",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Concrete",
+      "Zombie.Footstep"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_concrete_001.ogg"
+  },
+  {
+    "name": "footstep_concrete_3",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Concrete",
+      "Zombie.Footstep"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_concrete_002.ogg"
+  },
+  {
+    "name": "footstep_wood_1",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Wood"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_wood_000.ogg"
+  },
+  {
+    "name": "footstep_wood_2",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Wood"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_wood_001.ogg"
+  },
+  {
+    "name": "footstep_wood_3",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Wood"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_wood_002.ogg"
+  },
+  {
+    "name": "footstep_snow_1",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Snow"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_snow_000.ogg"
+  },
+  {
+    "name": "footstep_snow_2",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Snow"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_snow_001.ogg"
+  },
+  {
+    "name": "footstep_snow_3",
+    "source": "impacts",
+    "role": "Physical boot foley candidate; material/weight acceptance pending. Concrete is a disclosed generic fallback.",
+    "slots": [
+      "Zombie.Footstep.Snow"
+    ],
+    "seconds": 0.6,
+    "peak": 0.32,
+    "member": "Audio/footstep_snow_002.ogg"
+  },
+  {
+    "name": "entry_contact_1",
+    "source": "impacts",
+    "role": "Wood entry contact foley, not a new event trigger.",
+    "slots": [
+      "Enemy.Entry.Contact",
+      "Board"
+    ],
+    "seconds": 0.8,
+    "peak": 0.37,
+    "member": "Audio/impactWood_medium_000.ogg"
+  },
+  {
+    "name": "entry_land_1",
+    "source": "impacts",
+    "role": "Landing footfall candidate; actual transition remains server owned.",
+    "slots": [
+      "Enemy.Entry.Land"
+    ],
+    "seconds": 0.6,
+    "peak": 0.36,
+    "member": "Audio/footstep_concrete_000.ogg"
+  },
+  {
+    "name": "hit_1",
+    "source": "impacts",
+    "role": "Restrained physical hit confirmation candidate, existing confirmed-hit caller only.",
+    "slots": [
+      "Hit",
+      "Weapon.Hit",
+      "Combat.Hit"
+    ],
+    "seconds": 0.6,
+    "peak": 0.26,
+    "member": "Audio/impactSoft_medium_000.ogg"
+  },
+  {
+    "name": "gear_1",
+    "source": "cloth",
+    "role": "Recorded fabric rustle from a distinct movement; not authenticated military gear.",
+    "slots": [
+      "Zombie.Gear",
+      "Enemy.Entry.Approach"
+    ],
+    "start": 0,
+    "seconds": 0.6,
+    "peak": 0.24
+  },
+  {
+    "name": "entry_contact_2",
+    "source": "impacts",
+    "role": "Wood entry contact foley, not a new event trigger.",
+    "slots": [
+      "Enemy.Entry.Contact",
+      "Board"
+    ],
+    "seconds": 0.8,
+    "peak": 0.37,
+    "member": "Audio/impactWood_medium_001.ogg"
+  },
+  {
+    "name": "entry_land_2",
+    "source": "impacts",
+    "role": "Landing footfall candidate; actual transition remains server owned.",
+    "slots": [
+      "Enemy.Entry.Land"
+    ],
+    "seconds": 0.6,
+    "peak": 0.36,
+    "member": "Audio/footstep_concrete_001.ogg"
+  },
+  {
+    "name": "hit_2",
+    "source": "impacts",
+    "role": "Restrained physical hit confirmation candidate, existing confirmed-hit caller only.",
+    "slots": [
+      "Hit",
+      "Weapon.Hit",
+      "Combat.Hit"
+    ],
+    "seconds": 0.6,
+    "peak": 0.26,
+    "member": "Audio/impactSoft_medium_001.ogg"
+  },
+  {
+    "name": "gear_2",
+    "source": "cloth",
+    "role": "Recorded fabric rustle from a distinct movement; not authenticated military gear.",
+    "slots": [
+      "Zombie.Gear",
+      "Enemy.Entry.Approach"
+    ],
+    "start": 2,
+    "seconds": 0.6,
+    "peak": 0.24
+  },
+  {
+    "name": "entry_contact_3",
+    "source": "impacts",
+    "role": "Wood entry contact foley, not a new event trigger.",
+    "slots": [
+      "Enemy.Entry.Contact",
+      "Board"
+    ],
+    "seconds": 0.8,
+    "peak": 0.37,
+    "member": "Audio/impactWood_medium_002.ogg"
+  },
+  {
+    "name": "entry_land_3",
+    "source": "impacts",
+    "role": "Landing footfall candidate; actual transition remains server owned.",
+    "slots": [
+      "Enemy.Entry.Land"
+    ],
+    "seconds": 0.6,
+    "peak": 0.36,
+    "member": "Audio/footstep_concrete_002.ogg"
+  },
+  {
+    "name": "hit_3",
+    "source": "impacts",
+    "role": "Restrained physical hit confirmation candidate, existing confirmed-hit caller only.",
+    "slots": [
+      "Hit",
+      "Weapon.Hit",
+      "Combat.Hit"
+    ],
+    "seconds": 0.6,
+    "peak": 0.26,
+    "member": "Audio/impactSoft_medium_002.ogg"
+  },
+  {
+    "name": "gear_3",
+    "source": "cloth",
+    "role": "Recorded fabric rustle from a distinct movement; not authenticated military gear.",
+    "slots": [
+      "Zombie.Gear",
+      "Enemy.Entry.Approach"
+    ],
+    "start": 4,
+    "seconds": 0.6,
+    "peak": 0.24
+  },
+  {
+    "name": "kill_confirmation",
+    "source": "impacts",
+    "role": "Restrained physical kill confirmation candidate.",
+    "slots": [
+      "Kill",
+      "Weapon.Kill",
+      "Combat.Kill"
+    ],
+    "seconds": 0.6,
+    "peak": 0.29,
+    "member": "Audio/impactSoft_heavy_000.ogg"
+  },
+  {
+    "name": "blackwater_wind",
+    "source": "wind",
+    "role": "Open-field wind; exclude wildlife/motor noise by listening.",
+    "slots": [
+      "World.Station.wind"
+    ],
+    "start": 20,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35
+  },
+  {
+    "name": "blackwater_radio",
+    "source": "radio",
+    "role": "Designed untuned radio static; no third-party speech/music.",
+    "slots": [
+      "World.Station.radio",
+      "Radio.Transmission"
+    ],
+    "start": 1,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35
+  },
+  {
+    "name": "blackwater_power",
+    "source": "foley1",
+    "role": "Recorded machinery loop for emergency power area, not a radio or alarm.",
+    "slots": [
+      "World.Station.power"
+    ],
+    "start": 0,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35,
+    "member": "machine_01.ogg"
+  },
+  {
+    "name": "cinderworks_machinery",
+    "source": "foley1",
+    "role": "Recorded machine loop for industrial hall.",
+    "slots": [
+      "World.Foundry.machinery"
+    ],
+    "start": 0,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35,
+    "member": "machine_02.ogg"
+  },
+  {
+    "name": "cinderworks_furnace_equipment",
+    "source": "foley2",
+    "role": "Furnace equipment machinery candidate, not claimed recorded combustion.",
+    "slots": [
+      "World.Foundry.furnace"
+    ],
+    "start": 0,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35,
+    "member": "sfx100v2_loop_machine_01.ogg"
+  },
+  {
+    "name": "cinderworks_ventilation",
+    "source": "foley2",
+    "role": "Distinct machine/air handling candidate.",
+    "slots": [
+      "World.Foundry.vent"
+    ],
+    "start": 0,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35,
+    "member": "sfx100v2_loop_machine_03.ogg"
+  },
+  {
+    "name": "whiteout_wind",
+    "source": "strong_wind",
+    "role": "Stronger wind candidate; bags/noise and polar-storm fit remain blockers.",
+    "slots": [
+      "World.Frost.wind"
+    ],
+    "start": 20,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35
+  },
+  {
+    "name": "whiteout_relay",
+    "source": "foley1",
+    "role": "Remote listening-facility equipment loop candidate.",
+    "slots": [
+      "World.Frost.relay"
+    ],
+    "start": 0,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35,
+    "member": "machine_03.ogg"
+  },
+  {
+    "name": "dispatch_room",
+    "source": "foley2",
+    "role": "Quiet equipment-room candidate, Dispatch listening pending.",
+    "slots": [
+      "World.Dispatch.room"
+    ],
+    "start": 0,
+    "seconds": 10,
+    "loop": true,
+    "peak": 0.35,
+    "member": "sfx100v2_loop_machine_04.ogg"
+  },
+  {
+    "name": "whiteout_structure",
+    "source": "mechanical_mechanical2",
+    "role": "Physical short metal movement; intermittent bank, not a repeated groan loop.",
+    "slots": [
+      "World.Frost.structure"
+    ],
+    "seconds": 0.7,
+    "peak": 0.25,
+    "interval": 18
+  }
+]

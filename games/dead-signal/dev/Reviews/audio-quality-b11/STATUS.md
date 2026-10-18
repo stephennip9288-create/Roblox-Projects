@@ -1,5 +1,7 @@
-# DS-B1-001 — source checkpoint
+# DS-B1-001 — source review package
 
-Issue remains Open. This draft restores the exact tested Effects candidate recorded on #37: SHA256 5c6f649fd02fa9f788d15016669bea50874414f07c6b838c2059cd85216d862e. Audio review files and recording evidence are being restored after session maintenance. Do not integrate this checkpoint as a complete realism fix.
+**Open.** The source implementation, 100-event inventory, 84 recording candidates from 22 source-declared CC0 downloads, reproducible preparation and activation-proposal tools, and offline validation package are assembled for MAIN review in [draft PR #43](https://github.com/stephennip9288-create/Roblox-Projects/pull/43).
 
-No custom Roblox audio IDs, uploads, permission verification or gameplay listening acceptance are claimed. Existing stock fallbacks remain temporary and inappropriate for final realism. No publishing is authorized or performed. MAIN owns Controller/Config/runner integration; adapter PR #41 is the reviewed kind/routine-fact dependency.
+See [README.md](README.md) for implementation and explicit recording gaps, [VALIDATION.json](VALIDATION.json) for tests, [MAIN-INTEGRATION.md](MAIN-INTEGRATION.md) for adapter #41 and serial integration, and [LISTENING-CHECKLIST.md](LISTENING-CHECKLIST.md) for pending native acceptance.
+
+No custom Roblox IDs, uploads, permission verification or gameplay listening acceptance are claimed. Config retains temporary stock fallbacks; the final realism target is not achieved while approved recordings are inactive. No publication occurred. DS-B1-001 remains Open until integrated gameplay listening passes.

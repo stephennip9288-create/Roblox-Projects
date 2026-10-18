@@ -7,7 +7,7 @@ No Roblox Studio, private-client gameplay, multiplayer replication or physical-p
 | Map | Required coverage |
 |---|---|
 | Blackwater / Station | All ten designated windows, initial and purchased sectors; communications personnel, all seven enemy/variant profiles. |
-| Cinderworks / Foundry | All ten windows, including window 10 / Crucible Lab after MAP DEV repairs its reported landing support. Verify the actual landing floor before climbing tests. |
+| Cinderworks / Foundry | All ten windows, including window 10 / Crucible Lab and its narrow floor-wedge seam. Verify the consumer's real supported target (at most 0.05 studs from the canonical anchor), full foot contact and the native floor before approving climbing. |
 | Whiteout / Frost | All ten windows, winter personnel, angled openings and evolved Alpha/Warden clearances. |
 
 For each map, repeatedly observe single arrivals and mixed 4/12/24/40-unit waves converging on one entrance, with the normal wave/director rules active. Repeat in solo and local 2-/4-player Studio sessions. Record actual completion counts, queued/pending counts, max anchored duration, retries, stuck actors, collisions and capture timestamps. Pending units count toward the wave and are separate from live models; they must become visible only in supported, unoccupied exterior slots.

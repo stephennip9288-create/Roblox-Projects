@@ -2,6 +2,30 @@
 local harness=require('./Support/InfectedHarness');local r=harness.roblox;local V=r.Vector3;local CF=r.CFrame
 local count=0;local function check(ok,msg) assert(ok,msg);count+=1 end
 local specs={{'Shambler',{}},{'Runner',{Armored=true,Enraged=true}},{'Crawler',{}},{'Hound',{}},{'Hound',{Alpha=true}},{'Stalker',{}},{'Warden',{}}}
+do
+ local h=harness.new();local e=h:enemy('Shambler');local face=function(p) return CF.lookAt(p,p+V.zAxis) end
+ e.window.entry={schema=1,id='seam',room=1,kind='Window',approach=face(V.new(0,0,-9)),breach=face(V.new(0,1.8,0)),landing=face(V.new(0,0,8)),clearance={radius=6,height=12}}
+ h.floorFunction=function(p) return math.abs(p.X)<.001 and -2 or 0 end
+ local d=h.N.entryDescriptor(h.ctx.map,e.window)
+ check(d and math.abs(d.landing.X-.05)<.0001 and d.landing.Y==0,'narrow wedge seam selects a real supported neighboring target')
+ check((d.approach-e.window.entry.approach.Position).Magnitude<=.0501 and (d.landing-e.window.entry.landing.Position).Magnitude<=.0501,'seam target shift is bounded in world studs')
+ check(h.N.entryPlan(h.enemies,e,e.window)~=nil,'seam-adjusted target still passes full rig and actual foot support')
+ h.floorFunction=function(p) return math.abs(p.X)<.2 and -2 or 0 end
+ check(not h.N.entryDescriptor(h.ctx.map,e.window),'a broader unsupported landing cannot be patched by nearby floor projection')
+ h.floorFunction=function() return -12 end
+ check(not h.N.entryDescriptor(h.ctx.map,e.window),'unsupported elevation cannot silently become a ground entry')
+end
+do
+ local h=harness.new();local other=h:enemy('Shambler');local e=h:enemy('Shambler')
+ other.traversal={plan={style='Vault',forward=V.zAxis},stage='Cross'}
+ local center,size=h.N.worldBox(other,other.root.Position,h.N.rigBounds(other,'Vault','Cross'),V.zAxis)
+ local bounds=h.N.rigBounds(e);local ownCenter,ownSize=h.N.worldBox(e,V.zero,bounds,V.zAxis)
+ local at=center+V.zAxis*(size.Z*.5+ownSize.Z*.5-.05)-ownCenter
+ local clear,reason=h.N.traversalClear(h.enemies,e,at,at,e.window,true,bounds,V.zAxis)
+ check(not clear and reason=='Occupied','converging entrances reserve the other climber\'s complete active pose')
+ other.traversal=nil
+ check(h.N.traversalClear(h.enemies,e,at,at,e.window,true,bounds,V.zAxis),'active-pose occupancy is released when the other actor is no longer climbing')
+end
 for _,spec in ipairs(specs) do
  local h=harness.new();h:player(1,V.new(25,3,35));local e=h:enemy(spec[1],spec[2]);local collider=e.model.BodyCollider
  check(collider.CanCollide and collider:FindFirstChildOfClass('WeldConstraint').Part0==e.root,'live collider stays on the root, not the leaning torso')

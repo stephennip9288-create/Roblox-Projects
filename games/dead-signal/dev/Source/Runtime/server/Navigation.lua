@@ -271,7 +271,9 @@ function N.traversalClear(owner,e,a,b,window,overlap,bounds,forward)
             and U.root(player) and occupied(U.root(player).Position,Vector3.new(2.3,6,2.3)) then return false,"Occupied" end
     end
     for _,other in pairs(owner.list or {}) do if other~=e and not other.dead and other.root.Parent then
-        local otherCenter,otherSize=N.worldBox(other,other.root.Position,N.rigBounds(other,"Walk","Approach"))
+        local traversal=other.traversal
+        local otherBounds=N.rigBounds(other,traversal and traversal.plan.style or "Walk",traversal and traversal.stage or "Approach")
+        local otherCenter,otherSize=N.worldBox(other,other.root.Position,otherBounds,traversal and traversal.plan.forward)
         if occupied(otherCenter,otherSize) then return false,"Occupied" end
     end end
     return true
@@ -385,23 +387,33 @@ end
 function N.entryDescriptor(map,window)
     local entry=Rules.windowEntry(window);if not entry then return nil end
     if entry.legacy then return {kind="Window",legacy=true} end
-    local landing=entry.landing.Position
-    local floor=N.floor(map,landing+UP*1.5);if not floor then return nil end
-    local reference=landing.Y-floor.Y local rootReference=3.5*(map.scale or 1)
+    local rootReference=3.5*(map.scale or 1)
+    local function support(anchor,allowReference)
+        -- A canonical center ray can fall through the narrow seam between
+        -- paired floor wedges. Move the target at most .05 world studs onto
+        -- an actual supported point; never synthesize a floor across a hole.
+        for _,offset in ipairs({Vector3.zero,Vector3.new(.05,0,0),Vector3.new(-.05,0,0),Vector3.new(0,0,.05),Vector3.new(0,0,-.05)}) do
+            local floor=N.floor(map,anchor+offset+UP*1.5)
+            if floor then
+                local reference=anchor.Y-floor.Y
+                if math.abs(reference)<=.6 then return floor,false,0 end
+                if allowReference and math.abs(reference-rootReference)<.25 then return floor,true,reference end
+            end
+        end
+    end
+    local landing,centered,reference=support(entry.landing.Position,true)
+    if not landing then return nil end
     -- Maps #29 preserves legacy navigation-reference anchors (3.5*scale over
     -- the supported floor, breach at opening center). Also accept explicit
     -- foot/contact frames. Reject every other height instead of projecting an
     -- unsupported gallery onto the ground floor.
-    local centered=math.abs(reference-rootReference)<.25
-    if not centered and math.abs(reference)>.6 then return nil end
     local approach=entry.approach.Position-UP*(centered and reference or 0)
-    local approachFloor=N.floor(map,approach+UP*1.5)
-    if not approachFloor or math.abs(approachFloor.Y-approach.Y)>.6 then return nil end
+    local approachFloor=support(approach,false);if not approachFloor then return nil end
     local kinds
     if entry.allowedKinds then kinds={} for _,kind in ipairs(entry.allowedKinds) do kinds[kind]=true end end
-    return {kind=entry.kind,approach=entry.approach.Position-UP*(centered and reference or 0),
+    return {kind=entry.kind,approach=approachFloor,
         contact=entry.breach.Position-UP*(centered and entry.clearance.height*.5 or 0),
-        landing=Vector3.new(landing.X,floor.Y,landing.Z),width=entry.clearance.radius*2,height=entry.clearance.height,
+        landing=landing,width=entry.clearance.radius*2,height=entry.clearance.height,
         kinds=kinds,authored=true,inward=flat(entry.breach.LookVector).Unit,referenceHeight=centered and reference or 0}
 end
 function N.entryPlan(owner,e,window)

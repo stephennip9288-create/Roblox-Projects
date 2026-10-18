@@ -2,7 +2,7 @@
 local fs=require('@lune/fs');local r=require('@lune/roblox');local serde=require('@lune/serde')
 local loader=require('./Support/RuntimeLoader');local G=require('./Support/EnemyB11Geometry');local V=r.Vector3
 local process=require('@lune/process')
-local report={engine=false,logical_floor_fill=false,base='206ae616a7de4fe8dd69b1c8019bae6ea8b6863d',profiles=7,windows=0,plans=0,passed=0,failures={},envelopes={}}
+local report={engine=false,logical_floor_fill=false,base='206ae616a7de4fe8dd69b1c8019bae6ea8b6863d',profiles=7,windows=0,plans=0,passed=0,failures={},envelopes={},targets={}}
 local consumed={}
 for _,group in ipairs({'server','shared','client'}) do for _,file in ipairs(fs.readDir('Source/Runtime/'..group)) do
  if file:sub(-4)=='.lua' then local path='Source/Runtime/'..group..'/'..file;consumed[path]=fs.readFile(path) end
@@ -32,6 +32,9 @@ for _,id in ipairs(process.args[3] and {process.args[3]} or {'Station','Foundry'
    local floor=N.floor(map,approach+V.yAxis*1.5)
    world.lastBlock=nil;world.lastFailure=nil
    local descriptor=N.entryDescriptor(map,w);local plan,reason=N.entryPlan(owner,e,w);local issue
+   if si==1 and descriptor then report.targets[#report.targets+1]={map=id,window=wi,canonicalLanding=vec(w.entry.landing.Position),
+    resolvedLanding=vec(descriptor.landing),resolvedApproach=vec(descriptor.approach),
+    canonicalLandingFloor=N.floor(map,w.entry.landing.Position+V.yAxis*1.5) and vec(N.floor(map,w.entry.landing.Position+V.yAxis*1.5))} end
    if not floor or math.abs(floor.Y-approach.Y)>.6 then issue='approach-floor'
    elseif not descriptor then issue='descriptor-support'
    elseif not plan then issue=reason or 'rejected' end

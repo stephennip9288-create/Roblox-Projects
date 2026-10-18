@@ -5,19 +5,25 @@ function P.transforms(kind,phase,speed,attack,seed)
     local hound=kind=="Hound" local crawler=kind=="Crawler"
     local asym=math.sin((seed or 0)*1.37)
     local dragging=kind=="Shambler" or kind=="Warden"
+    local lean=-.12-attack*.13 local roll=c*.015+asym*.022
     for _,side in ipairs({-1,1}) do
         local name=side==1 and "Right" or "Left" local step=s*side
         if hound then
-            out[name.." Shoulder"]=CFrame.Angles(step*.28-attack*.15,0,0)
-            out[name.." Elbow"]=CFrame.Angles(-math.max(0,-step)*.85-.12,0,0)
-            out[name.." Wrist"]=CFrame.Angles(math.max(0,-step)*.3,0,0)
-            out[name.." Hip"]=CFrame.Angles(-step*.24,0,0)
-            out[name.." Knee"]=CFrame.Angles(math.max(0,step)*.80,0,0)
-            out[name.." Ankle"]=CFrame.Angles(-math.max(0,step)*.35,0,0)
+            local shoulder=step*.28-attack*.15
+            local elbow=-math.max(0,-step)*.85-.12
+            local hip=-step*.24 local knee=math.max(0,step)*.80
+            out[name.." Shoulder"]=CFrame.Angles(shoulder,0,0)
+            out[name.." Elbow"]=CFrame.Angles(elbow,0,0)
+            out[name.." Wrist"]=CFrame.Angles(-c*.035-shoulder-elbow,0,-c*.015)
+            out[name.." Hip"]=CFrame.Angles(hip,0,0)
+            out[name.." Knee"]=CFrame.Angles(knee,0,0)
+            out[name.." Ankle"]=CFrame.Angles(-c*.035-hip-knee,0,-c*.015)
         elseif crawler then
-            out[name.." Shoulder"]=CFrame.Angles(step*.10-attack*.20,step*.15,side*(.10+step*.14))
-            out[name.." Elbow"]=CFrame.Angles(-.20-math.max(0,step)*.35,0,side*math.max(0,-step)*.12)
-            out[name.." Wrist"]=CFrame.Angles(.13,0,0)
+            local shoulder=.04+math.max(0,step)*.12-attack*.20
+            local elbow=.08+math.max(0,-step)*.22
+            out[name.." Shoulder"]=CFrame.Angles(shoulder,step*.15,side*(.10+step*.14))
+            out[name.." Elbow"]=CFrame.Angles(elbow,0,side*math.max(0,-step)*.12)
+            out[name.." Wrist"]=CFrame.Angles(-shoulder-elbow,0,0)
             out[name.." Hip"]=CFrame.Angles(0,step*.10,side*.09)
             out[name.." Knee"]=CFrame.Angles(0,step*.06,0)
         else
@@ -25,13 +31,15 @@ function P.transforms(kind,phase,speed,attack,seed)
             out[name.." Shoulder"]=CFrame.Angles(.22+side*asym*.12-lag*(dragging and .11 or .32)+attack*1.05,side*.025,side*.055)
             out[name.." Elbow"]=CFrame.Angles(.20+(side==1 and .24 or .05)+math.max(0,-lag)*.18-attack*.12,0,side*.04)
             out[name.." Wrist"]=CFrame.Angles(-.18-side*asym*.10-attack*.08,0,side*.10)
-            out[name.." Hip"]=CFrame.Angles(lag*(dragging and .31 or .52)*(side==1 and .82 or 1),0,side*.018)
-            out[name.." Knee"]=CFrame.Angles(-math.max(0,-lag)*(dragging and .42 or .76)-.025,0,0)
-            out[name.." Ankle"]=CFrame.Angles(-lag*.14,0,0)
+            local hip=lag*(dragging and .31 or .52)*(side==1 and .82 or 1)
+            local knee=-math.max(0,-lag)*(dragging and .42 or .76)-.025
+            out[name.." Hip"]=CFrame.Angles(hip,0,side*.018)
+            out[name.." Knee"]=CFrame.Angles(knee,0,0)
+            out[name.." Ankle"]=CFrame.Angles(-lean-hip-knee,0,-roll-side*.018)
         end
     end
     out.Neck=CFrame.Angles(hound and -.02+attack*.10 or crawler and -.08 or -.13-attack*.10,math.sin(phase*.23)*.055,not hound and not crawler and asym*.055 or 0)
-    out.RootJoint=CFrame.new(0,math.abs(c)*(hound and .06 or crawler and .025 or .055),-attack*.10)*CFrame.Angles(hound and c*.035 or crawler and 0 or -.12-attack*.13,0,c*.015+(not hound and not crawler and asym*.022 or 0))
+    out.RootJoint=CFrame.new(0,(hound and .06 or .04)+math.abs(c)*(hound and .06 or crawler and .025 or .055),-attack*.10)*CFrame.Angles(hound and c*.035 or crawler and 0 or lean,0,(hound or crawler) and c*.015 or roll)
     for n=1,3 do out["Tail"..n.."Joint"]=CFrame.Angles(0,math.sin(phase*.5-n*.3)*.10,0) end
     if hound then
         out.Jaw=CFrame.Angles(.08+attack*.36,0,0)
@@ -42,33 +50,46 @@ function P.transforms(kind,phase,speed,attack,seed)
 end
 function P.traversal(kind,style,stage,phase)
     local out={} local wave=math.sin(math.clamp(phase,0,1)*math.pi)
-    if stage=="Approach" or stage=="Waiting" or stage=="Pursuit" then return out end
+    if stage=="Approach" or stage=="Waiting" or stage=="Pursuit" or stage=="Settle" then return out end
     local cross=stage=="Cross" local contact=stage=="Contact" local landing=stage=="Land" or stage=="Settle"
     if style=="Walk" then return out end
     if kind=="Hound" then
-        out.RootJoint=CFrame.new(0,landing and -.12*(1-phase) or contact and -.11*wave or 0,0)*CFrame.Angles(cross and -.16 or contact and .12 or .06,0,0)
+        local pitch=cross and -.16 or contact and .12*wave or 0
+        out.RootJoint=CFrame.new(0,cross and 0 or .08,0)*CFrame.Angles(pitch,0,0)
         for _,side in ipairs({"Left","Right"}) do
-            out[side.." Shoulder"]=CFrame.Angles(cross and .65-wave*.6 or contact and -.35 or -.20*(1-phase),0,0)
-            out[side.." Elbow"]=CFrame.Angles(cross and -.65*wave or -.25,0,0)
-            out[side.." Hip"]=CFrame.Angles(cross and -.5+phase*.9 or contact and .4 or .2*(1-phase),0,0)
-            out[side.." Knee"]=CFrame.Angles(cross and .65*wave or contact and .5 or .1,0,0)
+            local shoulder=cross and .65-wave*.6 or contact and -.35 or -.20*(1-phase)
+            local elbow=cross and -.65*wave or -.25
+            local hip=cross and -.5+phase*.9 or contact and .4 or .2*(1-phase)
+            local knee=cross and .65*wave or contact and .5 or .1
+            out[side.." Shoulder"]=CFrame.Angles(shoulder,0,0)
+            out[side.." Elbow"]=CFrame.Angles(elbow,0,0)
+            out[side.." Wrist"]=CFrame.Angles(-pitch-shoulder-elbow,0,0)
+            out[side.." Hip"]=CFrame.Angles(hip,0,0)
+            out[side.." Knee"]=CFrame.Angles(knee,0,0)
+            out[side.." Ankle"]=CFrame.Angles(-pitch-hip-knee,0,0)
             out[side.." Ear"]=CFrame.Angles(-.35,0,side=="Left" and .1 or -.1)
         end
         out.Neck=CFrame.Angles(cross and .12 or -.08,0,0);out.Jaw=CFrame.Angles(.08,0,0)
     elseif style=="Crawl" then
-        out.RootJoint=CFrame.new(0,-.06*wave,-.10*wave)
+        out.RootJoint=CFrame.new(0,.04+.025*wave,-.10*wave)
         for _,side in ipairs({-1,1}) do local name=side==1 and "Right" or "Left"
-            out[name.." Shoulder"]=CFrame.Angles(.15-wave*.12,side*wave*.18,side*.18)
-            out[name.." Elbow"]=CFrame.Angles(-.4-wave*.3,0,0)
+            local shoulder=.04+wave*.12 local elbow=.08+wave*.22
+            out[name.." Shoulder"]=CFrame.Angles(shoulder,side*wave*.12,side*.10)
+            out[name.." Elbow"]=CFrame.Angles(elbow,0,0)
+            out[name.." Wrist"]=CFrame.Angles(-shoulder-elbow,0,0)
             out[name.." Hip"]=CFrame.Angles(-.08,side*.05,side*.10)
         end
     else
-        out.RootJoint=CFrame.new(0,cross and -.18*wave or landing and -.12*(1-phase) or 0,cross and -.10 or 0)*CFrame.Angles(cross and -.45 or contact and -.20 or -.08,0,0)
+        local pitch=cross and -.45 or contact and -.20 or -.08*(1-phase)
+        out.RootJoint=CFrame.new(0,cross and -.18*wave or landing and -.06*(1-phase)^2 or 0,cross and -.10 or 0)*CFrame.Angles(pitch,0,0)
         for _,side in ipairs({-1,1}) do local name=side==1 and "Right" or "Left"
             out[name.." Shoulder"]=CFrame.Angles(contact and (side==1 and .95 or 1.10) or cross and (side==1 and 1.12 or .97)-phase*.52 or .32,0,side*.12)
             out[name.." Elbow"]=CFrame.Angles(cross and -.55 or -.20,0,0)
-            out[name.." Hip"]=CFrame.Angles(cross and (side==1 and .6 or .25)*wave or -.1,0,0)
-            out[name.." Knee"]=CFrame.Angles(cross and -1.1*wave or -.15,0,0)
+            local hip=cross and (side==1 and .6 or .25)*wave or contact and -.1 or -.1*(1-phase)
+            local knee=cross and -1.1*wave or contact and -.15 or -.15*(1-phase)
+            out[name.." Hip"]=CFrame.Angles(hip,0,0)
+            out[name.." Knee"]=CFrame.Angles(knee,0,0)
+            out[name.." Ankle"]=CFrame.Angles(-pitch-hip-knee,0,0)
         end
         out.Neck=CFrame.Angles(-.10,0,0)
     end

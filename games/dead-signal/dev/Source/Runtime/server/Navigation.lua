@@ -322,7 +322,9 @@ local function planPath(owner,e,landing,descriptor,window)
     if descriptor.width and agent.AgentRadius*2+.2>descriptor.width or descriptor.height and agent.AgentHeight+.2>descriptor.height then return nil end
     local outside=descriptor.approach and descriptor.approach+UP*h or window and window.outside or e.root.Position
     if not U.finiteVector(outside) or not U.finiteVector(landing) or flat(landing-outside).Magnitude<.5 or (landing-e.root.Position).Magnitude>36*s then return nil end
-    local forward=flat(landing-outside).Unit
+    -- Mount perpendicular to the actual opening. A free offset landing must
+    -- not turn the approach/vault diagonally into a jamb.
+    local forward=descriptor.inward or window and flat(window.inside-window.outside).Unit or flat(landing-outside).Unit
     local floorY=landing.Y-h
     local ground=N.floor(owner.ctx.map,outside)
     outside=Vector3.new(outside.X,(descriptor.authored and descriptor.approach.Y or ground and ground.Y or floorY)+h,outside.Z)
@@ -341,7 +343,10 @@ local function planPath(owner,e,landing,descriptor,window)
     local style=e.kind=="Crawler" and "Crawl" or e.kind=="Hound" and "Leap" or "Vault"
     for _,name in ipairs({"Contact","Cross","Land"}) do
         local bounds=N.rigBounds(e,style,name)
-        front=math.max(front,-bounds.low.Z);back=math.max(back,bounds.high.Z);lowest=math.min(lowest,bounds.low.Y)
+        local offset,size=N.worldBox(e,Vector3.zero,bounds,forward)
+        local projected=(math.abs(forward.X)*size.X+math.abs(forward.Z)*size.Z)*.5
+        front=math.max(front,offset:Dot(forward)+projected)
+        back=math.max(back,-offset:Dot(forward)+projected);lowest=math.min(lowest,bounds.low.Y)
     end
     raise+=math.max(0,-lowest-h)
     if raise>6*s then return nil,"Geometry" end
@@ -392,7 +397,7 @@ function N.entryDescriptor(map,window)
     return {kind=entry.kind,approach=entry.approach.Position-UP*(centered and reference or 0),
         contact=entry.breach.Position-UP*(centered and entry.clearance.height*.5 or 0),
         landing=Vector3.new(landing.X,floor.Y,landing.Z),width=entry.clearance.radius*2,height=entry.clearance.height,
-        kinds=kinds,authored=true,referenceHeight=centered and reference or 0}
+        kinds=kinds,authored=true,inward=flat(entry.breach.LookVector).Unit,referenceHeight=centered and reference or 0}
 end
 function N.entryPlan(owner,e,window)
     if not window or window.count>0 or window.activeEntry and window.activeEntry~=e.id then return nil end

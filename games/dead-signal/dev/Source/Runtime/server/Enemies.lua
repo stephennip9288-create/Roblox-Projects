@@ -53,6 +53,15 @@ function E:spawn(kind,window,position,mods,failedEntries,admission)
     enemy.packRole=mods.Alpha and "Alpha" or id%3==0 and "Flanker" or "Charger"
     if kind=="Stalker" then enemy.damage=math.min(T.stalker.damageCap,enemy.damage) end
     Rigs.evolve(enemy)
+    if admission and admission.recovery then
+        local state=admission.recovery
+        enemy.hp=state.hp;hum.Health=math.max(1,state.hp);model:SetAttribute("HP",state.hp)
+        enemy.armor=state.armor;enemy.reactor=state.reactor;enemy.phase=state.phase
+        enemy.hitRewards=state.hitRewards;enemy.recoveryAttempts=state.recoveryAttempts
+        for _,key in ipairs({"nextCharge","nextAmbush","nextFlank","precisionAt","overloadUntil","shock","damageWindow","windowDamage","attackDamage"}) do enemy[key]=state[key] end
+        if enemy.armor then for zone,value in pairs(enemy.armor) do if value<=0 then Rigs.breakArmor(enemy,zone) end end end
+        model:SetAttribute("BossPhase",enemy.phase)
+    end
     if not position then
         local queued=Navigation.queuePosition(self,enemy,window)
         if queued then
@@ -252,6 +261,21 @@ function E:unobserved(position,enemy,forward)
 end
 function E:recover(enemy,terminal)
     if enemy.dead then return false end
+    if not enemy.root.Parent or not enemy.model.Parent then
+        -- Engine fall cleanup or external model removal can destroy the root.
+        -- Retain that exact wave unit as an admission ticket, never an empty
+        -- live-list record or a fresh-health replacement inside the building.
+        self:stopTraversal(enemy,false);Navigation.invalidate(enemy)
+        local state={hp=enemy.hp,armor=enemy.armor and table.clone(enemy.armor),reactor=enemy.reactor,
+            phase=enemy.phase,hitRewards=enemy.hitRewards,recoveryAttempts=(enemy.recoveryAttempts or 0)+1}
+        for _,key in ipairs({"nextCharge","nextAmbush","nextFlank","precisionAt","overloadUntil","shock","damageWindow","windowDamage","attackDamage"}) do state[key]=enemy[key] end
+        local ticket={id=enemy.id,kind=enemy.kind,mods=table.clone(enemy.mods or {}),window=enemy.window,
+            failedEntries=enemy.failedEntries,stats={hp=enemy.maxHP,speed=enemy.baseSpeed,damage=enemy.damage},
+            runId=self.ctx.run.id,map=self.ctx.map,pending=true,recovery=state}
+        self.list[enemy.id]=nil;enemy.dead=true;enemy.model:Destroy()
+        self.pending=self.pending or {};self.pending[#self.pending+1]=ticket
+        return true
+    end
     if enemy.traversal and not terminal then enemy.traversal.retreat=true;enemy.traversal.recover=true;return false end
     local now=os.clock()
     if now<(enemy.recoveryAt or 0) then return false end

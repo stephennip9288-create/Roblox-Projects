@@ -276,7 +276,7 @@ function Detail.apply(map,def,layout,P,S,light)
             if chosen then break end
         end
         if chosen then
-            local face=chosen.face local cf=CFrame.fromMatrix(chosen.at,face.tangent,Vector3.yAxis,face.normal)
+            local face=chosen.face local cf=Layouts.wallFrame(chosen.at,face.normal)
             local paint=def.theme=="Station" and Color3.fromRGB(92,112,82) or def.theme=="Foundry" and Color3.fromRGB(118,91,59) or Color3.fromRGB(130,157,164)
             local function q(name,size,offset,col,mat,solid,rot)
                 local at=cf*CFrame.new(offset) local obj=P(name,size,at.Position,col or paint,mat or Enum.Material.Metal,solid==true,(at-at.Position)*(rot or CFrame.identity))

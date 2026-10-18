@@ -191,7 +191,7 @@ function M.build(id)
                         local d=at-(a+(b-a)*t)
                         if Vector3.new(d.X,0,d.Z).Magnitude<spec.depth/2+8 then clear=false end
                     end
-                    if clear then table.insert(candidates,{cf=CFrame.fromMatrix(at,face.tangent,Vector3.yAxis,face.normal),
+                    if clear then table.insert(candidates,{cf=Layouts.wallFrame(at,face.normal),
                         room=room,key=spec.key,width=spec.width,depth=spec.depth,
                         wall=(face.center+face.tangent*offset)*scale,approach=approach*scale}) end
                 end

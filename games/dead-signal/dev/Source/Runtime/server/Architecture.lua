@@ -16,6 +16,12 @@ function A.build(map,layout,P,S,light,def)
         end map.areas[#map.areas+1]=a return a
     end
     local function triangle(name,pa,pb,pc,y,parent)
+        -- Split perpendicular to the longest edge. For an obtuse triangle the
+        -- old arbitrary base put the foot outside it and both wedges spilled
+        -- beyond the polygon, including into the stair opening.
+        local ab,bc,ca=(pb-pa).Magnitude,(pc-pb).Magnitude,(pa-pc).Magnitude
+        if ab>=bc and ab>=ca then pa,pb,pc=pc,pa,pb
+        elseif ca>=bc then pa,pb,pc=pb,pc,pa end
         local edge=pc-pb local length=edge.Magnitude if length<.01 then return end
         local foot=pb+edge.Unit*(pa-pb):Dot(edge.Unit)
         local height=(pa-foot).Magnitude if height<.01 then return end
@@ -252,6 +258,13 @@ function A.build(map,layout,P,S,light,def)
                         landing=CFrame.lookAt(landing,landing-e.normal),clearance={radius=(gap*s-1)/2,height=9*s},
                         allowedKinds={"Shambler","Runner","Crawler","Hound","Stalker","Warden"},
                         inward=-e.normal,width=gap*s,height=9*s,sillHeight=1.8*s}
+                    -- Real support for the canonical foot-floor approach, not
+                    -- just a logical region or the lower exterior scenery floor.
+                    -- Remains outside the player BoundaryGuard footprint.
+                    local apron=q("EntryApproachFloor",Vector3.new(gap+2,1,15),mid+e.normal*7.5-UP*.5,
+                        concrete,def.theme=="Frost" and Enum.Material.Snow or Enum.Material.Concrete,true,Layouts.wallFrame(Vector3.zero,e.normal))
+                    apron:SetAttribute("EntryId",window.entry.id) apron:SetAttribute("NPCEntrySupport",true)
+                    map.floorParts[#map.floorParts+1]=apron window.approachFloor=apron
                     map.windows[#map.windows+1]=window
                 end
             end
@@ -317,12 +330,17 @@ function A.build(map,layout,P,S,light,def)
                 local direction=spec.direction local yaw=direction==1 and 0 or math.pi
                 local ramp=q("StairRamp",Vector3.new(width,rise,run),Vector3.new(spec.x,rise/2,spec.z-direction*run/2),concrete,Enum.Material.Concrete,true,CFrame.Angles(0,yaw,0),"WedgePart")
                 ramp.Transparency=1 map.floorParts[#map.floorParts+1]=ramp
+                -- A flush landing bridges the ramp/deck seam across its entire
+                -- width. The 1/32 overlap avoids a numeric knife-edge contact;
+                -- its maximum rise above the final slope is below .015 studs.
+                local landing=q("StairLanding",Vector3.new(width,.5,6+.0625),Vector3.new(spec.x,rise-.25,spec.z+direction*3),concrete,Enum.Material.Concrete,true)
+                map.floorParts[#map.floorParts+1]=landing
                 for n=1,22 do local height=n*rise/22 local z=spec.z-direction*(run-(n-.5)*run/22)
                     q("StairTread",Vector3.new(width,height,run/22+.03),Vector3.new(spec.x,height/2,z),concrete,Enum.Material.Concrete,false)
                     q("StairNosing",Vector3.new(width,.06,.12),Vector3.new(spec.x,height+.025,z-direction*run/44),Color3.fromRGB(186,174,131),Enum.Material.SmoothPlastic,false)
                 end
                 local stair={base=Vector3.new(spec.x,0,spec.z-direction*(run+3))*s,
-                    top=Vector3.new(spec.x,rise,spec.z+direction*3)*s,width=width*s,rise=rise*s,run=run*s}
+                    top=Vector3.new(spec.x,rise,spec.z+direction*3)*s,width=width*s,rise=rise*s,run=run*s,landing=landing}
                 map.rooms[i].stairs[index]=stair
                 if index==1 then
                     map.rooms[i].stairBase=stair.base map.rooms[i].stairTop=stair.top map.rooms[i].rise=stair.rise

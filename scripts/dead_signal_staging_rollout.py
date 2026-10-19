@@ -230,10 +230,15 @@ def run(operation, confirmation):
     # Every publish is staged-only. Rollback works even when candidate CI is broken.
     release_record = approved_release_source() if operation == "deploy" else None
     approved = preflight(current=True) if operation == "deploy" else current_baselines()
-    if isinstance(release_record, dict) and release_record.get("release") == "dead-signal-batch-1-1-private-staging-qa":
+    if isinstance(release_record, dict) and release_record.get("release") in (
+            "dead-signal-batch-1-1-private-staging-qa",
+            "dead-signal-batch-1-1-audio-audition-private-staging"):
         for place in ORDER:
             if approved[place]["candidate_sha256"] != release_record["staging_binary_sha256"][place]:
-                raise ValueError("Pinned four-fix staging QA native binary mismatch: " + place)
+                raise ValueError("Pinned private-staging QA binary SHA256 mismatch: " + place)
+            size = release_record.get("staging_binary_bytes", {}).get(place)
+            if size is not None and approved[place]["candidate_bytes"] != size:
+                raise ValueError("Pinned private-staging QA binary byte-count mismatch: " + place)
     write_backup_manifest(approved)
     print("STAGING preflight complete: 4 rollback baselines recorded; operation=" + operation, flush=True)
     uploaded = []

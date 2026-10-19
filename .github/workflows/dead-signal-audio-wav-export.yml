@@ -1,0 +1,83 @@
+name: Dead Signal Audio WAV Upload Package (No Publish)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/dead-signal-audio-wav-export.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dead-signal-audio-export
+  cancel-in-progress: false
+
+jobs:
+  export-reviewed-wav:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out immutable integrated audio source
+        uses: actions/checkout@v5
+        with:
+          ref: c466248b9f189ff04d05b45324bf414db605f96e
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install generation dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'numpy==2.1.3' 'scipy==1.14.1'
+          ffmpeg -version | head -n 1
+          python -c "import ctypes; ctypes.CDLL('libarchive.so.13')"
+      - name: Rebuild original 84 approved-for-review candidates (no Roblox requests)
+        run: |
+          set -euo pipefail
+          python games/dead-signal/dev/Reviews/audio-quality-b11/prepare_recordings.py --cache build/audio-reviewed-source-cache --output build/audio-reviewed --fetch
+      - name: Verify every WAV matches the immutable audition manifest exactly
+        run: |
+          python - <<'PY'
+          import hashlib, json, pathlib, shutil
+          root=pathlib.Path("games/dead-signal/dev/Reviews/audio-quality-b11")
+          output=pathlib.Path("build/audio-reviewed")
+          canonical=json.loads((root/"RECORDINGS.json").read_text())["recordings"]
+          generated=json.loads((output/"RECORDINGS.json").read_text())["recordings"]
+          assert len(canonical)==len(generated)==84, "Missing/extra recordings"
+          expected={row["name"]:row["wav_sha256"] for row in canonical}
+          actual={row["name"]:row["wav_sha256"] for row in generated}
+          assert expected==actual, "Generated WAVs do not match reviewed exact SHA256s: DO NOT UPLOAD"
+          files=list((output/"WAV").glob("*.wav"))
+          assert len(files)==84 and {p.stem for p in files}==set(expected), "Unexpected WAV filename inventory"
+          for item in files:
+              assert hashlib.sha256(item.read_bytes()).hexdigest()==expected[item.stem]
+          pkg=pathlib.Path("export/dead-signal-audio-upload")
+          (pkg/"WAV").mkdir(parents=True,exist_ok=True)
+          for f in files: shutil.copyfile(f,pkg/"WAV"/f.name)
+          for name in ("UPLOAD-MAP.template.json","SOURCES.json","RECORDINGS.json","LISTENING-CHECKLIST.md"):
+              shutil.copyfile(root/name,pkg/name)
+          shutil.copyfile(output/"LISTEN.html",pkg/"LISTEN.html")
+          shutil.copytree(root/"Auditions",pkg/"Auditions")
+          (pkg/"READ-FIRST.txt").write_text(
+              "Dead Signal - Personal Roblox Account Audio Upload Package\\n"
+              "84 verified 48 kHz mono PCM16 WAV files for creator review; NOT already approved/uploaded.\\n"
+              "1. Listen locally with LISTEN.html and Auditions/; use moderate volume.\\n"
+              "2. Begin with 3-5 approved samples, do not exceed the account's displayed audio upload quota.\\n"
+              "3. In Creator Dashboard/Studio select your personal account as Creator and import WAV files from WAV/.\\n"
+              "4. Wait for moderation; copy actual asset IDs and file names.\\n"
+              "5. Grant each imported audio to staging universe 10771141095 (not an individual place).\\n"
+              "6. Return file-name -> asset-ID list and permission proof for source mapping; no production grants.\\n"
+              "Remaining specialty audio still requires listening/design acceptance.\\n",
+              encoding="utf-8")
+          print("All 84 exact WAV hashes verified. Export prepared without uploading anything to Roblox.")
+          PY
+      - name: Retain private creator upload package for download
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-84-reviewed-WAV-upload-package
+          path: export/dead-signal-audio-upload/
+          retention-days: 30
+          if-no-files-found: error

@@ -141,8 +141,7 @@ def current_baselines():
 
 
 def approved_release_source():
-    record = json.loads((release_guard.RECORDS / "batch-1.json").read_text())
-    release_guard.verify_source(ROOT, record, os.getenv("RELEASE_SOURCE_SHA", ""))
+    return release_guard.verify_staging_deploy_source(ROOT, os.getenv("RELEASE_SOURCE_SHA", ""))
 
 
 def preflight(current=False):
@@ -229,9 +228,12 @@ def run(operation, confirmation):
     if not os.environ.get("ROBLOX_API_KEY"):
         raise ValueError("Missing staging-only Roblox API key")
     # Every publish is staged-only. Rollback works even when candidate CI is broken.
-    if operation == "deploy":
-        approved_release_source()
+    release_record = approved_release_source() if operation == "deploy" else None
     approved = preflight(current=True) if operation == "deploy" else current_baselines()
+    if isinstance(release_record, dict) and release_record.get("release") == "dead-signal-batch-1-1-private-staging-qa":
+        for place in ORDER:
+            if approved[place]["candidate_sha256"] != release_record["staging_binary_sha256"][place]:
+                raise ValueError("Pinned four-fix staging QA native binary mismatch: " + place)
     write_backup_manifest(approved)
     print("STAGING preflight complete: 4 rollback baselines recorded; operation=" + operation, flush=True)
     uploaded = []

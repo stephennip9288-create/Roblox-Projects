@@ -253,4 +253,25 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("enforce complete Batch 1", text)
 
 
+
+class Batch11StagingQATests(unittest.TestCase):
+    def test_four_fix_scope_and_negative_gates(self):
+        record = json.loads((guard.RECORDS / "batch-1-1-staging-qa.json").read_text())
+        guard.staging_qa_completion(record, record["source_sha"])
+        self.assertFalse(record["production_authorization"])
+        self.assertFalse(record["scope_complete"])
+        self.assertFalse(record["bugs_verified"])
+        self.assertEqual(set(record["approved_retest_bugs"]), {"DS-B1-002", "DS-B1-003", "DS-B1-004", "DS-B1-005"})
+        for mutation in ("wrong_sha", "production", "pretend_complete", "deferred", "universe", "binary", "unapproved"):
+            bad = copy.deepcopy(record)
+            if mutation == "wrong_sha": bad["source_sha"] = "a" * 40
+            elif mutation == "production": bad["production_authorization"] = True
+            elif mutation == "pretend_complete": bad["scope_complete"] = True
+            elif mutation == "deferred": bad["deferred_bugs"]["DS-B1-001"] = "Verified"
+            elif mutation == "universe": bad["staging_universe_id"] = "10770732078"
+            elif mutation == "binary": bad["staging_binary_sha256"].pop("whiteout")
+            else: bad["owner_staging_authorization"] = False
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                guard.staging_qa_completion(bad, record["source_sha"])
+
 if __name__ == "__main__": unittest.main()

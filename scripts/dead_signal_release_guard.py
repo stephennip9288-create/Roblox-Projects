@@ -73,6 +73,57 @@ def completion(record, source_sha):
     return record
 
 
+
+def staging_qa_completion(record, source_sha):
+    """Independently scoped four-fix staging QA exception; NEVER full release."""
+    retest = {"DS-B1-002", "DS-B1-003", "DS-B1-004", "DS-B1-005"}
+    deferred = {"DS-B1-001", "DS-B1-006"}
+    if (not full_sha(source_sha) or record.get("schema") != 1
+            or record.get("release") != "dead-signal-batch-1-1-private-staging-qa"
+            or record.get("source_sha") != source_sha
+            or record.get("owner_staging_authorization") is not True
+            or record.get("approval_scope") != "PRIVATE_STAGING_QA_ONLY"
+            or record.get("ready_for_staging_qa") is not True
+            or record.get("scope_complete") is not False
+            or record.get("production_authorization") is not False
+            or record.get("bugs_verified") is not False
+            or record.get("staging_universe_id") != IDS["staging"]):
+        raise ValueError("Unapproved or incorrectly scoped Batch 1.1 private staging QA")
+    if (record.get("approved_retest_bugs") != dict.fromkeys(sorted(retest), "Ready for Retest")
+            or record.get("deferred_bugs") != dict.fromkeys(sorted(deferred), "In Progress")):
+        raise ValueError("Four-fix scope or unfinished statuses were changed")
+    heads = record.get("integrated_heads", {})
+    if (set(heads) != {"maps", "enemies", "adapter", "audio"}
+            or len(set(heads.values())) != 4 or not all(full_sha(v) for v in heads.values())):
+        raise ValueError("Reviewed specialist ancestry is incomplete")
+    hashes = record.get("staging_binary_sha256", {})
+    if (set(hashes) != set(ROLES)
+            or not all(isinstance(v, str) and re.fullmatch(r"[0-9a-f]{64}", v) for v in hashes.values())
+            or record.get("source_ci_checks_passed") != 10):
+        raise ValueError("Exact four-place reviewed binary hashes/checks are required")
+    rollback = recovery_record("staging")
+    if (record.get("rollback_source_sha") != rollback["source_sha"]
+            or record.get("rollback_deployment_run") != rollback["deployment"]["run_id"]):
+        raise ValueError("QA rollback is not the currently recorded staging release")
+    return record
+
+
+def verify_staging_deploy_source(candidate, source_sha, records=RECORDS):
+    """Select an exact main-trusted completed Batch 1 or separately approved staging-only QA source."""
+    original = json.loads((Path(records) / "batch-1.json").read_text())
+    if source_sha == original.get("source_sha"):
+        verify_source(candidate, original, source_sha)
+        return original
+    qa = json.loads((Path(records) / "batch-1-1-staging-qa.json").read_text())
+    staging_qa_completion(qa, source_sha)
+    verify_checkout(candidate, source_sha)
+    for name, ancestor in {**qa["integrated_heads"], "baseline": qa["rollback_source_sha"]}.items():
+        result = subprocess.run(["git", "-C", str(candidate), "merge-base", "--is-ancestor", ancestor, source_sha], capture_output=True)
+        if result.returncode:
+            raise ValueError("QA source omits reviewed ancestor: " + name)
+    return qa
+
+
 def verify_checkout(candidate, source_sha):
     """Verify every runtime byte again after candidate tests."""
     candidate = Path(candidate).resolve()
@@ -113,10 +164,9 @@ def install_controls(control, candidate, operation, source_sha, environment="sta
         raise ValueError("Use separate trusted-control and candidate checkouts")
     if operation not in ("deploy", "rollback") or environment not in IDS:
         raise ValueError("Unsupported staging operation")
-    record = json.loads((control / "games/dead-signal/releases/batch-1.json").read_text())
     if operation == "deploy":
         if environment == "staging":
-            verify_source(candidate, record, source_sha)
+            verify_staging_deploy_source(candidate, source_sha, control / "games/dead-signal/releases")
         else:
             verify_checkout(candidate, source_sha)
     elif source_sha:

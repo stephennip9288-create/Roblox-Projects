@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-1-1-private-staging-qa",
+  "source_sha": "c466248b9f189ff04d05b45324bf414db605f96e",
+  "owner_staging_authorization": true,
+  "approval_scope": "PRIVATE_STAGING_QA_ONLY",
+  "staging_universe_id": "10771141095",
+  "production_authorization": false,
+  "scope_complete": false,
+  "ready_for_staging_qa": true,
+  "bugs_verified": false,
+  "approved_retest_bugs": {
+    "DS-B1-002": "Ready for Retest",
+    "DS-B1-003": "Ready for Retest",
+    "DS-B1-004": "Ready for Retest",
+    "DS-B1-005": "Ready for Retest"
+  },
+  "deferred_bugs": {
+    "DS-B1-001": "In Progress",
+    "DS-B1-006": "In Progress"
+  },
+  "rollback_source_sha": "9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7",
+  "rollback_deployment_run": 39056526660,
+  "integrated_heads": {
+    "maps": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+    "enemies": "aee7d5e38d42d862b3ebb66feaf63678be77d17d",
+    "adapter": "848ccc9259b7e0059b9238280bdb70f4912afdf0",
+    "audio": "fd802c72f0401e00af022fd7df27dbd119c56005"
+  },
+  "staging_binary_sha256": {
+    "dispatch": "d9949b061ed7781aedb23f09e0e1770538526bbcac7e8b5c3bf15427a0434775",
+    "blackwater": "ccec7486d2180add45ede06a05f5490c4c5bc2b2676cbb5db7fc7a5e678fd435",
+    "cinderworks": "8eb56106aadd551f91bc4fe22ae73ccade40571388590cdc846cec6ba5aa645e",
+    "whiteout": "2f4e1b9046bf72c5fb6ed49c62c3cffa922154df87f14492ba198fb691c38c43"
+  },
+  "source_ci_checks_passed": 10,
+  "scope_note": "Owner approved four-fix private staging QA on 2026-10-18. Candidate also contains partial audio/visual source improvements, but Roblox sound IDs are inactive and authored undead art remains missing. Bugs 001/006 remain incomplete; production unauthorized."
+}

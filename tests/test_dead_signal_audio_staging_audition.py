@@ -39,7 +39,7 @@ class AudioStagingAuditionTests(unittest.TestCase):
     def test_84_records_58_slots_and_immutable_creator_ids(self):
         banks=expected_banks()
         self.assertEqual(len(banks), 52) # Anchored to canonical review manifest
-        self.assertEqual(sum(len(b[k][side]) for k in b for side in ("variants","near","far")), 108)
+        self.assertEqual(sum(len(banks[k][side]) for k in banks for side in ("variants","near","far")), 108)
         self.assertEqual(len(set(id for bank in banks.values() for side in ("variants","near","far") for id in bank[side])),84)
 
     def test_exact_banks_inside_staging_only_guard(self):

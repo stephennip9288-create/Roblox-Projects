@@ -108,20 +108,74 @@ def staging_qa_completion(record, source_sha):
     return record
 
 
+
+def staging_audio_qa_completion(record, source_sha):
+    """Owner-authorized *private-staging-only* test of 84 unapproved sound assets."""
+    if (not full_sha(source_sha) or record.get("schema") != 1
+            or record.get("release") != "dead-signal-batch-1-1-audio-audition-private-staging"
+            or record.get("source_sha") != source_sha
+            or record.get("owner_staging_authorization") is not True
+            or record.get("approval_scope") != "AUDIO_ASSET_AUDITION_PRIVATE_STAGING_ONLY"
+            or record.get("ready_for_staging_qa") is not True
+            or record.get("scope_complete") is not False
+            or record.get("production_authorization") is not False
+            or record.get("bugs_verified") is not False
+            or record.get("staging_universe_id") != IDS["staging"]
+            or record.get("audition_asset_count") != 84
+            or record.get("staging_assets_reported_shared") is not True
+            or record.get("moderation_approval_unverified") is not True
+            or record.get("listening_acceptance_unverified") is not True
+            or record.get("validated_workflow_families") != 5):
+        raise ValueError("Audio preview is not an exact owner-approved private staging QA admission")
+    expected = {"DS-B1-001":"In Progress", "DS-B1-002":"Ready for Retest",
+                "DS-B1-003":"Ready for Retest", "DS-B1-004":"Ready for Retest",
+                "DS-B1-005":"Ready for Retest", "DS-B1-006":"In Progress"}
+    if record.get("bug_status") != expected:
+        raise ValueError("Audio QA cannot assert bug completion/verification")
+    heads = record.get("integrated_heads", {})
+    if (set(heads) != {"maps","enemies","adapter","audio"} or len(set(heads.values())) != 4
+            or not all(full_sha(s) for s in heads.values())):
+        raise ValueError("Four distinct specialist ancestry pins are required")
+    hashes = record.get("staging_binary_sha256", {})
+    sizes = record.get("staging_binary_bytes", {})
+    if (set(hashes) != set(ROLES) or set(sizes) != set(ROLES)
+            or not all(isinstance(value,str) and re.fullmatch(r"[0-9a-f]{64}",value) for value in hashes.values())
+            or not all(type(sizes[p]) is int and sizes[p]>100000 for p in ROLES)):
+        raise ValueError("Exact four-staging-place native binaries required")
+    audit = record.get("reviewed_artifact", {})
+    if (audit.get("source_sha") != source_sha or type(audit.get("run_id")) is not int
+            or type(audit.get("artifact_id")) is not int
+            or not isinstance(audit.get("archive_sha256"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}",audit["archive_sha256"])):
+        raise ValueError("Reviewed four-place source artifact provenance is absent")
+    rollback = recovery_record("staging")
+    if (record.get("rollback_source_sha") != rollback["source_sha"]
+            or record.get("rollback_deployment_run") != rollback["deployment"]["run_id"]):
+        raise ValueError("Current staging rollback provenance drifted")
+    return record
+
+
 def verify_staging_deploy_source(candidate, source_sha, records=RECORDS):
     """Select an exact main-trusted completed Batch 1 or separately approved staging-only QA source."""
     original = json.loads((Path(records) / "batch-1.json").read_text())
     if source_sha == original.get("source_sha"):
         verify_source(candidate, original, source_sha)
         return original
-    qa = json.loads((Path(records) / "batch-1-1-staging-qa.json").read_text())
-    staging_qa_completion(qa, source_sha)
+    audio_path = Path(records) / "batch-1-1-audio-audition-qa.json"
+    audio = json.loads(audio_path.read_text())
+    if source_sha == audio.get("source_sha"):
+        staging_audio_qa_completion(audio, source_sha)
+        selected = audio
+    else:
+        qa = json.loads((Path(records) / "batch-1-1-staging-qa.json").read_text())
+        staging_qa_completion(qa, source_sha)
+        selected = qa
     verify_checkout(candidate, source_sha)
-    for name, ancestor in {**qa["integrated_heads"], "baseline": qa["rollback_source_sha"]}.items():
+    for name, ancestor in {**selected["integrated_heads"], "baseline": selected["rollback_source_sha"]}.items():
         result = subprocess.run(["git", "-C", str(candidate), "merge-base", "--is-ancestor", ancestor, source_sha], capture_output=True)
         if result.returncode:
             raise ValueError("QA source omits reviewed ancestor: " + name)
-    return qa
+    return selected
 
 
 def verify_checkout(candidate, source_sha):

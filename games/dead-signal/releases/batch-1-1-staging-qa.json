@@ -19,8 +19,8 @@
     "DS-B1-001": "In Progress",
     "DS-B1-006": "In Progress"
   },
-  "rollback_source_sha": "9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7",
-  "rollback_deployment_run": 39056526660,
+  "rollback_source_sha": "c466248b9f189ff04d05b45324bf414db605f96e",
+  "rollback_deployment_run": 39187149546,
   "integrated_heads": {
     "maps": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
     "enemies": "aee7d5e38d42d862b3ebb66feaf63678be77d17d",
@@ -34,5 +34,5 @@
     "whiteout": "2f4e1b9046bf72c5fb6ed49c62c3cffa922154df87f14492ba198fb691c38c43"
   },
   "source_ci_checks_passed": 10,
-  "scope_note": "Owner approved four-fix private staging QA on 2026-10-18. Candidate also contains partial audio/visual source improvements, but Roblox sound IDs are inactive and authored undead art remains missing. Bugs 001/006 remain incomplete; production unauthorized."
+  "scope_note": "Owner approved four-fix private staging QA on 2026-10-18. Candidate also contains partial audio/visual source improvements, but Roblox sound IDs are inactive and authored undead art remains missing. Bugs 001/006 remain incomplete; production unauthorized. The current verified rollback is the owner-published four-fix staging run #39187149546; this record's earlier historical rollback pointer is updated to match that actual current deployment."
 }

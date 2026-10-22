@@ -1,0 +1,93 @@
+{
+  "source_sha": "a4351f50198f073ad3a5cfd89160a5a27b9484ca",
+  "environments": {
+    "staging": {
+      "dispatch": {
+        "sha256": "f3ff58b88058256f2b2f5a766c6d879538d313b8a7137306f0d0421da5af64db",
+        "bytes": 2760375,
+        "source_instances": 61,
+        "all_61_sources_match": true,
+        "independently_reproduced_byte_for_byte": true,
+        "binary_fidelity": true,
+        "untouched_chunks": 1513,
+        "publish_approved": false
+      },
+      "blackwater": {
+        "sha256": "609ae7a7c0b2e51f52237d550f7b160e9170adad2f432796888262267a29d87a",
+        "bytes": 2731455,
+        "source_instances": 61,
+        "all_61_sources_match": true,
+        "independently_reproduced_byte_for_byte": true,
+        "binary_fidelity": true,
+        "untouched_chunks": 1496,
+        "publish_approved": false
+      },
+      "cinderworks": {
+        "sha256": "0f3e93a8f9321982ac08cfd2323c5110cc21d93e3d5c0dcaf871528b9807200a",
+        "bytes": 2739300,
+        "source_instances": 61,
+        "all_61_sources_match": true,
+        "independently_reproduced_byte_for_byte": true,
+        "binary_fidelity": true,
+        "untouched_chunks": 1500,
+        "publish_approved": false
+      },
+      "whiteout": {
+        "sha256": "16eb401bcb3ea59c09135f19ba4abb955fa49a4b1f3cd6db0fabd9684148e368",
+        "bytes": 2740759,
+        "source_instances": 61,
+        "all_61_sources_match": true,
+        "independently_reproduced_byte_for_byte": true,
+        "binary_fidelity": true,
+        "untouched_chunks": 1500,
+        "publish_approved": false
+      }
+    },
+    "production": {
+      "dispatch": {
+        "sha256": "2a2d16b42441ada58856c0319b065decd7c235c1675a258770a45605f3edd34d",
+        "bytes": 2760381,
+        "source_instances": 61,
+        "all_61_sources_match": true,
+        "independently_reproduced_byte_for_byte": true,
+        "binary_fidelity": true,
+        "untouched_chunks": 1513,
+        "publish_approved": false
+      },
+      "blackwater": {
+        "sha256": "b81efcd794dd4215cbbc81a9867609c07d812fb9021fa64c7e90d39036be1637",
+        "bytes": 2731459,
+        "source_instances": 61,
+        "all_61_sources_match": true,
+        "independently_reproduced_byte_for_byte": true,
+        "binary_fidelity": true,
+        "untouched_chunks": 1496,
+        "publish_approved": false
+      },
+      "cinderworks": {
+        "sha256": "a9e3dd3400874c1b69e265c6b31145ba6685bd3bab7c20907dcfe97bcb0ec570",
+        "bytes": 2739304,
+        "source_instances": 61,
+        "all_61_sources_match": true,
+        "independently_reproduced_byte_for_byte": true,
+        "binary_fidelity": true,
+        "untouched_chunks": 1500,
+        "publish_approved": false
+      },
+      "whiteout": {
+        "sha256": "fe8de39c44902243329f25c104782c89b2c9b0f3866a259dbe0edb3f17b07a3b",
+        "bytes": 2740763,
+        "source_instances": 61,
+        "all_61_sources_match": true,
+        "independently_reproduced_byte_for_byte": true,
+        "binary_fidelity": true,
+        "untouched_chunks": 1500,
+        "publish_approved": false
+      }
+    }
+  },
+  "protected_blobs_unchanged": 147,
+  "original_84_config_ids_unchanged": true,
+  "specialist_runtime_blobs_exact": true,
+  "published": false
+}

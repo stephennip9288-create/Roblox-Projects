@@ -1,6 +1,46 @@
 -- Negative Z is forward for every species. Shared by client motion and death-pose capture.
 local P={}
-function P.transforms(kind,phase,speed,attack,seed)
+function P.r6Transforms(kind,phase,speed,attack,seed)
+    local out={};local move=math.clamp(speed/5,0,1);local s=math.sin(phase)*move;local c=math.cos(phase)*move
+    local asym=math.sin((seed or 0)*1.37);local crawl=kind=="Crawler"
+    out.RootJoint=CFrame.new(0,crawl and .045 or .085+math.abs(c)*.025,0)*CFrame.Angles(crawl and 0 or -.10-attack*.11,0,c*.012+asym*.018)
+    out.Neck=CFrame.Angles(crawl and -.04 or -.09-attack*.08,math.sin(phase*.23)*.04,asym*.045)
+    for _,side in ipairs({-1,1}) do
+        local name=side==1 and "Right" or "Left";local step=s*side
+        if crawl then
+            out[name.." Shoulder"]=CFrame.Angles(0,step*.12,side*.025)
+            out[name.." Hip"]=CFrame.Angles(0,-step*.07,0)
+        else
+            local drag=kind=="Shambler" or kind=="Warden"
+            out[name.." Shoulder"]=CFrame.Angles(.18+side*asym*.08-step*(drag and .10 or .27)+attack*1.20,side*.025,side*.055)
+            out[name.." Hip"]=CFrame.Angles(step*(drag and .25 or .40)*(side==1 and .88 or 1),0,side*.012)
+        end
+    end
+    return out
+end
+function P.r6Traversal(kind,style,stage,phase)
+    if stage=="Approach" or stage=="Waiting" or stage=="Pursuit" or stage=="Settle" or style=="Walk" then return {} end
+    local out={};local wave=math.sin(math.clamp(phase,0,1)*math.pi);local cross=stage=="Cross";local contact=stage=="Contact"
+    if kind=="Crawler" then
+        out.RootJoint=CFrame.new(0,.055+wave*.02,-wave*.06);out.Neck=CFrame.Angles(-.06,0,0)
+        for _,side in ipairs({-1,1}) do local name=side==1 and "Right" or "Left"
+            out[name.." Shoulder"]=CFrame.Angles(0,side*(.04+wave*.10),side*.025)
+            out[name.." Hip"]=CFrame.Angles(0,-side*wave*.05,0)
+        end
+    else
+        local pitch=cross and -.30 or contact and -.15 or -.08*(1-phase)
+        out.RootJoint=CFrame.new(0,.085,0)*CFrame.Angles(pitch,0,0);out.Neck=CFrame.Angles(-.10,0,0)
+        for _,side in ipairs({-1,1}) do local name=side==1 and "Right" or "Left"
+            local reach=1.95+side*.06
+            out[name.." Shoulder"]=CFrame.Angles(contact and .22+(reach-.22)*phase
+                or cross and reach+wave*.10-.24*phase or (reach-.24)*(1-phase)+.22*phase,0,side*.065)
+            out[name.." Hip"]=CFrame.Angles(cross and wave*(side==1 and .85 or .55) or -.04*(1-phase),0,0)
+        end
+    end
+    return out
+end
+function P.transforms(kind,phase,speed,attack,seed,r6)
+    if r6 then return P.r6Transforms(kind,phase,speed,attack,seed) end
     local out={} local move=math.clamp(speed/5,0,1) local s=math.sin(phase)*move local c=math.cos(phase)*move
     local hound=kind=="Hound" local crawler=kind=="Crawler"
     local asym=math.sin((seed or 0)*1.37)
@@ -48,7 +88,8 @@ function P.transforms(kind,phase,speed,attack,seed)
     end
     return out
 end
-function P.traversal(kind,style,stage,phase)
+function P.traversal(kind,style,stage,phase,r6)
+    if r6 then return P.r6Traversal(kind,style,stage,phase) end
     local out={} local wave=math.sin(math.clamp(phase,0,1)*math.pi)
     if stage=="Approach" or stage=="Waiting" or stage=="Pursuit" or stage=="Settle" then return out end
     local cross=stage=="Cross" local contact=stage=="Contact" local landing=stage=="Land" or stage=="Settle"
@@ -111,11 +152,12 @@ function P.sample(model,root,time)
     local attack=age<0 and 0 or age<windup and (age/windup)^2*.55 or age<windup+.10 and .55+(age-windup)/.10*.45
         or math.max(0,1-(age-windup-.10)/.28)
     if traversal then attack=0 end
-    local out=P.transforms(kind,phase,speed,attack*(model:GetAttribute("Enraged") and 1.25 or 1),seed)
+    local r6=model:GetAttribute("PresentationRig")=="R6"
+    local out=P.transforms(kind,phase,speed,attack*(model:GetAttribute("Enraged") and 1.25 or 1),seed,r6)
     if traversal then
         local u=model:GetAttribute("TraversalHeld") and (model:GetAttribute("TraversalHoldPhase") or 0)
             or math.clamp((time-(model:GetAttribute("TraversalStageAt") or time))*(model:GetAttribute("TraversalDirection") or 1)/math.max(.01,model:GetAttribute("TraversalStageDuration") or 1),0,1)
-        for key,pose in pairs(P.traversal(kind,model:GetAttribute("TraversalStyle"),stage,u)) do out[key]=pose end
+        for key,pose in pairs(P.traversal(kind,model:GetAttribute("TraversalStyle"),stage,u,r6)) do out[key]=pose end
     end
     if kind=="Stalker" and not traversal then out.RootJoint=out.RootJoint*CFrame.Angles(.2,0,0);out.Neck=CFrame.Angles(-.18,0,math.sin(time*2)*.06) end
     if charging then out.RootJoint=out.RootJoint*CFrame.Angles(-.08,0,0) end
@@ -128,7 +170,7 @@ function P.sample(model,root,time)
         if model:GetAttribute("HitHead") then out.Neck=out.Neck*CFrame.Angles(-direction.Z*.24*strength,direction.X*.20*strength,0) end
     end
     if not traversal and time<(model:GetAttribute("StunnedUntil") or 0) then
-        out.RootJoint=CFrame.Angles(.18,0,.08);out.Neck=CFrame.Angles(-.2,0,0)
+        out.RootJoint=CFrame.new(0,r6 and .10 or 0,0)*CFrame.Angles(.18,0,.08);out.Neck=CFrame.Angles(-.2,0,0)
     end
     return out
 end
@@ -147,6 +189,12 @@ function P.frames(model,poses)
             progress=true
         end end
         if not progress then break end
+    end
+    if model:GetAttribute("PresentationRig")=="R6" then
+        for _,p in ipairs(model:GetDescendants()) do if p:IsA("BasePart") and p:GetAttribute("R6HitProxy") then
+            local weld=p:FindFirstChildOfClass("WeldConstraint")
+            if weld and frames[weld.Part0] then frames[p]=frames[weld.Part0]*weld.Part0.CFrame:ToObjectSpace(p.CFrame) end
+        end end
     end
     return frames
 end

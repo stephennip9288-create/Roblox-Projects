@@ -24,7 +24,8 @@ for _,map in ipairs({'Station','Foundry','Frost'}) do
  for _,name in ipairs(Wardrobe.types) do check(families[name],map..' '..name..' exists') end
  check(stages[1] and stages[2] and stages[3],'three deterministic wear/infection stages')
  for _,kind in ipairs({'Shambler','Runner','Crawler','Hound','Stalker','Warden'}) do
-  local before=A.build(parent,kind,V.zero,5);local model,root,hum=h.Rigs.build(parent,kind,V.zero,5,map)
+  local before=kind=='Hound' and A.build(parent,kind,V.zero,5) or h.Rigs.base(parent,kind,V.zero,5)
+  local model,root,hum=h.Rigs.build(parent,kind,V.zero,5,map)
   local baseline=hitboxes(before);local current=hitboxes(model);local total=0
   for name,p in pairs(baseline) do
    total+=1;check(current[name] and current[name].size==p.size and current[name].cf==p.cf and current[name].zone==p.zone and current[name].query==p.query,kind..' authoritative volume retained '..name)

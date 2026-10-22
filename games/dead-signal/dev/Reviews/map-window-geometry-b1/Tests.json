@@ -1,0 +1,224 @@
+{
+  "engine": false,
+  "registeredSuites": [
+    {
+      "suite": "loading",
+      "passed": true,
+      "assertions": 63,
+      "seconds": 0.207
+    },
+    {
+      "suite": "loadingpreview",
+      "passed": true,
+      "assertions": 36,
+      "seconds": 0.233
+    },
+    {
+      "suite": "evolution",
+      "passed": true,
+      "assertions": 3389,
+      "seconds": 4.606
+    },
+    {
+      "suite": "events",
+      "passed": true,
+      "assertions": 18,
+      "seconds": 0.253
+    },
+    {
+      "suite": "presentation",
+      "passed": true,
+      "assertions": 55,
+      "seconds": 0.303
+    },
+    {
+      "suite": "director",
+      "passed": true,
+      "assertions": 431,
+      "seconds": 0.034
+    },
+    {
+      "suite": "server",
+      "passed": true,
+      "assertions": 35,
+      "seconds": 0.246
+    },
+    {
+      "suite": "navigation",
+      "passed": true,
+      "assertions": 13,
+      "seconds": 0.256
+    },
+    {
+      "suite": "pursuit",
+      "passed": true,
+      "assertions": 90,
+      "seconds": 1.156
+    },
+    {
+      "suite": "rigs",
+      "passed": true,
+      "assertions": 318,
+      "seconds": 0.29
+    },
+    {
+      "suite": "weapons",
+      "passed": true,
+      "assertions": 7929,
+      "seconds": 0.49
+    },
+    {
+      "suite": "arrival",
+      "passed": true,
+      "assertions": 28,
+      "seconds": 0.178
+    },
+    {
+      "suite": "extraction",
+      "passed": true,
+      "assertions": 20,
+      "seconds": 0.021
+    },
+    {
+      "suite": "map_remaster",
+      "passed": true,
+      "assertions": 259384,
+      "seconds": 16.901
+    },
+    {
+      "suite": "map_batch11",
+      "passed": true,
+      "assertions": null,
+      "seconds": 36.779
+    },
+    {
+      "suite": "enemy-lifecycle",
+      "passed": true,
+      "assertions": 77,
+      "seconds": 0.218
+    },
+    {
+      "suite": "enemy-path-recovery",
+      "passed": true,
+      "assertions": 48,
+      "seconds": 0.201
+    },
+    {
+      "suite": "combat-ui",
+      "passed": true,
+      "assertions": 638775,
+      "seconds": 19.589
+    },
+    {
+      "suite": "combat-input",
+      "passed": true,
+      "assertions": 44,
+      "seconds": 0.426
+    },
+    {
+      "suite": "touch",
+      "passed": true,
+      "assertions": 512,
+      "seconds": 0.035
+    },
+    {
+      "suite": "integration-contracts",
+      "passed": true,
+      "assertions": 501,
+      "seconds": 4.923
+    },
+    {
+      "suite": "weapons-batch1",
+      "passed": true,
+      "assertions": 64271,
+      "seconds": 27.576
+    },
+    {
+      "suite": "infected-batch1",
+      "passed": true,
+      "assertions": 3352,
+      "seconds": 3.237
+    },
+    {
+      "suite": "infected-entrances",
+      "passed": true,
+      "assertions": 71,
+      "seconds": 1.544
+    },
+    {
+      "suite": "infected-geometry",
+      "passed": true,
+      "assertions": 25717,
+      "seconds": 38.701
+    },
+    {
+      "suite": "enemy-b11-runtime",
+      "passed": true,
+      "assertions": 1011,
+      "seconds": 15.33
+    },
+    {
+      "suite": "enemy-b11-appearance",
+      "passed": true,
+      "assertions": 11349,
+      "seconds": 1.909
+    },
+    {
+      "suite": "enemy-b11-admission",
+      "passed": true,
+      "assertions": 29,
+      "seconds": 1.656
+    },
+    {
+      "suite": "enemy-b11-spatial",
+      "passed": true,
+      "assertions": 3441,
+      "seconds": 14.524
+    },
+    {
+      "suite": "enemy-b11-geometry",
+      "passed": true,
+      "assertions": 210,
+      "seconds": 34.186
+    },
+    {
+      "suite": "audio",
+      "passed": true,
+      "assertions": 4433,
+      "seconds": 0.538
+    },
+    {
+      "suite": "audio-quality-b11",
+      "passed": true,
+      "assertions": 797,
+      "seconds": 0.219
+    },
+    {
+      "suite": "batch1-integration",
+      "passed": true,
+      "assertions": 54,
+      "seconds": 3.88
+    }
+  ],
+  "registeredAssertions": 1026501,
+  "newSuiteAssertions": 7516,
+  "combinedAssertions": 1034017,
+  "syntax": {
+    "errors": {},
+    "files": 111,
+    "runtime": 61
+  },
+  "pipelinePython": {
+    "passed": 81
+  },
+  "audioPatchGuards": {
+    "passed": 6
+  },
+  "supplementalAudioPython": {
+    "passed": 7,
+    "failed": 1,
+    "skipped": 1,
+    "failure": "Historical REVIEWED-RUNTIME lock predates Config #49 and this Architecture change; MAIN intake action.",
+    "skip": "Prepared PCM inputs not present; no new audio work is in scope."
+  }
+}

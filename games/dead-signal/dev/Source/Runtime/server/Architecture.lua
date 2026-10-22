@@ -265,6 +265,17 @@ function A.build(map,layout,P,S,light,def)
                         concrete,def.theme=="Frost" and Enum.Material.Snow or Enum.Material.Concrete,true,Layouts.wallFrame(Vector3.zero,e.normal))
                     apron:SetAttribute("EntryId",window.entry.id) apron:SetAttribute("NPCEntrySupport",true)
                     map.floorParts[#map.floorParts+1]=apron window.approachFloor=apron
+                    -- Crucible Lab's south entry sits on the paired room-floor
+                    -- wedge seam. Keep actual support continuous from the sill
+                    -- through the landing, rather than relying on an AI offset.
+                    -- Flush with the existing floor; 1/32 overlap at the apron.
+                    if window.entry.id=="Foundry_entry_10" then
+                        local floor=q("EntryLandingFloor",Vector3.new(gap,1,14+.0625),mid-e.normal*7-UP*.5,
+                            U.color(def.floor),Enum.Material.Concrete,true,Layouts.wallFrame(Vector3.zero,e.normal))
+                        floor.Transparency=1 floor.CastShadow=false -- preserve the existing visible floor, without coplanar flicker
+                        floor:SetAttribute("EntryId",window.entry.id) floor:SetAttribute("NPCEntrySupport",true)
+                        map.floorParts[#map.floorParts+1]=floor
+                    end
                     map.windows[#map.windows+1]=window
                 end
             end

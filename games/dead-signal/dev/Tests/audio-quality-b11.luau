@@ -102,7 +102,7 @@ local V=r.Vector3
 do
     local e=setup();local fx=e.fx;e.config.SoundIds.Howl='9001'
     local first=fx:sound('Howl',V.new(12,0,0),{source='hound'})
-    check(first and first.sound.SoundId=='rbxasset://sounds/uuhhh.mp3','cold warning retains functional fallback')
+    check(first and first.sound.SoundId=='rbxasset://sounds/action_get_up.mp3','cold warning retains functional fallback')
     check(not fx.audio.failed['rbxassetid://9001'],'cold cache is not denied permission')
     check(fx:audioDiagnostics().pending==1 and e.plays==1,'one silent warm request, no queued game cue')
     e:complete(9001,true);check(e.plays==1,'late load cannot replay the old warning')
@@ -257,7 +257,7 @@ for _,low in ipairs({false,true}) do
     fx:audioDestroy();check(e:live('Sound')==0 and e:live('Part')==0 and e:connections()==0,'thirty travel/respawn sessions leave no voices/cache/anchors/connections')
 end
 for _,low in ipairs({false,true}) do
-    local e=setup(low);local fx=e.fx
+    local e=setup(low);local fx=e.fx;e:approve('Hound.Attack',19501)
     for i=1,(low and 2 or 4) do check(fx:sound('Enemy',V.new(i,0,0),{sourceId=i}),'fill routine infected cap') end
     local attack=fx:sound('Zombie.Attack',V.new(3,0,0),{sourceId='attacking'})
     check(attack and attack.priority==3,'actual attack replaces lower-priority groan within same category cap')

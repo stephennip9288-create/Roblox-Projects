@@ -4,7 +4,8 @@
 local fs=require('@lune/fs');local r=require('@lune/roblox');local serde=require('@lune/serde')
 local process=require('@lune/process');local loader=require('./Support/RuntimeLoader')
 local Geometry=require('./Support/EnemyB11Geometry');local V=r.Vector3
-local before=process.args[1]=='before';local phase=before and 'Before' or 'After'
+local before=process.args[1]=='before';local overlay=process.args[1]=='overlay'
+local phase=before and 'Before' or overlay and 'Overlay' or 'After'
 local out={engine=false,logicalFloorFill=false,phase=phase,maps={},failures={},assertions=0}
 local function check(ok,message)
  out.assertions+=1;if not ok then out.failures[#out.failures+1]=message end
@@ -19,12 +20,24 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
   assert(process.args[2],'Provide exact pre-patch Architecture.lua for negative capture')
   folders.server.Architecture.Source=fs.readFile(process.args[2])
  end
+ if overlay then
+  assert(process.args[2],'Provide frozen enemy-source directory for isolated consumer validation')
+  for _,spec in ipairs({{'server','Enemies'},{'server','Navigation'},{'server','EnemyRigs'},{'server','HoundRig'},
+   {'server','InfectedWardrobe'},{'server','WaveDirector'},{'shared','DirectorRules'},{'shared','NPCPose'}}) do
+   local path=process.args[2]..'/'..spec[1]..'/'..spec[2]..'.lua'
+   if fs.isFile(path) then folders[spec[1]][spec[2]].Source=fs.readFile(path) end
+  end
+ end
  local map=loader.new(dm)(folders.server.MapBuilder).build(id)
  local world=Geometry.world({model=map.model,floorParts=map.floorParts,floorRegions={}})
  local load=loader.new(dm,{globals={workspace=world,RaycastParams={new=function() return {} end},OverlapParams={new=function() return {} end}}})
  local N=load(folders.server.Navigation);local Layouts=load(folders.shared.MapLayouts)
  local params={FilterType=r.Enum.RaycastFilterType.Include,FilterDescendantsInstances={map.model}}
- local report={id=id,scale=map.scale,windows={},parts=0,landingFloors=0,supportSamples=0,badSupportSamples=0}
+ local report={id=id,scale=map.scale,windows={},parts=0,landingFloors=0,supportSamples=0,badSupportSamples=0,queueActors=0,queueDeferred=0,
+  connectedQueueRouteChecked=type(N.queueRoute)=='function'}
+ local Rigs=load(folders.server.EnemyRigs)
+ local queueFolder=r.Instance.new('Folder')
+ local owner={ctx={map=map,players={}},list={},folder=queueFolder}
  local snapshot={parts={},entries={},doors={},mounts={},nodes={},stairs={},areas={},dressing=map.dressingManifest}
  local function support(p,label,row)
   -- Actual parts only, cast far enough to expose a fall to ExteriorGround.
@@ -67,6 +80,29 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
   local descriptor=N.entryDescriptor(map,w)
   check(descriptor and (descriptor.landing-e.landing.Position).Magnitude<.001,id..' '..e.id..' canonical landing needs no consumer adjustment')
   row.resolvedLanding=descriptor and vec(descriptor.landing)
+  -- Real produced map + complete retained rigs, with live actor occupancy.
+  -- This tests supported queue admission, not native movement or queue drain.
+  row.queue={};row.queueDeferred=0;owner.list={}
+  for si,spec in ipairs({{'Shambler',{}},{'Runner',{Armored=true,Enraged=true}},{'Hound',{Alpha=true}},{'Crawler',{}}}) do
+   local model,enemyRoot,hum=Rigs.build(queueFolder,spec[1],w.outside,si,id)
+   local e={id=si,kind=spec[1],model=model,root=enemyRoot,hum=hum,mods=spec[2],window=w,entered=false}
+   Rigs.evolve(e)
+   local at=N.queuePosition(owner,e,w)
+   check(si>1 or at~=nil,id..' '..row.id..' at least one supported mixed queue admission')
+   if at then
+    model:PivotTo(r.CFrame.lookAt(at,at+w.entry.inward))
+    check(N.supported(owner,e,at,w.entry.inward),id..' '..row.id..' actual queue feet/paws supported')
+    check(N.traversalClear(owner,e,at,at,w,true,N.rigBounds(e,'Walk','Approach'),w.entry.inward),id..' '..row.id..' complete queue rig clear of geometry and earlier actors')
+    if N.queueRoute then check(N.queueRoute(owner,e,at,descriptor,w,N.rigBounds(e,'Walk','Approach')),id..' '..row.id..' admitted slot reaches the apron') end
+    row.queue[#row.queue+1]={kind=e.kind,alpha=spec[2].Alpha==true,position=vec(at),feetY=at.Y-N.rootHeight(e)}
+    owner.list[si]=e;report.queueActors+=1
+   else
+    -- Preserve pending admission when space is unavailable; never require an
+    -- unsafe/lower exterior spawn to make a crowd-density assertion pass.
+    row.queueDeferred+=1;report.queueDeferred+=1;model:Destroy()
+   end
+  end
+  for _,e in pairs(owner.list) do e.model:Destroy() end;owner.list={}
   snapshot.entries[#snapshot.entries+1]={entry=e,inside=vec(w.inside),outside=vec(w.outside),frame=frame(w.part.CFrame),size=vec(w.part.Size)}
   -- Convert CFrames/Vector3s to plain records for reproducible comparison.
   snapshot.entries[#snapshot.entries].entry={schema=e.schema,id=e.id,room=e.room,kind=e.kind,allowedKinds=e.allowedKinds,
@@ -77,8 +113,10 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
   report.parts+=1
   if p.Name=='EntryLandingFloor' then
    report.landingFloors+=1
+   report.landingFloor={entryId=p:GetAttribute('EntryId'),frame=frame(p.CFrame),size=vec(p.Size)}
    check(id=='Foundry' and p:GetAttribute('EntryId')=='Foundry_entry_10',id..' only the reproduced entry changes')
-   check(p.CanCollide and p.CanQuery and not p.CanTouch and p.Anchored and table.find(map.floorParts,p),id..' real queryable registered support')
+   check(p.CanCollide and p.CanQuery and not p.CanTouch and p.Anchored and p.Transparency==1 and not p.CastShadow
+    and table.find(map.floorParts,p),id..' real queryable support preserves existing visible floor')
    check(math.abs(p.CFrame.Y+p.Size.Y/2)<.001,id..' repair is flush, no new step/perch')
    local e=map.windows[10].entry;local localAt=p.CFrame:PointToObjectSpace(e.landing.Position)
    check(math.abs(localAt.X)+2.4<p.Size.X/2 and math.abs(localAt.Z)+2.4<p.Size.Z/2,id..' whole landing footprint inside continuous slab')
@@ -114,7 +152,7 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
  fs.writeFile(root..'/'..phase..'-'..id..'-Snapshot.json',serde.encode('json',snapshot))
  out.maps[#out.maps+1]=report
  print(id..': '..report.supportSamples..' actual support probes; '..report.badSupportSamples..' misses; '..report.landingFloors..' added landing slabs')
- map.model:Destroy()
+ map.model:Destroy();queueFolder:Destroy()
 end
 fs.writeFile(root..'/'..phase..'-Report.json',serde.encode('json',out))
 print('Map window geometry assertions:',out.assertions,'failures:',#out.failures)

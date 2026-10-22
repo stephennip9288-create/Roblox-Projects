@@ -1,0 +1,332 @@
+{
+  "issue": "DS-B1-001",
+  "scope": "Batch 1 only",
+  "status": "source/offline complete; integrated native listening pending",
+  "recorded_utc": "2026-10-22T12:58:22.167506+00:00",
+  "branch": "fix/dead-signal-b1-audio-corrections",
+  "pull_request": "https://github.com/stephennip9288-create/Roblox-Projects/pull/54",
+  "base": "c80d55aeeae4b51ef8d836949a33bf440890c6b7",
+  "runtime_checkpoint": "a25bfb5afd90baebe0378191deadab1f6c63d63c",
+  "effects_sha256": "6ee9e4c9b1a353760bdbe9ff1a1077a28061756792d4aa0f1bf15b2121d202ca",
+  "preservation": {
+    "runtime_records": 61,
+    "other_runtime_blobs_unchanged": 60,
+    "effects_prefix_and_vfx_suffix_unchanged": true,
+    "config_blob": "1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2",
+    "owner_uploads_blob": "94aac65175bbe8790b5740f6c9fb288e6e71ebbd",
+    "original_84_ogg_hashes_verified": true,
+    "release_controls_changed": false,
+    "native_places_changed": false
+  },
+  "offline_results": {
+    "existing_luau_runner": {
+      "command": "python Tests/run.py --lune /path/to/lune",
+      "passed": true,
+      "suites": 33,
+      "runner_parsed_assertions": 1026490,
+      "separate_unparsed_map_checks": 26386,
+      "note": "Map Batch 1.1 prints 26386 checks / 0 failures but the existing runner parser leaves assertions null; this is not a failed suite.",
+      "suite_results": [
+        {
+          "suite": "loading",
+          "passed": true,
+          "assertions": 63
+        },
+        {
+          "suite": "loadingpreview",
+          "passed": true,
+          "assertions": 36
+        },
+        {
+          "suite": "evolution",
+          "passed": true,
+          "assertions": 3389
+        },
+        {
+          "suite": "events",
+          "passed": true,
+          "assertions": 18
+        },
+        {
+          "suite": "presentation",
+          "passed": true,
+          "assertions": 55
+        },
+        {
+          "suite": "director",
+          "passed": true,
+          "assertions": 431
+        },
+        {
+          "suite": "server",
+          "passed": true,
+          "assertions": 35
+        },
+        {
+          "suite": "navigation",
+          "passed": true,
+          "assertions": 13
+        },
+        {
+          "suite": "pursuit",
+          "passed": true,
+          "assertions": 90
+        },
+        {
+          "suite": "rigs",
+          "passed": true,
+          "assertions": 318
+        },
+        {
+          "suite": "weapons",
+          "passed": true,
+          "assertions": 7929
+        },
+        {
+          "suite": "arrival",
+          "passed": true,
+          "assertions": 28
+        },
+        {
+          "suite": "extraction",
+          "passed": true,
+          "assertions": 20
+        },
+        {
+          "suite": "map_remaster",
+          "passed": true,
+          "assertions": 259370
+        },
+        {
+          "suite": "map_batch11",
+          "passed": true,
+          "assertions": null
+        },
+        {
+          "suite": "enemy-lifecycle",
+          "passed": true,
+          "assertions": 77
+        },
+        {
+          "suite": "enemy-path-recovery",
+          "passed": true,
+          "assertions": 48
+        },
+        {
+          "suite": "combat-ui",
+          "passed": true,
+          "assertions": 638775
+        },
+        {
+          "suite": "combat-input",
+          "passed": true,
+          "assertions": 44
+        },
+        {
+          "suite": "touch",
+          "passed": true,
+          "assertions": 512
+        },
+        {
+          "suite": "integration-contracts",
+          "passed": true,
+          "assertions": 501
+        },
+        {
+          "suite": "weapons-batch1",
+          "passed": true,
+          "assertions": 64271
+        },
+        {
+          "suite": "infected-batch1",
+          "passed": true,
+          "assertions": 3352
+        },
+        {
+          "suite": "infected-entrances",
+          "passed": true,
+          "assertions": 71
+        },
+        {
+          "suite": "infected-geometry",
+          "passed": true,
+          "assertions": 25717
+        },
+        {
+          "suite": "enemy-b11-runtime",
+          "passed": true,
+          "assertions": 1011
+        },
+        {
+          "suite": "enemy-b11-appearance",
+          "passed": true,
+          "assertions": 11349
+        },
+        {
+          "suite": "enemy-b11-admission",
+          "passed": true,
+          "assertions": 29
+        },
+        {
+          "suite": "enemy-b11-spatial",
+          "passed": true,
+          "assertions": 3441
+        },
+        {
+          "suite": "enemy-b11-geometry",
+          "passed": true,
+          "assertions": 210
+        },
+        {
+          "suite": "audio",
+          "passed": true,
+          "assertions": 4433
+        },
+        {
+          "suite": "audio-quality-b11",
+          "passed": true,
+          "assertions": 800
+        },
+        {
+          "suite": "batch1-integration",
+          "passed": true,
+          "assertions": 54
+        }
+      ]
+    },
+    "new_actual_effects_corrections": {
+      "command": "lune run Tests/audio-corrections-b1.luau",
+      "passed": true,
+      "assertions": 2121,
+      "coverage": [
+        "five frozen-before negative reproductions",
+        "legacy equip/empty and silent acknowledgement",
+        "all 20 actual weapon reload timelines / 94 stages / 11 explicit gaps",
+        "cold/failed assets and late completion without replay",
+        "phase preloading priorities and bounds",
+        "30 fast shell insert onsets in both quality modes",
+        "103-entry staging/production effective catalog and prohibited stock rejection",
+        "spatial/mute/cleanup and unchanged approval flags"
+      ]
+    },
+    "mirror_guards": {
+      "command": "python Tests/test_audio_patch.py -v",
+      "passed": true,
+      "tests": 6
+    },
+    "staging_universe_guards": {
+      "command": "python -m unittest tests/test_dead_signal_audio_staging_audition.py -v (repository root)",
+      "passed": true,
+      "tests": 3
+    },
+    "prior_quality_python": {
+      "command": "python Tests/test_audio_quality_b11.py -v",
+      "passed": true,
+      "tests": 9,
+      "skipped": 1,
+      "skip_reason": "Optional original84 WAV PCM directory not supplied; original committed84 OGG hashes passed."
+    },
+    "supplemental_scope_pcm_and_reproduction": {
+      "command": "python Tests/test_audio_corrections_b1.py --source-cache /path/to/pinned-archives -v",
+      "passed": true,
+      "tests": 6,
+      "skipped": 0,
+      "all_14_pcm_wavs_reproduced_bit_identically": true,
+      "independent_ffmpeg_4x_peak_and_onset_checks": true
+    },
+    "syntax": {
+      "command": "lune run Tests/syntax.luau",
+      "passed": true,
+      "files": 116
+    },
+    "studio_observer_compile": {
+      "method": "@lune/luau.compile; source only, not executed",
+      "passed": true
+    },
+    "git_diff_check": {
+      "command": "git diff --check",
+      "passed": true
+    }
+  },
+  "remote_ci_at_runtime_checkpoint": {
+    "head": "a25bfb5afd90baebe0378191deadab1f6c63d63c",
+    "all_10_checks_passed": true,
+    "workflow_families": 5,
+    "run_ids": [
+      39745326157,
+      39745326109,
+      39745325984,
+      39745326047,
+      39745326135
+    ],
+    "note": "Automatic nonpublication CI. Full-repository native lossless builds/fidelity/parity are remote CI evidence, not local engine/listening tests. Final evidence-commit checks will be reported on the PR."
+  },
+  "inventory": {
+    "catalog_entries": 103,
+    "caller_examples": 14,
+    "weapons": 20,
+    "reload_stages": 94,
+    "unavailable_reload_stages": 11,
+    "staging_banks_unchanged": 52,
+    "staging_assignment_uses_unchanged": 108,
+    "direct_root_configured": 40,
+    "root_silent_physical_fallbacks": 67,
+    "note": "Root-key counts do not include phase child banks; silent fallback is independent of configured asset availability."
+  },
+  "supplemental_recordings": {
+    "count": 14,
+    "wav_bytes": 572812,
+    "ogg_bytes": 114514,
+    "channels": 1,
+    "sample_rate": 48000,
+    "pcm_bits": 16,
+    "clipped_samples": 0,
+    "highest_true_peak_dbfs_4x": -5.3871,
+    "source_license": "CC0-1.0, source-declared; pinned primary provenance retained",
+    "all_ids_null": true,
+    "all_approvals_false": true,
+    "roblox_uploaded": false,
+    "activated": false
+  },
+  "latest_observed_staging_deployment": {
+    "run_id": 39237971450,
+    "selected_source": "409ae5118981ff5c9ba82802eb41c6a8326a4bc1",
+    "published_utc": "2026-10-19T10:35:12Z",
+    "versions": {
+      "Blackwater": 12,
+      "Cinderworks": 12,
+      "Whiteout": 12,
+      "Dispatch": 15
+    },
+    "rollback_artifact_id": 12180281308,
+    "deployment_result_artifact_id": 12180216574,
+    "note": "Read-only observation of prior owner-authorized deployment; no new publication."
+  },
+  "environment": {
+    "lune": "0.11.0",
+    "ffmpeg": "6.1.1",
+    "engine": "offline doubles and preserved native fixture reads only",
+    "full_native_baseline_builds_local": false,
+    "note": "Local text restoration does not include all repository binary baselines. GitHub CI performs complete lossless build/fidelity/parity checks. Source tests are not gameplay listening."
+  },
+  "native_acceptance": {
+    "roblox_studio_playtest": false,
+    "physical_mobile_playtest": false,
+    "headphone_speaker_listening": false,
+    "crowded_wave_readability_verified": false,
+    "engine_onset_and_rolloff_verified": false,
+    "repeat_native_session_cleanup_verified": false,
+    "asset_permissions_verified": false,
+    "quality_target_achieved": false,
+    "issue_verified": false,
+    "checklist": "LISTENING-CHECKLIST.md",
+    "observer": "Studio-listening-capture.client.luau"
+  },
+  "actions_performed": {
+    "roblox_asset_upload": false,
+    "staging_publication": false,
+    "production_publication": false,
+    "merge": false,
+    "batch2_development": false
+  }
+}

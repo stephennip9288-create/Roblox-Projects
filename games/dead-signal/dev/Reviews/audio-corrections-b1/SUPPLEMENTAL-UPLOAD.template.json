@@ -1,0 +1,198 @@
+{
+  "wood_break_1": {
+    "roblox_asset_id": null,
+    "wav_sha256": "74ca8b50948355a18c8152bba86b9dfd9ffeeda24c056bc192ea8212cd056b5d",
+    "ogg_sha256": "a4c08f9b889f21610d0ba79b4ebe84e927225df9227e627494d805a87c24e017",
+    "proposed_slots": [
+      "Board.Break"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "wood_break_2": {
+    "roblox_asset_id": null,
+    "wav_sha256": "d6ce5b77bd5670e4748fe2b6662b4ea5142a795f4181dbc8b80d64e8982d3d80",
+    "ogg_sha256": "a35918f2c22a773faff1884a8eb0152a1a58b1780920220ee894253f02c52e1c",
+    "proposed_slots": [
+      "Board.Break"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "wood_stress_1": {
+    "roblox_asset_id": null,
+    "wav_sha256": "ad4bafc967d99cc0715f03d8429269d47fffc89b1621a15a4cfd2a7317f9a610",
+    "ogg_sha256": "8a5ca88e3e7fd004009f14e2f93878a34dc9337be42f3ba1294708148573bc07",
+    "proposed_slots": [
+      "Board.Stress (future caller needed)"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "wood_stress_2": {
+    "roblox_asset_id": null,
+    "wav_sha256": "9b5fe667e5b12b371a3d2bbce58e24cc3a63df05144715c93efae0b211b5119a",
+    "ogg_sha256": "08a2a47b70394670d5d53d17a16314b47a786bdaec6fcba7c22a5f6c24e138da",
+    "proposed_slots": [
+      "Board.Stress (future caller needed)"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "wood_stress_3": {
+    "roblox_asset_id": null,
+    "wav_sha256": "2f0cc23d4c09a15810971d2b6201f79d8ad8bcf51aa3029cf77950f917c5a1d9",
+    "ogg_sha256": "7e7412dfea7cba8a12f5247a8b94f843d9f2f502e674bec342b119e54ea0aaea",
+    "proposed_slots": [
+      "Board.Stress (future caller needed)"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "wood_debris_1": {
+    "roblox_asset_id": null,
+    "wav_sha256": "fa9884d09f4425cac327e10e61d5ed6ce816f125137fa8a914853a95cbce10f0",
+    "ogg_sha256": "0cf4c42d96dee664b7e46e0a3782a3d9c1eef08d49f44831b672eee834eef6d5",
+    "proposed_slots": [
+      "Board.Debris (future caller needed)"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "wood_debris_2": {
+    "roblox_asset_id": null,
+    "wav_sha256": "aeb17ff3be48908d3c3968b821b5b3c72b42227ad573275c1b3a77c95781e61a",
+    "ogg_sha256": "a7ba7457a754f9342d68e786f0172a1fc7ee4401a127619470620658606301d3",
+    "proposed_slots": [
+      "Board.Debris (future caller needed)"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "frame_scrape_1": {
+    "roblox_asset_id": null,
+    "wav_sha256": "964cc0b95df9b51554a4a0a572da64ef7788b3f96ca7bfae8ff314cd1c909424",
+    "ogg_sha256": "c9f7b1aa443de950d69354c30d41ca1054721caaf57983ba2d5c46f8e22f60f2",
+    "proposed_slots": [
+      "Enemy.Entry.Contact (replace after review)"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "frame_scrape_2": {
+    "roblox_asset_id": null,
+    "wav_sha256": "f7a419392144c01c3f4b932396236c67e5ab496e69f07befa10593d4a96c40b5",
+    "ogg_sha256": "89928bd934f0980d70cecd033ae462950ece688b6c143e0592a41a06a8b0f2f5",
+    "proposed_slots": [
+      "Enemy.Entry.Contact (replace after review)"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "frame_scrape_3": {
+    "roblox_asset_id": null,
+    "wav_sha256": "55ba02014699faf62e4fe2f5f070926ccc9b4b823872323192b867f793f8e80c",
+    "ogg_sha256": "5799d1067cd22ad73f0f5dd107cb07cdac503f15f99fb0e71b9b71bc10e51178",
+    "proposed_slots": [
+      "Enemy.Entry.Contact (replace after review)"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "board_fracture_1": {
+    "roblox_asset_id": null,
+    "wav_sha256": "6d3d91eacffcda7a7999767e0bb9d2a27f034accaa8f6303de3666f6508ec88e",
+    "ogg_sha256": "d348e02e45b66db61c3196955994f6979801230b5d7a0ea8c87c25b455ad3679",
+    "proposed_slots": [
+      "Board.Break"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "window_contact_1": {
+    "roblox_asset_id": null,
+    "wav_sha256": "971d686af79ea7b59e63dcbaa61a0e18907b76d8dcde7ea2b69332e7f9991c84",
+    "ogg_sha256": "c8c8b2acb20190b805fcb0b6e158cd8b09f41e497425fd9727e8f8130e6a8ca8",
+    "proposed_slots": [
+      "Enemy.Entry.Contact"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "board_fracture_2": {
+    "roblox_asset_id": null,
+    "wav_sha256": "c1aa77722f7e27dc980622e511fe6edfbeb947d118c7e3548053ce4e02ac1fc1",
+    "ogg_sha256": "85415a2918920bd4611a3bc7166bf9c7e8a68fce8ac6dfff9594498954a4b607",
+    "proposed_slots": [
+      "Board.Break"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  },
+  "window_contact_2": {
+    "roblox_asset_id": null,
+    "wav_sha256": "b5ffab745be52a81f12dfd3b55a5846156f968caf96117c8c9928b8b1d13483d",
+    "ogg_sha256": "c8fb595378ca3d1e7e6aba925d548b2b634cbea0205bed1812b64e93696f118e",
+    "proposed_slots": [
+      "Enemy.Entry.Contact"
+    ],
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "experience_permission_verified": false,
+    "permission_universe_id": "10771141095",
+    "activated": false
+  }
+}

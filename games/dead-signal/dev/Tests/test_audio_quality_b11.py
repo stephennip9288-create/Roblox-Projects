@@ -49,6 +49,14 @@ class AudioQualityB11(unittest.TestCase):
             43: ('fd802c72f0401e00af022fd7df27dbd119c56005', {'client/Effects.lua'}),
         }
         expected = {f'Source/Runtime/{name}': (pr, head) for pr, (head, names) in groups.items() for name in names}
+        # #49 activated the owner-requested audition after this historical lock.
+        # The current Audio follow-up owns only Effects' guarded audio block.
+        # Preserve the original review lock and independently pin the exact
+        # current branch point, including the untouched staging-only Config.
+        correction = json.loads((DEV / 'Reviews/audio-corrections-b1/BASELINE-RUNTIME.json').read_text())
+        self.assertEqual(set(correction), set(current))
+        self.assertEqual(correction['Source/Runtime/shared/Config.lua'], '1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2')
+        self.assertEqual(correction['Source/Runtime/client/Effects.lua'], '4f8f6613c7a87eaf81f782605145be3739a1b25e')
         for name, path in current.items():
             row = records[name]
             if name in expected:
@@ -57,7 +65,13 @@ class AudioQualityB11(unittest.TestCase):
             else:
                 self.assertIsNone(row['review_pr'], name)
                 self.assertEqual(row['blob_sha'], baseline[name], name)
-            self.assertEqual(blob(path.read_bytes()), row['blob_sha'], name)
+            if name == 'Source/Runtime/client/Effects.lua':
+                self.assertEqual(blob((DEV / 'Tests/Fixtures/Effects-audio-corrections-before.txt').read_bytes()), row['blob_sha'])
+            elif name == 'Source/Runtime/shared/Config.lua':
+                self.assertEqual(blob(path.read_bytes()), correction[name], name)
+            else:
+                self.assertEqual(correction[name], row['blob_sha'], name)
+                self.assertEqual(blob(path.read_bytes()), row['blob_sha'], name)
 
     def test_primary_provenance_and_license_inventory(self):
         sources = json.loads((REVIEW / 'SOURCES.json').read_text()); self.assertEqual(len(sources), 22)

@@ -19,6 +19,8 @@ local function ready(e)
 end
 local uploads=serde.decode('json',fs.readFile('Reviews/audio-quality-b11/OWNER-UPLOADS-UNVERIFIED.json'))
 local function id(name) return 'rbxassetid://'..uploads[name].asset_id end
+local recordingNames={};for name,row in pairs(uploads) do recordingNames['rbxassetid://'..row.asset_id]=name end
+local audit={base='c80d55aeeae4b51ef8d836949a33bf440890c6b7',nativeListening=false,callerMappings={},reloadTimeline={}}
 local banned={'swordslash.wav','swordlunge.wav','unsheath.wav','impact_water.mp3'}
 local function safe(e)
     for _,n in ipairs(e.nodes) do if n.ClassName=='Sound' and n.Playing and not n.destroyed then
@@ -70,9 +72,35 @@ for _,row in ipairs(cases) do
     local e=setup(false,config());ready(e)
     local v=e.fx:sound(row[1],r.Vector3.new(10,0,0),{weaponId=row[3],phase=row[2],token='accepted',sourceId='operator',firstPerson=true})
     check(v and v.key==row[5] and v.sound.SoundId==id(row[4]),row[3]..' '..row[2]..' exact uploaded mechanical asset')
+    audit.callerMappings[#audit.callerMappings+1]={caller=row[1],phase=row[2],weapon=row[3],cue=v.key,recording=recordingNames[v.sound.SoundId],assetId=v.sound.SoundId}
     check(v.sound.PlaybackSpeed==1 and not v.anchor and v.born==e.now,'authored speed and acknowledged first-person onset')
     check(not e.fx:sound(row[1],nil,{weaponId=row[3],phase=row[2],token='accepted',sourceId='operator'}),'same phase replay deduplicated')
     safe(e);e.fx:audioDestroy()
+end
+-- A completed fetch warms a future event; it never replays the missed impact.
+do
+    local c=config();c.SoundIds.Board={variants={id('entry_contact_1')}}
+    local e=setup(false,c)
+    check(not e.fx:sound('Board',r.Vector3.zero,{sourceId='cold'}),'cold strike is skipped')
+    e.fx:audioUpdate(0)
+    -- Other priority slots can already be loading; drain only bounded requests.
+    for _=1,60 do
+        local pending={};for asset in pairs(e.fx.audio.loading) do pending[#pending+1]=asset end
+        for _,asset in ipairs(pending) do e:complete(asset:match('(%d+)$'),true) end
+        e.fx:audioUpdate(0)
+        if e.loaded[id('entry_contact_1')] then break end
+    end
+    check(e.loaded[id('entry_contact_1')] and e.plays==0,'successful load has no late strike playback')
+    e:advance(.7)
+    local v=e.fx:sound('Board',r.Vector3.zero,{sourceId='next'})
+    check(v and v.custom and v.born==e.now,'next actual strike uses the loaded wood clip')
+    e.fx:audioDestroy()
+end
+do
+    local e=setup(false,config());ready(e);e:approve('Board.Break',88001)
+    local v=e.fx:sound('Board',r.Vector3.zero,{sourceId='removed-board'})
+    check(v and v.sound.SoundId=='rbxassetid://88001','future approved break bank can replace the legacy impact without a new caller')
+    e.fx:audioDestroy()
 end
 -- A pistol/shotgun action cannot turn into an unsuitable generic reload/equip.
 for _,row in ipairs({{'Breaker','action-open'},{'Breaker','action-close'},{'Vigil','action-open'},{'Vigil','action-close'},{'Vigil','shell-in'},{'Signal','cell-out'},{'Signal','cell-in'},{'Arc','charge'}}) do
@@ -147,6 +175,9 @@ do
                 local voice,reason=e.fx:sound('Weapon.Reload',nil,{weaponId=weapon,phase=stage.phase,token='animation',sourceId='operator'})
                 local absent=bp[weapon].reloadStyle=='cell' or bp[weapon].reloadStyle=='cylinder' or (bp[weapon].reloadStyle=='break' and stage.phase~='shell-in')
                 check(absent and not voice and reason=='asset' or not absent and voice and voice.born==e.now,'phase mapping or explicit asset gap: '..weapon..' '..stage.phase)
+                audit.reloadTimeline[#audit.reloadTimeline+1]={weapon=weapon,class=def.class,reloadStyle=bp[weapon].reloadStyle,phase=stage.phase,
+                    atFraction=stage.at,baseSeconds=stage.at*def.reload,recording=voice and recordingNames[voice.sound.SoundId] or nil,
+                    assetId=voice and voice.sound.SoundId or nil,unavailableReason=not voice and reason or nil}
                 safe(e);ended(e)
             end
         end
@@ -167,5 +198,17 @@ do
     check(v and v.sound.Playing and v.priority==4,'critical warning remains immediate under missing assets')
     safe(e);e.fx:audioDestroy()
     for _,row in pairs(uploads) do for _,field in ipairs({'creator_reviewed','moderation_approved','sample_listening_approved','experience_permission_verified'}) do check(row[field]==false,'offline test cannot grant approval') end end
+end
+do
+    for _,universe in ipairs({10771141095,10770732078}) do
+        local e=setup(false,config(universe));local inventory=e.fx:audioInventory()
+        for _,row in ipairs(inventory) do for _,file in ipairs(banned) do check(row.fallback~='rbxasset://sounds/'..file,'effective catalog never exposes '..file) end end
+        if universe==10771141095 then audit.stagingRootInventory=inventory else audit.productionRootInventory=inventory end
+        e.fx:audioDestroy()
+    end
+    local process=require('@lune/process')
+    if process.env.DEAD_SIGNAL_AUDIO_CORRECTIONS_WRITE_AUDIT=='1' then
+        fs.writeFile('Reviews/audio-corrections-b1/EVENT-ASSET-AUDIT.json',serde.encode('json',audit,true)..'\n')
+    end
 end
 print('Batch 1 audio correction assertions passed:',count)

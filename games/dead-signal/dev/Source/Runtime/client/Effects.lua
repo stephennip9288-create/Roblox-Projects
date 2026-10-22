@@ -41,7 +41,7 @@ local function semantic(key,from,changes)
 end
 semantic("Zombie.Groan","Enemy",{gain=.14,cooldown=1.6,range=70})
 semantic("Zombie.Gear","Board",{group="infected",priority=1,gain=.10,cooldown=.7,range=35,stock=false,alias=false,config="Zombie.Gear"})
-semantic("Zombie.Entry","Board",{group="infected",priority=3,gain=.24,cooldown=.6,range=85})
+semantic("Zombie.Entry","Board",{group="infected",priority=3,gain=.24,cooldown=.6,range=85,alias=false,config="Zombie.Entry"})
 semantic("Zombie.Attack","Attack",{priority=3,gain=.21,cooldown=.55,range=65})
 semantic("Hound.Breath","Enemy",{priority=1,pitch=.8,gain=.12,range=42,cooldown=1.2,stock=false,alias=false,config="Hound.Breath"})
 semantic("Hound.Snarl","Howl",{priority=1,cooldown=1.1,range=70,gain=.18})
@@ -66,11 +66,14 @@ semantic("Weapon.Bolt","Equip",{pitch=1.3,gain=.14,cooldown=.12})
 semantic("Weapon.Pump","Equip",{pitch=.85,gain=.14,cooldown=.18})
 semantic("Weapon.Cell","Reload",{pitch=1.2,gain=.14,cooldown=.15})
 semantic("Weapon.Feed","Equip",{pitch=.75,gain=.14,cooldown=.15})
-semantic("Weapon.Charge","Power",{pitch=.9,gain=.14,cooldown=.2})
-semantic("Weapon.Shell","Reload",{pitch=1.15,gain=.11,cooldown=.15})
+semantic("Weapon.Charge","Power",{group="mechanics",pitch=.9,gain=.14,cooldown=.2})
+semantic("Weapon.Shell","Reload",{pitch=1.15,gain=.11,cooldown=.045})
 semantic("Weapon.Empty","Empty")
 semantic("Weapon.Hit","Hit")
 semantic("Weapon.Kill","Kill")
+semantic("Weapon.BreakAction","Equip",{alias=false,config="Weapon.BreakAction"})
+semantic("Weapon.Cylinder","Equip",{alias=false,config="Weapon.Cylinder"})
+semantic("Weapon.Cartridge","Reload",{alias=false,config="Weapon.Cartridge",cooldown=.045})
 for _,key in ipairs({"Player.Footstep","Zombie.Footstep","Weapon.Impact"}) do cue(key,key=="Zombie.Footstep" and "infected" or "mechanics",1,nil,1,.10,45,.16,1.5) end
 semantic("Hound.Footstep","Zombie.Footstep",{gain=.08,cooldown=.18,range=38,alias=false,config="Hound.Footstep"})
 local worldBeds={
@@ -90,6 +93,34 @@ for key,from in pairs({["Enemy.Entry.Approach"]="Zombie.Gear",["Enemy.Entry.Cont
     ["Enemy.Charge.Warn"]="Hound.Charge",["Enemy.Ambush.Warn"]="Stalker.Warning",["Enemy.Blast.Warn"]="Elite.VolatileFuse",
     ["Enemy.Alpha"]="Hound.Alpha",["Enemy.Armor.Break"]="Elite.ArmorBreak",["Enemy.Death"]="Enemy",
     ["Combat.Hit"]="Hit",["Combat.Kill"]="Kill",["Wave.Start"]="Round",["Warden.Warn"]="Warden.Warning",["Extraction.Warn"]="Objective.Extraction"}) do semantic(key,from) end
+-- A landing is not a barricade strike. Mechanical phases must not borrow a
+-- whole reload/equip recording when their own magazine/bolt/pump clip is absent.
+for _,key in ipairs({"Enemy.Entry.Contact","Enemy.Entry.Land","Weapon.Magazine","Weapon.Bolt","Weapon.Pump","Weapon.Cell","Weapon.Feed","Weapon.Charge","Weapon.Shell"}) do
+    audioCatalog[key].alias=false;audioCatalog[key].config=key
+end
+audioCatalog.Board.group="infected"
+-- Stop the reported sword/water substitutions in every universe, including
+-- cold-cache and permission-failure paths. Physical cues wait for a suitable
+-- recording; they are never queued for later playback. Critical warnings keep
+-- an explicitly generic attention cue, never a pitched human imitation of a K9.
+for key,spec in pairs(audioCatalog) do
+    local mismatched=spec.stock=="impact_water.mp3" or spec.stock=="swordslash.wav" or spec.stock=="swordlunge.wav" or spec.stock=="unsheath.wav"
+    if mismatched or key:sub(1,6)=="Hound." or key=="Howl" or key=="Enemy.Charge.Warn" or key=="Enemy.Alpha" then
+        if spec.priority>=4 then spec.stock="action_get_up.mp3";spec.pitch=1;spec.fallbackRole="attention"
+        elseif spec.group=="ui" and spec.stock~="impact_water.mp3" then spec.stock="action_get_up.mp3";spec.pitch=1;spec.fallbackRole="notification"
+        else spec.stock=false end
+    end
+end
+local function mechanismKey(phase,class,weapon)
+    local def=type(weapon)=="string" and C.Weapons and C.Weapons[weapon]
+    local action=class=="Shotgun" and (not def or not def.auto) and "Weapon.Pump" or "Weapon.Bolt"
+    if def and def.model=="DoubleBarrel" then action="Weapon.BreakAction"
+    elseif def and def.model=="Revolver" then action="Weapon.Cylinder" end
+    return ({["mag-out"]="Weapon.Magazine",["mag-in"]="Weapon.Magazine",["action-open"]=action,
+        ["action-close"]=action,["shell-in"]=def and def.model=="Revolver" and "Weapon.Cartridge" or "Weapon.Shell",
+        ["cell-out"]="Weapon.Cell",["cell-in"]="Weapon.Cell",charge="Weapon.Charge",["feed-open"]="Weapon.Feed",["feed-close"]="Weapon.Feed",
+        equip="Weapon.Equip",fire="Weapon.Report",empty="Weapon.Empty"})[phase]
+end
 -- Initial calibration for the prepared, peak-controlled recordings. Stock
 -- fallback levels stay separate. Native/device listening still sets acceptance.
 for key,spec in pairs(audioCatalog) do
@@ -171,11 +202,18 @@ function FX:audioLoadClear()
     for _,entry in pairs(a.ready) do entry.sound:Destroy() end
     a.loading={};a.ready={};a.loadQueue={};a.queued={}
 end
-function FX:audioRequest(id)
+function FX:audioRequest(id,urgent)
     local a=self.audio
     if not id or not ContentProvider or not task or not task.spawn or a.destroyed
-        or a.ready[id] or a.loading[id] or a.queued[id] or (a.failed[id] or 0)>os.clock() then return end
-    if #a.loadQueue<32 then a.loadQueue[#a.loadQueue+1]=id;a.queued[id]=true end
+        or a.ready[id] or a.loading[id] or (a.failed[id] or 0)>os.clock() then return end
+    if a.queued[id] then
+        if not urgent then return end
+        for i,value in ipairs(a.loadQueue) do if value==id then table.remove(a.loadQueue,i);break end end
+    elseif urgent and #a.loadQueue>=32 then
+        local dropped=table.remove(a.loadQueue);a.queued[dropped]=nil
+        if a.warmed[dropped] then a.warmed[dropped]=nil;a.warmCount=math.max(0,a.warmCount-1) end
+    end
+    if #a.loadQueue<32 then table.insert(a.loadQueue,urgent and 1 or #a.loadQueue+1,id);a.queued[id]=true end
 end
 function FX:audioLoadTick(now)
     local a=self.audio
@@ -219,6 +257,42 @@ function FX:audioLoadTick(now)
 end
 -- Warm known cue slots in priority order, with a fixed queue and two requests.
 -- Completion only caches a silent Sound. It never replays an old game event.
+function FX:audioBank(key,options)
+    local spec=audioCatalog[key];local phase=textToken(options.phase) or ""
+    local configKey=spec.config or key
+    local ids=C.SoundIds or {};local evolution=C.Evolution and C.Evolution.audio or {}
+    local bank
+    local function prefer(value) if not bank and hasBank(value) then bank=value end end
+    prefer(evolution[key])
+    if key=="Board" then prefer(ids["Board.Break"]) end
+    if phase~="" then
+        if type(options.class)=="string" then prefer(ids[key.."."..options.class:sub(1,24).."."..phase]) end
+        prefer(ids[key.."."..phase])
+    end
+    if type(options.variant)=="string" then prefer(ids[key.."."..options.variant:sub(1,32)]) end
+    if options.upgraded==true then prefer(ids[key..".Upgraded"]) end
+    if type(options.weapon)=="string" and C.Weapons and C.Weapons[options.weapon] then prefer(ids[key.."."..options.weapon]) end
+    if type(options.material)=="string" then prefer(ids[key.."."..options.material:sub(1,32)]) end
+    if type(options.class)=="string" then prefer(ids[key.."."..options.class:sub(1,24)]) end
+    prefer(ids[key]);prefer(evolution[spec.alias]);prefer(ids[spec.alias]);prefer(evolution[configKey]);prefer(ids[configKey])
+    return bank
+end
+-- Reload acknowledgement is preparation only. Real animation phases own Play.
+function FX:audioPrepareMechanics(options)
+    local requested,ordered={},{}
+    for _,phase in ipairs({"mag-out","mag-in","action-open","action-close","shell-in","feed-open","feed-close","cell-out","cell-in","charge","equip","empty"}) do
+        local key=mechanismKey(phase,options.class,options.weapon)
+        local context=table.clone(options);context.phase=phase
+        for _,id in ipairs(bankList(self:audioBank(key,context))) do
+            id=asset(id)
+            if not requested[id] then ordered[#ordered+1]=id;requested[id]=true end
+        end
+    end
+    -- Move queued phase clips ahead of unrelated warmup without adding jobs,
+    -- cancelling an in-flight engine load or exceeding the 32-request bound.
+    for i=#ordered,1,-1 do self:audioRequest(ordered[i],true) end
+    self:audioLoadTick(os.clock())
+end
 function FX:audioWarm()
     local a=self.audio
     if not ContentProvider or finite(self.settings and self.settings.volume,.65,0,1)==0 then return end
@@ -286,7 +360,7 @@ function FX:audioInventory()
         result[#result+1]={key=key,group=spec.group,priority=spec.priority,range=spec.range,cooldown=spec.cooldown,
             seconds=spec.seconds,loop=spec.loop==true,configured=configured,
             fallback=spec.stock and "rbxasset://sounds/"..spec.stock or "silent-until-upload",fallbackPitch=spec.pitch,
-            fallbackGain=spec.gain,recordingGain=spec.recordingGain}
+            fallbackGain=spec.gain,recordingGain=spec.recordingGain,fallbackRole=spec.fallbackRole or (spec.stock and "legacy" or "recording-required")}
     end
     table.sort(result,function(x,y) return x.key<y.key end)
     return result
@@ -397,7 +471,7 @@ end
 function FX:audioInit()
     if self.audio then return self.audio end
     local a={voices={},last={},lastCount=0,failed={},cancelled={},epoch=0,serial=0,gains={},duck=1,duckUntil=0,lastTick=os.clock(),state={},world={},worldNext={},nextWorld=0,nextClean=0,
-        variation={},loading={},ready={},loadQueue={},queued={},warmed={},warmCount=0,metrics={loaded=0,loadFailed=0,fallbacks=0,custom=0,paired=0},nextVocal=0}
+        variation={},loading={},ready={},loadQueue={},queued={},warmed={},warmCount=0,metrics={loaded=0,loadFailed=0,fallbacks=0,custom=0,paired=0,missing=0,unready=0},nextVocal=0}
     a.flat=U.make("Folder",SoundService,{Name="DeadSignalAudio"})
     a.spatial=U.make("Folder",self.folder,{Name="AudioAnchors"})
     a.map=workspace:FindFirstChild("DeadSignalMap")
@@ -513,16 +587,15 @@ function FX:sound(key,position,options)
         key=worldEvents[options.map]
         if not key or not position then return false,"landmark" end
     end
-    if key=="Weapon.Mechanism" or (key=="Weapon.Reload" and options.phase~=nil) then
+    local prepare=(key=="Reload" or key=="Weapon.Reload") and options.phase=="begin"
+    if (key=="Equip" and options.phase=="equip") or (key=="Empty" and options.phase=="empty") then key="Weapon.Mechanism" end
+    if key=="Weapon.Mechanism" or (not prepare and (key=="Weapon.Reload" or key=="Reload") and options.phase~=nil) then
         local phase=options.phase
         if phase=="cancel" then
             if not textToken(options.token) then return false,"token" end
             self:audioCancel(options.token);return true
         end
-        key=({["mag-out"]="Weapon.Magazine",["mag-in"]="Weapon.Magazine",["action-open"]=options.class=="Shotgun" and "Weapon.Pump" or "Weapon.Bolt",
-            ["action-close"]=options.class=="Shotgun" and "Weapon.Pump" or "Weapon.Bolt",["shell-in"]="Weapon.Shell",
-            ["cell-out"]="Weapon.Cell",["cell-in"]="Weapon.Cell",charge="Weapon.Charge",["feed-open"]="Weapon.Feed",["feed-close"]="Weapon.Feed",
-            equip="Weapon.Equip",fire="Weapon.Report",empty="Weapon.Empty"})[phase]
+        key=mechanismKey(phase,options.class,options.weapon)
         if not key then return false,"phase" end
     end
     if key=="Weapon.Fire" or key=="Weapon.Report" then
@@ -544,6 +617,11 @@ function FX:sound(key,position,options)
     if a.suspended and (spec.group~="ui" or options.runId~=nil) then return false,"inactive" end
     local master=finite(self.settings and self.settings.volume,.65,0,1)
     if master==0 or (a.gains[spec.group] or 1)==0 then return false,"muted" end
+    if prepare then
+        local token=textToken(options.token) or a.token
+        if token and a.cancelled[token] then return false,"cancelled" end
+        self:audioPrepareMechanics(options);return true,"prepare"
+    end
     local camera=workspace.CurrentCamera
     local distance=position and camera and (camera.CFrame.Position-position).Magnitude or 0
     if distance>spec.range then return false,"distance" end
@@ -555,22 +633,9 @@ function FX:sound(key,position,options)
     local dedup=key.."/"..source.."/"..(token or "").."/"..phase
     local entry=a.last[dedup]
     if entry and now<entry.untilTime then return false,"cooldown" end
-    local configKey=spec.config or key
-    local ids=C.SoundIds or {};local evolution=C.Evolution and C.Evolution.audio or {}
+    local ids=C.SoundIds or {}
     local serial=a.serial+1
-    local bank
-    local function prefer(value) if not bank and hasBank(value) then bank=value end end
-    prefer(evolution[key])
-    if phase~="" then
-        if type(options.class)=="string" then prefer(ids[key.."."..options.class:sub(1,24).."."..phase]) end
-        prefer(ids[key.."."..phase])
-    end
-    if type(options.variant)=="string" then prefer(ids[key.."."..options.variant:sub(1,32)]) end
-    if options.upgraded==true then prefer(ids[key..".Upgraded"]) end
-    if type(options.weapon)=="string" and C.Weapons and C.Weapons[options.weapon] then prefer(ids[key.."."..options.weapon]) end
-    if type(options.material)=="string" then prefer(ids[key.."."..options.material:sub(1,32)]) end
-    if type(options.class)=="string" then prefer(ids[key.."."..options.class:sub(1,24)]) end
-    prefer(ids[key]);prefer(evolution[spec.alias]);prefer(ids[spec.alias]);prefer(evolution[configKey]);prefer(ids[configKey])
+    local bank=self:audioBank(key,options)
     local bankGain=type(bank)=="table" and finite(bank.gain,1,0,1) or 1
     local interval=spec.group=="ambience" and type(bank)=="table" and finite(bank.interval,0,0,60) or 0
     if interval>=8 then
@@ -587,7 +652,7 @@ function FX:sound(key,position,options)
     -- Low Effects selects one real recording. Normal mode can blend two ready
     -- recordings, both counted in the existing native voice budgets.
     if farCustom and (not custom or (self.settings and self.settings.lowEffects and distance>=70)) then custom=farCustom;farCustom=nil end
-    if not custom and not spec.stock then return false,"asset" end
+    if not custom and not spec.stock then a.metrics.missing+=1;return false,"asset" end
     local routineVocal=key=="Zombie.Groan" or (key=="Hound.Snarl" and options.routine==true)
     if routineVocal and now<a.nextVocal then return false,"cadence" end
     -- Critical cues preempt lower priorities immediately; there is no late queue.
@@ -595,23 +660,24 @@ function FX:sound(key,position,options)
     local limit=low and 12 or 20;local reserve=low and 6 or 8
     local groupCap=({ambience=low and 2 or 3,world=2,weapons=low and 3 or 5,mechanics=low and 2 or 3,infected=low and 2 or 4,ui=3})[spec.group]
     local priority=finite(options.priority,spec.priority,0,spec.priority)
+    local retrigger=spec.report or key=="Weapon.Shell" or key=="Weapon.Cartridge"
     local routine,group,total,sourceReports=0,0,0,0
     local victim,victimScore
     for i,v in ipairs(a.voices) do
         local cost=v.cost or 1;total+=cost
         if v.priority<4 then routine+=cost end
         if v.spec.group==spec.group and v.targetFade>0 then group+=cost end
-        if v.spec.report and v.source==source then sourceReports+=1 end
+        if v.source==source and ((spec.report and v.spec.report) or (retrigger and v.key==key and v.token==token)) then sourceReports+=1 end
         local score=v.priority*1000-(v.distance or 0)
         if v.priority<priority and (not victimScore or score<victimScore) then victim=i;victimScore=score end
     end
-    local restrike=spec.report and sourceReports>=(low and 1 or 2)
+    local restrike=retrigger and sourceReports>=(low and 1 or 2)
     if priority<4 and (routine>=limit-reserve or group>=groupCap or restrike) then
         -- Actual entry/attack facts can displace a routine groan or footstep.
         -- They still obey category caps and leave the critical reservation intact.
         victim=nil;victimScore=nil
         for i,v in ipairs(a.voices) do
-            local ownReport=spec.report and v.spec.report and v.source==source
+            local ownReport=v.source==source and ((spec.report and v.spec.report) or (retrigger and v.key==key and v.token==token))
             local distantReport=spec.report and v.spec.report and v.distance>distance+8
             local eligible=(v.priority<priority or ownReport or distantReport) and (group<groupCap or v.spec.group==spec.group)
                 and (not restrike or ownReport)
@@ -642,7 +708,7 @@ function FX:sound(key,position,options)
     local sound=custom and self:audioSample(custom,parent)
     local farSound
     if not sound and farCustom then sound=self:audioSample(farCustom,parent);custom=farCustom;farCustom=nil end
-    if not sound and not spec.stock then if anchor then anchor:Destroy() end;return false,"loading" end
+    if not sound and not spec.stock then if anchor then anchor:Destroy() end;a.metrics.unready+=1;return false,"loading" end
     local usingStock=not sound
     if usingStock then
         sound=U.make("Sound",parent,{SoundId="rbxasset://sounds/"..spec.stock,Volume=0});a.metrics.fallbacks+=1

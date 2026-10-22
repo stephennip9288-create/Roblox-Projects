@@ -85,13 +85,21 @@ local function setup(low)
     return env
 end
 local V=r.Vector3
--- Every previously audible legacy key retains a valid bundled treatment.
+-- Legacy signatures remain valid. Inappropriate physical stock is intentionally silent.
 local legacy={'Click','Equip','Board','Attack','ShockCharge','Reload','Empty','Hit','Kill','Down','Revive','Grenade','Round','Power','Box','Perk','Victory','Enemy','Pistol','Rifle','SMG','Shotgun','Heavy','Sniper','Energy','Howl','Redline','IronMarch','Volatile','Stalker','ArmorBreak','Vent'}
+local needsRecording={Equip=true,Board=true,Reload=true,Empty=true,Hit=true,Grenade=true,Pistol=true,Rifle=true,SMG=true,Shotgun=true,Heavy=true,Sniper=true,Energy=true,IronMarch=true,ArmorBreak=true,Vent=true}
 for _,key in ipairs(legacy) do
     local e=setup();local v=e.fx:sound(key)
-    check(v and v.sound.Playing,'legacy sound '..key)
-    check(v.sound.SoundId:sub(1,11)=='rbxasset://','bundled fallback '..key)
-    check(v.sound.Volume>0 and v.sound.Volume<=.65,'bounded gain '..key)
+    if needsRecording[key] then
+        check(not v,'missing physical asset is explicit '..key)
+        check(e.plays==0 and e:live('Part')==0,'no incorrect replacement '..key)
+        e:approve(key,70001);v=e.fx:sound(key)
+        check(v and v.custom and v.sound.PlaybackSpeed==1,'legacy caller uses an authored recording '..key)
+    else
+        check(v and v.sound.Playing,'legacy sound '..key)
+        check(v.sound.SoundId:sub(1,11)=='rbxasset://','bundled attention/UI fallback '..key)
+        check(v.sound.Volume>0 and v.sound.Volume<=.65,'bounded gain '..key)
+    end
     e.fx:audioDestroy();check(e:live('Sound')==0 and e:connections()==0,'cleanup '..key)
 end
 do
@@ -116,9 +124,9 @@ do
     check(v.sound.SoundId=='rbxassetid://101','blank evolution slot allows configured SoundIds fallback')
     check(v.sound.PlaybackSpeed==1,'creator recording retains its authored pitch')
     e.fx:audioReset('assets');e.config.SoundIds.Howl='https://unapproved.test/audio';v=e.fx:sound('Howl')
-    check(v.sound.SoundId=='rbxasset://sounds/uuhhh.mp3','malformed asset preserves stock')
+    check(v.sound.SoundId=='rbxasset://sounds/action_get_up.mp3','malformed warning asset preserves generic attention cue')
     e.fx:audioReset('zero');e.config.SoundIds.Howl='000';v=e.fx:sound('Howl')
-    check(v.sound.SoundId=='rbxasset://sounds/uuhhh.mp3','zero ID is not treated as custom')
+    check(v.sound.SoundId=='rbxasset://sounds/action_get_up.mp3','zero ID is not treated as custom')
     e.fx:audioReset('variation');e:approve('Reload',102);e:approve('Reload',103);e.config.SoundIds.Reload={'102','103'}
     local seen={}
     for i=1,6 do local voice=e.fx:sound('Reload',nil,{source=i});seen[voice.sound.SoundId]=true;e:advance(3.1) end
@@ -137,6 +145,7 @@ end
 -- Forty-NPC full-density overlap at both quality levels, with no delayed warning queue.
 for _,low in ipairs({false,true}) do
     local e=setup(low);local fx=e.fx;local max=low and 12 or 20;local reserve=low and 6 or 8
+    e:approve('Zombie.Groan',71001);e:approve('Rifle',71002);e:approve('Reload',71003)
     for i=1,40 do fx:sound('Zombie.Groan',V.new(i,0,0),{source='z'..i}) end
     for i=1,40 do fx:sound('Rifle',V.new(-i,0,0),{source='p'..i}) end
     for i=1,20 do fx:sound('Reload',nil,{source=i}) end
@@ -151,7 +160,7 @@ for _,low in ipairs({false,true}) do
     check(close and close.sound.Playing,'nearest urgent warning replaces more distant/lower priority voice')
     check(close.priority==4,'catalog priority retained')
     for _,v in ipairs(fx.audio.voices) do check(v.sound.Volume<=.65,'headroom cap during overlap') end
-    e:advance(3.1)
+    e:advance(4.1)
     check(#fx.audio.voices==0 and e:live('Sound')==0 and e:connections()==0,'all crowded-wave sources and connections end')
     e:advance(1);check(fx.audio.duck>.9,'mix recovers after threats')
 end
@@ -168,10 +177,11 @@ do
 end
 do
     local e=setup();local fx=e.fx
+    e:approve('Pistol',72001);e:approve('Rifle',72002);e:approve('Zombie.Groan',72003)
     local ui=fx:sound('Click');local weapon=fx:sound('Weapon.Fire',V.new(12,0,0),{class='Pistol',priority=99,gain=100})
     check(ui.sound.Parent==fx.audio.flat and ui.sound.Parent.Parent==e.service,'UI audio owned under SoundService')
-    check(weapon.priority==2 and weapon.gain<=.17,'caller cannot raise catalog priority or gain')
-    e:advance(.11);check(weapon.retired,'short stock report treatment ends on time')
+    check(weapon.priority==2 and weapon.gain<=.35,'caller cannot raise catalog priority or gain')
+    e:advance(.11);check(not weapon.retired,'authored report has a natural tail');weapon.sound.Ended:Fire();fx:audioUpdate(0)
     fx:audioMix({ui=.4,weapons=0,unknown=999})
     local gain=ui.sound.Volume
     fx.settings={volume=.2,lowEffects=false};fx:audioUpdate(0)
@@ -189,7 +199,7 @@ do
     check(filtered.retired and warning.retired,'moving listener retires out-of-range spatial sources')
 end
 do
-    local e=setup();local fx=e.fx
+    local e=setup();local fx=e.fx;e:approve('Weapon.Reload',73001);e:approve('Weapon.Magazine',73002)
     local one=fx:sound('Weapon.Reload',nil,{token='reload-1'})
     local two=fx:sound('Weapon.Magazine',nil,{token='reload-2'})
     fx:audioCancel('reload-1');check(one.retired and not two.retired,'reload/swap cancellation scoped to acknowledged lifecycle')
@@ -266,7 +276,7 @@ do
     fx:audioUpdate(0);check(e:live('Sound')==0 and e:live('Part')==0 and e:connections()==0,'playback failure cleanup')
 end
 do
-    local e=setup();local fx=e.fx
+    local e=setup();local fx=e.fx;e:approve('Zombie.Entry',74001)
     -- Long-lived loops keep cooldown dictionary churn independent of TTL cleanup.
     for i=1,1500 do
         fx:sound('Zombie.Entry',nil,{source='unique-'..i,token='t'..i})
@@ -282,6 +292,7 @@ do
 end
 do
     local e=setup();local fx=e.fx
+    for i,key in ipairs({'Pistol','Shotgun','Weapon.Magazine','Weapon.Pump','Weapon.Shell','Weapon.Cell','Weapon.Charge','Weapon.Feed','Weapon.Equip','Weapon.Empty','Enemy.Armor.Break'}) do e:approve(key,75000+i) end
     fx:audioEvent('World.Zone',{map='Station',runId=10,room=2,active=true})
     check(fx.audio.runId=='10' and fx.audio.state.room=='2','canonical zone normalizes optional run/room facts')
     local voice=fx:audioEvent('Enemy.Charge.Warn',{position=V.new(8,0,0),sourceId='k9',runId=10,eventId='charge-1',duration=.65})

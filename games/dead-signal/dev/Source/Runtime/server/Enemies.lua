@@ -295,7 +295,7 @@ function E:recover(enemy,terminal)
             local revision=self.ctx.map.navigationRevision or 0
             enemy.failedEntryUntil=enemy.failedEntryUntil or {}
             if failed[window]~=revision or not enemy.failedEntryUntil[window] then
-                enemy.failedEntryUntil[window]=now+Navigation.traversalTuning.failedEntrySeconds
+                enemy.failedEntryUntil[window]=now+(Navigation.traversalTuning.failedEntrySeconds or 30)
             end
             failed[window]=revision
         end

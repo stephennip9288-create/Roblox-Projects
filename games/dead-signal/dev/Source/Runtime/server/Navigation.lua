@@ -65,8 +65,9 @@ function N.rigBounds(e,style,stage)
     for sample=0,8 do
         local u=sample/8 local poses={}
         if stage then
-            poses=Pose.transforms(e.kind,u*math.pi*2,stage=="Approach" and 8 or 0,0,e.model:GetAttribute("PoseSeed"))
-            for name,pose in pairs(Pose.traversal(e.kind,style,stage,u)) do poses[name]=pose end
+            local r6=e.model:GetAttribute("PresentationRig")=="R6"
+            poses=Pose.transforms(e.kind,u*math.pi*2,stage=="Approach" and 8 or 0,0,e.model:GetAttribute("PoseSeed"),r6)
+            for name,pose in pairs(Pose.traversal(e.kind,style,stage,u,r6)) do poses[name]=pose end
         end
         local frames=Pose.frames(e.model,poses)
         for bone,group in pairs(e.entryGeometry) do

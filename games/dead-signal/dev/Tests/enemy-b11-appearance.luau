@@ -10,18 +10,18 @@ end
 for _,map in ipairs({'Station','Foundry','Frost'}) do
  h.ctx.map.id=map
  for id=1,18 do
-  local e=h:enemy('Shambler');local before=Anatomy.build(h.enemies.folder,'Shambler',e.root.Position,e.id)
+  local e=h:enemy('Shambler');local before=h.Rigs.base(h.enemies.folder,'Shambler',e.root.Position,e.id)
   for name,p in pairs(zones(before)) do local q=e.model:FindFirstChild(name)
    check(q and (q.CFrame.Position-p.cf.Position).Magnitude<.0001 and q.CFrame.LookVector:Dot(p.cf.LookVector)>.99999 and q.Size==p.size and q.CanQuery==p.query and q:GetAttribute('HitZone')==p.zone,'art never changes authoritative '..name)
   end
   check(e.model:GetAttribute('MilitaryDetailCount')<=66,'bounded generated detail')
-  check(e.model:GetAttribute('VisualAcceptance')=='StudioAndAuthoredArtPending','source does not assert visual acceptance')
+  check(e.model:GetAttribute('VisualAcceptance')=='StudioGameplayPending','source does not assert visual acceptance')
   local native=0;for _,p in ipairs(e.model:GetDescendants()) do if p:IsA('MeshPart') then
    native+=1;local ok,content=pcall(function() return tostring(p.MeshContent) end)
    check(ok and content:find('rbxassetid://')~=nil,'retained native mesh content is present')
   end end
-  check(native>0,'native art is retained instead of replaced by primitive anatomy')
-  if e.model:GetAttribute('OutfitName')=='Infantry' then
+  check(native==0 and e.model:GetAttribute('PresentationRig')=='R6' and e.model.Head:FindFirstChild('InfectedFace'),'owner-approved R6 art replaces imported humanoid mesh dependencies')
+  if map=='Station' and e.model:GetAttribute('OutfitName')=='Infantry' then
    check(not e.model:FindFirstChild('DamagedHelmet') and e.model:FindFirstChild('BrokenFieldHeadset'),'communications personnel expose the face')
   end
   before:Destroy();e.model:Destroy();h.enemies.list[e.id]=nil
@@ -30,7 +30,7 @@ end
 for _,kind in ipairs({'Shambler','Runner','Crawler','Hound','Stalker','Warden'}) do
  local e=h:enemy(kind)
  for _,speed in ipairs({0,5,12}) do for n=0,16 do
-  local poses=h.Pose.transforms(kind,n*math.pi/8,speed,.5,e.model:GetAttribute('PoseSeed'))
+  local poses=h.Pose.transforms(kind,n*math.pi/8,speed,.5,e.model:GetAttribute('PoseSeed'),e.model:GetAttribute('PresentationRig')=='R6')
   local frames=h.Pose.frames(e.model,poses)
   for _,j in ipairs(e.model:GetDescendants()) do if j:IsA('Motor6D') then
    check(frames[j.Part1]~=nil,'every articulated bone is connected')
@@ -40,15 +40,15 @@ for _,kind in ipairs({'Shambler','Runner','Crawler','Hound','Stalker','Warden'})
   end end
  end end
  if kind=='Shambler' or kind=='Runner' or kind=='Warden' then
-  local poses=h.Pose.transforms(kind,0,0,0,1.37)
-  check(poses['Right Shoulder']~=poses['Left Shoulder'] and poses['Right Elbow']~=poses['Left Elbow'],'asymmetric reanimated idle carriage')
+  local poses=h.Pose.transforms(kind,0,0,0,1.37,e.model:GetAttribute('PresentationRig')=='R6')
+  check(poses['Right Shoulder']~=poses['Left Shoulder'],'asymmetric reanimated idle carriage')
  end
  local collider=e.model.BodyCollider;check(collider:FindFirstChildOfClass('WeldConstraint').Part0==e.root,'visual lean cannot animate the physical collider')
 end
 -- Reverse animation phase uses the same named stage, decreasing continuously.
 for _,kind in ipairs({'Shambler','Runner','Stalker','Warden'}) do
  local e=h:enemy(kind)
- local frames=h.Pose.frames(e.model,h.Pose.traversal(kind,'Vault','Cross',.5))
+ local frames=h.Pose.frames(e.model,h.Pose.traversal(kind,'Vault','Cross',.5,e.model:GetAttribute('PresentationRig')=='R6'))
  for _,side in ipairs({'Left','Right'}) do
   local hand=frames[e.model:FindFirstChild(side..' Hand')].Position
   local torso=frames[e.model.Torso].Position

@@ -49,6 +49,7 @@ function E:spawn(kind,window,position,mods,failedEntries,admission)
         shock=now+8,lastPosition=pos,lastMoved=now,spawned=now,runId=self.ctx.run.id,
         damage=stats and stats.damage or R.enemyDamage(self.ctx.run.round,kind,C.Modes[self.ctx.run.mode]),targetAt=now+(id%7)*.07,phase=1,attackDamage={},damageWindow=now,windowDamage=0}
     enemy.mods=mods enemy.baseSpeed=hum.WalkSpeed enemy.failedEntries=failedEntries
+    enemy.failedEntryUntil=admission and admission.failedEntryUntil
     enemy.armor=mods.Armored and {Head=hp*T.armored.plateHealth,Body=hp*T.armored.plateHealth} or nil
     enemy.reactor=mods.Volatile and hp*T.volatile.reactorHealth or nil
     enemy.packRole=mods.Alpha and "Alpha" or id%3==0 and "Flanker" or "Charger"
@@ -75,6 +76,7 @@ function E:spawn(kind,window,position,mods,failedEntries,admission)
         else
             model:Destroy()
             local ticket=admission or {id=id,kind=kind,mods=table.clone(mods),failedEntries=failedEntries,
+                failedEntryUntil=enemy.failedEntryUntil,
                 stats={hp=hp,speed=enemy.baseSpeed,damage=enemy.damage},runId=self.ctx.run.id,map=self.ctx.map}
             ticket.window=window;ticket.pending=true
             self.pending=self.pending or {};self.pending[#self.pending+1]=ticket
@@ -274,7 +276,7 @@ function E:recover(enemy,terminal)
             phase=enemy.phase,hitRewards=enemy.hitRewards,recoveryAttempts=(enemy.recoveryAttempts or 0)+1}
         for _,key in ipairs(recoveryClocks) do state[key]=enemy[key] end
         local ticket={id=enemy.id,kind=enemy.kind,mods=table.clone(enemy.mods or {}),window=enemy.window,
-            failedEntries=enemy.failedEntries,stats={hp=enemy.maxHP,speed=enemy.baseSpeed,damage=enemy.damage},
+            failedEntries=enemy.failedEntries,failedEntryUntil=enemy.failedEntryUntil,stats={hp=enemy.maxHP,speed=enemy.baseSpeed,damage=enemy.damage},
             runId=self.ctx.run.id,map=self.ctx.map,pending=true,recovery=state}
         self.list[enemy.id]=nil;enemy.dead=true;enemy.model:Destroy()
         self.pending=self.pending or {};self.pending[#self.pending+1]=ticket
@@ -284,11 +286,19 @@ function E:recover(enemy,terminal)
     local now=os.clock()
     if now<(enemy.recoveryAt or 0) then return false end
     enemy.recoveryAt=now+4;enemy.recoveryAttempts=(enemy.recoveryAttempts or 0)+1
+    if Navigation.expireEntryFailures then Navigation.expireEntryFailures(enemy,now) end
     local window=enemy.window local failed=enemy.failedEntries or {};enemy.failedEntries=failed
     if window then
         window.entryBlockedUntil=window.entryBlockedUntil or {}
         window.entryBlockedUntil[enemy.kind]=now+8
-        if enemy.entryFailure=="Geometry" or enemy.entryFailure=="Support" then failed[window]=self.ctx.map.navigationRevision or 0 end
+        if enemy.entryFailure=="Geometry" or enemy.entryFailure=="Support" then
+            local revision=self.ctx.map.navigationRevision or 0
+            enemy.failedEntryUntil=enemy.failedEntryUntil or {}
+            if failed[window]~=revision or not enemy.failedEntryUntil[window] then
+                enemy.failedEntryUntil[window]=now+Navigation.traversalTuning.failedEntrySeconds
+            end
+            failed[window]=revision
+        end
     end
     local nextWindow=self.ctx.director and self.ctx.director:window(now,enemy.kind,failed)
     local position=nextWindow and nextWindow~=window and Navigation.queuePosition(self,enemy,nextWindow)
@@ -466,7 +476,7 @@ function E:stopTraversal(e,success)
         e.root.AssemblyLinearVelocity=Vector3.zero;e.root.AssemblyAngularVelocity=Vector3.zero
     end
     if e.model.Parent then
-        e.hum.PlatformStand=t.platform;e.hum.AutoRotate=success and true or t.autoRotate
+        e.hum.PlatformStand=not success and t.platform or false;e.hum.AutoRotate=success and true or t.autoRotate
         e.hum.WalkSpeed=e.baseSpeed or e.hum.WalkSpeed
     end
     if t.collider and t.collider.Parent then t.collider.CanCollide=t.collides end
@@ -650,7 +660,8 @@ function E:tick(now)
                     enemy.hum.AutoRotate=false;enemy.lastMoved=now
                 elseif destination then Navigation.move(self,enemy,destination,now) end
             elseif window.count<=0 then
-                if window.activeEntry or not Navigation.queueHead(self,enemy,window) then
+                local leading=Navigation.queueHead(self,enemy,window)
+                if window.activeEntry or not leading then
                     enemy.lastMoved=math.max(enemy.lastMoved,window.lastEntryProgress or 0)
                 elseif now>=(window.nextEntry or 0) and now>=(enemy.entryRetryAt or 0) and now>=(enemy.entryPlanAt or 0) and self.entryPlanBudget>0 then
                     local descriptor=Navigation.entryDescriptor(self.ctx.map,window)

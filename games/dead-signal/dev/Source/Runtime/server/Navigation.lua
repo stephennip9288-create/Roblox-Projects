@@ -8,7 +8,7 @@ local Rules=require(RS.DeadSignal.DirectorRules)
 local Pose=require(RS.DeadSignal.NPCPose)
 local T=Rules.tuning
 local N={} local UP=Vector3.new(0,1,0)
-N.traversalTuning={maxConcurrent=4,planInterval=.8,maxStep=1.1,stepSeconds=.08,blockedSeconds=.45,retrySeconds=1.2,timeout=7}
+N.traversalTuning={maxConcurrent=4,planInterval=.8,maxStep=1.1,stepSeconds=.08,blockedSeconds=.45,retrySeconds=1.2,timeout=7,failedEntrySeconds=30,queueLevelTolerance=.25}
 local function flat(v) return Vector3.new(v.X,0,v.Z) end
 function N.rootHeight(e)
     local h=e.model:GetAttribute("NavigationRootHeight") if h then return h end
@@ -104,7 +104,11 @@ function N.supported(owner,e,position,forward)
     return tested>0
 end
 function N.queueHead(owner,e,window)
-    if window.activeEntry then return window.activeEntry==e.id end
+    if window.activeEntry then
+        local active=owner.list[window.activeEntry]
+        if not active or active.dead or not active.traversal or active.traversal.plan.window~=window then window.activeEntry=nil
+        else return window.activeEntry==e.id end
+    end
     local descriptor=N.entryDescriptor(owner.ctx.map,window)
     if not descriptor then return false end
     local approach=descriptor.approach or window.outside local best,score
@@ -120,6 +124,13 @@ function N.queueHead(owner,e,window)
         end
     end
     return best==e
+end
+function N.expireEntryFailures(e,now)
+    for window,untilAt in pairs(e.failedEntryUntil or {}) do if now>=untilAt then
+        if e.failedEntries then e.failedEntries[window]=nil end
+        e.failedEntryUntil[window]=nil
+        if e.window==window then e.entryFailure=nil;e.entryFailures=0 end
+    end end
 end
 function N.goal(ctx,e,target,_now)
     local ground=N.floor(ctx.map,target)
@@ -278,6 +289,28 @@ function N.traversalClear(owner,e,a,b,window,overlap,bounds,forward)
     end end
     return true
 end
+function N.queueRoute(owner,e,position,descriptor,window,bounds)
+    local approach=(descriptor.approach or N.floor(owner.ctx.map,window.outside))
+    if not approach then return false end
+    local forward=descriptor.inward or flat(window.inside-window.outside)
+    if not U.finiteVector(forward) or forward.Magnitude<.05 then return false end
+    forward=forward.Unit
+    local destination=approach+UP*N.rootHeight(e);local delta=destination-position
+    -- A valid endpoint below the raised apron is not a no-jump route. Check
+    -- physical continuity before admitting the unit, not after it gets stuck.
+    local samples=math.max(1,math.ceil(flat(delta).Magnitude/2))
+    for sample=0,samples do
+        local at=position+delta*(sample/samples)
+        local floor=N.floor(owner.ctx.map,at)
+        if not floor or math.abs(floor.Y-approach.Y)>N.traversalTuning.queueLevelTolerance then return false end
+    end
+    local center,size=N.worldBox(e,position,bounds,forward);size-=UP*.02;center+=UP*.01
+    local p=RaycastParams.new();p.FilterType=Enum.RaycastFilterType.Include;p.FilterDescendantsInstances={owner.ctx.map.model}
+    p.CollisionGroup="DeadSignalEnemies";p.RespectCanCollide=true
+    -- This predicts static access through the queue; actual placement and
+    -- traversal still check live players/NPCs separately.
+    return delta.Magnitude<.005 or not workspace:Blockcast(CFrame.new(center),size,delta,p)
+end
 function N.queuePosition(owner,e,window)
     local d=N.entryDescriptor(owner.ctx.map,window);if not d then return nil end
     local into=flat(window.inside-window.outside).Unit
@@ -292,9 +325,10 @@ function N.queuePosition(owner,e,window)
         local column=slot%5 local lateral=column==0 and 0 or (column%2==1 and 1 or -1)*math.ceil(column/2)
         local feet=origin+tangent*(lateral*step)-into*(math.floor(slot/5)*step)
         local floor=N.floor(owner.ctx.map,feet+UP*2)
-        if floor and math.abs(floor.Y-origin.Y)<=1.3*s then
+        if floor and math.abs(floor.Y-origin.Y)<=N.traversalTuning.queueLevelTolerance then
             local position=Vector3.new(feet.X,floor.Y+N.rootHeight(e),feet.Z)
-            if N.traversalClear(owner,e,position,position,window,true,bounds,into) and N.supported(owner,e,position,into) then return position end
+            if N.traversalClear(owner,e,position,position,window,true,bounds,into) and N.supported(owner,e,position,into)
+                and N.queueRoute(owner,e,position,d,window,bounds) then return position end
         end
     end
     return nil
@@ -418,6 +452,7 @@ function N.entryDescriptor(map,window)
 end
 function N.entryPlan(owner,e,window)
     if not window or window.count>0 or window.activeEntry and window.activeEntry~=e.id then return nil end
+    N.expireEntryFailures(e,os.clock())
     if e.failedEntries and e.failedEntries[window]==(owner.ctx.map.navigationRevision or 0) then return nil,"Geometry" end
     local descriptor=N.entryDescriptor(owner.ctx.map,window);if not descriptor then return nil,"Support" end
     local slots=window

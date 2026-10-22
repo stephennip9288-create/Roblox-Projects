@@ -22,12 +22,9 @@ def blob(data):
 
 class AudioCorrections(unittest.TestCase):
     def test_only_owned_audio_bytes_change(self):
-        base = json.loads((REVIEW / 'BASELINE-RUNTIME.json').read_text())
+        from runtime_provenance import assert_reviewed_runtime
+        assert_reviewed_runtime(self)
         current = {str(p.relative_to(DEV)): p for p in (DEV / 'Source/Runtime').rglob('*.lua')}
-        self.assertEqual(set(base), set(current)); self.assertEqual(len(current), 61)
-        for name, path in current.items():
-            if name != 'Source/Runtime/client/Effects.lua':
-                self.assertEqual(blob(path.read_bytes()), base[name], name)
         before = (DEV / 'Tests/Fixtures/Effects-audio-corrections-before.txt').read_bytes()
         self.assertEqual(blob(before), '4f8f6613c7a87eaf81f782605145be3739a1b25e')
         after = current['Source/Runtime/client/Effects.lua'].read_bytes()

@@ -10,12 +10,12 @@ def binary(value):
     return str(Path(shutil.which(value) or value).resolve())
 lune=binary(args.lune)
 results=[]
-for name in ['loading', 'loadingpreview', 'evolution', 'events', 'presentation', 'director', 'server', 'navigation', 'pursuit', 'rigs', 'weapons', 'arrival', 'extraction', 'map_remaster', 'map_batch11', 'enemy-lifecycle', 'enemy-path-recovery', 'combat-ui', 'combat-input', 'touch', 'integration-contracts', 'weapons-batch1', 'infected-batch1', 'infected-entrances', 'infected-geometry', 'enemy-b11-runtime', 'enemy-b11-appearance', 'enemy-b11-admission', 'enemy-b11-spatial', 'enemy-b11-geometry', 'audio', 'audio-quality-b11', 'batch1-integration']:
+for name in ['loading', 'loadingpreview', 'evolution', 'events', 'presentation', 'director', 'server', 'navigation', 'pursuit', 'rigs', 'weapons', 'arrival', 'extraction', 'map_remaster', 'map_batch11', 'enemy-lifecycle', 'enemy-path-recovery', 'combat-ui', 'combat-input', 'touch', 'integration-contracts', 'weapons-batch1', 'infected-batch1', 'infected-entrances', 'infected-geometry', 'enemy-b11-runtime', 'enemy-b11-appearance', 'enemy-b11-admission', 'enemy-b11-spatial', 'enemy-b11-geometry', 'map-window-geometry', 'enemy-b1-r6', 'enemy-b1-entry-followup', 'audio', 'audio-quality-b11', 'audio-corrections-b1', 'batch1-integration']:
     started=time.monotonic()
     run=subprocess.run([lune,'run',f'Tests/{name}.luau'],cwd=root,capture_output=True,text=True)
     print(run.stdout,end='')
     if run.stderr:print(run.stderr,end='')
-    counts=re.findall(r'(?:passed:|assertions:)\s*(\d+)',run.stdout)
+    counts=re.findall(r'(?:passed:|assertions:|checks:)\s*(\d+)',run.stdout)
     results.append({'suite':name,'passed':run.returncode==0,'assertions':int(counts[-1]) if counts else None,'seconds':round(time.monotonic()-started,3),'output':run.stdout,'errors':run.stderr})
 compile_result={'run':False}
 if args.luau_compile:

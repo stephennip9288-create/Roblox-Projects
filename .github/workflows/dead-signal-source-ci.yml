@@ -63,6 +63,8 @@ jobs:
           lune --version
           lune run Tests/syntax.luau
           python Tests/run.py --lune lune
+      - name: Audit reviewed runtime provenance and audio assets (no upload)
+        run: python -m unittest discover -s games/dead-signal/dev/Tests -p 'test_*.py' -v
       - name: Archive isolated configs and test report
         if: always()
         uses: actions/upload-artifact@v7

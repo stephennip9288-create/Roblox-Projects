@@ -33,45 +33,8 @@ class AudioQualityB11(unittest.TestCase):
             self.assertNotIn(forbidden, block)
 
     def test_all_runtime_records_match_reviewed_integration(self):
-        # The immutable Audio-only audit remains in #43. In integration each
-        # intentional specialist edit is locked to its reviewed blob/head;
-        # every other record must still equal that original frozen baseline.
-        baseline = json.loads((REVIEW / 'BASELINE-RUNTIME.json').read_text())
-        lock = json.loads((DEV / 'Reviews/batch1-1/REVIEWED-RUNTIME.json').read_text())
-        current = {str(p.relative_to(DEV)): p for p in (DEV / 'Source/Runtime').rglob('*.lua')}
-        records = lock['records']
-        self.assertEqual(set(current), set(baseline)); self.assertEqual(set(current), set(records))
-        self.assertEqual(len(current), 61)
-        groups = {
-            39: ('9c50b6f7ff65f6f79d4550526aab40d6b84a363f', {'server/Architecture.lua', 'server/MapBuilder.lua', 'server/MapDetail.lua', 'server/VisualPass.lua', 'shared/MapLayouts.lua'}),
-            42: ('aee7d5e38d42d862b3ebb66feaf63678be77d17d', {'server/Enemies.lua', 'server/EnemyRigs.lua', 'server/InfectedWardrobe.lua', 'server/Navigation.lua', 'shared/NPCPose.lua'}),
-            41: ('848ccc9259b7e0059b9238280bdb70f4912afdf0', {'client/Controller.lua'}),
-            43: ('fd802c72f0401e00af022fd7df27dbd119c56005', {'client/Effects.lua'}),
-        }
-        expected = {f'Source/Runtime/{name}': (pr, head) for pr, (head, names) in groups.items() for name in names}
-        # #49 activated the owner-requested audition after this historical lock.
-        # The current Audio follow-up owns only Effects' guarded audio block.
-        # Preserve the original review lock and independently pin the exact
-        # current branch point, including the untouched staging-only Config.
-        correction = json.loads((DEV / 'Reviews/audio-corrections-b1/BASELINE-RUNTIME.json').read_text())
-        self.assertEqual(set(correction), set(current))
-        self.assertEqual(correction['Source/Runtime/shared/Config.lua'], '1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2')
-        self.assertEqual(correction['Source/Runtime/client/Effects.lua'], '4f8f6613c7a87eaf81f782605145be3739a1b25e')
-        for name, path in current.items():
-            row = records[name]
-            if name in expected:
-                self.assertEqual((row['review_pr'], row['source_head']), expected[name], name)
-                self.assertNotEqual(row['blob_sha'], baseline[name], name)
-            else:
-                self.assertIsNone(row['review_pr'], name)
-                self.assertEqual(row['blob_sha'], baseline[name], name)
-            if name == 'Source/Runtime/client/Effects.lua':
-                self.assertEqual(blob((DEV / 'Tests/Fixtures/Effects-audio-corrections-before.txt').read_bytes()), row['blob_sha'])
-            elif name == 'Source/Runtime/shared/Config.lua':
-                self.assertEqual(blob(path.read_bytes()), correction[name], name)
-            else:
-                self.assertEqual(correction[name], row['blob_sha'], name)
-                self.assertEqual(blob(path.read_bytes()), row['blob_sha'], name)
+        from runtime_provenance import assert_reviewed_runtime
+        assert_reviewed_runtime(self)
 
     def test_primary_provenance_and_license_inventory(self):
         sources = json.loads((REVIEW / 'SOURCES.json').read_text()); self.assertEqual(len(sources), 22)

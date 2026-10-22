@@ -34,3 +34,11 @@ See [Batch 1 weapon evidence](../Reviews/weapons-batch1/README.md) for measured 
 Batch 1 integration adds `infected-batch1`, `infected-entrances`, `infected-geometry`, `audio` and `batch1-integration` to the shared runner; `weapons-batch1` remains registered. The map-remaster suite invokes map_batch1 once. Integration tests exercise the actual Controller adapters against replicated map/NPC facts, stale-run/sequence rejection, metadata from all three generated maps, master mute including default character sounds and teardown. Geometry checks exercise all 210 window/profile combinations plus 63 contextual-link plans and their complete sweeps. None is a Roblox engine/device playtest.
 
 Also run `python -m unittest discover -s Tests -p 'test_*.py' -v` for the six audio patch guards, `python Tests/check_map_remaster.py` and `python Tests/check_map_batch1.py` after Lune produces map reports. The spatial Python audits use NumPy/SciPy locally; they do not simulate native navmesh/physics.
+
+## Batch 1 follow-up integration (#52, #53, #54)
+
+The shared runner now registers 37 suites, adding `map-window-geometry`, `enemy-b1-r6`, `enemy-b1-entry-followup` and `audio-corrections-b1`. Its assertion parser also counts the map suite's `checks:` output. The no-publish Source CI additionally runs all 21 Python audio/provenance cases; two optional source-input checks skip in CI, while committed supplemental PCM is always checked.
+
+`runtime_provenance.py` verifies all 61 runtime records against exact reviewed PR heads/blobs. The historical review ledger and frozen c80 baseline stay immutable. The additive `Reviews/batch1-1-followup/REVIEWED-RUNTIME.json` explicitly records Config #49 and the seven runtime changes from #52/#53/#54. Audio prefix/VFX guards, original 84-ID/config checks, and all prior suites remain enforced.
+
+For exact supplemental PCM reproduction, run `python Tests/test_audio_corrections_b1.py --source-cache /absolute/pinned-source-cache -v`. Original 84 prepared WAVs can separately be checked with `python Tests/test_audio_quality_b11.py --wav-dir /absolute/original-wavs -v`. These require the pinned source inputs; they do not prove native playback or permissions.

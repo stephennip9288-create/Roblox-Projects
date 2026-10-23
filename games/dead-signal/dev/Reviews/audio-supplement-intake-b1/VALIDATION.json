@@ -1,0 +1,72 @@
+{
+  "issue": "DS-B1-001",
+  "scope": "Batch 1 supplemental owner-approval intake and non-runtime Config proposal",
+  "base_source": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+  "runtime_files_changed": 0,
+  "original_templates_changed": false,
+  "release_controls_changed": false,
+  "base_config_blob": "1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2",
+  "proposed_config_blob": "88cccbed93fabff62c72c170a595ea7f6338216e",
+  "proposed_config_sha256": "10480e3095df4ceda1daa80ed50f7a10221a3e1d59449bf6c4d288aa509ba72c",
+  "owner_accepted_recordings": 6,
+  "owner_reports_staging_access_for_all": true,
+  "bound_ids_in_proposal": 4,
+  "unbound_approved_components": 2,
+  "bank_changes": [
+    "Board.Break",
+    "Enemy.Entry.Contact"
+  ],
+  "tests": {
+    "python": {
+      "command": "python Tests/test_audio_supplement_intake.py -v",
+      "passed": true,
+      "cases": 4
+    },
+    "actual_runtime_proposal": {
+      "command": "lune run Tests/audio-supplement-intake.luau",
+      "passed": true,
+      "assertions": 417,
+      "universes": [
+        10771141095,
+        10770732078,
+        0,
+        1,
+        10771141096
+      ],
+      "quality_modes": [
+        "Normal",
+        "Low"
+      ]
+    },
+    "local_syntax": {
+      "command": "lune run Tests/syntax.luau",
+      "passed": true,
+      "files": 117,
+      "note": "Restored specialist workspace count; full integrated source includes additional MAIN tests and is checked by automatic PR CI."
+    },
+    "patch": {
+      "independent_git_apply_in_temporary_tree": true,
+      "exact_candidate_match": true,
+      "rejects_changed_base": true
+    },
+    "test_input_hashes_match_current_integration": {
+      "Source/Runtime/shared/Config.lua": "1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2",
+      "Source/Runtime/client/Effects.lua": "eba3364383e7bef7fc7fbe831287b257bdd0d43a",
+      "Source/Runtime/shared/ControlSettings.lua": "9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996",
+      "Tests/Fixtures/audio-corrections-env.luau": "39942713ad76049d726976be6401052d1ecd5ba9"
+    }
+  },
+  "pending": [
+    "MAIN review/application to shared Config",
+    "reconcile current Config/runtime review locks while preserving original84 snapshot",
+    "combined tests and candidate build after actual Config integration",
+    "native moderation/loading and permission verification",
+    "integrated event timing / gameplay listening",
+    "crowded waves / mobile speakers and headphones / mute and repeat-session acceptance"
+  ],
+  "native_quality_verified": false,
+  "issue_verified": false,
+  "published": false,
+  "native_places_changed": false,
+  "note": "No new native playback or full local integrated build is claimed. The recorded owner acceptance is isolated-sample approval, not final gameplay acceptance."
+}

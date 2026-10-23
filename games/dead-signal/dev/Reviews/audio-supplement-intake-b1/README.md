@@ -32,6 +32,8 @@ python Reviews/audio-supplement-intake-b1/prepare_bindings.py --source Source/Ru
 
 MAIN must reconcile the deliberately exact Config/runtime ledger and audition guard tests for this new reviewed change, retain their historical original-84 locks, run the combined tests/build/fidelity gates, and prepare a new release candidate. This intake does not alter those MAIN-owned tests/ledgers or bypass them. No release control, place binary, production bank, profile or workflow is changed.
 
+The new intake audits support both the exact original Config and the exact reviewed applied block, so they remain usable after MAIN applies this proposal. Other Config edits and duplicate installation are rejected; rendering never silently applies twice.
+
 ## Evidence and remaining acceptance
 
 `OWNER-APPROVALS.json` distinguishes owner-confirmed isolated listening and reported staging access from independently unverified moderation, engine permission/loading and native gameplay/mobile acceptance. Historical null-ID templates and source inventories remain immutable; this new record carries the six reported IDs and original prepared-file hashes. Those hashes identify our source files, not a byte-for-byte verification of Roblox's transcoded assets. CC0 provenance remains in `../audio-corrections-b1/SUPPLEMENTAL-SOURCES.json` and its pinned recipes. No pitch/speed changes or new recordings are introduced.

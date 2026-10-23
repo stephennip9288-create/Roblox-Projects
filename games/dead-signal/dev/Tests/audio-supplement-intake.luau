@@ -4,10 +4,16 @@ local fs=require('@lune/fs') local luau=require('@lune/luau') local r=require('@
 local setup=require('./Fixtures/audio-corrections-env')
 local root='Reviews/audio-supplement-intake-b1/'
 local before=fs.readFile('Source/Runtime/shared/Config.lua')
+local block=fs.readFile(root..'STAGING-BINDINGS.luau.txt')
+local installedFirst,installedLast=string.find(before,block,1,true)
+if installedFirst then
+    before=string.sub(before,1,installedFirst-1)..string.sub(before,installedLast+1)
+    assert(not string.find(before,block,1,true),'Supplemental block cannot be installed twice')
+end
 local marker='-- END DS-B1-001 84-ASSET PRIVATE STAGING AUDITION\n'
 local first,last=string.find(before,marker,1,true);assert(first and last,'Exact baseline boundary')
 assert(not string.find(before,marker,last+1,true),'Unique boundary')
-local after=string.sub(before,1,last)..fs.readFile(root..'STAGING-BINDINGS.luau.txt')..string.sub(before,last+1)
+local after=string.sub(before,1,last)..block..string.sub(before,last+1)
 local approval=serde.decode('json',fs.readFile(root..'OWNER-APPROVALS.json'))
 local count=0
 local function check(ok,message) assert(ok,message);count+=1 end

@@ -15,6 +15,18 @@ def blob(data):
     return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
 
 
+def baseline(source):
+    """Audit the exact pre-patch or applied state without blessing other edits."""
+    if blob(source) == BASE_BLOB:
+        return source
+    block = (REVIEW / 'STAGING-BINDINGS.luau.txt').read_bytes()
+    if source.count(block) == 1:
+        original = source.replace(block, b'', 1)
+        if blob(original) == BASE_BLOB:
+            return original
+    raise ValueError('Config changed beyond the exact reviewed supplemental patch')
+
+
 def render(source):
     if blob(source) != BASE_BLOB:
         raise ValueError('Config changed: MAIN must review the new base before applying this proposal')

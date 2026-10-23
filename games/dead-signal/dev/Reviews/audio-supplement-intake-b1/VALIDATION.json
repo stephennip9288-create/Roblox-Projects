@@ -36,7 +36,9 @@
       "quality_modes": [
         "Normal",
         "Low"
-      ]
+      ],
+      "also_passes_after_exact_patch_application": true,
+      "assertions_each_state": 417
     },
     "local_syntax": {
       "command": "lune run Tests/syntax.luau",
@@ -47,7 +49,8 @@
     "patch": {
       "independent_git_apply_in_temporary_tree": true,
       "exact_candidate_match": true,
-      "rejects_changed_base": true
+      "rejects_changed_base": true,
+      "new_audits_remain_valid_after_main_applies_patch": true
     },
     "test_input_hashes_match_current_integration": {
       "Source/Runtime/shared/Config.lua": "1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2",

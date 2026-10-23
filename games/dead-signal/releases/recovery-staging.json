@@ -9,19 +9,19 @@
     "sha256": "e543b305b755bb2be330f34404ddfa064d2a1979a9fdb1c184536a1ae74ad197",
     "expires_at": "2027-01-17T10:30:41Z",
     "head_sha": "4f41b306d2deec283fe97ac4f7af314bd9055b2f",
-    "note": "Exact currently deployed private staging audition from run39237971450; verified archive and four embedded source/config sets. Owner-authorized follow-up deploy must restore this set on failure. Never fall back to historical binaries."
+    "note": "Exact known-good staging source409ae511 restored to all four private places by successful recovery39883826778 after Dispatch upload409 failures. Original binary artifact remains hash-pinned; native QA and production authorization remain unchanged."
   },
   "deployment": {
-    "run_id": 39237971450,
+    "run_id": 39883826778,
     "attempt": 1,
     "versions": {
-      "dispatch": 15,
-      "blackwater": 12,
-      "cinderworks": 12,
-      "whiteout": 12
+      "blackwater": 14,
+      "cinderworks": 14,
+      "whiteout": 14,
+      "dispatch": 18
     },
     "workflow_id": 386310450,
-    "control_sha": "4f41b306d2deec283fe97ac4f7af314bd9055b2f"
+    "control_sha": "d3704e89814ce021eaf8683fd836b7c5054d2ae0"
   },
   "places": {
     "dispatch": {

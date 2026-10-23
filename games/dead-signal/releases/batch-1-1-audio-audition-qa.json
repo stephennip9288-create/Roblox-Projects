@@ -27,8 +27,8 @@
     "adapter": "848ccc9259b7e0059b9238280bdb70f4912afdf0",
     "audio": "495b1350db04bde356f36a0a9cd8551ede73ccb3"
   },
-  "rollback_source_sha": "409ae5118981ff5c9ba82802eb41c6a8326a4bc1",
-  "rollback_deployment_run": 39883826778,
+  "rollback_source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+  "rollback_deployment_run": 39884224314,
   "staging_binary_sha256": {
     "dispatch": "f3ff58b88058256f2b2f5a766c6d879538d313b8a7137306f0d0421da5af64db",
     "blackwater": "609ae7a7c0b2e51f52237d550f7b160e9170adad2f432796888262267a29d87a",
@@ -48,7 +48,7 @@
     "archive_sha256": "71737e3b46f2a312d8c063fa886da08c927f5678292f28f7fdea31b0bec9211f",
     "source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06"
   },
-  "note": "Owner explicitly authorized deploying the exact integrated Batch 1 follow-up to PRIVATE STAGING on2026-10-22. Uses existing narrow QA admission with unchanged guard code, incomplete scope, no production authorization and no bugs verified. Conservative legacy admission statuses keep001/006 In Progress until native acceptance. All original84 IDs retained;14 additional samples remain unuploaded and11 mechanism stages lack suitable recordings. No asset/listening approval is inferred.",
+  "note": "Owner explicitly authorized deploying the exact integrated Batch 1 follow-up to PRIVATE STAGING on2026-10-22. Uses existing narrow QA admission with unchanged guard code, incomplete scope, no production authorization and no bugs verified. Conservative legacy admission statuses keep001/006 In Progress until native acceptance. All original84 IDs retained;14 additional samples remain unuploaded and11 mechanism stages lack suitable recordings. No asset/listening approval is inferred. Recovery pointer refreshed after successful owner-authorized follow-up deployment39884224314; current recorded staging is15b08518. Incomplete scope, all bug/asset acceptance flags and production restrictions remain unchanged.",
   "owner_instruction": "Deploy to staging \u2014 explicit owner instruction in MAIN recovery conversation, 2026-10-22",
   "validated_workflow_runs": {
     "source_ci": 39789016979,

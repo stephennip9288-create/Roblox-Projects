@@ -20,6 +20,15 @@ end
 local uploads=serde.decode('json',fs.readFile('Reviews/audio-quality-b11/OWNER-UPLOADS-UNVERIFIED.json'))
 local function id(name) return 'rbxassetid://'..uploads[name].asset_id end
 local recordingNames={};for name,row in pairs(uploads) do recordingNames['rbxassetid://'..row.asset_id]=name end
+-- Keep the original upload evidence immutable; current banks also consume #59.
+local supplements=serde.decode('json',fs.readFile('Reviews/audio-supplement-intake-b1/OWNER-APPROVALS.json')).recordings
+local originalId=id
+local supplementalIds={}
+for _,row in ipairs(supplements) do
+    supplementalIds[row.name]='rbxassetid://'..row.roblox_asset_id
+    recordingNames[supplementalIds[row.name]]=row.name
+end
+id=function(name) return supplementalIds[name] or originalId(name) end
 local audit={base='c80d55aeeae4b51ef8d836949a33bf440890c6b7',nativeListening=false,callerMappings={},reloadTimeline={}}
 local banned={'swordslash.wav','swordlunge.wav','unsheath.wav','impact_water.mp3'}
 local function safe(e)
@@ -79,7 +88,7 @@ for _,row in ipairs(cases) do
 end
 -- A completed fetch warms a future event; it never replays the missed impact.
 do
-    local c=config();c.SoundIds.Board={variants={id('entry_contact_1')}}
+    local c=config();c.SoundIds['Board.Break']={variants={id('entry_contact_1')}}
     local e=setup(false,c)
     check(not e.fx:sound('Board',r.Vector3.zero,{sourceId='cold'}),'cold strike is skipped')
     e.fx:audioUpdate(0)
@@ -127,12 +136,12 @@ do
     local e=setup(false,c);ready(e)
     check(not e.fx:sound('Enemy.Entry.Land',r.Vector3.zero,{sourceId='entry'}),'missing land cannot borrow board/contact')
     local contact=e.fx:sound('Enemy.Entry.Contact',r.Vector3.zero,{sourceId='entry'})
-    check(contact and contact.sound.SoundId==id('entry_contact_1') or contact and contact.sound.SoundId==id('entry_contact_2') or contact and contact.sound.SoundId==id('entry_contact_3'),'dedicated contact remains available')
+    check(contact and (contact.sound.SoundId==id('window_contact_1') or contact.sound.SoundId==id('frame_scrape_2')),'approved dedicated contact remains available')
     e.fx:audioDestroy()
 end
 for _,low in ipairs({false,true}) do
     local e=setup(low,config());ready(e)
-    local family={Board={entry_contact_1=true,entry_contact_2=true,entry_contact_3=true},['Enemy.Entry.Contact']={entry_contact_1=true,entry_contact_2=true,entry_contact_3=true},['Enemy.Entry.Land']={entry_land_1=true,entry_land_2=true,entry_land_3=true}}
+    local family={Board={board_fracture_1=true,wood_break_1=true},['Enemy.Entry.Contact']={window_contact_1=true,frame_scrape_2=true},['Enemy.Entry.Land']={entry_land_1=true,entry_land_2=true,entry_land_3=true}}
     for key,names in pairs(family) do
         local expected={};for name in pairs(names) do expected[id(name)]=true end
         local previous

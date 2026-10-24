@@ -240,4 +240,13 @@ if game.GameId==10771141095 then
     C.SoundIds["Zombie.Groan"]={gain=1,variants={"rbxassetid://85781807029579","rbxassetid://102111613719129","rbxassetid://74974756246529","rbxassetid://107418837961539"}}
 end
 -- END DS-B1-001 84-ASSET PRIVATE STAGING AUDITION
+-- START DS-B1-001 OWNER-ACCEPTED SUPPLEMENTAL STAGING CANDIDATE
+-- Owner accepted these isolated samples and reports staging access granted.
+-- Engine permission/loading and integrated gameplay/mobile acceptance remain pending.
+-- Original 84-asset intake remains unchanged; landing and reload banks are retained.
+if game.GameId==10771141095 then
+    C.SoundIds["Board.Break"]={gain=1,variants={"rbxassetid://121376790132442","rbxassetid://91133693743569"}}
+    C.SoundIds["Enemy.Entry.Contact"]={gain=1,variants={"rbxassetid://128395906553592","rbxassetid://126280091004313"}}
+end
+-- END DS-B1-001 OWNER-ACCEPTED SUPPLEMENTAL STAGING CANDIDATE
 return C

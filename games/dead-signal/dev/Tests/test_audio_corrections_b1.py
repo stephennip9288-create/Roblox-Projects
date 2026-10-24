@@ -34,7 +34,8 @@ class AudioCorrections(unittest.TestCase):
         self.assertNotEqual(before, after)
 
     def test_owner_ids_and_84_original_recordings_unchanged(self):
-        config = (DEV / 'Source/Runtime/shared/Config.lua').read_bytes()
+        from runtime_provenance import assert_reviewed_supplement
+        config = assert_reviewed_supplement(self)
         self.assertEqual(blob(config), '1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2')
         uploads = (ORIGINAL / 'OWNER-UPLOADS-UNVERIFIED.json').read_bytes()
         self.assertEqual(blob(uploads), '94aac65175bbe8790b5740f6c9fb288e6e71ebbd')

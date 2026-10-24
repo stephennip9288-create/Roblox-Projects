@@ -1,0 +1,93 @@
+{
+  "runtime_config_blob": "88cccbed93fabff62c72c170a595ea7f6338216e",
+  "environments": {
+    "staging": {
+      "dispatch": {
+        "sha256": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413",
+        "bytes": 2760685,
+        "source_instances": 61,
+        "source_bytes_exact": true,
+        "reproduced_byte_for_byte": true,
+        "raw_binary_fidelity": true,
+        "untouched_chunks": 1513,
+        "published": false
+      },
+      "blackwater": {
+        "sha256": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747",
+        "bytes": 2731765,
+        "source_instances": 61,
+        "source_bytes_exact": true,
+        "reproduced_byte_for_byte": true,
+        "raw_binary_fidelity": true,
+        "untouched_chunks": 1496,
+        "published": false
+      },
+      "cinderworks": {
+        "sha256": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b",
+        "bytes": 2739610,
+        "source_instances": 61,
+        "source_bytes_exact": true,
+        "reproduced_byte_for_byte": true,
+        "raw_binary_fidelity": true,
+        "untouched_chunks": 1500,
+        "published": false
+      },
+      "whiteout": {
+        "sha256": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00",
+        "bytes": 2741069,
+        "source_instances": 61,
+        "source_bytes_exact": true,
+        "reproduced_byte_for_byte": true,
+        "raw_binary_fidelity": true,
+        "untouched_chunks": 1500,
+        "published": false
+      }
+    },
+    "production": {
+      "dispatch": {
+        "sha256": "a16db0f41fa553c35d58be56aef1514f3d786b55a7853e0b874a260637ca1c8e",
+        "bytes": 2760691,
+        "source_instances": 61,
+        "source_bytes_exact": true,
+        "reproduced_byte_for_byte": true,
+        "raw_binary_fidelity": true,
+        "untouched_chunks": 1513,
+        "published": false
+      },
+      "blackwater": {
+        "sha256": "f6276a96460ad98ebd5243156f1b27d52e23474965a86e58f0646cd6e71da6d2",
+        "bytes": 2731769,
+        "source_instances": 61,
+        "source_bytes_exact": true,
+        "reproduced_byte_for_byte": true,
+        "raw_binary_fidelity": true,
+        "untouched_chunks": 1496,
+        "published": false
+      },
+      "cinderworks": {
+        "sha256": "b77f76aeab1b11bfa0a8e5640078a4938a51be9a1a6013906936801bbe154a60",
+        "bytes": 2739614,
+        "source_instances": 61,
+        "source_bytes_exact": true,
+        "reproduced_byte_for_byte": true,
+        "raw_binary_fidelity": true,
+        "untouched_chunks": 1500,
+        "published": false
+      },
+      "whiteout": {
+        "sha256": "bdd0e1d019b1e9eae91ae623cf3574844650c49b007fd51fefb698a244481d4b",
+        "bytes": 2741073,
+        "source_instances": 61,
+        "source_bytes_exact": true,
+        "reproduced_byte_for_byte": true,
+        "raw_binary_fidelity": true,
+        "untouched_chunks": 1500,
+        "published": false
+      }
+    }
+  },
+  "source_inventory_fixed": 61,
+  "total_source_instances": 488,
+  "native_engine_playtest": false,
+  "publish_authorized": false
+}

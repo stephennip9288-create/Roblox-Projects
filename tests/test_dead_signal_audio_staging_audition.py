@@ -2,6 +2,7 @@
 
 This is not remote Roblox moderation or audio playback verification.
 """
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -36,6 +37,20 @@ def expected_banks():
     return banks
 
 class AudioStagingAuditionTests(unittest.TestCase):
+    def test_supplement_preserves_exact_original_84_config(self):
+        source=CONFIG.read_bytes()
+        review=ROOT/'games/dead-signal/dev/Reviews/audio-supplement-intake-b1'
+        block=(review/'STAGING-BINDINGS.luau.txt').read_bytes()
+        def blob(data):
+            return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+        self.assertEqual(blob(source),'88cccbed93fabff62c72c170a595ea7f6338216e')
+        self.assertEqual(blob(block),'15332ae9bd424125cc5315a6b153b430109390de')
+        self.assertEqual(source.count(block),1)
+        self.assertEqual(blob(source.replace(block,b'',1)),'1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2')
+        self.assertGreater(source.index(block),source.index(END.encode()))
+        for asset in ['117834744541770','117522141638495']:
+            self.assertNotIn(asset.encode(),source,'Approved components stay unbound')
+
     def test_84_records_58_slots_and_immutable_creator_ids(self):
         banks=expected_banks()
         self.assertEqual(len(banks), 52) # Anchored to canonical review manifest

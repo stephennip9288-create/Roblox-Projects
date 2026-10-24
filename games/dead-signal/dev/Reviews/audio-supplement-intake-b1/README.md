@@ -1,5 +1,7 @@
 # DS-B1-001 — owner-approved supplemental audio intake
 
+**Current MAIN application:** #59 is merged, and its exact patch has been applied in the new source candidate. See [the integration report](../audio-supplement-integration-b1/README.md). The proposal/evidence below describes the immutable intake state; it is not a claim that staging has changed.
+
 The owner accepted all six uploaded recordings and confirmed access after being asked specifically about private staging universe **10771141095**: “I like all of those uploaded sounds. All have been granted access.” The earlier ID receipt is [QA comment 6355970139](https://github.com/stephennip9288-create/Roblox-Projects/issues/37#issuecomment-6355970139).
 
 This follow-up records that acceptance and supplies a tested **proposal for MAIN-owned Config**. Runtime is unchanged by this PR. The current integrated/staged source remains `15b08518917482d737f60a7bd8f9c7b9c3bd0a06` until MAIN reviews/applies the patch, creates a new source candidate and follows the release controls. Do not repeat merged #54 or assume earlier staging authorization covers a changed source candidate.

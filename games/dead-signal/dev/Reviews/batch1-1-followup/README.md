@@ -87,3 +87,7 @@ python scripts/check_dead_signal_production.py
 ```
 
 From `games/dead-signal/dev`, run `lune run Tests/syntax.luau`, `python Tests/run.py --lune /absolute/lune`, `python Tests/check_map_remaster.py`, `python Tests/check_map_batch1.py` and `lune run Tools/inspect-integration-candidates.luau`. The native-reader helper's existing staging path can be changed in a disposable copy to read the production-preview directory; never reserialize a native baseline. Optional source-cache/PCM reproduction commands are documented in Tests/README.md. These commands publish nothing.
+
+## Current supplemental audio application
+
+The follow-up source and deployment evidence above is historical. The latest recorded staging release is now source `15b08518917482d737f60a7bd8f9c7b9c3bd0a06`, run39884224314, Dispatch19 / maps15/15/15, recovery artifact12472042399. Its archive and all244 source records have been reverified. Six supplements have since been uploaded and accepted by the owner; four are bound in the new candidate and two remain unbound. See [current application and readiness](../audio-supplement-integration-b1/README.md), [audio status](AUDIO-ASSET-STATUS.md) and Issue #37 for the exact new SHA. Native playback/listening and DS-B1-001 remain Open/unverified. This source application publishes nothing.

@@ -7,6 +7,24 @@ DEV = Path(__file__).resolve().parents[1]
 BASE = 'c80d55aeeae4b51ef8d836949a33bf440890c6b7'
 HISTORICAL_BLOB = 'dcf56e871bb56f809df77515b73cfaa60fa32638'
 CORRECTION_BASELINE_BLOB = 'a5f6c619624fa5a1372327c978cc4df86b08987b'
+FOLLOWUP_LEDGER_BLOB = '2320590827bdd58ad976115728fa9200c7c95c26'
+# #59 reviews a patch, not a Runtime commit. Preserve that distinction and the
+# prior ledger rather than attributing its proposed Config to the intake head.
+SUPPLEMENT = {
+    'schema': 1,
+    'kind': 'reviewed-patch-application',
+    'integration_base': '15b08518917482d737f60a7bd8f9c7b9c3bd0a06',
+    'intake_pr': 59,
+    'intake_head': 'c598b26dfa2bf45d74e80128f930325ab6156321',
+    'prior_ledger_blob': FOLLOWUP_LEDGER_BLOB,
+    'path': 'Source/Runtime/shared/Config.lua',
+    'base_blob': '1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2',
+    'applied_blob': '88cccbed93fabff62c72c170a595ea7f6338216e',
+    'patch_blob': 'a179ce26e96b631a3b732224f550ec5c19ca60e0',
+    'bindings_blob': '15332ae9bd424125cc5315a6b153b430109390de',
+    'owner_approvals_blob': 'ffedfe43d974d3c10baafb977f2f908d89b9c4c9',
+    'scope': 'private-staging-only',
+}
 # Frozen from GitHub's exact #49/#52/#53/#54 source trees, not current files.
 APPROVED = {
     "Source/Runtime/shared/Config.lua": [
@@ -54,6 +72,22 @@ APPROVED = {
 def blob(data):
     return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
 
+def assert_reviewed_supplement(test):
+    review = DEV / 'Reviews/audio-supplement-intake-b1'
+    delta = json.loads((DEV / 'Reviews/audio-supplement-integration-b1/REVIEWED-DELTA.json').read_text())
+    test.assertEqual(delta, SUPPLEMENT, 'Exact reviewed patch provenance')
+    for filename, key in [('STAGING-CONFIG.patch', 'patch_blob'),
+                          ('STAGING-BINDINGS.luau.txt', 'bindings_blob'),
+                          ('OWNER-APPROVALS.json', 'owner_approvals_blob')]:
+        test.assertEqual(blob((review / filename).read_bytes()), SUPPLEMENT[key], filename)
+    source = (DEV / SUPPLEMENT['path']).read_bytes()
+    test.assertEqual(blob(source), SUPPLEMENT['applied_blob'], 'Exact applied Config')
+    block = (review / 'STAGING-BINDINGS.luau.txt').read_bytes()
+    test.assertEqual(source.count(block), 1, 'No missing or duplicate application')
+    original = source.replace(block, b'', 1)
+    test.assertEqual(blob(original), SUPPLEMENT['base_blob'], 'Original 84 Config bytes preserved')
+    return original
+
 def assert_reviewed_runtime(test):
     historical_bytes = (DEV / 'Reviews/batch1-1/REVIEWED-RUNTIME.json').read_bytes()
     test.assertEqual(blob(historical_bytes), HISTORICAL_BLOB, 'Historical review must remain immutable')
@@ -61,7 +95,10 @@ def assert_reviewed_runtime(test):
     base_bytes = (DEV / 'Reviews/audio-corrections-b1/BASELINE-RUNTIME.json').read_bytes()
     test.assertEqual(blob(base_bytes), CORRECTION_BASELINE_BLOB, 'Frozen c80 runtime inventory')
     base = json.loads(base_bytes)
-    lock = json.loads((DEV / 'Reviews/batch1-1-followup/REVIEWED-RUNTIME.json').read_text())
+    lock_bytes = (DEV / 'Reviews/batch1-1-followup/REVIEWED-RUNTIME.json').read_bytes()
+    test.assertEqual(blob(lock_bytes), FOLLOWUP_LEDGER_BLOB, 'Prior combined ledger remains immutable')
+    lock = json.loads(lock_bytes)
+    assert_reviewed_supplement(test)
     test.assertEqual(lock['historical_ledger_blob'], HISTORICAL_BLOB)
     test.assertEqual(lock['integration_base'], BASE)
     current = {str(p.relative_to(DEV)): p for p in (DEV / 'Source/Runtime').rglob('*.lua')}
@@ -78,4 +115,5 @@ def assert_reviewed_runtime(test):
             pr, head, sha = APPROVED[name]
             expected = {'blob_sha': sha, 'review_pr': pr, 'source_head': head}
         test.assertEqual(lock['records'][name], expected, name + ' reviewed owner/head/blob')
-        test.assertEqual(blob(path.read_bytes()), expected['blob_sha'], name + ' current bytes')
+        applied = SUPPLEMENT['applied_blob'] if name == SUPPLEMENT['path'] else expected['blob_sha']
+        test.assertEqual(blob(path.read_bytes()), applied, name + ' current bytes')

@@ -1,0 +1,142 @@
+{
+  "candidate_source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+  "all_required_checks_passed": true,
+  "workflow_families": 5,
+  "check_runs": [
+    {
+      "name": "Offline source-to-production parity (no publish)",
+      "id": 120740338180,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049994626/job/120740338180",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "validate",
+      "id": 120740338062,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049994634/job/120740338062",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "safe-source-patch",
+      "id": 120740338042,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049994622/job/120740338042",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python checks, isolated configs and Lune suites",
+      "id": 120740338009,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049994639/job/120740338009",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Verify four staging candidates and rollback binaries",
+      "id": 120740337844,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049994625/job/120740337844",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "safe-source-patch",
+      "id": 120740328404,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049991260/job/120740328404",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Python checks, isolated configs and Lune suites",
+      "id": 120740327837,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049991180/job/120740327837",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Offline source-to-production parity (no publish)",
+      "id": 120740327790,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049991207/job/120740327790",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Verify four staging candidates and rollback binaries",
+      "id": 120740327719,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049991213/job/120740327719",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "validate",
+      "id": 120740327656,
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/40049991185/job/120740327656",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "staging_artifact_verification": {
+    "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+    "artifact_id": 12542318547,
+    "run_id": 40049991260,
+    "zip_sha256": "9acd138f95082ed205b7b828d875b245573f5593b88ce60a5be4ebb408057c72",
+    "all_four_match_local": true,
+    "expires_at": "2026-11-07T01:31:41Z",
+    "places": {
+      "blackwater": {
+        "member": "blackwater.rbxl",
+        "sha256": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747",
+        "bytes": 2731765,
+        "matches_local_exactly": true
+      },
+      "cinderworks": {
+        "member": "cinderworks.rbxl",
+        "sha256": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b",
+        "bytes": 2739610,
+        "matches_local_exactly": true
+      },
+      "dispatch": {
+        "member": "dispatch.rbxl",
+        "sha256": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413",
+        "bytes": 2760685,
+        "matches_local_exactly": true
+      },
+      "whiteout": {
+        "member": "whiteout.rbxl",
+        "sha256": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00",
+        "bytes": 2741069,
+        "matches_local_exactly": true
+      }
+    }
+  },
+  "other_cloud_verification": {
+    "prod": {
+      "all_four_cloud_binaries_match_local": true,
+      "places": {
+        "blackwater": "f6276a96460ad98ebd5243156f1b27d52e23474965a86e58f0646cd6e71da6d2",
+        "cinderworks": "b77f76aeab1b11bfa0a8e5640078a4938a51be9a1a6013906936801bbe154a60",
+        "dispatch": "a16db0f41fa553c35d58be56aef1514f3d786b55a7853e0b874a260637ca1c8e",
+        "whiteout": "bdd0e1d019b1e9eae91ae623cf3574844650c49b007fd51fefb698a244481d4b"
+      },
+      "artifact_id": 12543137238,
+      "run_id": 40049991207,
+      "archive_sha256": "178a5fd9f478b8146a3acb13d4f5796bb26bda7944ac4948ea8906b972e2b09e",
+      "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d"
+    },
+    "tests": {
+      "passing_suites": 38,
+      "assertions": 1071772,
+      "artifact_id": 12542937177,
+      "run_id": 40049991180,
+      "archive_sha256": "81c13882fe5b1225d91bc22908a7d81010561929f1d9738d9ff9752406680c92",
+      "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d"
+    }
+  },
+  "trusted_control_python_cases": 80,
+  "trusted_control_python_passed": true,
+  "proposal_rejected_without_authorization": true,
+  "remaining_schema_passes_in_disposable_authorized_copy": true,
+  "new_source_publication_authorized": false,
+  "native_gameplay_acceptance": false,
+  "ds_b1_001_status": "Open",
+  "all_six_defects_unverified": true
+}

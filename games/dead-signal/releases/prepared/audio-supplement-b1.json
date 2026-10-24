@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "kind": "inactive-release-control-proposal",
+  "trusted_base_main": "0d319dc86d3e2c1c78ae416488319cd5ab0acbce",
+  "target_active_record": "games/dead-signal/releases/batch-1-1-audio-audition-qa.json",
+  "candidate_source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+  "new_source_publication_authorized": false,
+  "active_controls_modified": false,
+  "native_gameplay_accepted": false,
+  "rollback_artifact_id": 12472042399,
+  "proposed_admission_record": {
+    "schema": 1,
+    "release": "dead-signal-batch-1-1-audio-audition-private-staging",
+    "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+    "owner_staging_authorization": false,
+    "approval_scope": "AUDIO_ASSET_AUDITION_PRIVATE_STAGING_ONLY",
+    "ready_for_staging_qa": false,
+    "scope_complete": false,
+    "production_authorization": false,
+    "bugs_verified": false,
+    "staging_universe_id": "10771141095",
+    "audition_asset_count": 84,
+    "staging_assets_reported_shared": true,
+    "moderation_approval_unverified": true,
+    "listening_acceptance_unverified": true,
+    "bug_status": {
+      "DS-B1-001": "In Progress",
+      "DS-B1-002": "Ready for Retest",
+      "DS-B1-003": "Ready for Retest",
+      "DS-B1-004": "Ready for Retest",
+      "DS-B1-005": "Ready for Retest",
+      "DS-B1-006": "In Progress"
+    },
+    "integrated_heads": {
+      "maps": "7bf748868a6963f84a52dc8931c866689ea9fa34",
+      "enemies": "09fa91eec648c67cfc7c4e3c7481469285dd1a03",
+      "adapter": "848ccc9259b7e0059b9238280bdb70f4912afdf0",
+      "audio": "495b1350db04bde356f36a0a9cd8551ede73ccb3"
+    },
+    "rollback_source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+    "rollback_deployment_run": 39884224314,
+    "staging_binary_sha256": {
+      "blackwater": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747",
+      "cinderworks": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b",
+      "dispatch": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413",
+      "whiteout": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00"
+    },
+    "staging_binary_bytes": {
+      "blackwater": 2731765,
+      "cinderworks": 2739610,
+      "dispatch": 2760685,
+      "whiteout": 2741069
+    },
+    "validated_workflow_families": 5,
+    "reviewed_artifact": {
+      "run_id": 40049991260,
+      "artifact_id": 12542318547,
+      "archive_sha256": "9acd138f95082ed205b7b828d875b245573f5593b88ce60a5be4ebb408057c72",
+      "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+      "expires_at": "2026-11-07T01:31:41Z"
+    },
+    "note": "Prepared supplemental-audio source selection only; not installed as the active admission record. The prior authorization for15b08518 does not authorize this changed source. Owner isolated-sample approval/access is already confirmed for all6; native loading/moderation/gameplay/mobile acceptance remains pending. Existing admission schema uses legacy In Progress for001/006, never Verified; current QA tracking for DS-B1-001 remains Open/unverified. Original84 intake metadata is retained separately from supplemental counts. Guard/workflow code, production and player data unchanged.",
+    "owner_instruction": "Prepare source, tests and release candidate; explicitly do not publish staging or production. Separate deployment authorization pending.",
+    "validated_workflow_runs": {
+      "source_ci": 40049991180,
+      "lossless": 40049991260,
+      "staging_preflight": 40049991213,
+      "production_preview": 40049991207,
+      "project_validation": 40049991185
+    },
+    "qa_followup_scope": [
+      "MAP #52 window landing support",
+      "ENEMY #53 R6 infected and entry recovery",
+      "AUDIO #54 routing corrections with original 84 staging-only IDs",
+      "AUDIO #59 exact staging-only Config supplement application; owner-approved existing-event alternatives"
+    ],
+    "supplemental_intake": {
+      "pr": 59,
+      "head": "c598b26dfa2bf45d74e80128f930325ab6156321",
+      "accepted_uploaded_samples": 6,
+      "bound_in_candidate": 4,
+      "approved_unbound_components": 2,
+      "original_asset_records": 84,
+      "owner_reports_staging_access": true,
+      "isolated_sample_acceptance": true,
+      "native_playback_verified": false,
+      "native_gameplay_listening_passed": false,
+      "qa_status": "Open",
+      "bug_verified": false,
+      "unresolved_reload_mechanism_stages": 11
+    }
+  },
+  "evidence_file": "audio-supplement-b1-evidence.json"
+}

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "release": "dead-signal-batch-1-1-audio-audition-private-staging",
-  "source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+  "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
   "owner_staging_authorization": true,
   "approval_scope": "AUDIO_ASSET_AUDITION_PRIVATE_STAGING_ONLY",
   "ready_for_staging_qa": true,
@@ -30,36 +30,64 @@
   "rollback_source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
   "rollback_deployment_run": 39884224314,
   "staging_binary_sha256": {
-    "dispatch": "f3ff58b88058256f2b2f5a766c6d879538d313b8a7137306f0d0421da5af64db",
-    "blackwater": "609ae7a7c0b2e51f52237d550f7b160e9170adad2f432796888262267a29d87a",
-    "cinderworks": "0f3e93a8f9321982ac08cfd2323c5110cc21d93e3d5c0dcaf871528b9807200a",
-    "whiteout": "16eb401bcb3ea59c09135f19ba4abb955fa49a4b1f3cd6db0fabd9684148e368"
+    "blackwater": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747",
+    "cinderworks": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b",
+    "dispatch": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413",
+    "whiteout": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00"
   },
   "staging_binary_bytes": {
-    "dispatch": 2760375,
-    "blackwater": 2731455,
-    "cinderworks": 2739300,
-    "whiteout": 2740759
+    "blackwater": 2731765,
+    "cinderworks": 2739610,
+    "dispatch": 2760685,
+    "whiteout": 2741069
   },
   "validated_workflow_families": 5,
   "reviewed_artifact": {
-    "run_id": 39789016718,
-    "artifact_id": 12429963094,
-    "archive_sha256": "71737e3b46f2a312d8c063fa886da08c927f5678292f28f7fdea31b0bec9211f",
-    "source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06"
+    "run_id": 40049991260,
+    "artifact_id": 12542318547,
+    "archive_sha256": "9acd138f95082ed205b7b828d875b245573f5593b88ce60a5be4ebb408057c72",
+    "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+    "expires_at": "2026-11-07T01:31:41Z"
   },
-  "note": "Owner explicitly authorized deploying the exact integrated Batch 1 follow-up to PRIVATE STAGING on2026-10-22. Uses existing narrow QA admission with unchanged guard code, incomplete scope, no production authorization and no bugs verified. Conservative legacy admission statuses keep001/006 In Progress until native acceptance. All original84 IDs retained;14 additional samples remain unuploaded and11 mechanism stages lack suitable recordings. No asset/listening approval is inferred. Recovery pointer refreshed after successful owner-authorized follow-up deployment39884224314; current recorded staging is15b08518. Incomplete scope, all bug/asset acceptance flags and production restrictions remain unchanged.",
-  "owner_instruction": "Deploy to staging \u2014 explicit owner instruction in MAIN recovery conversation, 2026-10-22",
+  "note": "Owner authorized the exact supplemental-audio source for PRIVATE STAGING and requested to run the workflow personally. Active source admission is enabled; no deployment has been started by MAIN. Keep current rollback15b08518/run39884224314/artifact12472042399 until a new successful four-place deployment is verified. Original84 intake is preserved; six supplemental recordings are owner accepted with reported staging access, four are bound and two components remain unbound. Native moderation/loading, gameplay/mobile listening and all six defect verifications remain pending; eleven mechanism-recording stages remain unresolved. Legacy admission statuses stay In Progress for001/006; current DS-B1-001 QA tracking is Open/unverified. Scope_complete, bugs_verified and production_authorization remain false. Guard/workflow/runtime/native assets and player data are unchanged.",
+  "owner_instruction": "I authorize \u2014 direct owner reply authorizing activation of the exact candidate for their manual staging workflow run; assistant leaves workflow dispatch to the owner.",
   "validated_workflow_runs": {
-    "source_ci": 39789016979,
-    "lossless": 39789016718,
-    "staging_preflight": 39789016897,
-    "production_preview": 39789016712,
-    "project_validation": 39789016805
+    "source_ci": 40049991180,
+    "lossless": 40049991260,
+    "staging_preflight": 40049991213,
+    "production_preview": 40049991207,
+    "project_validation": 40049991185
   },
   "qa_followup_scope": [
     "MAP #52 window landing support",
     "ENEMY #53 R6 infected and entry recovery",
-    "AUDIO #54 routing corrections with original 84 staging-only IDs"
-  ]
+    "AUDIO #54 routing corrections with original 84 staging-only IDs",
+    "AUDIO #59 exact staging-only Config supplement application; owner-approved existing-event alternatives"
+  ],
+  "supplemental_intake": {
+    "pr": 59,
+    "head": "c598b26dfa2bf45d74e80128f930325ab6156321",
+    "accepted_uploaded_samples": 6,
+    "bound_in_candidate": 4,
+    "approved_unbound_components": 2,
+    "original_asset_records": 84,
+    "owner_reports_staging_access": true,
+    "isolated_sample_acceptance": true,
+    "native_playback_verified": false,
+    "native_gameplay_listening_passed": false,
+    "qa_status": "Open",
+    "bug_verified": false,
+    "unresolved_reload_mechanism_stages": 11
+  },
+  "owner_authorization": {
+    "statement": "I authorize",
+    "date": "2026-10-23",
+    "timezone": "America/New_York",
+    "context": "Reply to MAIN explaining that separate approval was required to activate this exact source before the owner runs Controlled Private Staging.",
+    "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+    "staging_universe_id": "10771141095",
+    "deployment_initiator": "owner-manual-workflow",
+    "assistant_dispatch_authorized": false,
+    "production_authorization": false
+  }
 }

@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-1-1-audio-audition-private-staging",
+  "source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+  "owner_staging_authorization": true,
+  "approval_scope": "AUDIO_ASSET_AUDITION_PRIVATE_STAGING_ONLY",
+  "ready_for_staging_qa": true,
+  "scope_complete": false,
+  "production_authorization": false,
+  "bugs_verified": false,
+  "staging_universe_id": "10771141095",
+  "audition_asset_count": 84,
+  "staging_assets_reported_shared": true,
+  "moderation_approval_unverified": true,
+  "listening_acceptance_unverified": true,
+  "bug_status": {
+    "DS-B1-001": "In Progress",
+    "DS-B1-002": "Ready for Retest",
+    "DS-B1-003": "Ready for Retest",
+    "DS-B1-004": "Ready for Retest",
+    "DS-B1-005": "Ready for Retest",
+    "DS-B1-006": "In Progress"
+  },
+  "integrated_heads": {
+    "maps": "7bf748868a6963f84a52dc8931c866689ea9fa34",
+    "enemies": "09fa91eec648c67cfc7c4e3c7481469285dd1a03",
+    "adapter": "848ccc9259b7e0059b9238280bdb70f4912afdf0",
+    "audio": "495b1350db04bde356f36a0a9cd8551ede73ccb3"
+  },
+  "rollback_source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+  "rollback_deployment_run": 39884224314,
+  "staging_binary_sha256": {
+    "dispatch": "f3ff58b88058256f2b2f5a766c6d879538d313b8a7137306f0d0421da5af64db",
+    "blackwater": "609ae7a7c0b2e51f52237d550f7b160e9170adad2f432796888262267a29d87a",
+    "cinderworks": "0f3e93a8f9321982ac08cfd2323c5110cc21d93e3d5c0dcaf871528b9807200a",
+    "whiteout": "16eb401bcb3ea59c09135f19ba4abb955fa49a4b1f3cd6db0fabd9684148e368"
+  },
+  "staging_binary_bytes": {
+    "dispatch": 2760375,
+    "blackwater": 2731455,
+    "cinderworks": 2739300,
+    "whiteout": 2740759
+  },
+  "validated_workflow_families": 5,
+  "reviewed_artifact": {
+    "run_id": 39789016718,
+    "artifact_id": 12429963094,
+    "archive_sha256": "71737e3b46f2a312d8c063fa886da08c927f5678292f28f7fdea31b0bec9211f",
+    "source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06"
+  },
+  "note": "Owner explicitly authorized deploying the exact integrated Batch 1 follow-up to PRIVATE STAGING on2026-10-22. Uses existing narrow QA admission with unchanged guard code, incomplete scope, no production authorization and no bugs verified. Conservative legacy admission statuses keep001/006 In Progress until native acceptance. All original84 IDs retained;14 additional samples remain unuploaded and11 mechanism stages lack suitable recordings. No asset/listening approval is inferred. Recovery pointer refreshed after successful owner-authorized follow-up deployment39884224314; current recorded staging is15b08518. Incomplete scope, all bug/asset acceptance flags and production restrictions remain unchanged.",
+  "owner_instruction": "Deploy to staging \u2014 explicit owner instruction in MAIN recovery conversation, 2026-10-22",
+  "validated_workflow_runs": {
+    "source_ci": 39789016979,
+    "lossless": 39789016718,
+    "staging_preflight": 39789016897,
+    "production_preview": 39789016712,
+    "project_validation": 39789016805
+  },
+  "qa_followup_scope": [
+    "MAP #52 window landing support",
+    "ENEMY #53 R6 infected and entry recovery",
+    "AUDIO #54 routing corrections with original 84 staging-only IDs"
+  ]
+}

@@ -1,11 +1,22 @@
-# Inactive Batch 1 supplemental audio release proposal
+# Batch 1 supplemental audio staging activation
 
-`audio-supplement-b1.json` prepares the source/artifact/rollback replacement for the existing private-staging audition record. It is **not an active admission file**. No workflow or guard reads this prepared directory. The active record continues to select previously authorized/deployed source15b08518. New candidatef4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d has no staging or production publication authorization.
+The owner replied **“I authorize”** after requesting to run the staging workflow personally. PR #60 now activates the exact reviewed source `f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d` in `releases/batch-1-1-audio-audition-qa.json`. The assistant enables and verifies the control record; the owner starts the existing manual workflow. No publication is performed by this PR.
 
-Source integration/testing was authorized. All10 exact-candidate GitHub checks passed across five no-publish workflow families. The downloaded four-place staging archive12542318547 matches the locally audited binaries exactly; the current rollback is the successful staging39884224314 artifact12472042399 (Dispatch19/maps15/15/15). All61 runtime records and staging/production isolation are retained. Full details and native checklist are in draftPR#44 and Issue#37, and candidate dev/Reviews/audio-supplement-integration-b1.
+The original inactive proposal and its evidence JSON remain immutable historical preparation snapshots. Their false authorization fields describe that earlier proposal; the active admission file carries the new scoped authorization. The previous active15b08518 admission is archived byte for byte in `history/audio-admission-15b08518-before-supplements.json`.
 
-The proposed admission record deliberately sets both owner_staging_authorization and ready_for_staging_qa false. The unchanged trusted guard rejects it. A disposable copy with those two flags true passes the remaining schema/source/artifact/rollback metadata gates; those test values were not saved. All80 existing trusted-control tests pass. Scope_complete, bugs_verified and production_authorization remain false. Legacy admission statuses are not current QA verification: DS-B1-001 remains Open/unverified and all six defects remain unverified.
+## Manual workflow inputs
 
-After separate owner authorization for this exact source, re-read current main, source checks, artifact retention and latest successful staging/rollback evidence. Review the inner proposed_admission_record as the replacement for releases/batch-1-1-audio-audition-qa.json; record the actual new deployment instruction and set only its staging authorization/readiness flags accordingly. Preserve any concurrent release work, native acceptance fields, original84 history and production restrictions. Merge reviewed controls only then deliberately dispatch the existing four-place manual staging workflow. Do not dispatch from this preparation PR.
+Open **Dead Signal Controlled Private Staging** and select **Run workflow**:
 
-All six isolated samples are already owner accepted with reported staging access. Four are configured as alternatives in two existing banks; stress/debris stay unbound and landing/reloads stay separate. Native loading/permissions/moderation, event timing/material fit, crowded waves, physical mobile speakers/headphones, mute/repeated-session cleanup and11 reload-mechanism gaps remain pending. No Batch2, asset upload, publication or player-data change is included.
+| Input | Value |
+| --- | --- |
+| Branch | main |
+| operation | deploy |
+| confirmation | DEPLOY-PRIVATE-STAGING |
+| source_sha | f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d |
+
+This authorizes private staging universe10771141095 only, through the established complete four-place workflow. Source/build evidence: draft #44 and Issue #37, 38 suites /1,071,772 assertions and10 passing exact-source checks. Artifact12542318547 matches all four locally audited staging binaries. Current rollback remains artifact12472042399/run39884224314/source15b08518 (Dispatch19/maps15/15/15); rechecked archive/member hashes, retention and latest deployment provenance. The unchanged release guard will also recheck freshness and all four binaries before upload.
+
+Only the staging admission JSON and documentation/history change. Production authorization, scope completion and bug verification stay false. Runtime scripts, guard/workflow code, native assets, recovery records and player data remain unchanged. DS-B1-001 remains Open/unverified; legacy admission schema retains In Progress for001/006 without claiming completion. Native playback/loading/permissions, integrated gameplay and physical-mobile listening acceptance remain pending, as do11 reload-mechanism recording gaps. Four supplements use existing bank alternatives; stress/debris stay unbound, with landing and reload banks separate. No Batch2 development.
+
+After the owner runs the workflow, save the actual result, all four returned versions and the new retained exact artifact before updating recovery metadata or claiming the new sounds are staged. A source admission is not a completed deployment.

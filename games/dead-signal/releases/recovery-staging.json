@@ -2,51 +2,51 @@
   "schema": 1,
   "environment": "staging",
   "universe_id": "10771141095",
-  "source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+  "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
   "artifact": {
-    "id": 12472042399,
-    "run_id": 39884224314,
-    "sha256": "c1aec94bffd44f0a4f70bedd1246013ab89cc1b089727728298f5b40ee9f9698",
-    "expires_at": "2027-01-21T01:28:53Z",
-    "head_sha": "2e139bfee835cd726f599ace2b319e18587923c9",
-    "note": "Exact owner-authorized Batch1 follow-up successfully uploaded to all4 private staging places; native QA and all6 bug verifications remain pending. No production authorization."
+    "id": 12545195246,
+    "run_id": 40054332185,
+    "sha256": "09840f969288228cf3dcc0c5a6fb05dfcbb66f152f08fff5d73d2e8ed1214036",
+    "expires_at": "2027-01-22T02:28:53Z",
+    "head_sha": "852c51ef6bba8d59c9dfa2a461e5bd6dbccf3101",
+    "note": "Exact owner-run approved supplemental-audio source uploaded to all4 private staging places; native QA and all6 defect verifications remain pending. No production authorization."
   },
   "deployment": {
-    "run_id": 39884224314,
+    "run_id": 40054332185,
     "attempt": 1,
     "versions": {
-      "blackwater": 15,
-      "cinderworks": 15,
-      "whiteout": 15,
-      "dispatch": 19
+      "blackwater": 16,
+      "cinderworks": 16,
+      "whiteout": 16,
+      "dispatch": 20
     },
     "workflow_id": 386310450,
-    "control_sha": "2e139bfee835cd726f599ace2b319e18587923c9"
+    "control_sha": "852c51ef6bba8d59c9dfa2a461e5bd6dbccf3101"
   },
   "places": {
     "blackwater": {
       "place_id": "102403661108879",
       "member": "build/dead-signal-lossless/staging/blackwater.rbxl",
-      "sha256": "609ae7a7c0b2e51f52237d550f7b160e9170adad2f432796888262267a29d87a",
-      "bytes": 2731455
+      "sha256": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747",
+      "bytes": 2731765
     },
     "cinderworks": {
       "place_id": "125712056058975",
       "member": "build/dead-signal-lossless/staging/cinderworks.rbxl",
-      "sha256": "0f3e93a8f9321982ac08cfd2323c5110cc21d93e3d5c0dcaf871528b9807200a",
-      "bytes": 2739300
+      "sha256": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b",
+      "bytes": 2739610
     },
     "whiteout": {
       "place_id": "122269451559483",
       "member": "build/dead-signal-lossless/staging/whiteout.rbxl",
-      "sha256": "16eb401bcb3ea59c09135f19ba4abb955fa49a4b1f3cd6db0fabd9684148e368",
-      "bytes": 2740759
+      "sha256": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00",
+      "bytes": 2741069
     },
     "dispatch": {
       "place_id": "117710269155815",
       "member": "build/dead-signal-lossless/staging/dispatch.rbxl",
-      "sha256": "f3ff58b88058256f2b2f5a766c6d879538d313b8a7137306f0d0421da5af64db",
-      "bytes": 2760375
+      "sha256": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413",
+      "bytes": 2760685
     }
   }
 }

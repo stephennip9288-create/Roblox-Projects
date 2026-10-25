@@ -44,6 +44,8 @@ jobs:
       - name: Verify all repository and rollout safety tests
         run: |
           python -m unittest discover -s tests -v
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes ffmpeg
           python -m unittest discover -s games/dead-signal/dev/Tests -v
           python scripts/validate.py
       - name: Generate staging and production ID configs

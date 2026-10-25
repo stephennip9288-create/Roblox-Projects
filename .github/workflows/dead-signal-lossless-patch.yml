@@ -48,6 +48,8 @@ jobs:
       - name: Validate manifests and established source tests
         run: |
           python -m unittest discover -s tests -v
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes ffmpeg
           python -m unittest discover -s games/dead-signal/dev/Tests -v
           python scripts/validate.py
       - name: Check native v1.8 Work binary baselines are imported

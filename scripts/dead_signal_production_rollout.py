@@ -75,7 +75,9 @@ def current_rollback_files():
 
 
 def approved_release_source():
-    release_guard.verify_checkout(ROOT, os.getenv("RELEASE_SOURCE_SHA", ""))
+    from dead_signal_production_admission import verify_source, verify_builds
+    record = verify_source(ROOT, os.getenv("RELEASE_SOURCE_SHA", ""))
+    verify_builds(record, ROOT)
 
 
 def preflight(current=False):

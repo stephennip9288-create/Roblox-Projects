@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "authorization": "PENDING owner approval; no deletion performed",
+  "reason": "GitHub Actions artifact storage quota blocks current-production recovery renewal and candidate artifact checks",
+  "total_bytes": 239315422,
+  "artifacts": [
+    {
+      "id": 12544604424,
+      "name": "dead-signal-production-preview-158",
+      "run_id": 40055200637,
+      "head_sha": "0cea8fe86899fd1c8aa8d7b898c9c669bd388374",
+      "bytes": 9940446
+    },
+    {
+      "id": 12544659068,
+      "name": "dead-signal-lossless-staging-173",
+      "run_id": 40055200621,
+      "head_sha": "0cea8fe86899fd1c8aa8d7b898c9c669bd388374",
+      "bytes": 9938232
+    },
+    {
+      "id": 12545235731,
+      "name": "dead-signal-lossless-staging-172",
+      "run_id": 40055053152,
+      "head_sha": "33e154b0d825f6e25a72d128e7db1dcfdc774b80",
+      "bytes": 9938232
+    },
+    {
+      "id": 12544468142,
+      "name": "dead-signal-production-preview-157",
+      "run_id": 40055053008,
+      "head_sha": "33e154b0d825f6e25a72d128e7db1dcfdc774b80",
+      "bytes": 9940446
+    },
+    {
+      "id": 12544748547,
+      "name": "dead-signal-lossless-staging-171",
+      "run_id": 40055049166,
+      "head_sha": "33e154b0d825f6e25a72d128e7db1dcfdc774b80",
+      "bytes": 9938232
+    },
+    {
+      "id": 12544803378,
+      "name": "dead-signal-production-preview-156",
+      "run_id": 40055049137,
+      "head_sha": "33e154b0d825f6e25a72d128e7db1dcfdc774b80",
+      "bytes": 9940446
+    },
+    {
+      "id": 12544511832,
+      "name": "dead-signal-production-preview-155",
+      "run_id": 40054160065,
+      "head_sha": "852c51ef6bba8d59c9dfa2a461e5bd6dbccf3101",
+      "bytes": 9940446
+    },
+    {
+      "id": 12544139623,
+      "name": "dead-signal-lossless-staging-170",
+      "run_id": 40054160054,
+      "head_sha": "852c51ef6bba8d59c9dfa2a461e5bd6dbccf3101",
+      "bytes": 9938232
+    },
+    {
+      "id": 12544602180,
+      "name": "dead-signal-production-preview-154",
+      "run_id": 40054008676,
+      "head_sha": "012d95f0a87677b388779e11e2f4631dd2f69762",
+      "bytes": 9940446
+    },
+    {
+      "id": 12543998705,
+      "name": "dead-signal-lossless-staging-169",
+      "run_id": 40054008643,
+      "head_sha": "012d95f0a87677b388779e11e2f4631dd2f69762",
+      "bytes": 9938232
+    },
+    {
+      "id": 12544711508,
+      "name": "dead-signal-lossless-staging-168",
+      "run_id": 40054005893,
+      "head_sha": "012d95f0a87677b388779e11e2f4631dd2f69762",
+      "bytes": 9938232
+    },
+    {
+      "id": 12544831235,
+      "name": "dead-signal-production-preview-153",
+      "run_id": 40054005891,
+      "head_sha": "012d95f0a87677b388779e11e2f4631dd2f69762",
+      "bytes": 9940446
+    },
+    {
+      "id": 12542829271,
+      "name": "dead-signal-lossless-staging-167",
+      "run_id": 40050560271,
+      "head_sha": "02a6a395dfbda4400b9693bb07461c9205165e25",
+      "bytes": 9938232
+    },
+    {
+      "id": 12543196243,
+      "name": "dead-signal-production-preview-152",
+      "run_id": 40050560216,
+      "head_sha": "02a6a395dfbda4400b9693bb07461c9205165e25",
+      "bytes": 9940446
+    },
+    {
+      "id": 12543455720,
+      "name": "dead-signal-production-preview-151",
+      "run_id": 40050528808,
+      "head_sha": "02a6a395dfbda4400b9693bb07461c9205165e25",
+      "bytes": 9940446
+    },
+    {
+      "id": 12542832734,
+      "name": "dead-signal-lossless-staging-166",
+      "run_id": 40050528788,
+      "head_sha": "02a6a395dfbda4400b9693bb07461c9205165e25",
+      "bytes": 9938232
+    },
+    {
+      "id": 12542004220,
+      "name": "dead-signal-production-preview-148",
+      "run_id": 40049435604,
+      "head_sha": "d9d82116d7d8bd9310cafb78c95d616ac5ded1fe",
+      "bytes": 10326184
+    },
+    {
+      "id": 12542283125,
+      "name": "dead-signal-lossless-staging-163",
+      "run_id": 40049435453,
+      "head_sha": "d9d82116d7d8bd9310cafb78c95d616ac5ded1fe",
+      "bytes": 10323780
+    },
+    {
+      "id": 12472430609,
+      "name": "dead-signal-production-preview-147",
+      "run_id": 39884854041,
+      "head_sha": "0d319dc86d3e2c1c78ae416488319cd5ab0acbce",
+      "bytes": 9940446
+    },
+    {
+      "id": 12471479735,
+      "name": "dead-signal-lossless-staging-162",
+      "run_id": 39884853782,
+      "head_sha": "0d319dc86d3e2c1c78ae416488319cd5ab0acbce",
+      "bytes": 9938232
+    },
+    {
+      "id": 12471558068,
+      "name": "dead-signal-lossless-staging-161",
+      "run_id": 39884751313,
+      "head_sha": "a6db4c514591f16e7899a3e71f969a9383bcb26a",
+      "bytes": 9938232
+    },
+    {
+      "id": 12471823184,
+      "name": "dead-signal-production-preview-146",
+      "run_id": 39884751304,
+      "head_sha": "a6db4c514591f16e7899a3e71f969a9383bcb26a",
+      "bytes": 9940446
+    },
+    {
+      "id": 12471703550,
+      "name": "dead-signal-production-preview-145",
+      "run_id": 39884708352,
+      "head_sha": "a6db4c514591f16e7899a3e71f969a9383bcb26a",
+      "bytes": 9940446
+    },
+    {
+      "id": 12471294334,
+      "name": "dead-signal-lossless-staging-160",
+      "run_id": 39884708336,
+      "head_sha": "a6db4c514591f16e7899a3e71f969a9383bcb26a",
+      "bytes": 9938232
+    }
+  ],
+  "scope": "Only the enumerated reproducible No Publish staging/production-preview artifacts; do not delete runs or any unlisted artifacts",
+  "protection_review": "No listed artifact ID or run ID occurs in current source/control release, review, test or script records, Issue37 comments(86), Issue63 body or PR44 description as checked2026-10-25. Current production12081841244 and stage12545195246 and all referenced history/source artifacts are excluded. Recheck live refs and artifact use before any authorized deletion.",
+  "excluded_current_production": 12081841244,
+  "excluded_current_staging": 12545195246
+}

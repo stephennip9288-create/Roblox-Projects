@@ -1,0 +1,212 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-1-production",
+  "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+  "ready_for_production": false,
+  "owner_production_authorization": true,
+  "production_universe_id": "10770732078",
+  "profile_store": "DeadSignal_Profile_v1",
+  "issue": 63,
+  "source_pr": 65,
+  "staging_acceptance": {
+    "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+    "deployment_run": 40054332185,
+    "owner_gameplay_accepted": true,
+    "evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/37#issuecomment-6403467780",
+    "independent_exhaustive_device_testing_claimed": false
+  },
+  "staged_config_blob": "88cccbed93fabff62c72c170a595ea7f6338216e",
+  "production_config_blob": "8a314e4cec13a3d1f3e231628be203c36a493412",
+  "production_block_blob": "d4c907b38e250ebf8a92c07d4885b03dd2156616",
+  "production_permission_asset_ids": [
+    "100889161941844",
+    "101844723485575",
+    "102017904483837",
+    "102111613719129",
+    "102723660598394",
+    "103291179419925",
+    "104346814485237",
+    "104410940289409",
+    "105606467275775",
+    "106525422874100",
+    "107418837961539",
+    "107421547844896",
+    "107624577403804",
+    "108292928491585",
+    "108391393992469",
+    "112740987408404",
+    "113592069412298",
+    "114520840714703",
+    "118387917863630",
+    "118613729375081",
+    "118856836202756",
+    "118866650735185",
+    "119434428584660",
+    "120079772303461",
+    "120328623467553",
+    "121376790132442",
+    "121842835676822",
+    "122008731451290",
+    "122674315331941",
+    "125142592885415",
+    "126249959437262",
+    "126280091004313",
+    "128218143840025",
+    "128395906553592",
+    "128917480971794",
+    "130797048483391",
+    "132196039140961",
+    "132196353218557",
+    "133703053328304",
+    "134212878169682",
+    "134226440616785",
+    "136139362938220",
+    "136945303779929",
+    "137205669438530",
+    "138210152005532",
+    "138265022875111",
+    "139588944425252",
+    "139934328762795",
+    "70532433125215",
+    "71539557281032",
+    "72299086290179",
+    "73467682967027",
+    "74407642808158",
+    "74508665096916",
+    "74974756246529",
+    "77291135958184",
+    "77977864287415",
+    "80449212130946",
+    "81351840288751",
+    "83307276721883",
+    "83959159325978",
+    "84938360008219",
+    "84968259030086",
+    "85070421720051",
+    "85781807029579",
+    "86715539511366",
+    "86849256740672",
+    "87388300196644",
+    "87604829105129",
+    "87938623646249",
+    "88268166840332",
+    "88355418219105",
+    "88790988263174",
+    "89090032809123",
+    "89669375170857",
+    "89936457525206",
+    "91133693743569",
+    "92096615822308",
+    "93143322317022",
+    "93461646806010",
+    "94609173091353",
+    "97371915280588",
+    "97471624861982",
+    "97474407149894",
+    "98615332369943",
+    "98916357176793",
+    "99193189026195",
+    "99783133219658"
+  ],
+  "silent_reload_stage_count": 11,
+  "reload_gap_disposition": "retain-tested-silent-skip-no-substitutes",
+  "unbound_components": [
+    "117834744541770",
+    "117522141638495"
+  ],
+  "ci": {},
+  "builds": {
+    "staging": {
+      "dispatch": {
+        "sha256": "46fb9337bc8e35357f9653ca3a5bf154f4bad01c80a49c279b9647f10afbd42e",
+        "bytes": 2760965
+      },
+      "blackwater": {
+        "sha256": "ae34075342f505d6067577cf717cd8dace86d2d7e4e321e9d7b762ea5aa5aa0c",
+        "bytes": 2732044
+      },
+      "cinderworks": {
+        "sha256": "14d2abb16875c733a26bd26deb850f6e2eb8faa301a057b287d4bc119a4d3f69",
+        "bytes": 2739889
+      },
+      "whiteout": {
+        "sha256": "a272bcfe400032561ef9c7b3c732b14fbb136f6f7829efc3abb3084af6fe0147",
+        "bytes": 2741348
+      }
+    },
+    "production": {
+      "dispatch": {
+        "sha256": "568cb897cbf6cfd0a9d878b8eb0b90dabd223c61654149232d5c919bd3fb87e8",
+        "bytes": 2760973
+      },
+      "blackwater": {
+        "sha256": "3fbb39d4f05e94652d52087f2a246643a52cd0e043fb17ec72e1623a0a8c45fc",
+        "bytes": 2732050
+      },
+      "cinderworks": {
+        "sha256": "3251f7492d9f7a392ff882328e5a296ad22e49132975c0e2853b2fa9c9e4da83",
+        "bytes": 2739895
+      },
+      "whiteout": {
+        "sha256": "4ff600e436668e1680d6df99e53eba41f0216ec8ebad11f1e752428cc0ba1c3c",
+        "bytes": 2741354
+      }
+    }
+  },
+  "rollback": {
+    "refreshed": false,
+    "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+    "artifact": {
+      "id": 12081841244,
+      "run_id": 38983031056,
+      "sha256": "e0b7d00fb64641afa33cbd68fb34b8282c92079adf811b6661897d82785c7910",
+      "expires_at": "2026-10-30",
+      "note": "Failure/expiry blocks deployment; never fall back to historical binaries.",
+      "head_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71"
+    },
+    "deployment": {
+      "run_id": 38985770842,
+      "attempt": 4,
+      "versions": {
+        "dispatch": 28,
+        "blackwater": 22,
+        "cinderworks": 21,
+        "whiteout": 21
+      },
+      "workflow_id": 386320766,
+      "control_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71"
+    },
+    "places": {
+      "dispatch": {
+        "place_id": "92751255902679",
+        "member": "production/dispatch.rbxl",
+        "sha256": "6fa9cd5f1a6dee73d9cebde3b1db99e513ac8dc7112df9c760d8594f93d8c60c",
+        "bytes": 2643388
+      },
+      "blackwater": {
+        "place_id": "88865473543027",
+        "member": "production/blackwater.rbxl",
+        "sha256": "2a4a8dee7c84b8bf377836c4d3209a2f14353fd186362ab1061c8f4726db9a20",
+        "bytes": 2614475
+      },
+      "cinderworks": {
+        "place_id": "110963636700767",
+        "member": "production/cinderworks.rbxl",
+        "sha256": "d8d18798ff99f5d522f3a3c36ee241b4430fac23da73d6b7e77279ad9cc73ecb",
+        "bytes": 2622327
+      },
+      "whiteout": {
+        "place_id": "109169216914914",
+        "member": "production/whiteout.rbxl",
+        "sha256": "353828433231561c09763a7151f2977b67e0872b27c78819d92b050f10440fe2",
+        "bytes": 2623779
+      }
+    }
+  },
+  "blockers": [
+    "GitHub Actions artifact storage quota prevents renewed rollback and required candidate artifacts",
+    "Pin successful exact-source CI from all five families after storage is available",
+    "Review source and trusted controls; merge release PRs preserving current main controls; then set ready_for_production only on observed evidence"
+  ],
+  "published": false
+}

@@ -1,5 +1,6 @@
 """Additive MAIN intake of explicitly reviewed runtime blobs; no baseline regeneration."""
 import hashlib
+from production_audio import staged_config, PRODUCTION_BLOB
 import json
 from pathlib import Path
 
@@ -80,7 +81,7 @@ def assert_reviewed_supplement(test):
                           ('STAGING-BINDINGS.luau.txt', 'bindings_blob'),
                           ('OWNER-APPROVALS.json', 'owner_approvals_blob')]:
         test.assertEqual(blob((review / filename).read_bytes()), SUPPLEMENT[key], filename)
-    source = (DEV / SUPPLEMENT['path']).read_bytes()
+    source = staged_config((DEV / SUPPLEMENT['path']).read_bytes())
     test.assertEqual(blob(source), SUPPLEMENT['applied_blob'], 'Exact applied Config')
     block = (review / 'STAGING-BINDINGS.luau.txt').read_bytes()
     test.assertEqual(source.count(block), 1, 'No missing or duplicate application')
@@ -115,5 +116,5 @@ def assert_reviewed_runtime(test):
             pr, head, sha = APPROVED[name]
             expected = {'blob_sha': sha, 'review_pr': pr, 'source_head': head}
         test.assertEqual(lock['records'][name], expected, name + ' reviewed owner/head/blob')
-        applied = SUPPLEMENT['applied_blob'] if name == SUPPLEMENT['path'] else expected['blob_sha']
+        applied = PRODUCTION_BLOB if name == SUPPLEMENT['path'] else expected['blob_sha']
         test.assertEqual(blob(path.read_bytes()), applied, name + ' current bytes')

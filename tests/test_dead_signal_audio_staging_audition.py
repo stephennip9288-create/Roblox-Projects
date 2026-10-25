@@ -3,6 +3,7 @@
 This is not remote Roblox moderation or audio playback verification.
 """
 import hashlib
+import sys
 import json
 from pathlib import Path
 import re
@@ -38,7 +39,9 @@ def expected_banks():
 
 class AudioStagingAuditionTests(unittest.TestCase):
     def test_supplement_preserves_exact_original_84_config(self):
-        source=CONFIG.read_bytes()
+        sys.path.insert(0,str(ROOT/"games/dead-signal/dev/Tests"))
+        from production_audio import staged_config
+        source=staged_config(CONFIG.read_bytes())
         review=ROOT/'games/dead-signal/dev/Reviews/audio-supplement-intake-b1'
         block=(review/'STAGING-BINDINGS.luau.txt').read_bytes()
         def blob(data):

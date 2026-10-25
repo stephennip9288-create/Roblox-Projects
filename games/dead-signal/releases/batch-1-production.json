@@ -204,9 +204,10 @@
     }
   },
   "blockers": [
-    "GitHub Actions artifact storage quota prevents renewed rollback and required candidate artifacts",
-    "Pin successful exact-source CI from all five families after storage is available",
-    "Review source and trusted controls; merge release PRs preserving current main controls; then set ready_for_production only on observed evidence"
+    "Approved24-preview cleanup completed(239315422 bytes); GitHub now prevents Actions jobs from starting due account billing/spending limit",
+    "Production rollback renewal run40236025367 attempt2 did not start; no renewed artifact exists; current original expires2026-10-30T23:45:10Z",
+    "After owner resolves billing, rerun preservation and all required exact-source CI; pin actual renewed archive and successful checks before reviewed readiness",
+    "Review and promote source/controls through PRs to main; no owner production dispatch until all gates pass"
   ],
   "published": false
 }

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "authorization": "PENDING owner approval; no deletion performed",
+  "authorization": "Owner explicitly authorized the enumerated24 artifacts in the Work conversation on2026-10-25",
   "reason": "GitHub Actions artifact storage quota blocks current-production recovery renewal and candidate artifact checks",
   "total_bytes": 239315422,
   "artifacts": [
@@ -176,5 +176,47 @@
   "scope": "Only the enumerated reproducible No Publish staging/production-preview artifacts; do not delete runs or any unlisted artifacts",
   "protection_review": "No listed artifact ID or run ID occurs in current source/control release, review, test or script records, Issue37 comments(86), Issue63 body or PR44 description as checked2026-10-25. Current production12081841244 and stage12545195246 and all referenced history/source artifacts are excluded. Recheck live refs and artifact use before any authorized deletion.",
   "excluded_current_production": 12081841244,
-  "excluded_current_staging": 12545195246
+  "excluded_current_staging": 12545195246,
+  "status": "completed",
+  "completed_at_utc": "2026-10-25T23:06:19.374914+00:00",
+  "deleted_artifact_ids": [
+    12544604424,
+    12544659068,
+    12545235731,
+    12544468142,
+    12544748547,
+    12544803378,
+    12544511832,
+    12544139623,
+    12544602180,
+    12543998705,
+    12544711508,
+    12544831235,
+    12542829271,
+    12543196243,
+    12543455720,
+    12542832734,
+    12542004220,
+    12542283125,
+    12472430609,
+    12471479735,
+    12471558068,
+    12471823184,
+    12471703550,
+    12471294334
+  ],
+  "verification": "All24 exact IDs/names/run/head/size pins rechecked before deletion; each UI deletion confirmed; all24 absent in subsequent per-run API lists",
+  "protected_recovery_rechecked": {
+    "production": {
+      "artifact_id": 12081841244,
+      "expired": false,
+      "bytes": 9940446
+    },
+    "staging": {
+      "artifact_id": 12545195246,
+      "expired": false,
+      "bytes": 10327498
+    }
+  },
+  "remaining_blocker": "GitHub now prevents the read-only recovery job from starting due account payments/spending limit; owner must resolve billing. No further artifacts are authorized for deletion."
 }

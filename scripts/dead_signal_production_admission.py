@@ -40,6 +40,13 @@ def completion(record, source_sha, recovery, permissions, now=None):
             or record.get('production_universe_id') != '10770732078'
             or record.get('profile_store') != 'DeadSignal_Profile_v1'):
         raise ValueError('Exact reviewed Batch 1 production source is not ready/authorized')
+    environment = record.get('environment_checks', {})
+    if (environment.get('environment') != 'dead-signal-production'
+            or environment.get('allowed_branch_patterns') != ['main']
+            or environment.get('allowed_tag_patterns') != []
+            or environment.get('required_reviewer_protection_verified') is not True
+            or environment.get('repository_production_secret_name_present') is not True):
+        raise ValueError('Main-only production environment, reviewer protection and credential presence must be verified')
     accepted = record.get('staging_acceptance', {})
     if (accepted.get('source_sha') != STAGED or accepted.get('deployment_run') != 40054332185
             or accepted.get('owner_gameplay_accepted') is not True

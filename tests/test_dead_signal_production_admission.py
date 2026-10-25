@@ -25,6 +25,7 @@ def fixtures():
     recovery['artifact']['id']=99000000000
     recovery['artifact']['expires_at']='2027-01-22T00:00:00Z'
     record['ready_for_production']=True
+    record['environment_checks']['required_reviewer_protection_verified']=True
     record['rollback']={'refreshed':True,**{k:copy.deepcopy(recovery[k]) for k in ['source_sha','artifact','deployment','places']}}
     record['ci']={name:{'source_sha':record['source_sha'],'conclusion':'success','run_id':i+1} for i,name in enumerate(sorted(gate.FAMILIES))}
     return record,recovery,permissions
@@ -47,6 +48,10 @@ class Admission(unittest.TestCase):
         record,recovery,permissions=fixtures()
         mutations=[lambda r,p:r.update(owner_production_authorization=False),
           lambda r,p:r.update(production_universe_id='10771141095'),
+          lambda r,p:r['environment_checks'].update(required_reviewer_protection_verified=False),
+          lambda r,p:r['environment_checks'].update(allowed_branch_patterns=['*']),
+          lambda r,p:r['environment_checks'].update(allowed_tag_patterns=['*']),
+          lambda r,p:r['environment_checks'].update(repository_production_secret_name_present=False),
           lambda r,p:r.update(source_sha='a'*40),
           lambda r,p:r['staging_acceptance'].update(owner_gameplay_accepted=False),
           lambda r,p:r['staging_acceptance'].update(independent_exhaustive_device_testing_claimed=True),

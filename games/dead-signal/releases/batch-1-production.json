@@ -207,7 +207,24 @@
     "Approved24-preview cleanup completed(239315422 bytes); GitHub now prevents Actions jobs from starting due account billing/spending limit",
     "Production rollback renewal run40236025367 attempt2 did not start; no renewed artifact exists; current original expires2026-10-30T23:45:10Z",
     "After owner resolves billing, rerun preservation and all required exact-source CI; pin actual renewed archive and successful checks before reviewed readiness",
-    "Review and promote source/controls through PRs to main; no owner production dispatch until all gates pass"
+    "Review and promote source/controls through PRs to main; no owner production dispatch until all gates pass",
+    "Environment main-only restriction is saved, but required reviewer controls were not exposed in current UI; reviewer protection must be verified/configured before final production readiness"
   ],
-  "published": false
+  "published": false,
+  "environment_checks": {
+    "environment": "dead-signal-production",
+    "deployment_branch_policy_verified": "selected branches and tags",
+    "allowed_branch_patterns": [
+      "main"
+    ],
+    "allowed_tag_patterns": [],
+    "observed_branch_count": 1,
+    "observed_tag_count": 0,
+    "required_reviewer_controls_visible": false,
+    "required_reviewer_protection_verified": false,
+    "repository_production_secret_name_present": true,
+    "repository_staging_secret_name_present": true,
+    "secret_values_read_or_changed": false,
+    "open_cloud_credential_scope_or_expiry_independently_verified": false
+  }
 }

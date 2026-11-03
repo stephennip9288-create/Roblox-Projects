@@ -218,5 +218,5 @@
       "bytes": 10327498
     }
   },
-  "remaining_blocker": "GitHub now prevents the read-only recovery job from starting due account payments/spending limit; owner must resolve billing. No further artifacts are authorized for deletion."
+  "remaining_blocker": "Historical cleanup complete; no further deletion authorized. November3 public-repository CI/artifact uploads succeeded; exact current-production rollback renewal and reviewed main promotion remain."
 }

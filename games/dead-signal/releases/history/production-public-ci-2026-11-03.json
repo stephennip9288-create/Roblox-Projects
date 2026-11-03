@@ -1,0 +1,173 @@
+{
+  "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+  "checked_at": "2026-11-03",
+  "native_runtime_verified": false,
+  "places": {
+    "production/dispatch": {
+      "bytes": 2760973,
+      "sha256": "568cb897cbf6cfd0a9d878b8eb0b90dabd223c61654149232d5c919bd3fb87e8",
+      "embedded_sources": 61,
+      "exact_candidate_sources": true,
+      "raw_fidelity_passed": true
+    },
+    "production/blackwater": {
+      "bytes": 2732050,
+      "sha256": "3fbb39d4f05e94652d52087f2a246643a52cd0e043fb17ec72e1623a0a8c45fc",
+      "embedded_sources": 61,
+      "exact_candidate_sources": true,
+      "raw_fidelity_passed": true
+    },
+    "production/cinderworks": {
+      "bytes": 2739895,
+      "sha256": "3251f7492d9f7a392ff882328e5a296ad22e49132975c0e2853b2fa9c9e4da83",
+      "embedded_sources": 61,
+      "exact_candidate_sources": true,
+      "raw_fidelity_passed": true
+    },
+    "production/whiteout": {
+      "bytes": 2741354,
+      "sha256": "4ff600e436668e1680d6df99e53eba41f0216ec8ebad11f1e752428cc0ba1c3c",
+      "embedded_sources": 61,
+      "exact_candidate_sources": true,
+      "raw_fidelity_passed": true
+    },
+    "staging/dispatch": {
+      "bytes": 2760965,
+      "sha256": "46fb9337bc8e35357f9653ca3a5bf154f4bad01c80a49c279b9647f10afbd42e",
+      "embedded_sources": 61,
+      "exact_candidate_sources": true,
+      "raw_fidelity_passed": true
+    },
+    "staging/blackwater": {
+      "bytes": 2732044,
+      "sha256": "ae34075342f505d6067577cf717cd8dace86d2d7e4e321e9d7b762ea5aa5aa0c",
+      "embedded_sources": 61,
+      "exact_candidate_sources": true,
+      "raw_fidelity_passed": true
+    },
+    "staging/cinderworks": {
+      "bytes": 2739889,
+      "sha256": "14d2abb16875c733a26bd26deb850f6e2eb8faa301a057b287d4bc119a4d3f69",
+      "embedded_sources": 61,
+      "exact_candidate_sources": true,
+      "raw_fidelity_passed": true
+    },
+    "staging/whiteout": {
+      "bytes": 2741348,
+      "sha256": "a272bcfe400032561ef9c7b3c732b14fbb136f6f7829efc3abb3084af6fe0147",
+      "embedded_sources": 61,
+      "exact_candidate_sources": true,
+      "raw_fidelity_passed": true
+    }
+  },
+  "suites": 39,
+  "assertions": 1071963,
+  "schema": 1,
+  "repository_visibility": "public",
+  "visibility_owner_confirmed": true,
+  "environment_checks": {
+    "environment": "dead-signal-production",
+    "deployment_branch_policy_verified": "selected branches and tags",
+    "allowed_branch_patterns": [
+      "main"
+    ],
+    "allowed_tag_patterns": [],
+    "observed_branch_count": 1,
+    "observed_tag_count": 0,
+    "required_reviewer_controls_visible": true,
+    "required_reviewer_protection_verified": true,
+    "repository_production_secret_name_present": true,
+    "repository_staging_secret_name_present": true,
+    "secret_values_read_or_changed": false,
+    "open_cloud_credential_scope_or_expiry_independently_verified": false,
+    "required_reviewers": [
+      "stephennip9288-create"
+    ],
+    "prevent_self_review": false,
+    "administrators_can_bypass": false,
+    "verified_at": "2026-11-03",
+    "evidence": "Repository Settings / Environments / dead-signal-production saved success; required owner reviewer, admin bypass unchecked, main only and zero tags"
+  },
+  "ci": {
+    "dead-signal-source-ci.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921166,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-production-readiness.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921082,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-lossless-patch.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921139,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-staging-preflight.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921079,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "validate.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921122,
+      "attempt": 1,
+      "conclusion": "success"
+    }
+  },
+  "ci_artifacts": [
+    {
+      "artifact_id": 13273853869,
+      "run_id": 40237921166,
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "name": "dead-signal-source-ci-204",
+      "bytes": 6889,
+      "sha256": "311d7a16ae6b2302f1220e36c5910120b21897ba3a24a3c0131d86619938975c",
+      "expires_at": "2026-11-17T22:15:25Z"
+    },
+    {
+      "artifact_id": 13274818540,
+      "run_id": 40237921082,
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "name": "dead-signal-production-preview-160",
+      "bytes": 10328095,
+      "sha256": "7beeb2fa8118fe746f3ff08e8198b134e9028775a68a4e742926645610a9faa6",
+      "expires_at": "2026-11-17T22:16:16Z"
+    },
+    {
+      "artifact_id": 13275504338,
+      "run_id": 40237921139,
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "name": "dead-signal-lossless-staging-175",
+      "bytes": 10325710,
+      "sha256": "6a9a55f9a8e6e1ba3580c3eb35937737c02c37633d46fb70061f204fe3b90007",
+      "expires_at": "2026-11-17T22:15:11Z"
+    },
+    {
+      "artifact_id": 13274843689,
+      "run_id": 40237921079,
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "name": "dead-signal-private-staging-preflight-166",
+      "bytes": 3416,
+      "sha256": "91998725c5681c39d31dfb9b8f906acb57a8a589a90902db410c51ab7706d5d0",
+      "expires_at": "2026-12-03T22:16:13Z"
+    }
+  ],
+  "production_published": false,
+  "staging_redeployed": false,
+  "additional_artifact_deletions": false,
+  "rollback_renewal_complete": false,
+  "original_rollback_zip": {
+    "bytes": 9940446,
+    "sha256": "e0b7d00fb64641afa33cbd68fb34b8282c92079adf811b6661897d82785c7910",
+    "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+    "public_upload_performed": false,
+    "public_archive_upload_approval_required": true
+  },
+  "new_recovery_renewal_code_local_tests": 5
+}

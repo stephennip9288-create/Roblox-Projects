@@ -114,7 +114,38 @@
     "117834744541770",
     "117522141638495"
   ],
-  "ci": {},
+  "ci": {
+    "dead-signal-source-ci.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921166,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-production-readiness.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921082,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-lossless-patch.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921139,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-staging-preflight.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921079,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "validate.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921122,
+      "attempt": 1,
+      "conclusion": "success"
+    }
+  },
   "builds": {
     "staging": {
       "dispatch": {
@@ -204,11 +235,9 @@
     }
   },
   "blockers": [
-    "Approved24-preview cleanup completed(239315422 bytes); GitHub now prevents Actions jobs from starting due account billing/spending limit",
-    "Production rollback renewal run40236025367 attempt2 did not start; no renewed artifact exists; current original expires2026-10-30T23:45:10Z",
-    "After owner resolves billing, rerun preservation and all required exact-source CI; pin actual renewed archive and successful checks before reviewed readiness",
-    "Review and promote source/controls through PRs to main; no owner production dispatch until all gates pass",
-    "Environment main-only restriction is saved, but required reviewer controls were not exposed in current UI; reviewer protection must be verified/configured before final production readiness"
+    "Original current-production Actions recovery artifact12081841244 expired October30 and is no longer listed; exact independently preserved ZIP is verified, but operational renewal has not succeeded",
+    "Automatic approval review requires explicit owner approval before publicly uploading the preserved current-production ZIP to the now-public repository",
+    "After approved exact-byte renewal, verify new artifact/download/freshness pins, reconcile recovery and complete reviewed source/control promotion to main; keep readiness false until all gates pass"
   ],
   "published": false,
   "environment_checks": {
@@ -220,11 +249,18 @@
     "allowed_tag_patterns": [],
     "observed_branch_count": 1,
     "observed_tag_count": 0,
-    "required_reviewer_controls_visible": false,
-    "required_reviewer_protection_verified": false,
+    "required_reviewer_controls_visible": true,
+    "required_reviewer_protection_verified": true,
     "repository_production_secret_name_present": true,
     "repository_staging_secret_name_present": true,
     "secret_values_read_or_changed": false,
-    "open_cloud_credential_scope_or_expiry_independently_verified": false
+    "open_cloud_credential_scope_or_expiry_independently_verified": false,
+    "required_reviewers": [
+      "stephennip9288-create"
+    ],
+    "prevent_self_review": false,
+    "administrators_can_bypass": false,
+    "verified_at": "2026-11-03",
+    "evidence": "Repository Settings / Environments / dead-signal-production saved success; required owner reviewer, admin bypass unchecked, main only and zero tags"
   }
 }

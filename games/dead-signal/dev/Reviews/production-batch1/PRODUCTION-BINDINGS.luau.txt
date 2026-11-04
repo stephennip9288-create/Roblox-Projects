@@ -1,0 +1,60 @@
+-- START DS-B1-001 REVIEWED PRODUCTION AUDIO ACTIVATION
+-- Issue #63: same owner-accepted banks as staged f4a7d6ba; production permission is a separate release gate.
+-- Only production10770732078 is added. Historical staging blocks and all other Config bytes stay intact.
+if game.GameId==10770732078 then
+    C.SoundIds["Board"]={gain=1,variants={"rbxassetid://114520840714703","rbxassetid://93461646806010","rbxassetid://126249959437262"}}
+    C.SoundIds["Combat.Hit"]={gain=1,variants={"rbxassetid://128218143840025","rbxassetid://130797048483391","rbxassetid://89669375170857"}}
+    C.SoundIds["Combat.Kill"]={gain=1,variants={"rbxassetid://89090032809123"}}
+    C.SoundIds["Enemy.Armor.Break"]={gain=1,variants={"rbxassetid://99193189026195"}}
+    C.SoundIds["Enemy.Charge.Warn"]={gain=1,variants={"rbxassetid://132196039140961","rbxassetid://88790988263174","rbxassetid://93143322317022"}}
+    C.SoundIds["Enemy.Death"]={gain=1,variants={"rbxassetid://101844723485575"}}
+    C.SoundIds["Enemy.Entry.Approach"]={gain=1,variants={"rbxassetid://71539557281032","rbxassetid://80449212130946","rbxassetid://136139362938220"}}
+    C.SoundIds["Enemy.Entry.Contact"]={gain=1,variants={"rbxassetid://114520840714703","rbxassetid://93461646806010","rbxassetid://126249959437262"}}
+    C.SoundIds["Enemy.Entry.Land"]={gain=1,variants={"rbxassetid://108391393992469","rbxassetid://120328623467553","rbxassetid://139588944425252"}}
+    C.SoundIds["Heavy"]={gain=1,near={"rbxassetid://86715539511366","rbxassetid://106525422874100"},far={"rbxassetid://112740987408404","rbxassetid://74407642808158"}}
+    C.SoundIds["Hit"]={gain=1,variants={"rbxassetid://128218143840025","rbxassetid://130797048483391","rbxassetid://89669375170857"}}
+    C.SoundIds["Hound.Attack"]={gain=1,variants={"rbxassetid://86849256740672","rbxassetid://70532433125215","rbxassetid://87388300196644"}}
+    C.SoundIds["Hound.Charge"]={gain=1,variants={"rbxassetid://132196039140961","rbxassetid://88790988263174","rbxassetid://93143322317022"}}
+    C.SoundIds["Hound.Death"]={gain=1,variants={"rbxassetid://83307276721883"}}
+    C.SoundIds["Hound.Snarl"]={gain=1,variants={"rbxassetid://86849256740672","rbxassetid://70532433125215","rbxassetid://87388300196644","rbxassetid://89936457525206"}}
+    C.SoundIds["Kill"]={gain=1,variants={"rbxassetid://89090032809123"}}
+    C.SoundIds["Pistol"]={gain=1,near={"rbxassetid://97471624861982","rbxassetid://119434428584660"},far={"rbxassetid://87604829105129","rbxassetid://102017904483837"}}
+    C.SoundIds["Radio.Transmission"]={gain=1,variants={"rbxassetid://118856836202756"}}
+    C.SoundIds["Rifle"]={gain=1,near={"rbxassetid://103291179419925","rbxassetid://77291135958184"},far={"rbxassetid://107624577403804","rbxassetid://104346814485237"}}
+    C.SoundIds["SMG"]={gain=1,near={"rbxassetid://99783133219658","rbxassetid://108292928491585","rbxassetid://100889161941844"},far={"rbxassetid://73467682967027","rbxassetid://138210152005532","rbxassetid://85070421720051"}}
+    C.SoundIds["Shotgun"]={gain=1,near={"rbxassetid://137205669438530","rbxassetid://120079772303461"},far={"rbxassetid://121842835676822","rbxassetid://97371915280588"}}
+    C.SoundIds["Sniper"]={gain=1,near={"rbxassetid://84968259030086","rbxassetid://134212878169682"},far={"rbxassetid://87938623646249","rbxassetid://83959159325978"}}
+    C.SoundIds["Weapon.Bolt.action-close"]={gain=1,variants={"rbxassetid://122674315331941"}}
+    C.SoundIds["Weapon.Bolt.action-open"]={gain=1,variants={"rbxassetid://98916357176793"}}
+    C.SoundIds["Weapon.Empty"]={gain=1,variants={"rbxassetid://94609173091353"}}
+    C.SoundIds["Weapon.Equip"]={gain=1,variants={"rbxassetid://125142592885415"}}
+    C.SoundIds["Weapon.Feed.feed-close"]={gain=1,variants={"rbxassetid://74508665096916"}}
+    C.SoundIds["Weapon.Feed.feed-open"]={gain=1,variants={"rbxassetid://136945303779929"}}
+    C.SoundIds["Weapon.Hit"]={gain=1,variants={"rbxassetid://128218143840025","rbxassetid://130797048483391","rbxassetid://89669375170857"}}
+    C.SoundIds["Weapon.Kill"]={gain=1,variants={"rbxassetid://89090032809123"}}
+    C.SoundIds["Weapon.Magazine.mag-in"]={gain=1,variants={"rbxassetid://118387917863630"}}
+    C.SoundIds["Weapon.Magazine.mag-out"]={gain=1,variants={"rbxassetid://138265022875111"}}
+    C.SoundIds["Weapon.Pump.action-close"]={gain=1,variants={"rbxassetid://105606467275775"}}
+    C.SoundIds["Weapon.Pump.action-open"]={gain=1,variants={"rbxassetid://88268166840332"}}
+    C.SoundIds["Weapon.Shell.shell-in"]={gain=1,variants={"rbxassetid://107421547844896"}}
+    C.SoundIds["World.Dispatch.room"]={gain=1,variants={"rbxassetid://113592069412298"}}
+    C.SoundIds["World.Foundry.furnace"]={gain=1,variants={"rbxassetid://133703053328304"}}
+    C.SoundIds["World.Foundry.machinery"]={gain=1,variants={"rbxassetid://72299086290179"}}
+    C.SoundIds["World.Foundry.vent"]={gain=1,variants={"rbxassetid://98615332369943"}}
+    C.SoundIds["World.Frost.relay"]={gain=1,variants={"rbxassetid://104410940289409"}}
+    C.SoundIds["World.Frost.structure"]={gain=1,variants={"rbxassetid://102723660598394"},interval=18,duration=0.603729}
+    C.SoundIds["World.Frost.wind"]={gain=1,variants={"rbxassetid://118613729375081"}}
+    C.SoundIds["World.Station.power"]={gain=1,variants={"rbxassetid://134226440616785"}}
+    C.SoundIds["World.Station.radio"]={gain=1,variants={"rbxassetid://118856836202756"}}
+    C.SoundIds["World.Station.wind"]={gain=1,variants={"rbxassetid://97474407149894"}}
+    C.SoundIds["Zombie.Attack"]={gain=1,variants={"rbxassetid://77977864287415"}}
+    C.SoundIds["Zombie.Footstep"]={gain=1,variants={"rbxassetid://139934328762795","rbxassetid://128917480971794","rbxassetid://88355418219105"}}
+    C.SoundIds["Zombie.Footstep.Concrete"]={gain=1,variants={"rbxassetid://139934328762795","rbxassetid://128917480971794","rbxassetid://88355418219105"}}
+    C.SoundIds["Zombie.Footstep.Snow"]={gain=1,variants={"rbxassetid://81351840288751","rbxassetid://92096615822308","rbxassetid://132196353218557"}}
+    C.SoundIds["Zombie.Footstep.Wood"]={gain=1,variants={"rbxassetid://122008731451290","rbxassetid://84938360008219","rbxassetid://118866650735185"}}
+    C.SoundIds["Zombie.Gear"]={gain=1,variants={"rbxassetid://71539557281032","rbxassetid://80449212130946","rbxassetid://136139362938220"}}
+    C.SoundIds["Zombie.Groan"]={gain=1,variants={"rbxassetid://85781807029579","rbxassetid://102111613719129","rbxassetid://74974756246529","rbxassetid://107418837961539"}}
+    C.SoundIds["Board.Break"]={gain=1,variants={"rbxassetid://121376790132442","rbxassetid://91133693743569"}}
+    C.SoundIds["Enemy.Entry.Contact"]={gain=1,variants={"rbxassetid://128395906553592","rbxassetid://126280091004313"}}
+end
+-- END DS-B1-001 REVIEWED PRODUCTION AUDIO ACTIVATION

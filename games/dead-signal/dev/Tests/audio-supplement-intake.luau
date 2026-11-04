@@ -4,6 +4,10 @@ local fs=require('@lune/fs') local luau=require('@lune/luau') local r=require('@
 local setup=require('./Fixtures/audio-corrections-env')
 local root='Reviews/audio-supplement-intake-b1/'
 local before=fs.readFile('Source/Runtime/shared/Config.lua')
+local productionBlock=fs.readFile('Reviews/production-batch1/PRODUCTION-BINDINGS.luau.txt')
+local pf,pl=string.find(before,productionBlock,1,true);assert(pf and pl,'Reviewed production block')
+before=string.sub(before,1,pf-1)..string.sub(before,pl+1)
+assert(before==fs.readFile('Reviews/production-batch1/STAGED-CONFIG.lua.txt'),'Accepted staging snapshot preserved')
 local block=fs.readFile(root..'STAGING-BINDINGS.luau.txt')
 local installedFirst,installedLast=string.find(before,block,1,true)
 if installedFirst then

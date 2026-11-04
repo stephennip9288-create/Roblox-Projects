@@ -199,9 +199,9 @@ do
     local staging=config();local production=config(10770732078);local other=config(0)
     check(staging.AudioAudition and not production.AudioAudition and not other.AudioAudition,'audition remains staging-only')
     for _,name in ipairs({'Board','Weapon.Equip','Enemy.Entry.Contact','Enemy.Entry.Land'}) do
-        check(staging.SoundIds[name] and not production.SoundIds[name] or staging.SoundIds[name] and production.SoundIds[name]=='','no uploaded bank in production: '..name)
+        check(staging.SoundIds[name] and production.SoundIds[name] and production.SoundIds[name].gain==staging.SoundIds[name].gain,'reviewed bank enabled in both approved universes: '..name)
     end
-    local e=setup(false,production)
+    local e=setup(false,other)
     check(not e.fx:sound('Board',r.Vector3.zero) and not e.fx:sound('Reload') and e.plays==0,'unconfigured universe has no prohibited physical fallback')
     local v=e.fx:sound('Hound.Charge',r.Vector3.zero)
     check(v and v.sound.Playing and v.priority==4,'critical warning remains immediate under missing assets')

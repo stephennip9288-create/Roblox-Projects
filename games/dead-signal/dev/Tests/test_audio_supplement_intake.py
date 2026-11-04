@@ -1,5 +1,6 @@
 """Owner intake/provenance and independently applied review patch; no Runtime edits."""
 import hashlib
+from production_audio import staged_config
 import importlib.util
 import json
 from pathlib import Path
@@ -31,7 +32,7 @@ class AudioSupplementIntake(unittest.TestCase):
                 self.assertEqual(row[key],canonical[row['name']][key])
 
     def test_stored_patch_applies_independently_and_exactly(self):
-        source=bindings.baseline((DEV/'Source/Runtime/shared/Config.lua').read_bytes())
+        source=bindings.baseline(staged_config((DEV/'Source/Runtime/shared/Config.lua').read_bytes()))
         stored=(REVIEW/'STAGING-CONFIG.patch').read_text()
         self.assertEqual(stored,bindings.patch(source))
         with tempfile.TemporaryDirectory() as tmp:
@@ -43,7 +44,7 @@ class AudioSupplementIntake(unittest.TestCase):
             self.assertEqual(bindings.baseline(target.read_bytes()),source)
 
     def test_modified_base_is_rejected(self):
-        source=bindings.baseline((DEV/'Source/Runtime/shared/Config.lua').read_bytes())
+        source=bindings.baseline(staged_config((DEV/'Source/Runtime/shared/Config.lua').read_bytes()))
         with self.assertRaisesRegex(ValueError,'Config changed'):
             bindings.render(source+b'\n')
         with self.assertRaisesRegex(ValueError,'Config changed'):
@@ -53,7 +54,7 @@ class AudioSupplementIntake(unittest.TestCase):
         expected={'shared/Config.lua':'1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2','client/Effects.lua':'eba3364383e7bef7fc7fbe831287b257bdd0d43a','shared/ControlSettings.lua':'9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996'}
         for name,sha in expected.items():
             source=(DEV/'Source/Runtime'/name).read_bytes()
-            if name=='shared/Config.lua':source=bindings.baseline(source)
+            if name=='shared/Config.lua':source=bindings.baseline(staged_config(source))
             self.assertEqual(bindings.blob(source),sha)
 
 

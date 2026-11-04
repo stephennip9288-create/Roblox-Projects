@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "issue": 63,
+  "production_published": false,
+  "player_data_touched": false,
+  "environment": "dead-signal-production",
+  "settings_url": "https://github.com/stephennip9288-create/Roblox-Projects/settings/environments/24471297487/edit",
+  "previous_branch_policy": "No restriction",
+  "saved_branch_policy": "Selected branches and tags",
+  "saved_branch_rules": [
+    {
+      "type": "branch",
+      "pattern": "main"
+    }
+  ],
+  "saved_tag_rules": [],
+  "ui_confirmation": "Deployment branch rule main saved successfully;1 branch and0 tags allowed; currently applies to1 branch",
+  "required_reviewer_controls_visible": false,
+  "required_reviewer_protection_verified": false,
+  "repository_secret_names_present": [
+    "ROBLOX_PRODUCTION_API_KEY",
+    "ROBLOX_STAGING_API_KEY"
+  ],
+  "credential_values_read_or_changed": false,
+  "account_billing_settings_changed": false,
+  "remaining_external_job_start_block": "Account Actions billing/spending eligibility"
+}

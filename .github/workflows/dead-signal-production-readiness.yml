@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'scripts/dead_signal_release_guard.py'
+      - 'scripts/dead_signal_production_admission.py'
+      - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
@@ -17,6 +19,8 @@ on:
   pull_request:
     paths:
       - 'scripts/dead_signal_release_guard.py'
+      - 'scripts/dead_signal_production_admission.py'
+      - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
@@ -31,6 +35,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   source-ready:
@@ -45,9 +50,20 @@ jobs:
       - name: Run publisher and production safety tests
         run: |
           python -m unittest discover -s tests -v
+          if [ -f games/dead-signal/dev/Tests/test_audio_supplement_intake.py ]; then
+            sudo apt-get update
+            sudo apt-get install --no-install-recommends --yes ffmpeg
+            python -m unittest discover -s games/dead-signal/dev/Tests -v
+          else
+            echo "Historical control-only source has no Python audio intake tests; the pinned production candidate must run them."
+          fi
           python scripts/validate.py
       - name: Generate two sets of isolated teleport destinations
         run: python scripts/generate_dead_signal_place_configs.py
+      - name: Download and verify current production recovery without publishing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/dead_signal_release_guard.py recovery --environment production --operation deploy
       - name: Install Lune 0.11.0
         uses: CompeyDev/setup-rokit@v0.1.2
         with:
@@ -74,6 +90,31 @@ jobs:
           python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/production --baseline-dir games/dead-signal/full-baselines/v1.8.0
       - name: Verify production teleport IDs, source equivalence, and committed rollback binaries
         run: python scripts/check_dead_signal_production.py
+      - name: Verify reviewed production admission and eight pinned builds without publishing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          import dead_signal_production_admission as admission
+          records = Path('games/dead-signal/releases')
+          path = records / admission.RECORD
+          if path.is_file():
+              record = json.loads(path.read_text())
+              if record.get('ready_for_production') is True:
+                  admission.completion(record, record['source_sha'],
+                      json.loads((records / 'recovery-production.json').read_text()),
+                      json.loads((records / 'batch-1-production-audio-permissions.json').read_text()))
+                  admission.verify_ci(record, os.environ['GH_TOKEN'])
+                  admission.verify_builds(record)
+                  print('Reviewed production acceptance, five live CI runs and eight exact builds verified; no publishing')
+              else:
+                  print('Production admission remains not ready; no publication is permitted')
+          else:
+              print('Historical source has no Batch 1 production admission; no publishing')
+          PY
       - name: Archive production candidate and safety reports for review only
         uses: actions/upload-artifact@v7
         with:

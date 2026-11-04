@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+  "staging_accepted_source": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+  "main_source_promotion": {
+    "source_pr": 65,
+    "combined_pr": 44,
+    "main_promotion_pr": 67,
+    "source_main_sha": "04c9b837f932a37fe04c7cb1eccea091b2edd014",
+    "source_runtime_matches_reviewed_sha": true,
+    "local_combined_pipeline_tests": 95,
+    "local_audio_python_tests": 28,
+    "optional_audio_input_skips": 2,
+    "actual_recovery_guard_ci_run": 41745189410,
+    "actual_recovery_guard_ci_passed": true,
+    "source_promotion_ci_runs": [
+      {
+        "id": 41746003734,
+        "name": "Validate Roblox Cloud Project",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      },
+      {
+        "id": 41746002677,
+        "name": "Dead Signal Production Candidate Readiness (No Publish)",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      },
+      {
+        "id": 41746002599,
+        "name": "Dead Signal Private Staging Preflight (No Publish)",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      },
+      {
+        "id": 41746002609,
+        "name": "Dead Signal Lossless Source Patch (No Publish)",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      },
+      {
+        "id": 41746002425,
+        "name": "Dead Signal Work Source CI (No Publish)",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      }
+    ],
+    "production_environment_rechecked_at": "2026-11-04T00:27:23.426747+00:00",
+    "owner_dispatch_required": true,
+    "production_workflow_dispatched": false,
+    "staging_redeployed": false,
+    "control_pr": 66,
+    "control_ci_required_before_merge": true
+  },
+  "exact_source_ci": {
+    "dead-signal-source-ci.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921166,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-production-readiness.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921082,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-lossless-patch.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921139,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "dead-signal-staging-preflight.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921079,
+      "attempt": 2,
+      "conclusion": "success"
+    },
+    "validate.yml": {
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "run_id": 40237921122,
+      "attempt": 1,
+      "conclusion": "success"
+    }
+  },
+  "reviewed_builds": {
+    "staging": {
+      "dispatch": {
+        "sha256": "46fb9337bc8e35357f9653ca3a5bf154f4bad01c80a49c279b9647f10afbd42e",
+        "bytes": 2760965
+      },
+      "blackwater": {
+        "sha256": "ae34075342f505d6067577cf717cd8dace86d2d7e4e321e9d7b762ea5aa5aa0c",
+        "bytes": 2732044
+      },
+      "cinderworks": {
+        "sha256": "14d2abb16875c733a26bd26deb850f6e2eb8faa301a057b287d4bc119a4d3f69",
+        "bytes": 2739889
+      },
+      "whiteout": {
+        "sha256": "a272bcfe400032561ef9c7b3c732b14fbb136f6f7829efc3abb3084af6fe0147",
+        "bytes": 2741348
+      }
+    },
+    "production": {
+      "dispatch": {
+        "sha256": "568cb897cbf6cfd0a9d878b8eb0b90dabd223c61654149232d5c919bd3fb87e8",
+        "bytes": 2760973
+      },
+      "blackwater": {
+        "sha256": "3fbb39d4f05e94652d52087f2a246643a52cd0e043fb17ec72e1623a0a8c45fc",
+        "bytes": 2732050
+      },
+      "cinderworks": {
+        "sha256": "3251f7492d9f7a392ff882328e5a296ad22e49132975c0e2853b2fa9c9e4da83",
+        "bytes": 2739895
+      },
+      "whiteout": {
+        "sha256": "4ff600e436668e1680d6df99e53eba41f0216ec8ebad11f1e752428cc0ba1c3c",
+        "bytes": 2741354
+      }
+    }
+  },
+  "rollback": {
+    "refreshed": true,
+    "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+    "artifact": {
+      "id": 13283390341,
+      "run_id": 41744401356,
+      "sha256": "85bdbbf6519bbe086bb8683a310f6c34d4a2c084a82585c28b16a7b4f1f7085f",
+      "expires_at": "2027-02-02T00:07:12Z",
+      "head_sha": "c3da4eb7ef3dacc038664d74007f22fd0fbc2cae",
+      "note": "Exact current-production members rehosted from the verified owner-approved original ZIP; original artifact expired. No rebuild, Roblox requests or publication. Original provenance retained in history/production-recovery-original-12081841244.json."
+    },
+    "deployment": {
+      "run_id": 38985770842,
+      "attempt": 4,
+      "versions": {
+        "dispatch": 28,
+        "blackwater": 22,
+        "cinderworks": 21,
+        "whiteout": 21
+      },
+      "workflow_id": 386320766,
+      "control_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71"
+    },
+    "places": {
+      "dispatch": {
+        "place_id": "92751255902679",
+        "member": "production/dispatch.rbxl",
+        "sha256": "6fa9cd5f1a6dee73d9cebde3b1db99e513ac8dc7112df9c760d8594f93d8c60c",
+        "bytes": 2643388
+      },
+      "blackwater": {
+        "place_id": "88865473543027",
+        "member": "production/blackwater.rbxl",
+        "sha256": "2a4a8dee7c84b8bf377836c4d3209a2f14353fd186362ab1061c8f4726db9a20",
+        "bytes": 2614475
+      },
+      "cinderworks": {
+        "place_id": "110963636700767",
+        "member": "production/cinderworks.rbxl",
+        "sha256": "d8d18798ff99f5d522f3a3c36ee241b4430fac23da73d6b7e77279ad9cc73ecb",
+        "bytes": 2622327
+      },
+      "whiteout": {
+        "place_id": "109169216914914",
+        "member": "production/whiteout.rbxl",
+        "sha256": "353828433231561c09763a7151f2977b67e0872b27c78819d92b050f10440fe2",
+        "bytes": 2623779
+      }
+    }
+  },
+  "environment": {
+    "environment": "dead-signal-production",
+    "deployment_branch_policy_verified": "selected branches and tags",
+    "allowed_branch_patterns": [
+      "main"
+    ],
+    "allowed_tag_patterns": [],
+    "observed_branch_count": 1,
+    "observed_tag_count": 0,
+    "required_reviewer_controls_visible": true,
+    "required_reviewer_protection_verified": true,
+    "repository_production_secret_name_present": true,
+    "repository_staging_secret_name_present": true,
+    "secret_values_read_or_changed": false,
+    "open_cloud_credential_scope_or_expiry_independently_verified": false,
+    "required_reviewers": [
+      "stephennip9288-create"
+    ],
+    "prevent_self_review": false,
+    "administrators_can_bypass": false,
+    "verified_at": "2026-11-03",
+    "evidence": "Repository Settings / Environments / dead-signal-production saved success; required owner reviewer, admin bypass unchecked, main only and zero tags"
+  },
+  "known_silent_reload_stages": 11,
+  "unbound_components": [
+    "117834744541770",
+    "117522141638495"
+  ],
+  "production_published": false,
+  "owner_dispatch_required": true
+}

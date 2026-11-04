@@ -1,40 +1,13 @@
-# Dead Signal — Batch 1 deployed / Batch 1.1 corrective gate
+# Dead Signal - current Batch 1 production release preparation
 
-Batch 1 was successfully published to private staging by the owner on 2026-10-17. Initial owner gameplay testing identified six defects. This is **not full staging acceptance** and does not authorize another deployment or production promotion. Corrective work is tracked in [#37](https://github.com/stephennip9288-create/Roblox-Projects/issues/37); the historical integration ledger remains [#28](https://github.com/stephennip9288-create/Roblox-Projects/issues/28).
+The owner accepted the latest combined private-staging zombie, window, map and audio corrections in actual gameplay and requested production release. No new staging deployment is needed. Batch2/3 remain separate.
 
-## Actual release provenance
+The reviewed game-source pin is c2d4fb020c3893cae569d346d2886862d8fe8401. Source#65, combined#44 and main promotion#67 are merged. Main retains its newer release safeguards, deployment records, native assets and player-data namespace. Final admission/runbook/recovery controls are reviewed in#66; require that PR merged and final main checks successful before owner dispatch.
 
-| Environment | Game source | Control source / successful run / attempt | Dispatch / Blackwater / Cinderworks / Whiteout versions |
-|---|---|---|---|
-| Private staging | `9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7` | `5f6d0a0c1ab3d462bc0a3f4413d3ce4593a3e6bb` / [39056526660](https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39056526660) / 1 | 11 / 10 / 10 / 10 |
-| Production | `1a5b9f3b811137b6881090ad634a13624d33dd71` | same source / [38985770842](https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/38985770842) / 4 | 28 / 22 / 21 / 21 |
+See [the owner release procedure](../BATCH-1-PRODUCTION-RELEASE.md), [current audio status](BATCH-1-AUDIO-STATUS.md), batch-1-production.json and Issue#63 for exact inputs and evidence. Publication remains pending the owner's manual workflow and required production-environment approval. No production success or new place versions are claimed.
 
-The successful staging job logs show the selected game SHA and all four returned version numbers. PUBLISH-RESULT confirms four published places and production_touched=false. These are pipeline publication records; they are not fresh Roblox downloads or evidence of later out-of-pipeline changes.
+Current known-good production rollback remains game source1a5b9f3b811137b6881090ad634a13624d33dd71, successful production run38985770842 attempt4, Dispatch28/Blackwater22/Cinderworks21/Whiteout21. The exact original files were renewed in artifact13283390341 from no-publish run41744401356, ZIP SHA25685bdbbf6519bbe086bb8683a310f6c34d4a2c084a82585c28b16a7b4f1f7085f, expires2027-02-02T00:07:12Z. All four files match their original hashes, sizes,61-script inventory, production PlaceConfig and profile namespace. The trusted guard downloads and verifies the actual pinned archive and latest successful release; no historical fallback or rebuilding is permitted.
 
-The retained exact staging candidate is artifact `12109702848` from that same run, archive SHA-256 `e969cc319cc71c6ff55d24c9ddc546d674f2035192e44f6586c5a6fe00b1117b`. It was downloaded, hash/CRC checked and all four RBXLs match the original Batch 1 candidate hashes. Each has the generated staging-only PlaceConfig, 61 source records and the unchanged production profile schema. Native instance/assets are retained through the existing lossless Source patch.
+Current staging remains owner-run40054332185, game sourcef4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d, Dispatch20/maps16/16/16, recovery12545195246. Original84 asset records and source-specific staging QA evidence are retained. The prior phase README is preserved at history/release-readme-before-production-2026-11-03.md.
 
-## Recovery pointers and expiry
-
-`recovery-staging.json` now names the actual successfully published Batch 1 set, including separate game/control SHAs, artifact members/hashes, deployment attempt and versions. The preceding staging record is preserved at `history/staging-38954616169.json`; its artifact is not substituted automatically. Production recovery is unchanged and retains the original artwork hotfix.
-
-Staging's retained artifact expires **2027-01-15**; production's current artifact expires **2026-10-30**. Missing/expired/wrong-source/wrong-environment archives block deployment. Historical checked-in `places/*/{staging,production}.rbxl` backups remain untouched and are not used by the actual publisher. Reconcile a manual Roblox publication or failed release before relying on a recorded recovery point.
-
-The deployment guard compares the latest preceding release run/attempt with the recorded successful deployment, excluding its own run. Candidate controls are checked out from exact trusted main separately from the immutable game source. Runtime source bytes are verified before and after tests; trusted controls/manifests are reinstalled; candidate binaries must match the chosen 61 records and generated environment config. Roblox keys are scoped to the final publishing step. No fallback to historical v1.7 binaries exists.
-
-An explicitly authorized rollback restores the pinned set after verifying provenance, archive/member hashes and IDs, without requiring a candidate build or fresh candidate CI. All four places are attempted maps-first/Dispatch-last, including ambiguous failed upload requests during automatic recovery. Network/API failures may still prevent restoration; inspect the result artifact. Keep the previous archive available for separately reviewed emergency recovery.
-
-## Batch 1.1 corrective gate
-
-The six owner reports are artificial audio, stuck exterior window entries, incorrect wall mounts, empty rooms, stair/deck traps and mannequin-like infected. New isolated branches must preserve all completed Batch 1 changes and all 31 approved requirements. Review the frozen `handoffs/BATCH-1-1-FIXES.md` contract on the patch integration branch. No defect is Verified until its implemented fix passes the appropriate actual staging retest.
-
-`batch-1.json` still selects only the previously reviewed Batch 1 SHA `9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7`. It **does not admit any Batch 1.1 candidate**. Do not repin it for partial work. The complete corrective patch needs reviewed Maps -> Enemies -> Audio source, bug-by-bug evidence, all Python/Lune/compile regressions, config isolation, raw four-place fidelity and reconciled current recovery. A substantive realistic-audio requirement cannot be claimed complete from unsuitable stock fallbacks or silent asset slots. Identify suitable authorized samples, permissions and required listening checks explicitly.
-
-After those gates pass, prepare one complete immutable candidate and a reviewed source-selection update, then request **new explicit owner private-staging publication approval**. The previous Batch 1 approval does not apply to this patch. The manual workflow remains Controlled Private Staging on main, with deploy / DEPLOY-PRIVATE-STAGING / full selected source_sha. No partial publication, push-trigger workaround or automatic production promotion is allowed.
-
-Following the owner's staging retest and acceptance, prepare the reviewed final gameplay PR to main and obtain **separate explicit production authorization**. Use the existing manual production workflow, production-only configs and verified production recovery. Do not substitute staging IDs.
-
-## Prior Batch 1 evidence and limits
-
-Integration #34 at `9743b3e` retained all four specialist parents; source admission #35 and documentation #36 changed main controls/docs while main gameplay remains the production source. Baseline evidence was 26 suites / 998,937 assertions, 78 pipeline Python tests plus six audio guards, 61 runtime compilations, 210 window profiles, 63 contextual profiles, 30 purchase states and 4,017 elevated samples, eight lossless/config/fidelity builds and four reader reopens. The original LoadingScreen source and 113 protected blobs were unchanged.
-
-Owner testing has since found real defects; those offline passes did not establish native physics, asset quality, sound quality/permissions, networking or device FPS. Physical two-thumb controls comparison remains deferred. Preserve the initial test report and exact deployment while tracking corrective evidence separately.
+Use only the existing main/manual Dead Signal Production Release workflow with the reviewed c2 source and exact PUBLISH-V18-PRODUCTION confirmation after every gate passes. Preserve DeadSignal_Profile_v1 and all player data. After actual successful publication, record real four-place results, native gameplay/audio smoke checks and the new exact production recovery through review.

@@ -98,10 +98,19 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           OPERATION: ${{ inputs.operation }}
         run: python scripts/dead_signal_release_guard.py recovery --environment production --operation "$OPERATION"
+      - name: Verify reviewed production acceptance and current CI evidence
+        if: ${{ inputs.operation == 'deploy' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
+        run: python scripts/dead_signal_production_admission.py --source-sha "$RELEASE_SOURCE_SHA"
       - name: Check publisher manifest and production guard tests
         if: ${{ inputs.operation == 'deploy' }}
         run: |
           python -m unittest discover -s tests -v
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes ffmpeg
+          python -m unittest discover -s games/dead-signal/dev/Tests -v
           python scripts/validate.py
           python scripts/generate_dead_signal_place_configs.py
       - name: Install pinned Lune (new release only)
@@ -135,6 +144,12 @@ jobs:
       - name: Verify production place IDs, source parity, and all four rollback binaries
         if: ${{ inputs.operation == 'deploy' }}
         run: python scripts/check_dead_signal_production.py
+      - name: Verify built bytes against reviewed production and staging pins
+        if: ${{ inputs.operation == 'deploy' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
+        run: python scripts/dead_signal_production_admission.py --source-sha "$RELEASE_SOURCE_SHA" --verify-builds
       - name: Reinstall trusted production controls after candidate tests
         working-directory: ${{ github.workspace }}
         env:

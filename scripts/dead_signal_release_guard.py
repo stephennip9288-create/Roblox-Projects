@@ -222,7 +222,8 @@ def install_controls(control, candidate, operation, source_sha, environment="sta
         if environment == "staging":
             verify_staging_deploy_source(candidate, source_sha, control / "games/dead-signal/releases")
         else:
-            verify_checkout(candidate, source_sha)
+            from dead_signal_production_admission import verify_source as verify_production_source
+            verify_production_source(candidate, source_sha, control / "games/dead-signal/releases")
     elif source_sha:
         raise ValueError("Rollback must not select new candidate code")
     # Only ephemeral pipeline controls/target manifests are replaced. Runtime,

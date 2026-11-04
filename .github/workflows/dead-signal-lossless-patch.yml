@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'scripts/dead_signal_release_guard.py'
+      - 'scripts/dead_signal_production_admission.py'
+      - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
@@ -16,6 +18,8 @@ on:
   pull_request:
     paths:
       - 'scripts/dead_signal_release_guard.py'
+      - 'scripts/dead_signal_production_admission.py'
+      - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
@@ -44,6 +48,13 @@ jobs:
       - name: Validate manifests and established source tests
         run: |
           python -m unittest discover -s tests -v
+          if [ -f games/dead-signal/dev/Tests/test_audio_supplement_intake.py ]; then
+            sudo apt-get update
+            sudo apt-get install --no-install-recommends --yes ffmpeg
+            python -m unittest discover -s games/dead-signal/dev/Tests -v
+          else
+            echo "Historical control-only source has no Python audio intake tests; the pinned production candidate must run them."
+          fi
           python scripts/validate.py
       - name: Check native v1.8 Work binary baselines are imported
         id: baseline

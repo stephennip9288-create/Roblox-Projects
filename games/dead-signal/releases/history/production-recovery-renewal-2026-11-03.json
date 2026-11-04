@@ -1,0 +1,138 @@
+{
+  "original_archive": {
+    "id": 12081841244,
+    "run_id": 38983031056,
+    "sha256": "e0b7d00fb64641afa33cbd68fb34b8282c92079adf811b6661897d82785c7910",
+    "expires_at": "2026-10-30",
+    "note": "Failure/expiry blocks deployment; never fall back to historical binaries.",
+    "head_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71"
+  },
+  "new_artifact": {
+    "id": 13283390341,
+    "run_id": 41744401356,
+    "head_sha": "c3da4eb7ef3dacc038664d74007f22fd0fbc2cae",
+    "sha256": "85bdbbf6519bbe086bb8683a310f6c34d4a2c084a82585c28b16a7b4f1f7085f",
+    "bytes": 9936977,
+    "expires_at": "2027-02-02T00:07:12Z"
+  },
+  "workflow_checkout_sha": "ef77951d0833a4d0b72d045b4363eb41c6de27e3",
+  "preservation_report": {
+    "schema": 1,
+    "environment": "production",
+    "kind": "exact-existing-recovery-preservation",
+    "original_recovery_record": {
+      "schema": 1,
+      "environment": "production",
+      "universe_id": "10770732078",
+      "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+      "artifact": {
+        "id": 12081841244,
+        "run_id": 38983031056,
+        "sha256": "e0b7d00fb64641afa33cbd68fb34b8282c92079adf811b6661897d82785c7910",
+        "expires_at": "2026-10-30",
+        "note": "Failure/expiry blocks deployment; never fall back to historical binaries.",
+        "head_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71"
+      },
+      "deployment": {
+        "run_id": 38985770842,
+        "attempt": 4,
+        "versions": {
+          "dispatch": 28,
+          "blackwater": 22,
+          "cinderworks": 21,
+          "whiteout": 21
+        },
+        "workflow_id": 386320766,
+        "control_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71"
+      },
+      "places": {
+        "dispatch": {
+          "place_id": "92751255902679",
+          "member": "production/dispatch.rbxl",
+          "sha256": "6fa9cd5f1a6dee73d9cebde3b1db99e513ac8dc7112df9c760d8594f93d8c60c",
+          "bytes": 2643388
+        },
+        "blackwater": {
+          "place_id": "88865473543027",
+          "member": "production/blackwater.rbxl",
+          "sha256": "2a4a8dee7c84b8bf377836c4d3209a2f14353fd186362ab1061c8f4726db9a20",
+          "bytes": 2614475
+        },
+        "cinderworks": {
+          "place_id": "110963636700767",
+          "member": "production/cinderworks.rbxl",
+          "sha256": "d8d18798ff99f5d522f3a3c36ee241b4430fac23da73d6b7e77279ad9cc73ecb",
+          "bytes": 2622327
+        },
+        "whiteout": {
+          "place_id": "109169216914914",
+          "member": "production/whiteout.rbxl",
+          "sha256": "353828433231561c09763a7151f2977b67e0872b27c78819d92b050f10440fe2",
+          "bytes": 2623779
+        }
+      }
+    },
+    "original_archive_sha256": "e0b7d00fb64641afa33cbd68fb34b8282c92079adf811b6661897d82785c7910",
+    "original_archive_bytes": 9940446,
+    "original_archive_path": "games/dead-signal/releases/dead-signal-current-production-1a5b9f3b.zip",
+    "original_actions_artifact_expired": true,
+    "latest_recorded_production_deployment_verified": true,
+    "refresh_workflow_run": "41744401356",
+    "refresh_head_sha": "ef77951d0833a4d0b72d045b4363eb41c6de27e3",
+    "recreated_or_rebuilt": false,
+    "production_touched": false,
+    "roblox_requests": false,
+    "all_four_bytes_unchanged": true
+  },
+  "all_four_verified": {
+    "dispatch": {
+      "path": "build/dead-signal-recovery/production/dispatch.rbxl",
+      "sha256": "6fa9cd5f1a6dee73d9cebde3b1db99e513ac8dc7112df9c760d8594f93d8c60c",
+      "bytes": 2643388,
+      "place_id": "92751255902679",
+      "universe_id": "10770732078",
+      "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+      "deployment_run": 38985770842,
+      "version": 28
+    },
+    "blackwater": {
+      "path": "build/dead-signal-recovery/production/blackwater.rbxl",
+      "sha256": "2a4a8dee7c84b8bf377836c4d3209a2f14353fd186362ab1061c8f4726db9a20",
+      "bytes": 2614475,
+      "place_id": "88865473543027",
+      "universe_id": "10770732078",
+      "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+      "deployment_run": 38985770842,
+      "version": 22
+    },
+    "cinderworks": {
+      "path": "build/dead-signal-recovery/production/cinderworks.rbxl",
+      "sha256": "d8d18798ff99f5d522f3a3c36ee241b4430fac23da73d6b7e77279ad9cc73ecb",
+      "bytes": 2622327,
+      "place_id": "110963636700767",
+      "universe_id": "10770732078",
+      "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+      "deployment_run": 38985770842,
+      "version": 21
+    },
+    "whiteout": {
+      "path": "build/dead-signal-recovery/production/whiteout.rbxl",
+      "sha256": "353828433231561c09763a7151f2977b67e0872b27c78819d92b050f10440fe2",
+      "bytes": 2623779,
+      "place_id": "109169216914914",
+      "universe_id": "10770732078",
+      "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+      "deployment_run": 38985770842,
+      "version": 21
+    }
+  },
+  "exact_original_member_bytes": true,
+  "schema": 1,
+  "owner_specific_public_upload_approved": true,
+  "public_archive_git_blob": "d5584c7aee049f33e16ec1d75976c1855f8aa8d1",
+  "public_archive_commit": "c3da4eb7ef3dacc038664d74007f22fd0fbc2cae",
+  "artifact_run_head_sha": "c3da4eb7ef3dacc038664d74007f22fd0fbc2cae",
+  "checkout_merge_tree_matches_head": true,
+  "checked_at": "2026-11-04T00:07:27Z",
+  "production_published": false
+}

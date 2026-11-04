@@ -4,12 +4,12 @@
   "universe_id": "10770732078",
   "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
   "artifact": {
-    "id": 12081841244,
-    "run_id": 38983031056,
-    "sha256": "e0b7d00fb64641afa33cbd68fb34b8282c92079adf811b6661897d82785c7910",
-    "expires_at": "2026-10-30",
-    "note": "Failure/expiry blocks deployment; never fall back to historical binaries.",
-    "head_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71"
+    "id": 13283390341,
+    "run_id": 41744401356,
+    "sha256": "85bdbbf6519bbe086bb8683a310f6c34d4a2c084a82585c28b16a7b4f1f7085f",
+    "expires_at": "2027-02-02T00:07:12Z",
+    "head_sha": "c3da4eb7ef3dacc038664d74007f22fd0fbc2cae",
+    "note": "Exact current-production members rehosted from the verified owner-approved original ZIP; original artifact expired. No rebuild, Roblox requests or publication. Original provenance retained in history/production-recovery-original-12081841244.json."
   },
   "deployment": {
     "run_id": 38985770842,

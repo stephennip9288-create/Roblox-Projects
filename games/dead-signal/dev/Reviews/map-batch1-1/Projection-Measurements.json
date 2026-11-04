@@ -1,0 +1,107 @@
+[
+  {
+    "map": "Station",
+    "projections": [
+      {
+        "viewport": [
+          1280,
+          720
+        ],
+        "signs": [
+          {
+            "text": "CLEAR / CHECKPOINT DEBRIS\n750 POINTS",
+            "projectedTextPixels": 39.2,
+            "panelWidthPixels": 704.1
+          }
+        ]
+      },
+      {
+        "viewport": [
+          844,
+          390
+        ],
+        "signs": [
+          {
+            "text": "CLEAR / CHECKPOINT DEBRIS\n750 POINTS",
+            "projectedTextPixels": 21.2,
+            "panelWidthPixels": 381.4
+          }
+        ]
+      }
+    ],
+    "eyeHeight": 5.4,
+    "distance": 12,
+    "nativeGui": false,
+    "phoneTested": false
+  },
+  {
+    "map": "Foundry",
+    "projections": [
+      {
+        "viewport": [
+          1280,
+          720
+        ],
+        "signs": [
+          {
+            "text": "CLEAR / STEEL PALLET STACK\n750 POINTS",
+            "projectedTextPixels": 48.4,
+            "panelWidthPixels": 870.0
+          }
+        ]
+      },
+      {
+        "viewport": [
+          844,
+          390
+        ],
+        "signs": [
+          {
+            "text": "CLEAR / STEEL PALLET STACK\n750 POINTS",
+            "projectedTextPixels": 26.2,
+            "panelWidthPixels": 471.3
+          }
+        ]
+      }
+    ],
+    "eyeHeight": 5.4,
+    "distance": 12,
+    "nativeGui": false,
+    "phoneTested": false
+  },
+  {
+    "map": "Frost",
+    "projections": [
+      {
+        "viewport": [
+          1280,
+          720
+        ],
+        "signs": [
+          {
+            "text": "CLEAR / ICED PRESSURE DOOR\n750 POINTS",
+            "projectedTextPixels": 42.3,
+            "panelWidthPixels": 801.3
+          }
+        ]
+      },
+      {
+        "viewport": [
+          844,
+          390
+        ],
+        "signs": [
+          {
+            "text": "CLEAR / ICED PRESSURE DOOR\n750 POINTS",
+            "projectedTextPixels": 22.9,
+            "panelWidthPixels": 434.0
+          }
+        ]
+      }
+    ],
+    "eyeHeight": 5.4,
+    "distance": 12,
+    "nativeGui": false,
+    "phoneTested": false
+  }
+]

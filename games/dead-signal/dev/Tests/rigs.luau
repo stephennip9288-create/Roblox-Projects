@@ -33,7 +33,7 @@ for _,kind in ipairs({'Shambler','Runner','Hound','Crawler','Warden'}) do
   joints+=1;local a=j.Part0.CFrame*j.C0 local b=j.Part1.CFrame*j.C1
   check((a.Position-b.Position).Magnitude<.001,kind..' coincident rest joint frames '..j.Name)
  end end
- check(joints>=14,kind..' elbows knees wrists and ankles exist')
+ check(m:GetAttribute('PresentationRig')=='R6' and joints==6 or m:GetAttribute('PresentationRig')~='R6' and joints>=14,kind..' correct R6 or articulated canine driving joints')
  local serialized=r.serializeModel({m});local reopened=r.deserializeModel(serialized)[1]
  check(reopened:FindFirstChild('BodyCollider').CanCollide and reopened:GetAttribute('ArtRevision')==8,kind..' native rig survives serialization')
  R.corpse(m,corpses)

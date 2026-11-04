@@ -218,5 +218,5 @@
       "bytes": 10327498
     }
   },
-  "remaining_blocker": "Historical cleanup complete; no further deletion authorized. November3 public-repository CI/artifact uploads succeeded; exact current-production rollback renewal and reviewed main promotion remain."
+  "remaining_blocker": "No artifact storage/job-start blocker on verified public CI. Approved24-artifact cleanup is complete; no further deletion is authorized. Production dispatch remains owner-controlled after final main checks."
 }

@@ -1,0 +1,47 @@
+{
+  "source": "28dcb6c6f1259e2c2e873ffc2baf90b9fddc0be1",
+  "merge_ref": "3d1f5419c4379bde8e4c8010d08d8ec1402ade0c",
+  "runs": [
+    {
+      "name": "Validate Roblox Cloud Project",
+      "id": 39781805597,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39781805597"
+    },
+    {
+      "name": "Dead Signal Private Staging Preflight (No Publish)",
+      "id": 39781805269,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39781805269"
+    },
+    {
+      "name": "Dead Signal Work Source CI (No Publish)",
+      "id": 39781805449,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39781805449"
+    },
+    {
+      "name": "Dead Signal Lossless Source Patch (No Publish)",
+      "id": 39781805305,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39781805305"
+    },
+    {
+      "name": "Dead Signal Production Candidate Readiness (No Publish)",
+      "id": 39781805250,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39781805250"
+    }
+  ],
+  "pipeline_python_cases": 81,
+  "offline_environment_builds": 8,
+  "binary_fidelity": "passed all four places in each environment",
+  "publish": false,
+  "staging_artifact": 12426278864,
+  "staging_artifact_sha256": "f4c13ee85e93b82fe2b28a92ac6e98b401ccd908647fa20100b489f3e70948ed"
+}

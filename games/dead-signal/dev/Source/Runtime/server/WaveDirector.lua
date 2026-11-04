@@ -52,9 +52,25 @@ function D:budget(now)
     local limit=math.max(2,math.floor(R.activeLimit(run.round,math.max(1,crew),C.MaxEnemies)*cap))
     return crew>0 and limit or 0,R.spawnInterval(run.round,math.max(1,crew),run.phase=="Exfil")*interval
 end
-function D:window(now)
+function D.entranceEligible(window,kind)
+    local d=Rules.windowEntry(window);if not d then return false end
+    if d.legacy then return true end
+    if d.allowedKinds then
+        local allowed={} for _,name in ipairs(d.allowedKinds) do allowed[name]=true end
+        if kind and not allowed[kind] then return false end
+        -- Game's existing generic selection must remain safe for any wave kind.
+        if not kind then for _,name in ipairs({"Shambler","Runner","Crawler","Hound","Stalker","Warden"}) do if not allowed[name] then return false end end end
+    end
+    local width=3.92
+    if kind=="Crawler" then width=3.9 elseif kind=="Shambler" or kind=="Runner" or kind=="Stalker" then width=2.8 end
+    local height=kind=="Hound" and 4.25 or kind=="Crawler" and 2.75 or kind and kind~="Warden" and 6.65 or 8.6
+    return d.clearance.radius*2>=width and d.clearance.height>=height
+end
+function D:window(now,kind,failedEntries)
     local _,_,_,_,players=self:crew() local best,score,fallback,farthest=nil,-math.huge,nil,-math.huge
-    for _,window in ipairs(self.ctx.map.windows) do if self.ctx.map.rooms[window.room].unlocked then
+    for _,window in ipairs(self.ctx.map.windows) do if self.ctx.map.rooms[window.room].unlocked and D.entranceEligible(window,kind)
+        and (not kind or now>=((window.entryBlockedUntil or {})[kind] or 0)) then
+        if failedEntries and failedEntries[window]==(self.ctx.map.navigationRevision or 0) then continue end
         local distance,visible=math.huge,false
         for _,p in ipairs(players) do
             distance=math.min(distance,(p.root.Position-window.inside).Magnitude)

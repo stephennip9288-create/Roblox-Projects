@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-1-1",
+  "coordination_issue": 37,
+  "baseline_source_sha": "9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7",
+  "ready_for_staging": false,
+  "source_sha": null,
+  "private_staging_authorization": false,
+  "production_authorization": false,
+  "bugs": {
+    "DS-B1-001": {
+      "status": "In Progress",
+      "source_commit": "fd802c72f0401e00af022fd7df27dbd119c56005",
+      "staging_retest": "pending",
+      "pull_request": 43,
+      "verified": false
+    },
+    "DS-B1-002": {
+      "status": "Ready for Retest",
+      "source_commit": "aee7d5e38d42d862b3ebb66feaf63678be77d17d",
+      "staging_retest": "pending",
+      "pull_request": 42,
+      "verified": false
+    },
+    "DS-B1-003": {
+      "status": "Ready for Retest",
+      "source_commit": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+      "staging_retest": "pending",
+      "pull_request": 39,
+      "verified": false
+    },
+    "DS-B1-004": {
+      "status": "Ready for Retest",
+      "source_commit": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+      "staging_retest": "pending",
+      "pull_request": 39,
+      "verified": false
+    },
+    "DS-B1-005": {
+      "status": "Ready for Retest",
+      "source_commit": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+      "staging_retest": "pending",
+      "pull_request": 39,
+      "verified": false
+    },
+    "DS-B1-006": {
+      "status": "In Progress",
+      "source_commit": "aee7d5e38d42d862b3ebb66feaf63678be77d17d",
+      "staging_retest": "pending",
+      "pull_request": 42,
+      "verified": false
+    }
+  },
+  "blockers": [
+    "DS-B1-001: no approved uploaded/activated Roblox recordings or staging playback-permission evidence; specialty recording/acceptance gaps remain.",
+    "DS-B1-006: authored undead face/skin/body/uniform overhaul remains incomplete; retained meshes and code poses do not establish visual completion.",
+    "Actual Roblox Studio/private-client physics, appearance, listening, multiplayer and device retests are pending. No bug is Verified."
+  ],
+  "policy": "Informational blocked patch record. Trusted main batch-1.json still admits only deployed9743b3e; candidate_source_sha is evidence, not publishing admission. Resolve scope/acceptance blockers, review exact replacement pin on main, then obtain separate explicit owner staging approval. Production is separately gated.",
+  "candidate_source_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077",
+  "combined_pull_request": 44,
+  "specialist_inputs": {
+    "maps": {
+      "pr": 39,
+      "head_sha": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+      "merge_sha": "f89fcbaf6b87162eae4b74cac94f170f956bc974"
+    },
+    "enemies": {
+      "pr": 42,
+      "head_sha": "aee7d5e38d42d862b3ebb66feaf63678be77d17d",
+      "merge_sha": "0548a7e9cf9bf2f06695849b089dc1469cbf93f0"
+    },
+    "adapter": {
+      "pr": 41,
+      "head_sha": "848ccc9259b7e0059b9238280bdb70f4912afdf0",
+      "merge_sha": "d656e754678f291385d343593bfab56f30e9cd18"
+    },
+    "audio": {
+      "pr": 43,
+      "head_sha": "fd802c72f0401e00af022fd7df27dbd119c56005",
+      "merge_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+    }
+  },
+  "gameplay_acceptance_complete": false,
+  "scope_complete": false,
+  "artifact_kind": "complete-four-place-source-review-build-not-approved-release",
+  "complete_native_artifact_set": true
+}

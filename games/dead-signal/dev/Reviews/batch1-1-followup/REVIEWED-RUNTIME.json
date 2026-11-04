@@ -1,0 +1,313 @@
+{
+  "schema": 1,
+  "integration_base": "c80d55aeeae4b51ef8d836949a33bf440890c6b7",
+  "historical_ledger_blob": "dcf56e871bb56f809df77515b73cfaa60fa32638",
+  "historical_ledger": "Reviews/batch1-1/REVIEWED-RUNTIME.json",
+  "records": {
+    "Source/Runtime/client/AimAssist.lua": {
+      "blob_sha": "ff2d51483cb12e4fbfcd01dcc27fccef6caad2b0",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/client/Bootstrap.client.lua": {
+      "blob_sha": "23bea7d1251af85d631642009e3e217d19b1d67e",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/client/Controller.lua": {
+      "blob_sha": "8302f9416ed2f0025b3aeed4c78c794020b42af5",
+      "review_pr": 41,
+      "source_head": "848ccc9259b7e0059b9238280bdb70f4912afdf0"
+    },
+    "Source/Runtime/client/Effects.lua": {
+      "blob_sha": "eba3364383e7bef7fc7fbe831287b257bdd0d43a",
+      "review_pr": 54,
+      "source_head": "495b1350db04bde356f36a0a9cd8551ede73ccb3"
+    },
+    "Source/Runtime/client/MobileControls.lua": {
+      "blob_sha": "d7632472ce7bf70bfa39a5e70d1174770a28ab64",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/client/Scope.lua": {
+      "blob_sha": "fad641afd8584f0102a326606eaa1e3fc590a9d2",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/client/UI.lua": {
+      "blob_sha": "a1c8cf8e26ed70043e0d8b04b80936d9afc3f0c6",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Architecture.lua": {
+      "blob_sha": "c5b5294dfd7f6f981ef73f17256868d9e5235652",
+      "review_pr": 52,
+      "source_head": "7bf748868a6963f84a52dc8931c866689ea9fa34"
+    },
+    "Source/Runtime/server/Bootstrap.server.lua": {
+      "blob_sha": "cdf4d8f57d8a030b7445bb4a92c4160d1a390c06",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/BoundaryGuard.lua": {
+      "blob_sha": "e9147f95c071f1d6c88baebbf8a1128469b3cf8a",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/CinematicWorld.lua": {
+      "blob_sha": "bc5c980a3962bfef68ab643321c730a169f90c00",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/CollisionPolicy.lua": {
+      "blob_sha": "b31a3b78709673610d013f7332331026f137608f",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Combat.lua": {
+      "blob_sha": "1e1d52d90ee99164d7ffdcdb8f070c5fe8a6fbed",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Diagnostics.lua": {
+      "blob_sha": "40a374eadf28a590818d4b3724d9da55dce87ad8",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Enemies.lua": {
+      "blob_sha": "cfaa77d5d92927a4e0dd561e96569ff510373f50",
+      "review_pr": 53,
+      "source_head": "09fa91eec648c67cfc7c4e3c7481469285dd1a03"
+    },
+    "Source/Runtime/server/EnemyRigs.lua": {
+      "blob_sha": "634f3bee0aa21d341814d6585881aee69eb8c402",
+      "review_pr": 53,
+      "source_head": "09fa91eec648c67cfc7c4e3c7481469285dd1a03"
+    },
+    "Source/Runtime/server/ExtractionZone.lua": {
+      "blob_sha": "1d0d59eb34c3845e321c64ce3b505af9311ff916",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Game.lua": {
+      "blob_sha": "8991e4f7c02f614375e4e3d91694bc0fdccae246",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/GraphicsService.lua": {
+      "blob_sha": "bbb5f323afe03c82771eb0260f1f9b14bfc78248",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/HoundRig.lua": {
+      "blob_sha": "f68c6adb565808e479a2be826ce1df6b56fca4e5",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/InfectedWardrobe.lua": {
+      "blob_sha": "490d85b05242d5a3d9b5805d1ce89f4295a46c0e",
+      "review_pr": 53,
+      "source_head": "09fa91eec648c67cfc7c4e3c7481469285dd1a03"
+    },
+    "Source/Runtime/server/Interactions.lua": {
+      "blob_sha": "44adaee2c712dd5ead515f6d8ef598e12a2cc4bf",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/LobbyService.lua": {
+      "blob_sha": "cc9c9c3f7881ef5dc9dcdd8baaa7c68aabd3b241",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/MapBuilder.lua": {
+      "blob_sha": "9ea3b71df4db75306aba95642303814325a870b9",
+      "review_pr": 39,
+      "source_head": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f"
+    },
+    "Source/Runtime/server/MapDetail.lua": {
+      "blob_sha": "da6852f1ccfe1d26f3bdf88b86746370fa155f18",
+      "review_pr": 39,
+      "source_head": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f"
+    },
+    "Source/Runtime/server/MapRoutes.lua": {
+      "blob_sha": "9c77c80f541a183055c5957f8a5823f959b4f2cc",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Navigation.lua": {
+      "blob_sha": "bc0def04621503103c2c9d792392ee432a8ac40b",
+      "review_pr": 53,
+      "source_head": "09fa91eec648c67cfc7c4e3c7481469285dd1a03"
+    },
+    "Source/Runtime/server/Network.lua": {
+      "blob_sha": "fac780a6461577066260b21067ee7f6829a9f3fb",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/PerkMachines.lua": {
+      "blob_sha": "a958c453e1db8415e8ea1b8bfde8ffa396d104d2",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Persistence.lua": {
+      "blob_sha": "a5498f59693440b02fd6aa90e8a30143ffeacaf4",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/RigAnatomy.lua": {
+      "blob_sha": "49937654dbc3227e13ebffb345aeae34eb633311",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Travel.lua": {
+      "blob_sha": "b62d6a40989c258ad6722b19c33a3ee4d640000b",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/TripRegistry.lua": {
+      "blob_sha": "fa070bf653c61bb1fe45bd027ccb6e300124bb94",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/Vehicles.lua": {
+      "blob_sha": "f5c20fc852d5594129617f071787e037131a17e3",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/VisualPass.lua": {
+      "blob_sha": "1360f714fd19beb73add9e56a5edaf03f4f0f4cc",
+      "review_pr": 39,
+      "source_head": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f"
+    },
+    "Source/Runtime/server/WaveDirector.lua": {
+      "blob_sha": "5611c6c2c916d63a69c8df56da9be616758e64ac",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/WorldArt.lua": {
+      "blob_sha": "dd01d9df49b5a86c639f5950a2075aa47f93b60c",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/server/WorldFinish.lua": {
+      "blob_sha": "f5f166a690b36c2f15edd2a542df76c27259466e",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/ArrivalRules.lua": {
+      "blob_sha": "f25319496168644d30b6cd48821c9debfbc0b389",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/ArtAssets.lua": {
+      "blob_sha": "7517a62b0a09eb19d326a710c4af0eb4b4e4926c",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/Config.lua": {
+      "blob_sha": "1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2",
+      "review_pr": 49,
+      "source_head": "409ae5118981ff5c9ba82802eb41c6a8326a4bc1"
+    },
+    "Source/Runtime/shared/ControlSettings.lua": {
+      "blob_sha": "9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/DeploymentRules.lua": {
+      "blob_sha": "5d2f17afd8f198f6018f18e36dbe3420862b63d9",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/DirectorRules.lua": {
+      "blob_sha": "6701272b8d2d885472b82bed936bfe7cb158a03d",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/DownedPose.lua": {
+      "blob_sha": "170dd3ba36be88658be4bed122a3d1f278f3b882",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/Extraction.lua": {
+      "blob_sha": "d4ebf566552dad583fa0a26f83b2a7a922e5fa18",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/LoadingScreen.lua": {
+      "blob_sha": "7aadee72efa020a0c798a8e10b90f4ebf89e358d",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/MapLayouts.lua": {
+      "blob_sha": "76755f6d703629adda0202566a1df22c97de4a31",
+      "review_pr": 39,
+      "source_head": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f"
+    },
+    "Source/Runtime/shared/Movement.lua": {
+      "blob_sha": "46c11f5a323f78bd4a5860e2b6cd49bc1cceca3a",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/NPCPose.lua": {
+      "blob_sha": "3a003e8abaad63c5ffa7c4a19117d28e151771d1",
+      "review_pr": 53,
+      "source_head": "09fa91eec648c67cfc7c4e3c7481469285dd1a03"
+    },
+    "Source/Runtime/shared/NavigationGraph.lua": {
+      "blob_sha": "f898217e2aef6d3b785300311d96d93ae3f840d0",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/PlaceConfig.lua": {
+      "blob_sha": "17fd8c26fc5617078d1a58be49020140dd4e6dda",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/Presentation.lua": {
+      "blob_sha": "a359f45baf14bd9962e7edc429dd5190c1fe4299",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/Rules.lua": {
+      "blob_sha": "8b64916ed7e97633c7f763be503c1f685bc7ecee",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/ThirdPerson.lua": {
+      "blob_sha": "2598049a6d10e2c4561005e137469c37007218cc",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/TouchInput.lua": {
+      "blob_sha": "173c5e5b4bca0fcc70b05775b854f5c801da5189",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/TouchLayout.lua": {
+      "blob_sha": "664877c8f0ddfc26fb5aa65e15f2935090d46aa5",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/Util.lua": {
+      "blob_sha": "ec9248bb4b4dd423ae07df7d4e9a1ab6e628f5d6",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/WeaponBlueprints.lua": {
+      "blob_sha": "61fdc4900333503d64369a523e5d2fe6d7cd508a",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/WeaponDetail.lua": {
+      "blob_sha": "d93bb5997d72b84c6de22b7584d7546cc9bd0414",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    },
+    "Source/Runtime/shared/WeaponModels.lua": {
+      "blob_sha": "13e33cb36e59e588a0c14ea5b0170b5b2afbef4e",
+      "review_pr": null,
+      "source_head": "f1ca4164541fa1b7280ec1d87d45117f078d437f"
+    }
+  }
+}

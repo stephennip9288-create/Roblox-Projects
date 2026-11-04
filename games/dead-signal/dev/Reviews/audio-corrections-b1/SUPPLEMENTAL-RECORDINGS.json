@@ -1,0 +1,580 @@
+{
+  "source_base": "c80d55aeeae4b51ef8d836949a33bf440890c6b7",
+  "recordings": [
+    {
+      "name": "wood_break_1",
+      "role": "Dry wood fracture candidate; no looping.",
+      "proposed_slots": [
+        "Board.Break"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_breaking_01.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 1.0,
+          "member_sha256": "83a0e17e536a17897d5915e88c9e70d0be06d0a43bb3a38f44314ada46b06a3e",
+          "source_trim_seconds": 0.0334375
+        }
+      ],
+      "master_gain_db": -9.632,
+      "seconds": 0.5313541666666667,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "74ca8b50948355a18c8152bba86b9dfd9ffeeda24c056bc192ea8212cd056b5d",
+      "ogg_sha256": "a4c08f9b889f21610d0ba79b4ebe84e927225df9227e627494d805a87c24e017",
+      "wav_bytes": 51054,
+      "ogg_bytes": 8891,
+      "true_peak_dbfs_4x": -6.3591,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "wood_break_2",
+      "role": "Dry wood fracture candidate; no looping.",
+      "proposed_slots": [
+        "Board.Break"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_breaking_02.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 1.0,
+          "member_sha256": "042e97ceaa551dd3fcccba0e9bdf1e8145133ac4d2ee0b0cbcd0ee698b7cb229",
+          "source_trim_seconds": 0.0
+        }
+      ],
+      "master_gain_db": -9.426,
+      "seconds": 0.5684791666666666,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "d6ce5b77bd5670e4748fe2b6662b4ea5142a795f4181dbc8b80d64e8982d3d80",
+      "ogg_sha256": "a35918f2c22a773faff1884a8eb0152a1a58b1780920220ee894253f02c52e1c",
+      "wav_bytes": 54618,
+      "ogg_bytes": 8602,
+      "true_peak_dbfs_4x": -6.37,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "wood_stress_1",
+      "role": "Wood stress/creak. Needs a real windup/contact fact; do not invent a loop or predict a board break.",
+      "proposed_slots": [
+        "Board.Stress (future caller needed)"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_cracking_01.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 1.0,
+          "member_sha256": "ee00fa26ec72a2bd05adc71a4edf6627db2adedc6f0416ef6788c4790c1d2724",
+          "source_trim_seconds": 0.017354166666666667
+        }
+      ],
+      "master_gain_db": -5.021,
+      "seconds": 0.16760416666666667,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "ad4bafc967d99cc0715f03d8429269d47fffc89b1621a15a4cfd2a7317f9a610",
+      "ogg_sha256": "8a5ca88e3e7fd004009f14e2f93878a34dc9337be42f3ba1294708148573bc07",
+      "wav_bytes": 16134,
+      "ogg_bytes": 5558,
+      "true_peak_dbfs_4x": -6.37,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "wood_stress_2",
+      "role": "Wood stress/creak. Needs a real windup/contact fact; do not invent a loop or predict a board break.",
+      "proposed_slots": [
+        "Board.Stress (future caller needed)"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_cracking_02.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 1.0,
+          "member_sha256": "128a798ebb92958c9bee5a71c420c3f61f59c241ecaca75f0bbde780bb086abd",
+          "source_trim_seconds": 0.011375
+        }
+      ],
+      "master_gain_db": -6.9721,
+      "seconds": 0.2394375,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "9b5fe667e5b12b371a3d2bbce58e24cc3a63df05144715c93efae0b211b5119a",
+      "ogg_sha256": "08a2a47b70394670d5d53d17a16314b47a786bdaec6fcba7c22a5f6c24e138da",
+      "wav_bytes": 23030,
+      "ogg_bytes": 6464,
+      "true_peak_dbfs_4x": -6.0416,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "wood_stress_3",
+      "role": "Wood stress/creak. Needs a real windup/contact fact; do not invent a loop or predict a board break.",
+      "proposed_slots": [
+        "Board.Stress (future caller needed)"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_cracking_03.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 1.0,
+          "member_sha256": "9d0a3e8ee99fbf4e83472fcc26a48f834a6ac01c60769b9712e93f1e2a7f3116",
+          "source_trim_seconds": 0.018229166666666668
+        }
+      ],
+      "master_gain_db": -7.6421,
+      "seconds": 0.2952916666666667,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "2f0cc23d4c09a15810971d2b6201f79d8ad8bcf51aa3029cf77950f917c5a1d9",
+      "ogg_sha256": "7e7412dfea7cba8a12f5247a8b94f843d9f2f502e674bec342b119e54ea0aaea",
+      "wav_bytes": 28392,
+      "ogg_bytes": 6926,
+      "true_peak_dbfs_4x": -6.0136,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "wood_debris_1",
+      "role": "Small wood debris, not a separate per-frame runtime event.",
+      "proposed_slots": [
+        "Board.Debris (future caller needed)"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_falling_01.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 1.0,
+          "member_sha256": "38c5307455f35c3b61e06fbd01cae41f245cd45b12807747bd5830b2ff7448d1",
+          "source_trim_seconds": 0.008479166666666666
+        }
+      ],
+      "master_gain_db": -9.818,
+      "seconds": 0.6304791666666667,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "fa9884d09f4425cac327e10e61d5ed6ce816f125137fa8a914853a95cbce10f0",
+      "ogg_sha256": "0cf4c42d96dee664b7e46e0a3782a3d9c1eef08d49f44831b672eee834eef6d5",
+      "wav_bytes": 60570,
+      "ogg_bytes": 9645,
+      "true_peak_dbfs_4x": -6.3275,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "wood_debris_2",
+      "role": "Small wood debris, not a separate per-frame runtime event.",
+      "proposed_slots": [
+        "Board.Debris (future caller needed)"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_falling_02.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 1.0,
+          "member_sha256": "b5f8794539fb13d73444d1b955877dbf5e5bf4ad37723dc08e7d3eb1d75273f5",
+          "source_trim_seconds": 0.005875
+        }
+      ],
+      "master_gain_db": -9.1072,
+      "seconds": 0.4747708333333333,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "aeb17ff3be48908d3c3968b821b5b3c72b42227ad573275c1b3a77c95781e61a",
+      "ogg_sha256": "a7ba7457a754f9342d68e786f0172a1fc7ee4401a127619470620658606301d3",
+      "wav_bytes": 45622,
+      "ogg_bytes": 8648,
+      "true_peak_dbfs_4x": -6.37,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "frame_scrape_1",
+      "role": "Short masonry drag/contact candidate; actual frame/material suitability pending.",
+      "proposed_slots": [
+        "Enemy.Entry.Contact (replace after review)"
+      ],
+      "ingredients": [
+        {
+          "source": "scrapes",
+          "member": "scrape-1.wav",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 0.36,
+          "member_sha256": "21075c276b96d0c602ac19e4d2235e3197bc9c35d27ed10eda4308e874125978",
+          "source_trim_seconds": 0.0
+        }
+      ],
+      "master_gain_db": 1.5196,
+      "seconds": 0.36,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "964cc0b95df9b51554a4a0a572da64ef7788b3f96ca7bfae8ff314cd1c909424",
+      "ogg_sha256": "c9f7b1aa443de950d69354c30d41ca1054721caaf57983ba2d5c46f8e22f60f2",
+      "wav_bytes": 34604,
+      "ogg_bytes": 7882,
+      "true_peak_dbfs_4x": -6.3486,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "frame_scrape_2",
+      "role": "Short masonry drag/contact candidate; actual frame/material suitability pending.",
+      "proposed_slots": [
+        "Enemy.Entry.Contact (replace after review)"
+      ],
+      "ingredients": [
+        {
+          "source": "scrapes",
+          "member": "scrape-2.wav",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 0.36,
+          "member_sha256": "9b93f353f0155ffa391b1074a1595dd00321e8c604efe0ca9c1192a5f86129a0",
+          "source_trim_seconds": 0.0
+        }
+      ],
+      "master_gain_db": 1.5618,
+      "seconds": 0.36,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "f7a419392144c01c3f4b932396236c67e5ab496e69f07befa10593d4a96c40b5",
+      "ogg_sha256": "89928bd934f0980d70cecd033ae462950ece688b6c143e0592a41a06a8b0f2f5",
+      "wav_bytes": 34604,
+      "ogg_bytes": 7956,
+      "true_peak_dbfs_4x": -6.3013,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "frame_scrape_3",
+      "role": "Short masonry drag/contact candidate; actual frame/material suitability pending.",
+      "proposed_slots": [
+        "Enemy.Entry.Contact (replace after review)"
+      ],
+      "ingredients": [
+        {
+          "source": "scrapes",
+          "member": "scrape-3.wav",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 0.36,
+          "member_sha256": "5586c252106affc44e71fcc5781bafb7c6d6d49c301b92f69a210f0d7435d508",
+          "source_trim_seconds": 0.012625
+        }
+      ],
+      "master_gain_db": 5.9296,
+      "seconds": 0.36,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "55ba02014699faf62e4fe2f5f070926ccc9b4b823872323192b867f793f8e80c",
+      "ogg_sha256": "5799d1067cd22ad73f0f5dd107cb07cdac503f15f99fb0e71b9b71bc10e51178",
+      "wav_bytes": 34604,
+      "ogg_bytes": 8714,
+      "true_peak_dbfs_4x": -5.3871,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "board_fracture_1",
+      "role": "One dry wood strike/fracture/debris composite for the server-confirmed board removal; costs one runtime voice. Listening approval pending.",
+      "proposed_slots": [
+        "Board.Break"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_hit_01.ogg",
+          "offset": 0,
+          "gain": 0.8,
+          "max_seconds": 1.0,
+          "member_sha256": "cf3211d80094cd363e8e56906ad42a8baf10f31ef9e197f3f63464a957bade3a",
+          "source_trim_seconds": 0.0088125
+        },
+        {
+          "source": "wood",
+          "member": "wood_breaking_01.ogg",
+          "offset": 0.018,
+          "gain": 0.8,
+          "max_seconds": 1.0,
+          "member_sha256": "83a0e17e536a17897d5915e88c9e70d0be06d0a43bb3a38f44314ada46b06a3e",
+          "source_trim_seconds": 0.0334375
+        },
+        {
+          "source": "wood",
+          "member": "wood_falling_01.ogg",
+          "offset": 0.08,
+          "gain": 0.32,
+          "max_seconds": 1.0,
+          "member_sha256": "38c5307455f35c3b61e06fbd01cae41f245cd45b12807747bd5830b2ff7448d1",
+          "source_trim_seconds": 0.008479166666666666
+        }
+      ],
+      "master_gain_db": -8.8565,
+      "seconds": 0.7104791666666667,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "6d3d91eacffcda7a7999767e0bb9d2a27f034accaa8f6303de3666f6508ec88e",
+      "ogg_sha256": "d348e02e45b66db61c3196955994f6979801230b5d7a0ea8c87c25b455ad3679",
+      "wav_bytes": 68250,
+      "ogg_bytes": 10407,
+      "true_peak_dbfs_4x": -6.37,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "window_contact_1",
+      "role": "Existing dry wood-frame strike plus short masonry scrape proxy. Separate landing retained; no pitch shift. Native fit must be accepted before replacing the current contact bank.",
+      "proposed_slots": [
+        "Enemy.Entry.Contact"
+      ],
+      "ingredients": [
+        {
+          "source": "existing_contact",
+          "member": "entry_contact_1.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 0.7,
+          "member_sha256": "575fc15a8719d33ae355c90043d8884895cfc88f8ad8c9962ca9c8a2e881d3dd",
+          "source_trim_seconds": 0.0
+        },
+        {
+          "source": "scrapes",
+          "member": "scrape-1.wav",
+          "offset": 0.018,
+          "gain": 0.25,
+          "max_seconds": 0.32,
+          "member_sha256": "21075c276b96d0c602ac19e4d2235e3197bc9c35d27ed10eda4308e874125978",
+          "source_trim_seconds": 0.0
+        }
+      ],
+      "master_gain_db": 2.1066,
+      "seconds": 0.338,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "971d686af79ea7b59e63dcbaa61a0e18907b76d8dcde7ea2b69332e7f9991c84",
+      "ogg_sha256": "c8c8b2acb20190b805fcb0b6e158cd8b09f41e497425fd9727e8f8130e6a8ca8",
+      "wav_bytes": 32492,
+      "ogg_bytes": 7788,
+      "true_peak_dbfs_4x": -6.37,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "board_fracture_2",
+      "role": "One dry wood strike/fracture/debris composite for the server-confirmed board removal; costs one runtime voice. Listening approval pending.",
+      "proposed_slots": [
+        "Board.Break"
+      ],
+      "ingredients": [
+        {
+          "source": "wood",
+          "member": "wood_hit_02.ogg",
+          "offset": 0,
+          "gain": 0.8,
+          "max_seconds": 1.0,
+          "member_sha256": "533144d0633e756d91a7ee6d3a1f00bed81ad85d221232c5e4812e4fd7b14177",
+          "source_trim_seconds": 0.008604166666666666
+        },
+        {
+          "source": "wood",
+          "member": "wood_breaking_02.ogg",
+          "offset": 0.018,
+          "gain": 0.8,
+          "max_seconds": 1.0,
+          "member_sha256": "042e97ceaa551dd3fcccba0e9bdf1e8145133ac4d2ee0b0cbcd0ee698b7cb229",
+          "source_trim_seconds": 0.0
+        },
+        {
+          "source": "wood",
+          "member": "wood_falling_02.ogg",
+          "offset": 0.08,
+          "gain": 0.32,
+          "max_seconds": 1.0,
+          "member_sha256": "b5f8794539fb13d73444d1b955877dbf5e5bf4ad37723dc08e7d3eb1d75273f5",
+          "source_trim_seconds": 0.005875
+        }
+      ],
+      "master_gain_db": -7.6867,
+      "seconds": 0.5864791666666667,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "c1aa77722f7e27dc980622e511fe6edfbeb947d118c7e3548053ce4e02ac1fc1",
+      "ogg_sha256": "85415a2918920bd4611a3bc7166bf9c7e8a68fce8ac6dfff9594498954a4b607",
+      "wav_bytes": 56346,
+      "ogg_bytes": 9362,
+      "true_peak_dbfs_4x": -6.2383,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    },
+    {
+      "name": "window_contact_2",
+      "role": "Existing dry wood-frame strike plus short masonry scrape proxy. Separate landing retained; no pitch shift. Native fit must be accepted before replacing the current contact bank.",
+      "proposed_slots": [
+        "Enemy.Entry.Contact"
+      ],
+      "ingredients": [
+        {
+          "source": "existing_contact",
+          "member": "entry_contact_2.ogg",
+          "offset": 0,
+          "gain": 1,
+          "max_seconds": 0.7,
+          "member_sha256": "9f6cd0e1648af5493e37bc4076e866e9366c26e15a0373ed588ac27e3abf5d0f",
+          "source_trim_seconds": 0.0
+        },
+        {
+          "source": "scrapes",
+          "member": "scrape-2.wav",
+          "offset": 0.018,
+          "gain": 0.25,
+          "max_seconds": 0.32,
+          "member_sha256": "9b93f353f0155ffa391b1074a1595dd00321e8c604efe0ca9c1192a5f86129a0",
+          "source_trim_seconds": 0.0
+        }
+      ],
+      "master_gain_db": 2.4007,
+      "seconds": 0.338,
+      "channels": 1,
+      "sample_rate": 48000,
+      "pcm_bits": 16,
+      "wav_sha256": "b5ffab745be52a81f12dfd3b55a5846156f968caf96117c8c9928b8b1d13483d",
+      "ogg_sha256": "c8fb595378ca3d1e7e6aba925d548b2b634cbea0205bed1812b64e93696f118e",
+      "wav_bytes": 32492,
+      "ogg_bytes": 7671,
+      "true_peak_dbfs_4x": -6.37,
+      "clipped_samples": 0,
+      "roblox_asset_id": null,
+      "creator_reviewed": false,
+      "moderation_approved": false,
+      "sample_listening_approved": false,
+      "experience_permission_verified": false,
+      "permission_universe_id": "10771141095",
+      "license": "CC0-1.0",
+      "activated": false
+    }
+  ],
+  "roblox_uploaded": false,
+  "native_listening": false,
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers"
+}

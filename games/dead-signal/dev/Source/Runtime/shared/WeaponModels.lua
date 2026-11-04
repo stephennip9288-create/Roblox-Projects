@@ -1,21 +1,40 @@
 local RS=game:GetService("ReplicatedStorage")
 local C=require(RS.DeadSignal.Config)
+local Rules=require(RS.DeadSignal.Rules)
 local U=require(RS.DeadSignal.Util)
 local Blueprints=require(RS.DeadSignal.WeaponBlueprints)
 local Detail=require(RS.DeadSignal.WeaponDetail)
 local ThirdPerson=require(RS.DeadSignal.ThirdPerson)
 local ArtAssets=require(RS.DeadSignal.ArtAssets)
 local W={} local poses=setmetatable({},{__mode="k"})
+local cosmeticSources=setmetatable({},{__mode="k"})
+local tubeCapacities={}
+for id,bp in pairs(Blueprints) do if bp.reloadStyle=="tube" then
+    tubeCapacities[id]=Rules.weaponStats(C.Weapons[id],3,{}).mag
+end end
+local function tubeRounds(id,missing) return math.clamp(math.floor(missing or 3),1,tubeCapacities[id]) end
 function W.aimHeight(id) return Blueprints[id].sight end
 function W.aimFov(id) return Blueprints[id].aimFov or 57 end
 function W.scoped(id) return Blueprints[id].scope==true end
+function W.optic(id) return Blueprints[id].optic or (W.scoped(id) and "scope" or "iron") end
+-- Keep the authored sight axis on the camera ray while FOV/aspect change.
+-- Moving the eye back (rather than moving the sights sideways) also keeps a
+-- narrow portrait viewport from cropping the rear notch and operator's hands.
+function W.viewOffset(id,hip,alpha,fov,viewport)
+    local bp=Blueprints[id]
+    local aspect=viewport and math.max(1,viewport.Y/math.max(1,viewport.X)) or 1
+    local depth=.78*math.tan(math.rad(57/2))/math.tan(math.rad(math.clamp(fov,30,110)/2))*aspect
+    return hip:Lerp(Vector3.new(0,-bp.sight,-.37-depth),math.clamp(alpha,0,1))
+end
 function W.build(id,skin,tier,parent,arms)
     local def=C.Weapons[id] local bp=Blueprints[id] assert(bp,"Missing weapon blueprint: "..tostring(id))
     local m=U.make("Model",parent,{Name="Weapon_"..id})
-    local paint=U.color(def.color) local metal=Color3.fromRGB(54,60,61) local dark=Color3.fromRGB(22,26,27)
+    local paint=U.color(def.color)
+    local metal=bp.finish=="blued" and Color3.fromRGB(36,43,51) or bp.finish=="alloy" and Color3.fromRGB(70,76,78) or Color3.fromRGB(54,60,61)
+    local dark=Color3.fromRGB(22,26,27)
     local edge=Color3.fromRGB(107,115,115) local wood=Color3.fromRGB(115,76,42) local rubber=Color3.fromRGB(33,36,34)
     for _,s in ipairs(C.Skins) do if s.id==skin and skin~="Factory" then paint=U.color(s.color) wood=paint end end
-    local pose={parts={},bp=bp} poses[m]=pose
+    local pose={parts={},bp=bp,arms=arms,capacity=Rules.weaponStats(def,tier,{}).mag} poses[m]=pose
     local function raw(name,size,pos,color,material,group,rot,class)
         local part=U.make(class or "Part",m,{Name=name,Size=size,CFrame=CFrame.new(pos)*(rot or CFrame.new()),Color=color or paint,
             Material=material or Enum.Material.Metal,Reflectance=material==Enum.Material.SmoothPlastic and 0 or .035,
@@ -25,7 +44,7 @@ function W.build(id,skin,tier,parent,arms)
     -- Extruded octagonal sections replace the old square receiver/stock silhouettes.
     -- Every chamfer belongs to the same moving group as its parent component.
     local shaped={Receiver=true,Slide=true,PistolFrame=true,WoodStock=true,IntegralStock=true,
-        AdjustableStock=true,Handguard=true,PumpForend=true,EnclosedForend=true,CeramicHousing=true}
+        AdjustableStock=true,Handguard=true,PumpForend=true,AutoForend=true,EnclosedForend=true,CeramicHousing=true}
     local function p(name,size,pos,color,material,group,rot,class)
         if not shaped[name] or class then return raw(name,size,pos,color,material,group,rot,class) end
         local b=math.min(size.X,size.Y)*.16 local base=CFrame.new(pos)*(rot or CFrame.identity)
@@ -55,11 +74,11 @@ function W.build(id,skin,tier,parent,arms)
             p("RevolverFrame",Vector3.new(.27,.3,.8),Vector3.new(0,.02,-.25),metal)
             p("TopStrap",Vector3.new(.23,.12,.85),Vector3.new(0,.24,-.35),edge)
             tube("Cylinder",.24,.53,Vector3.new(0,.02,-.19),metal,"cylinder")
-            for n=1,6 do local a=n*math.pi/3
-                tube("CylinderChamber",.064,.035,Vector3.new(math.cos(a)*.155,.02+math.sin(a)*.155,-.475),dark,"cylinder")
+            for n=1,pose.capacity do local a=n*math.pi*2/pose.capacity
+                tube("CylinderChamber",math.min(.064,math.pi*.155/pose.capacity*.78),.035,Vector3.new(math.cos(a)*.155,.02+math.sin(a)*.155,-.475),dark,"cylinder")
                 p("CylinderFlute",Vector3.new(.04,.04,.43),Vector3.new(math.cos(a)*.239,.02+math.sin(a)*.239,-.19),edge,nil,"cylinder")
             end
-            p("Hammer",Vector3.new(.12,.17,.15),Vector3.new(0,.20,.23),metal)
+            p("Hammer",Vector3.new(.12,.17,.15),Vector3.new(0,.20,.23),metal,nil,"hammer")
             p("Grip",Vector3.new(.32,.65,.32),Vector3.new(0,-.43,.27),wood,Enum.Material.Wood,nil,CFrame.Angles(-.32,0,0))
             tube("Barrel",.095,bp.barrel,Vector3.new(0,.09,-.52-bp.barrel/2),metal)
         else
@@ -78,7 +97,7 @@ function W.build(id,skin,tier,parent,arms)
         end
         p("TriggerGuardLower",Vector3.new(.25,.075,.43),Vector3.new(0,-.42,-.22),metal)
         p("TriggerGuardFront",Vector3.new(.25,.25,.07),Vector3.new(0,-.29,-.42),metal)
-        p("Trigger",Vector3.new(.055,.17,.07),Vector3.new(0,-.25,-.22),dark)
+        p("Trigger",Vector3.new(.055,.17,.07),Vector3.new(0,-.25,-.22),dark,nil,"trigger")
         p("Magazine",Vector3.new(.24,bp.mag,.24),Vector3.new(0,-.46,.15),metal,nil,"mag")
         if kind=="Revolver" then m.Magazine.Transparency=1 end
         if kind=="MachinePistol" then
@@ -88,10 +107,9 @@ function W.build(id,skin,tier,parent,arms)
             p("WireButt",Vector3.new(.5,.5,.08),Vector3.new(0,-.2,1.2),dark)
         end
     else
-        local receiverWidth=(kind=="Belt" or kind=="DrumLMG" or energy) and .48 or .34
-        local receiverLength=(kind=="Bullpup" or kind=="TopPDW") and 1.5 or 1.1
-        p("Receiver",Vector3.new(receiverWidth,.38,receiverLength),Vector3.new(0,0,-.05),longWood and metal or paint)
-        p("ReceiverBevel",Vector3.new(receiverWidth*.75,.035,receiverLength*.93),Vector3.new(0,.20,-.05),metal)
+        local receiverWidth=bp.bodyWidth local receiverLength=bp.bodyLength local receiverHeight=bp.bodyHeight
+        p("Receiver",Vector3.new(receiverWidth,receiverHeight,receiverLength),Vector3.new(0,0,-.05),longWood and metal or paint)
+        p("ReceiverBevel",Vector3.new(receiverWidth*.75,.035,receiverLength*.93),Vector3.new(0,receiverHeight/2+.01,-.05),metal)
         p("LowerReceiver",Vector3.new(receiverWidth*.87,.22,.62),Vector3.new(0,-.25,.09),metal)
         p("EjectionPort",Vector3.new(.018,.16,.34),Vector3.new(receiverWidth/2+.015,.07,-.2),dark)
         p("ChargingHandle",Vector3.new(.23,.07,.09),Vector3.new(receiverWidth/2+.1,.11,.25),edge,nil,"bolt")
@@ -120,7 +138,7 @@ function W.build(id,skin,tier,parent,arms)
         end
         p("TriggerGuard",Vector3.new(.28,.08,.46),Vector3.new(0,-.44,-.12),metal)
         p("TriggerGuardFront",Vector3.new(.28,.23,.08),Vector3.new(0,-.3,-.34),metal)
-        p("Trigger",Vector3.new(.055,.15,.065),Vector3.new(0,-.3,-.09),dark)
+        p("Trigger",Vector3.new(.055,.15,.065),Vector3.new(0,-.3,-.09),dark,nil,"trigger")
         local magZ=(kind=="Bullpup") and .45 or -.3
         local mag=p("Magazine",Vector3.new(.24,bp.mag,.36),Vector3.new(0,-.38-bp.mag/2,magZ),metal,nil,"mag",CFrame.Angles(-.1,0,0))
         for side=-1,1,2 do for n=1,3 do p("MagazineRib",Vector3.new(.016,bp.mag*.74,.02),Vector3.new(side*.135,-.4-bp.mag/2,magZ-.16+n*.08),edge,nil,"mag") end end
@@ -135,13 +153,22 @@ function W.build(id,skin,tier,parent,arms)
                 p("TwinHammer",Vector3.new(.06,.16,.14),Vector3.new(side*.12,.27,.29),metal)
             end
             p("DoubleRib",Vector3.new(.06,.05,bp.barrel),Vector3.new(0,.14,-.55-bp.barrel/2),edge,nil,"front")
-            p("WoodForend",Vector3.new(.4,.26,1.05),Vector3.new(0,-.16,-1.06),wood,Enum.Material.Wood,"front")
+            if pose.capacity>2 then
+                -- The established upgraded capacity is three shots. Give that
+                -- upgrade a real third chamber/barrel instead of an invisible round.
+                tube("UpgradeBarrel",.105,bp.barrel,Vector3.new(0,-.18,-.55-bp.barrel/2),metal,"front")
+                tube("UpgradeBore",.07,.022,Vector3.new(0,-.18,barrelEnd-.01),dark,"front")
+                tube("ThirdChamber",.12,.30,Vector3.new(0,-.18,-.52),edge,"front")
+            end
+            m:SetAttribute("BarrelCount",pose.capacity)
+            p("WoodForend",Vector3.new(.4,.26,1.05),Vector3.new(0,pose.capacity>2 and -.36 or -.16,-1.06),wood,Enum.Material.Wood,"front")
             p("BreakLever",Vector3.new(.06,.05,.25),Vector3.new(.09,.26,.08),metal)
         elseif kind=="Pump" or kind=="TacticalShot" or kind=="AutoShot" then
             if kind~="AutoShot" then mag.Transparency=1 end
             tube("MagazineTube",.105,bp.barrel-.15,Vector3.new(0,-.18,-.55-(bp.barrel-.15)/2),metal)
-            p("PumpForend",Vector3.new(.4,.31,.82),Vector3.new(0,-.14,-1.18),kind=="Pump" and wood or rubber,kind=="Pump" and Enum.Material.Wood or Enum.Material.SmoothPlastic,"pump")
-            for n=1,7 do p("PumpGroove",Vector3.new(.43,.027,.026),Vector3.new(0,-.28,-.79-n*.1),dark,nil,"pump") end
+            local actionGroup=kind=="AutoShot" and "body" or "pump"
+            p(kind=="AutoShot" and "AutoForend" or "PumpForend",Vector3.new(.4,.31,.82),Vector3.new(0,-.14,-1.18),kind=="Pump" and wood or rubber,kind=="Pump" and Enum.Material.Wood or Enum.Material.SmoothPlastic,actionGroup)
+            for n=1,7 do p("PumpGroove",Vector3.new(.43,.027,.026),Vector3.new(0,-.28,-.79-n*.1),dark,nil,actionGroup) end
             p("ShellPort",Vector3.new(.2,.02,.31),Vector3.new(0,-.38,-.03),dark)
             if arms then tube("ReloadShell",.063,.25,Vector3.new(-.27,-.3,-.15),Color3.fromRGB(174,66,44),"shell").Transparency=1 end
         elseif energy then
@@ -182,7 +209,7 @@ function W.build(id,skin,tier,parent,arms)
         elseif kind=="Belt" then
             mag.Transparency=1
             p("AmmoBox",Vector3.new(.74,.68,.62),Vector3.new(.25,-.57,-.27),paint,nil,"mag")
-            p("FeedCover",Vector3.new(.51,.14,.9),Vector3.new(0,.26,-.04),metal)
+            p("FeedCover",Vector3.new(.51,.14,.9),Vector3.new(0,.26,-.04),metal,nil,"feed")
             for n=1,6 do tube("FeedRound",.045,.33,Vector3.new(.24+n*.075,-.04,-.3),Color3.fromRGB(175,141,62)) end
         end
         if kind=="WoodBolt" or kind=="Precision" or kind=="DMR" then
@@ -208,12 +235,19 @@ function W.build(id,skin,tier,parent,arms)
     end
     -- Iron sights, serial plaque and finish details exist on every model.
     -- A true open rear notch leaves the shot axis visible; the front post ends below it.
-    p("SightRear",Vector3.new(.27,.045,.08),Vector3.new(0,bp.sight-.115,.37),dark)
-    for side=-1,1,2 do p("RearSightEar",Vector3.new(.06,.12,.08),Vector3.new(side*.105,bp.sight-.05,.37),dark) end
-    p("SightNotch",Vector3.new(.055,.02,.025),Vector3.new(0,bp.sight-.086,.319),edge)
-    p("FrontSightTower",Vector3.new(.11,bp.sight-.045,.10),Vector3.new(0,(bp.sight-.045)/2,barrelEnd+.1),metal)
-    p("SightFront",Vector3.new(.045,.11,.07),Vector3.new(0,bp.sight-.075,barrelEnd+.1),dark)
-    p("FrontSightDot",Vector3.new(.024,.021,.015),Vector3.new(0,bp.sight-.025,barrelEnd+.144),Color3.fromRGB(212,213,173))
+    local function sights(front)
+        p("SightRear",Vector3.new(.27,.045,.08),Vector3.new(0,bp.sight-.115,.37),dark)
+        for side=-1,1,2 do
+            p("RearSightEar",Vector3.new(.06,.12,.08),Vector3.new(side*.105,bp.sight-.05,.37),dark)
+            p("RearSightIndex",Vector3.new(.021,.022,.012),Vector3.new(side*.105,bp.sight-.017,.416),Color3.fromRGB(212,213,173))
+            p("FrontSightGuard",Vector3.new(.025,.10,.08),Vector3.new(side*.095,bp.sight-.07,front),metal)
+        end
+        p("SightNotch",Vector3.new(.055,.02,.025),Vector3.new(0,bp.sight-.086,.319),edge)
+        p("FrontSightTower",Vector3.new(.11,bp.sight-.045,.10),Vector3.new(0,(bp.sight-.045)/2,front),metal)
+        p("SightFront",Vector3.new(.035,.11,.07),Vector3.new(0,bp.sight-.075,front),dark)
+        p("FrontSightDot",Vector3.new(.019,.018,.015),Vector3.new(0,bp.sight-.029,front+.044),Color3.fromRGB(212,213,173))
+    end
+    sights(barrelEnd+.1)
     local plaque=p("SerialPlate",Vector3.new(.018,.09,.27),Vector3.new(pistol and .175 or .252,-.07,-.06),edge)
     local gui=U.make("SurfaceGui",plaque,{Face=Enum.NormalId.Right,PixelsPerStud=120,MaxDistance=18})
     U.make("TextLabel",gui,{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Text="09.6 / "..id:upper(),TextColor3=dark,Font=Enum.Font.Code,TextScaled=true})
@@ -244,16 +278,51 @@ function W.build(id,skin,tier,parent,arms)
         end
         p("MeleeBlade",Vector3.new(.07,.07,.91),Vector3.new(.2,-.16,-.75),edge,nil,"knife").Transparency=1
         p("KnifeGuard",Vector3.new(.3,.06,.08),Vector3.new(.2,-.16,-.26),dark,nil,"knife").Transparency=1
+        if bp.reloadStyle=="break" then for side=-1,1,2 do
+            local shell=tube("BreechLoadShell",.064,.26,Vector3.new(side*.115,.025,-.30),Color3.fromRGB(155,58,40),"loadshell") shell.Transparency=1
+        end
+            if pose.capacity>2 then tube("BreechLoadShell",.064,.26,Vector3.new(0,-.18,-.30),Color3.fromRGB(155,58,40),"loadshell").Transparency=1 end
+        end
+        if bp.reloadStyle=="cylinder" then for n=1,pose.capacity do local a=n*math.pi*2/pose.capacity
+            tube("SpeedLoadRound",math.min(.045,math.pi*.155/pose.capacity*.6),.23,Vector3.new(math.cos(a)*.155,.02+math.sin(a)*.155,.16),Color3.fromRGB(166,135,72),"loadshell").Transparency=1
+        end end
     end
-    m:SetAttribute("Blueprint",kind) m:SetAttribute("SightHeight",bp.sight)
+    m:SetAttribute("WeaponId",id) m:SetAttribute("Blueprint",kind) m:SetAttribute("SightHeight",bp.sight)
     m:SetAttribute("Scoped",bp.scope==true)
     for _,entry in ipairs(pose.parts) do entry.transparency=entry.part.Transparency
         entry.optic=entry.part.Name:find("Scope")~=nil end
-    local imported=ArtAssets.family("Weapon_"..id)
     if arms then ArtAssets.viewArms(m,pose,pistol) end
     if id=="Kestrel" or id=="Longwatch" then
-        ArtAssets.weapon(m,id,pose,skin~="Factory" and paint or nil)
+        if ArtAssets.weapon(m,id,pose,skin~="Factory" and paint or nil) then
+            -- Imported geometry replaces the procedural sights. Restore the open
+            -- sight assembly against its actual muzzle, not the fallback barrel.
+            sights(m.Muzzle.Position.Z+.2)
+            for _,entry in ipairs(pose.parts) do
+                if entry.transparency==nil then entry.transparency=entry.part.Transparency end
+                if entry.optic==nil then entry.optic=entry.part.Name:find("Scope")~=nil end
+            end
+        end
     end
+    Detail.fidelity(m,id,bp,p,tube,ball,{paint=paint,metal=metal,dark=dark,edge=edge,wood=wood,rubber=rubber},tier)
+    if bp.optic=="reflex" then
+        -- Four rails surround a truly open aperture. The dot is a centered GUI
+        -- reticle, so neither a solid glass disk nor a neon part hides a target.
+        for side=-1,1,2 do p("ReflexSide",Vector3.new(.025,.23,.065),Vector3.new(side*.145,bp.sight,.10),dark) end
+        for side=-1,1,2 do p("ReflexBridge",Vector3.new(.29,.025,.065),Vector3.new(0,bp.sight+side*.115,.10),dark) end
+        p("ReflexMount",Vector3.new(.22,.045,.24),Vector3.new(0,bp.sight-.16,.10),metal)
+    end
+    -- The complete break-action front and belt feed follow their real hinges.
+    for _,entry in ipairs(pose.parts) do
+        local name=entry.part.Name
+        if kind=="Double" and (name:find("FrontSight") or name=="SightFront" or name=="BarrelCollar" or name=="MuzzleRecess" or name=="Muzzle" or name=="UpgradeHeatFin") then entry.group="front" end
+        if kind=="Belt" and (name=="FeedRound" or name=="BeltLink") then entry.group="feed" end
+        if kind=="AutoShot" and entry.group=="pump" then entry.group="body" end
+        if entry.transparency==nil then entry.transparency=entry.part.Transparency end
+        if entry.optic==nil then entry.optic=name:find("Scope")~=nil end
+    end
+    -- Runtime-only authoring references: no new script/native asset records.
+    U.make("Attachment",root,{Name="SightAxis",CFrame=CFrame.new(0,bp.sight,.37)})
+    U.make("Attachment",root,{Name="EjectionAxis",CFrame=CFrame.new(bp.bodyWidth/2+.055,m.Muzzle.Position.Y+.06,-.18)})
     -- Continuous bevels and fixed receiver webs replace the open chamfer shells.
     for _,entry in ipairs(pose.parts) do local q=entry.part
         if q:IsA("MeshPart") then q.DoubleSided=true
@@ -261,34 +330,239 @@ function W.build(id,skin,tier,parent,arms)
         elseif q.Material==Enum.Material.Wood then q.Material=Enum.Material.WoodPlanks q.MaterialVariant="DS_Wood"
         elseif q.Material==Enum.Material.Rubber then q.MaterialVariant="DS_Rubber" end
     end
-    m:SetAttribute("WeaponArtRevision",8)
+    m:SetAttribute("WeaponArtRevision",10)
     return m
 end
 function W.groups(model)
     local out={} for _,entry in ipairs((poses[model] or {}).parts or {}) do out[entry.part.Name]=entry.group end return out
 end
-function W.aim(model,enabled)
+function W.aim(model,enabled,alpha)
     local data=poses[model] if not data then return end
+    local fade=math.clamp(((alpha or (enabled and 1 or 0))-.35)/.45,0,1)
+    if data.aimEnabled==enabled and data.opticFade==fade then return end
+    data.aimEnabled=enabled data.opticFade=fade
     for _,entry in ipairs(data.parts) do
-        if entry.optic then entry.part.LocalTransparencyModifier=enabled and 1 or 0 end
+        -- The full model leaves the circular scope view clear at full ADS.
+        -- Fade its solid optic housing before the hip crosshair disappears.
+        entry.part.LocalTransparencyModifier=enabled and 1 or (entry.optic and fade or 0)
     end
 end
-function W.pose(model,reload,melee,equip,recoil)
+local function smooth(a,b,t)
+    local x=math.clamp((t-a)/(b-a),0,1) return x*x*(3-2*x)
+end
+local function pulse(a,b,c,t) return smooth(a,b,t)*(1-smooth(b,c,t)) end
+function W.reloadFrame(id,progress,missing)
+    local bp=Blueprints[id] local style=bp.reloadStyle local t=math.clamp(progress,0,1)
+    local out=smooth(.10,.30,t)*(1-smooth(.58,.78,t))
+    local frame={mag=CFrame.new(0,-out*.70,out*.12)*CFrame.Angles(0,0,out*.15),
+        left=Vector3.new(out*.22,-out*.44,out*.58),right=Vector3.zero,
+        action=pulse(.76,.87,.99,t),open=0,shell=false,shellOffset=Vector3.zero}
+    if style=="bullpup" then frame.left=Vector3.new(out*.22,-out*.42,out*1.13)
+    elseif style=="top" then
+        frame.mag=CFrame.new(0,out*.43,out*.32) frame.left=Vector3.new(-out*.1,out*.45,out*.48)
+    elseif style=="drum" then frame.mag=CFrame.new(0,-out*.76,out*.12)*CFrame.Angles(out*.14,0,0)
+    elseif style=="cell" then
+        frame.mag=CFrame.new(0,-out*.28,out*.65)*CFrame.Angles(0,0,out*.12)
+        frame.left=Vector3.new(out*.15,-out*.25,out*.68) frame.action=pulse(.78,.89,1,t)
+    elseif style=="belt" then
+        frame.open=smooth(.05,.20,t)*(1-smooth(.78,.94,t))
+        frame.left=Vector3.new(out*.22,frame.open*.23-out*.25,out*.45)
+    elseif style=="cylinder" then
+        frame.open=smooth(.05,.22,t)*(1-smooth(.78,.95,t))
+        frame.left=Vector3.new(-frame.open*.22,-out*.18,out*.38) frame.action=0
+        frame.shell=t>.40 and t<.72 frame.shellOffset=Vector3.new(-frame.open*.32,0,(1-smooth(.42,.70,t))*.30)
+    elseif style=="break" then
+        frame.open=smooth(.04,.24,t)*(1-smooth(.78,.97,t))
+        frame.left=Vector3.new(out*.2,-out*.26,out*.62) frame.action=0
+        frame.shell=t>.36 and t<.70 frame.shellOffset=Vector3.new(0,0,(1-smooth(.38,.68,t))*.32)
+    elseif style=="tube" then
+        local rounds=tubeRounds(id,missing)
+        local raw=math.clamp((t-.12)/.68,0,.9999)*rounds local q=raw%1
+        local feed=pulse(0,.52,1,q)
+        frame.left=Vector3.new(feed*.12,-feed*.24,feed*.84)
+        frame.shell=t>.12 and t<.80 and q<.78
+        frame.shellOffset=Vector3.new(-.16*(1-feed),-.18*(1-feed),.14*(1-feed))
+        frame.action=pulse(.82,.91,1,t)
+    end
+    return frame
+end
+-- Normalized presentation facts; Controller owns the approved audio adapter.
+function W.reloadEvents(id,from,to,missing)
+    local style=Blueprints[id].reloadStyle local stages
+    if style=="tube" then
+        stages={{.84,"action-open"},{.97,"action-close"}}
+        local rounds=tubeRounds(id,missing)
+        for n=1,rounds do
+            stages[#stages+1]={.12+.68*(n-.25)/rounds,"shell-in"}
+        end
+    elseif style=="cylinder" or style=="break" then stages={{.08,"action-open"},{.26,"eject"},{.58,"shell-in"},{.93,"action-close"}}
+    elseif style=="belt" then stages={{.08,"feed-open"},{.30,"mag-out"},{.65,"mag-in"},{.91,"feed-close"},{.96,"action-close"}}
+    elseif style=="cell" then stages={{.22,"cell-out"},{.68,"cell-in"},{.9,"charge"}}
+    else stages={{.22,"mag-out"},{.69,"mag-in"},{.83,"action-open"},{.97,"action-close"}} end
+    local result={}
+    for _,stage in ipairs(stages) do if stage[1]>from and stage[1]<=to then result[#result+1]={at=stage[1],phase=stage[2]} end end
+    table.sort(result,function(a,b) return a.at<b.at end) return result
+end
+local function record(data,phase,acknowledged)
+    data.events=data.events or {}
+    if #data.events>=16 then table.remove(data.events,1) end
+    data.events[#data.events+1]={weaponId=data.id,phase=phase,token=data.token or 0,acknowledged=acknowledged==true}
+end
+function W.bindEffects(model,parent)
+    local data=poses[model] if not data or not data.arms then return end
+    data.id=model:GetAttribute("WeaponId")
+    if data.cosmetics then return end
+    data.cosmetics={folder=U.make("Folder",parent,{Name="WeaponCosmetics"}),pool={},queue={},cursor=0}
+    cosmeticSources[data.cosmetics]=true
+end
+function W.beginReload(model,missing,acknowledged,startProgress)
+    local data=poses[model] if not data then return end
+    data.clean=false data.token=(data.token or 0)+1 data.reloadActive=true data.reloadMissing=missing or 3
+    data.reloadAcknowledged=acknowledged==true data.lastReload=startProgress or 0 data.firedAt=nil
+    if data.cosmetics then data.cosmetics.queue={} end
+end
+function W.clearEffects(model,destroy)
+    local data=poses[model] if not data then return end
+    if data.clean and not destroy then return end data.clean=true
+    data.token=(data.token or 0)+1 data.firedAt=nil data.shots=0 data.reloadActive=false data.lastReload=0 data.events={}
+    local muzzle=model:FindFirstChild("Muzzle")
+    if muzzle then
+        local light=muzzle:FindFirstChild("Flash") if light then light.Brightness=0 end
+        for _,name in ipairs({"WeaponFlash","WeaponSmoke"}) do local e=muzzle:FindFirstChild(name) if e then e:Clear() end end
+    end
+    local fx=data.cosmetics if not fx then return end
+    if destroy then cosmeticSources[fx]=nil fx.folder:Destroy() data.cosmetics=nil return end
+    fx.queue={}
+    for _,v in ipairs(fx.pool) do v.at=nil v.part.Transparency=1 v.rim.Transparency=1 end
+end
+local function muzzleEmitter(muzzle,name,smoke,energy)
+    local emitter=muzzle:FindFirstChild(name) if emitter then return emitter end
+    return U.make("ParticleEmitter",muzzle,{Name=name,Rate=0,
+        Texture=smoke and "rbxasset://textures/particles/smoke_main.dds" or "rbxasset://textures/particles/fire_main.dds",
+        Lifetime=NumberRange.new(smoke and .10 or .025,smoke and .20 or .055),Speed=NumberRange.new(smoke and .7 or 0,smoke and 1.5 or .4),
+        EmissionDirection=Enum.NormalId.Front,SpreadAngle=Vector2.new(8,8),LightEmission=smoke and 0 or .85,LightInfluence=smoke and 1 or 0,
+        Color=ColorSequence.new(smoke and Color3.fromRGB(135,133,125) or energy and Color3.fromRGB(110,222,230) or Color3.fromRGB(255,199,110)),
+        Size=NumberSequence.new({NumberSequenceKeypoint.new(0,smoke and .05 or .07),NumberSequenceKeypoint.new(1,smoke and .22 or 0)}),
+        Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,smoke and .88 or .25),NumberSequenceKeypoint.new(1,1)})})
+end
+function W.shot(model,now,lowEffects,interval)
+    local data=poses[model] if not data or not data.arms then return end
+    data.clean=false data.id=model:GetAttribute("WeaponId") data.firedAt=now data.shots=((data.shots or 0)+1)%data.capacity
+    data.cycleDuration=math.min(.12,(interval or .16)*.8)
+    record(data,"fire",false)
+    local muzzle=model:FindFirstChild("Muzzle") if not muzzle then return end
+    local energy=data.bp.action=="energy"
+    muzzleEmitter(muzzle,"WeaponFlash",false,energy):Emit(lowEffects and 1 or 2)
+    if not lowEffects then muzzleEmitter(muzzle,"WeaponSmoke",true,energy):Emit(energy and 1 or 2) end
+    local light=muzzle:FindFirstChild("Flash") if light then light.Brightness=lowEffects and .6 or 1.4 light.Range=5 light.Shadows=false end
+    local fx=data.cosmetics
+    if fx and data.bp.action~="energy" and data.bp.action~="revolver" and data.bp.action~="break" then
+        if #fx.queue>=8 then table.remove(fx.queue,1) end
+        local delay=data.bp.ejectDelay
+        if data.bp.action=="carrier" or data.bp.action=="slide" then delay=math.min(delay,(interval or .16)*.35) end
+        fx.queue[#fx.queue+1]={at=now+delay,count=1}
+    end
+end
+-- A shared active budget also covers a transient overlap during VM replacement.
+local function casingBudget(cap,reserve)
+    local active={}
+    for source in pairs(cosmeticSources) do for _,item in ipairs(source.pool) do
+        if item.at then active[#active+1]=item end
+    end end
+    table.sort(active,function(a,b) return a.at<b.at end)
+    for i=1,math.max(0,#active-cap+(reserve or 0)) do
+        local item=active[i] item.at=nil item.part.Transparency=1 item.rim.Transparency=1
+    end
+end
+local function eject(model,data,now,lowEffects,count)
+    local fx=data.cosmetics if not fx then return end
+    local cap=lowEffects and 2 or 8
+    local origin=model.PrimaryPart.CFrame*model.Root.EjectionAxis.CFrame
+    for n=1,math.min(count,cap) do
+        fx.cursor=fx.cursor%cap+1 local item=fx.pool[fx.cursor]
+        if not item then
+            local function brass(name) return U.make("Part",fx.folder,{Name=name,Shape=Enum.PartType.Cylinder,Size=Vector3.new(.12,.05,.05),
+                Material=Enum.Material.Metal,Color=Color3.fromRGB(166,135,72),Anchored=true,CanCollide=false,CanQuery=false,CanTouch=false,CastShadow=false}) end
+            item={part=brass("Casing"),rim=brass("CasingRim")};fx.pool[fx.cursor]=item
+        end
+        local shell=C.Weapons[data.id].class=="Shotgun"
+        item.part.Size=shell and Vector3.new(.21,.075,.075) or Vector3.new(.12,.05,.05)
+        item.part.Color=shell and Color3.fromRGB(142,53,38) or Color3.fromRGB(166,135,72)
+        item.rim.Size=Vector3.new(.025,shell and .082 or .058,shell and .082 or .058)
+        item.at=nil casingBudget(cap,1)
+        item.at=now item.origin=origin*CFrame.new(0,(n-1)*.025,0)
+        item.velocity=origin:VectorToWorldSpace(Vector3.new(2.6+n*.12,1.5+n*.10,.5))
+        item.part.Transparency=0 item.rim.Transparency=0
+    end
+end
+function W.updateEffects(model,now,lowEffects,progress)
+    local data=poses[model] local fx=data and data.cosmetics if not fx then return end
+    if data.reloadActive and progress and progress>0 then
+        if progress<(data.lastReload or 0) then data.lastReload=progress end
+        for _,event in ipairs(W.reloadEvents(data.id,data.lastReload or 0,progress,data.reloadMissing)) do
+            record(data,event.phase,data.reloadAcknowledged)
+            if event.phase=="eject" then eject(model,data,now,lowEffects,data.bp.reloadStyle=="cylinder" and data.capacity or 2) end
+        end
+        data.lastReload=progress
+    elseif data.lastReload and data.lastReload>0 then data.reloadActive=false data.lastReload=0 end
+    for i=#fx.queue,1,-1 do if now>=fx.queue[i].at then
+        eject(model,data,fx.queue[i].at,lowEffects,fx.queue[i].count) table.remove(fx.queue,i)
+    end end
+    local cap=lowEffects and 2 or 8
+    casingBudget(cap)
+    for i,item in ipairs(fx.pool) do
+        local age=item.at and now-item.at
+        if not age or age>.48 or i>cap then item.at=nil item.part.Transparency=1 item.rim.Transparency=1
+        else
+            local position=item.origin.Position+item.velocity*age+Vector3.new(0,-9*age*age,0)
+            item.part.CFrame=CFrame.new(position)*(item.origin-item.origin.Position)*CFrame.Angles(age*7,age*5,age*9)
+            item.rim.CFrame=item.part.CFrame*CFrame.new(-item.part.Size.X/2,0,0)
+        end
+    end
+    local muzzle=model:FindFirstChild("Muzzle") local light=muzzle and muzzle:FindFirstChild("Flash")
+    if light and (not data.firedAt or now-data.firedAt>.045) then light.Brightness=0 end
+    if lowEffects and fx.lowEffects~=lowEffects and muzzle then local smoke=muzzle:FindFirstChild("WeaponSmoke") if smoke then smoke:Clear() end end
+    fx.lowEffects=lowEffects
+end
+function W.effectStats(model)
+    local data=poses[model] local fx=data and data.cosmetics local active=0
+    if fx then for _,v in ipairs(fx.pool) do if v.at then active+=1 end end end
+    return {active=active,pool=fx and #fx.pool or 0,queued=fx and #fx.queue or 0,events=data and data.events and #data.events or 0}
+end
+function W.drainPresentationEvents(model)
+    local data=poses[model] if not data then return {} end
+    local events=data.events or {} data.events={} return events
+end
+function W.kickOffset(model,now)
+    local data=poses[model] if not data or not data.firedAt then return 0 end
+    return data.bp.kick*pulse(0,.025,.18,now-data.firedAt)
+end
+function W.pose(model,reload,melee,equip,recoil,empty,context)
     local data=poses[model] if not data or not model.PrimaryPart then return end
-    local root=model.PrimaryPart.CFrame local out=reload>0 and math.sin(math.pi*math.clamp((reload-.07)/.7,0,1)) or 0
-    local hand=reload>0 and math.sin(reload*math.pi) or 0
-    local rack=reload>.78 and math.sin((reload-.78)/.22*math.pi)*.2 or 0
+    local root=model.PrimaryPart.CFrame local bp=data.bp
+    local frame=W.reloadFrame(model:GetAttribute("WeaponId"),reload,context and context.missing)
+    local age=data.firedAt and context and context.now-data.firedAt
+    local duration=data.cycleDuration or .12
+    local cycle=age and pulse(0,duration*.25,duration,age) or math.clamp((recoil or 0)/1.7,0,1)
+    local action=age and pulse(.08,.24,bp.action=="pump" and .40 or .55,age) or 0
+    local cylinder=frame.open
     for _,entry in ipairs(data.parts) do local p=entry.part if p.Parent and p~=model.PrimaryPart then
         local cf=entry.cf local g=entry.group
-        if g=="mag" then cf=CFrame.new(0,-out*.7,out*.13)*cf*CFrame.Angles(0,0,out*.18)
-        elseif g=="cylinder" then cf=CFrame.new(-out*.32,0,0)*cf*CFrame.Angles(0,0,out*.5)
-        elseif g=="bolt" then cf=CFrame.new(0,0,rack)*cf
-        elseif g=="slide" then cf=CFrame.new(0,0,(recoil or 0)*.045)*cf
-        elseif g=="front" then cf=CFrame.new(0,0,-.4)*CFrame.Angles(-hand*.55,0,0)*CFrame.new(0,0,.4)*cf
-        elseif g=="pump" then cf=CFrame.new(0,0,(recoil or 0)*.025+hand*.08)*cf
-        elseif g=="left" then cf=CFrame.new(hand*.24,-hand*.5,hand*.52)*cf*CFrame.Angles(hand*.5,0,-hand*.28)
+        if g=="mag" then cf=frame.mag*cf
+        elseif g=="cylinder" then
+            local turn=(data.shots or 0)-(age and 1-smooth(0,.12,age) or 0)
+            cf=CFrame.new(-cylinder*.32,0,0)*CFrame.Angles(0,0,cylinder*.2+turn*math.pi*2/data.capacity)*cf
+        elseif g=="bolt" then cf=CFrame.new(0,0,frame.action*.20+(bp.action=="bolt" and action*.20 or cycle*.09))*cf
+        elseif g=="slide" then cf=CFrame.new(0,0,empty and reload==0 and .14 or cycle*.14)*cf
+        elseif g=="trigger" then cf=cf*CFrame.Angles(cycle*.18,0,0)
+        elseif g=="hammer" then cf=CFrame.new(0,.16,.21)*CFrame.Angles(-cycle*.28,0,0)*CFrame.new(0,-.16,-.21)*cf
+        elseif g=="feed" then cf=CFrame.new(0,.26,.41)*CFrame.Angles(-frame.open*.8,0,0)*CFrame.new(0,-.26,-.41)*cf
+        elseif g=="front" then cf=CFrame.new(0,0,-.4)*CFrame.Angles(-frame.open*.55,0,0)*CFrame.new(0,0,.4)*cf
+        elseif g=="pump" then cf=CFrame.new(0,0,(action+frame.action)*.32)*cf
+        elseif g=="left" then cf=CFrame.new(frame.left+Vector3.new(0,0,bp.action=="pump" and action*.32 or 0))*cf
+        elseif g=="right" and bp.action=="bolt" then cf=CFrame.new((frame.action+action)*.07,(frame.action+action)*.05,(frame.action+action)*.16)*cf
         elseif g=="knife" then p.Transparency=melee>0 and 0 or 1
-        elseif g=="shell" then p.Transparency=reload>.12 and reload<.77 and 0 or 1 end
+        elseif g=="shell" or g=="loadshell" then p.Transparency=frame.shell and 0 or 1 cf=CFrame.new(frame.shellOffset)*cf end
         p.CFrame=root*cf
     end end
 end

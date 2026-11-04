@@ -1,0 +1,4 @@
+d9949b061ed7781aedb23f09e0e1770538526bbcac7e8b5c3bf15427a0434775  DeadSignal-Batch1.1-Dispatch.rbxl
+ccec7486d2180add45ede06a05f5490c4c5bc2b2676cbb5db7fc7a5e678fd435  DeadSignal-Batch1.1-Blackwater.rbxl
+8eb56106aadd551f91bc4fe22ae73ccade40571388590cdc846cec6ba5aa645e  DeadSignal-Batch1.1-Cinderworks.rbxl
+2f4e1b9046bf72c5fb6ed49c62c3cffa922154df87f14492ba198fb691c38c43  DeadSignal-Batch1.1-Whiteout.rbxl

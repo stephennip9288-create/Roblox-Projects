@@ -16,9 +16,13 @@ function S.new(gui)
             BackgroundColor3=Color3.fromRGB(29,32,28),BorderSizePixel=0,ZIndex=3}))
     end
     U.make("Frame",self.frame,{Name="ZeroPoint",Size=UDim2.fromOffset(2,2),Position=UDim2.new(.5,-1,.5,-1),BackgroundColor3=Color3.fromRGB(201,74,48),BorderSizePixel=0,ZIndex=3})
+    self.reflex=U.make("Frame",self.gui,{Name="ReflexReticle",BackgroundTransparency=1,Size=UDim2.fromOffset(20,20),Position=UDim2.new(.5,-10,.5,-10),Visible=false})
+    U.make("Frame",self.reflex,{Name="ZeroPoint",BackgroundColor3=Color3.fromRGB(243,232,201),BorderSizePixel=0,Size=UDim2.fromOffset(2,2),Position=UDim2.fromOffset(9,9)})
+    for _,x in ipairs({3,15}) do U.make("Frame",self.reflex,{BackgroundColor3=Color3.fromRGB(243,232,201),BorderSizePixel=0,Size=UDim2.fromOffset(2,1),Position=UDim2.fromOffset(x,9)}) end
     return self
 end
-function S:update(enabled,viewport)
+function S:update(enabled,viewport,reflex)
+    self.reflex.Visible=reflex==true and not enabled
     self.frame.Visible=enabled
     if not enabled or (self.size.X==viewport.X and self.size.Y==viewport.Y) then return end
     self.size=viewport local w,h=viewport.X,viewport.Y

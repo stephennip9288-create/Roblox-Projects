@@ -2,7 +2,7 @@
   "schema": 1,
   "release": "dead-signal-batch-1-production",
   "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
-  "ready_for_production": false,
+  "ready_for_production": true,
   "owner_production_authorization": true,
   "production_universe_id": "10770732078",
   "profile_store": "DeadSignal_Profile_v1",
@@ -234,10 +234,7 @@
       }
     }
   },
-  "blockers": [
-    "Review and merge verified renewal#64, source#65/#44/final-main promotion and trusted production admission controls",
-    "Run actual production recovery guard download CI on updated trusted controls, complete final combined checks, then set reviewed production readiness true before owner manual dispatch"
-  ],
+  "blockers": [],
   "published": false,
   "environment_checks": {
     "environment": "dead-signal-production",
@@ -261,5 +258,55 @@
     "administrators_can_bypass": false,
     "verified_at": "2026-11-03",
     "evidence": "Repository Settings / Environments / dead-signal-production saved success; required owner reviewer, admin bypass unchecked, main only and zero tags"
+  },
+  "final_preparation": {
+    "source_pr": 65,
+    "combined_pr": 44,
+    "main_promotion_pr": 67,
+    "source_main_sha": "04c9b837f932a37fe04c7cb1eccea091b2edd014",
+    "source_runtime_matches_reviewed_sha": true,
+    "local_combined_pipeline_tests": 95,
+    "local_audio_python_tests": 28,
+    "optional_audio_input_skips": 2,
+    "actual_recovery_guard_ci_run": 41745189410,
+    "actual_recovery_guard_ci_passed": true,
+    "source_promotion_ci_runs": [
+      {
+        "id": 41746003734,
+        "name": "Validate Roblox Cloud Project",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      },
+      {
+        "id": 41746002677,
+        "name": "Dead Signal Production Candidate Readiness (No Publish)",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      },
+      {
+        "id": 41746002599,
+        "name": "Dead Signal Private Staging Preflight (No Publish)",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      },
+      {
+        "id": 41746002609,
+        "name": "Dead Signal Lossless Source Patch (No Publish)",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      },
+      {
+        "id": 41746002425,
+        "name": "Dead Signal Work Source CI (No Publish)",
+        "conclusion": "success",
+        "source_sha": "6e7f4a49c96254b5e8559ff1073b7b4e93a1c29a"
+      }
+    ],
+    "production_environment_rechecked_at": "2026-11-04T00:27:23.426747+00:00",
+    "owner_dispatch_required": true,
+    "production_workflow_dispatched": false,
+    "staging_redeployed": false,
+    "control_pr": 66,
+    "control_ci_required_before_merge": true
   }
 }

@@ -1,0 +1,36 @@
+{
+  "source": "28dcb6c6f1259e2c2e873ffc2baf90b9fddc0be1",
+  "engine": false,
+  "native_studio": false,
+  "suites": [
+    {
+      "name": "enemy-b1-r6",
+      "assertions": 15359,
+      "passed": true
+    },
+    {
+      "name": "enemy-b1-entry-followup",
+      "assertions": 160,
+      "passed": true
+    }
+  ],
+  "review_tools": {
+    "export_executed": true,
+    "svg_rendered_and_inspected": true,
+    "python_compiles": true,
+    "studio_gallery_compiles": true,
+    "studio_gallery_executed": false
+  },
+  "final_luau_syntax_files": 118,
+  "map_overlay": {
+    "map_head": "7bf748868a6963f84a52dc8931c866689ea9fa34",
+    "architecture_blob": "c5b5294dfd7f6f981ef73f17256868d9e5235652",
+    "strict_window_profiles": 210,
+    "map_support_assertions": 7453,
+    "runtime_assertions": 1069,
+    "entry_assertions": 160,
+    "all_passed": true
+  },
+  "no_publish": true,
+  "verified": false
+}

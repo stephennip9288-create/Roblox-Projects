@@ -1,0 +1,1661 @@
+{
+  "enemyPR": 53,
+  "enemyCommit": "0282025ddd6769bfd983413bb37d6f013043b7b5",
+  "mapRuntimeCommit": "f63b0150f9a794fd20f98768a8237e44a38d068f",
+  "sourceBlobs": {
+    "Enemies": "3a5cc47d0b6bc8b28abd0f26137fe5df47cfbcfc",
+    "Navigation": "b8d39299b0a4f3153cbd31721ede662c9dd6ff36"
+  },
+  "futureR6Tested": false,
+  "method": "Only the two frozen enemy modules replaced inside temporary deserialized fixtures; no runtime file edits.",
+  "supportAndQueueAudit": {
+    "assertions": 7453,
+    "engine": false,
+    "failures": {},
+    "logicalFloorFill": false,
+    "maps": [
+      {
+        "badSupportSamples": 0,
+        "connectedQueueRouteChecked": true,
+        "id": "Station",
+        "landingFloors": 0,
+        "parts": 5771,
+        "queueActors": 19,
+        "queueDeferred": 21,
+        "scale": 1,
+        "supportSamples": 2330,
+        "windows": [
+          {
+            "approach": [
+              -118.31475067138672,
+              0,
+              -132.02847290039062
+            ],
+            "approachFloor": [
+              -118.31475067138672,
+              0,
+              -132.02847290039062
+            ],
+            "failures": {},
+            "id": "Station_entry_1",
+            "landing": [
+              -121.59993743896484,
+              0,
+              -113.31464385986328
+            ],
+            "landingFloor": [
+              -121.59993743896484,
+              0,
+              -113.31464385986328
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -118.31475067138672,
+                  3.0799999237060547,
+                  -132.02847290039062
+                ]
+              }
+            ],
+            "queueDeferred": 3,
+            "resolvedLanding": [
+              -121.59993743896484,
+              0,
+              -113.31464385986328
+            ],
+            "room": 1
+          },
+          {
+            "approach": [
+              -167,
+              0,
+              -68
+            ],
+            "approachFloor": [
+              -167,
+              0,
+              -68
+            ],
+            "failures": {},
+            "id": "Station_entry_2",
+            "landing": [
+              -148,
+              0,
+              -68
+            ],
+            "landingFloor": [
+              -148,
+              0,
+              -68
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -167,
+                  3.0799999237060547,
+                  -68
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -175,
+                  3.3264000415802,
+                  -68
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -148,
+              0,
+              -68
+            ],
+            "room": 1
+          },
+          {
+            "approach": [
+              8,
+              0,
+              -87
+            ],
+            "approachFloor": [
+              8,
+              0,
+              -87
+            ],
+            "failures": {},
+            "id": "Station_entry_3",
+            "landing": [
+              8,
+              0,
+              -68
+            ],
+            "landingFloor": [
+              8,
+              0,
+              -68
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  8,
+                  3.0799999237060547,
+                  -87
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  8,
+                  3.3264000415802,
+                  -95
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              8,
+              0,
+              -68
+            ],
+            "room": 2
+          },
+          {
+            "approach": [
+              126,
+              0,
+              -41
+            ],
+            "approachFloor": [
+              126,
+              0,
+              -41
+            ],
+            "failures": {},
+            "id": "Station_entry_4",
+            "landing": [
+              126,
+              0,
+              -22
+            ],
+            "landingFloor": [
+              126,
+              0,
+              -22
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  126,
+                  3.0799999237060547,
+                  -41
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  126,
+                  3.3264000415802,
+                  -49
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              126,
+              0,
+              -22
+            ],
+            "room": 3
+          },
+          {
+            "approach": [
+              179,
+              0,
+              18
+            ],
+            "approachFloor": [
+              179,
+              0,
+              18
+            ],
+            "failures": {},
+            "id": "Station_entry_5",
+            "landing": [
+              160,
+              0,
+              18
+            ],
+            "landingFloor": [
+              160,
+              0,
+              18
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  179,
+                  3.0799999237060547,
+                  18
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  187,
+                  3.3264000415802,
+                  18
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              160,
+              0,
+              18
+            ],
+            "room": 3
+          },
+          {
+            "approach": [
+              -158,
+              0,
+              184
+            ],
+            "approachFloor": [
+              -158,
+              0,
+              184
+            ],
+            "failures": {},
+            "id": "Station_entry_6",
+            "landing": [
+              -158,
+              0,
+              165
+            ],
+            "landingFloor": [
+              -158,
+              0,
+              165
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -158,
+                  3.0799999237060547,
+                  184
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -158,
+                  3.3264000415802,
+                  192
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -158,
+              0,
+              165
+            ],
+            "room": 4
+          },
+          {
+            "approach": [
+              -218,
+              0,
+              108
+            ],
+            "approachFloor": [
+              -218,
+              0,
+              108
+            ],
+            "failures": {},
+            "id": "Station_entry_7",
+            "landing": [
+              -199,
+              0,
+              108
+            ],
+            "landingFloor": [
+              -199,
+              0,
+              108
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -218,
+                  3.0799999237060547,
+                  108
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -226,
+                  3.3264000415802,
+                  108
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -199,
+              0,
+              108
+            ],
+            "room": 4
+          },
+          {
+            "approach": [
+              -14,
+              0,
+              210
+            ],
+            "approachFloor": [
+              -14,
+              0,
+              210
+            ],
+            "failures": {},
+            "id": "Station_entry_8",
+            "landing": [
+              -14,
+              0,
+              191
+            ],
+            "landingFloor": [
+              -14,
+              0,
+              191
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -14,
+                  3.0799999237060547,
+                  210
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -14,
+                  3.3264000415802,
+                  218
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -14,
+              0,
+              191
+            ],
+            "room": 5
+          },
+          {
+            "approach": [
+              179,
+              0,
+              176
+            ],
+            "approachFloor": [
+              179,
+              0,
+              176
+            ],
+            "failures": {},
+            "id": "Station_entry_9",
+            "landing": [
+              160,
+              0,
+              176
+            ],
+            "landingFloor": [
+              160,
+              0,
+              176
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  179,
+                  3.0799999237060547,
+                  176
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  187,
+                  3.3264000415802,
+                  176
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              160,
+              0,
+              176
+            ],
+            "room": 6
+          },
+          {
+            "approach": [
+              124,
+              0,
+              246
+            ],
+            "approachFloor": [
+              124,
+              0,
+              246
+            ],
+            "failures": {},
+            "id": "Station_entry_10",
+            "landing": [
+              124,
+              0,
+              227
+            ],
+            "landingFloor": [
+              124,
+              0,
+              227
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  124,
+                  3.0799999237060547,
+                  246
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  124,
+                  3.3264000415802,
+                  254
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              124,
+              0,
+              227
+            ],
+            "room": 6
+          }
+        ]
+      },
+      {
+        "badSupportSamples": 0,
+        "connectedQueueRouteChecked": true,
+        "id": "Foundry",
+        "landingFloor": {
+          "entryId": "Foundry_entry_10",
+          "frame": [
+            229.36000061035156,
+            -0.6100006103515625,
+            296.46002197265625,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "size": [
+            13.419998168945312,
+            1.220001220703125,
+            17.15625
+          ]
+        },
+        "landingFloors": 1,
+        "parts": 6187,
+        "queueActors": 20,
+        "queueDeferred": 20,
+        "scale": 1.22,
+        "supportSamples": 2330,
+        "windows": [
+          {
+            "approach": [
+              -192.760009765625,
+              0,
+              -86.62000274658203
+            ],
+            "approachFloor": [
+              -192.760009765625,
+              0,
+              -86.62000274658203
+            ],
+            "failures": {},
+            "id": "Foundry_entry_1",
+            "landing": [
+              -192.760009765625,
+              0,
+              -63.44000244140625
+            ],
+            "landingFloor": [
+              -192.760009765625,
+              0,
+              -63.44000244140625
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -192.760009765625,
+                  3.0799999237060547,
+                  -86.62000274658203
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -192.760009765625,
+                  3.3264000415802,
+                  -96.3800048828125
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -192.760009765625,
+              0,
+              -63.44000244140625
+            ],
+            "room": 1
+          },
+          {
+            "approach": [
+              -259.8600158691406,
+              0,
+              -21.96000099182129
+            ],
+            "approachFloor": [
+              -259.8600158691406,
+              0,
+              -21.96000099182129
+            ],
+            "failures": {},
+            "id": "Foundry_entry_2",
+            "landing": [
+              -236.6800079345703,
+              0,
+              -21.96000099182129
+            ],
+            "landingFloor": [
+              -236.6800079345703,
+              0,
+              -21.96000099182129
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -259.8600158691406,
+                  3.0799999237060547,
+                  -21.96000099182129
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -269.6200256347656,
+                  3.3264000415802,
+                  -21.96000099182129
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -236.6800079345703,
+              0,
+              -21.96000099182129
+            ],
+            "room": 1
+          },
+          {
+            "approach": [
+              -26.84000015258789,
+              0,
+              -174.4600067138672
+            ],
+            "approachFloor": [
+              -26.84000015258789,
+              0,
+              -174.4600067138672
+            ],
+            "failures": {},
+            "id": "Foundry_entry_3",
+            "landing": [
+              -26.84000015258789,
+              0,
+              -151.27999877929688
+            ],
+            "landingFloor": [
+              -26.84000015258789,
+              0,
+              -151.27999877929688
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -26.84000015258789,
+                  3.0799999237060547,
+                  -174.4600067138672
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -26.84000015258789,
+                  3.3264000415802,
+                  -184.22000122070312
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -26.84000015258789,
+              0,
+              -151.27999877929688
+            ],
+            "room": 2
+          },
+          {
+            "approach": [
+              153.9441680908203,
+              0,
+              -89.87896728515625
+            ],
+            "approachFloor": [
+              153.9441680908203,
+              0,
+              -89.87896728515625
+            ],
+            "failures": {},
+            "id": "Foundry_entry_4",
+            "landing": [
+              149.83975219726562,
+              0,
+              -67.06523895263672
+            ],
+            "landingFloor": [
+              149.83975219726562,
+              0,
+              -67.06523895263672
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  153.9441680908203,
+                  3.0799999237060547,
+                  -89.87896728515625
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  155.67234802246094,
+                  3.3264000415802,
+                  -99.48474884033203
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              149.83975219726562,
+              0,
+              -67.06523895263672
+            ],
+            "room": 3
+          },
+          {
+            "approach": [
+              228.7889862060547,
+              0,
+              -3.992600440979004
+            ],
+            "approachFloor": [
+              228.7889862060547,
+              0,
+              -3.992600440979004
+            ],
+            "failures": {},
+            "id": "Foundry_entry_5",
+            "landing": [
+              205.65245056152344,
+              0,
+              -2.5735585689544678
+            ],
+            "landingFloor": [
+              205.65245056152344,
+              0,
+              -2.5735585689544678
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  228.7889862060547,
+                  3.0799999237060547,
+                  -3.992600440979004
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  238.5306854248047,
+                  3.3264000415802,
+                  -4.590091705322266
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              205.65245056152344,
+              0,
+              -2.5735585689544678
+            ],
+            "room": 3
+          },
+          {
+            "approach": [
+              -153.72000122070312,
+              0,
+              320.8600158691406
+            ],
+            "approachFloor": [
+              -153.72000122070312,
+              0,
+              320.8600158691406
+            ],
+            "failures": {},
+            "id": "Foundry_entry_6",
+            "landing": [
+              -153.72000122070312,
+              0,
+              297.67999267578125
+            ],
+            "landingFloor": [
+              -153.72000122070312,
+              0,
+              297.67999267578125
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -153.72000122070312,
+                  3.0799999237060547,
+                  320.8600158691406
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -153.72000122070312,
+                  3.3264000415802,
+                  330.6200256347656
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -153.72000122070312,
+              0,
+              297.67999267578125
+            ],
+            "room": 4
+          },
+          {
+            "approach": [
+              -228.24209594726562,
+              0,
+              222.74575805664062
+            ],
+            "approachFloor": [
+              -228.24209594726562,
+              0,
+              222.74575805664062
+            ],
+            "failures": {},
+            "id": "Foundry_entry_7",
+            "landing": [
+              -206.23789978027344,
+              0,
+              215.45687866210938
+            ],
+            "landingFloor": [
+              -206.23789978027344,
+              0,
+              215.45687866210938
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -228.24209594726562,
+                  3.0799999237060547,
+                  222.74575805664062
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -237.50701904296875,
+                  3.3264000415802,
+                  225.81475830078125
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -206.23789978027344,
+              0,
+              215.45687866210938
+            ],
+            "room": 4
+          },
+          {
+            "approach": [
+              26.84000015258789,
+              0,
+              242.77999877929688
+            ],
+            "approachFloor": [
+              26.84000015258789,
+              0,
+              242.77999877929688
+            ],
+            "failures": {},
+            "id": "Foundry_entry_8",
+            "landing": [
+              26.84000015258789,
+              0,
+              219.60000610351562
+            ],
+            "landingFloor": [
+              26.84000015258789,
+              0,
+              219.60000610351562
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  26.84000015258789,
+                  3.0799999237060547,
+                  242.77999877929688
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  26.84000015258789,
+                  3.3264000415802,
+                  252.5399932861328
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              26.84000015258789,
+              0,
+              219.60000610351562
+            ],
+            "room": 5
+          },
+          {
+            "approach": [
+              308.6600036621094,
+              0,
+              222.04000854492188
+            ],
+            "approachFloor": [
+              308.6600036621094,
+              0,
+              222.04000854492188
+            ],
+            "failures": {},
+            "id": "Foundry_entry_9",
+            "landing": [
+              285.4800109863281,
+              0,
+              222.04000854492188
+            ],
+            "landingFloor": [
+              285.4800109863281,
+              0,
+              222.04000854492188
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  308.6600036621094,
+                  3.0799999237060547,
+                  222.04000854492188
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  318.4200134277344,
+                  3.3264000415802,
+                  222.04000854492188
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              285.4800109863281,
+              0,
+              222.04000854492188
+            ],
+            "room": 6
+          },
+          {
+            "approach": [
+              229.36000061035156,
+              0,
+              318.4200134277344
+            ],
+            "approachFloor": [
+              229.36000061035156,
+              0,
+              318.4200134277344
+            ],
+            "failures": {},
+            "id": "Foundry_entry_10",
+            "landing": [
+              229.36000061035156,
+              0,
+              295.2400207519531
+            ],
+            "landingFloor": [
+              229.36000061035156,
+              0,
+              295.2400207519531
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  229.36000061035156,
+                  3.0799999237060547,
+                  318.4200134277344
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  229.36000061035156,
+                  3.3264000415802,
+                  328.1800231933594
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              229.36000061035156,
+              0,
+              295.2400207519531
+            ],
+            "room": 6
+          }
+        ]
+      },
+      {
+        "badSupportSamples": 0,
+        "connectedQueueRouteChecked": true,
+        "id": "Frost",
+        "landingFloors": 0,
+        "parts": 6415,
+        "queueActors": 20,
+        "queueDeferred": 20,
+        "scale": 1.1,
+        "supportSamples": 2330,
+        "windows": [
+          {
+            "approach": [
+              -160.60000610351562,
+              0,
+              -121
+            ],
+            "approachFloor": [
+              -160.60000610351562,
+              0,
+              -121
+            ],
+            "failures": {},
+            "id": "Frost_entry_1",
+            "landing": [
+              -160.60000610351562,
+              0,
+              -100.0999984741211
+            ],
+            "landingFloor": [
+              -160.60000610351562,
+              0,
+              -100.0999984741211
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -160.60000610351562,
+                  3.0799999237060547,
+                  -121
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -160.60000610351562,
+                  3.3264000415802,
+                  -129.8000030517578
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -160.60000610351562,
+              0,
+              -100.0999984741211
+            ],
+            "room": 1
+          },
+          {
+            "approach": [
+              -217.45155334472656,
+              0,
+              -44.53401184082031
+            ],
+            "approachFloor": [
+              -217.45155334472656,
+              0,
+              -44.53401184082031
+            ],
+            "failures": {},
+            "id": "Frost_entry_2",
+            "landing": [
+              -198.600341796875,
+              0,
+              -53.558528900146484
+            ],
+            "landingFloor": [
+              -198.600341796875,
+              0,
+              -53.558528900146484
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -217.45155334472656,
+                  3.0799999237060547,
+                  -44.53401184082031
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -225.38890075683594,
+                  3.3264000415802,
+                  -40.734214782714844
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -198.600341796875,
+              0,
+              -53.558528900146484
+            ],
+            "room": 1
+          },
+          {
+            "approach": [
+              -24.200000762939453,
+              0,
+              -207.0134735107422
+            ],
+            "approachFloor": [
+              -24.200000762939453,
+              0,
+              -207.0134735107422
+            ],
+            "failures": {},
+            "id": "Frost_entry_3",
+            "landing": [
+              -24.200000762939453,
+              0,
+              -186.11346435546875
+            ],
+            "landingFloor": [
+              -24.200000762939453,
+              0,
+              -186.11346435546875
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -24.200000762939453,
+                  3.0799999237060547,
+                  -207.0134735107422
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -24.200000762939453,
+                  3.3264000415802,
+                  -215.8134765625
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -24.200000762939453,
+              0,
+              -186.11346435546875
+            ],
+            "room": 2
+          },
+          {
+            "approach": [
+              143,
+              0,
+              -124.30000305175781
+            ],
+            "approachFloor": [
+              143,
+              0,
+              -124.30000305175781
+            ],
+            "failures": {},
+            "id": "Frost_entry_4",
+            "landing": [
+              143,
+              0,
+              -103.4000015258789
+            ],
+            "landingFloor": [
+              143,
+              0,
+              -103.4000015258789
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  143,
+                  3.0799999237060547,
+                  -124.30000305175781
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  143,
+                  3.3264000415802,
+                  -133.10000610351562
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              143,
+              0,
+              -103.4000015258789
+            ],
+            "room": 3
+          },
+          {
+            "approach": [
+              199.3291778564453,
+              0,
+              -67.31262969970703
+            ],
+            "approachFloor": [
+              199.3291778564453,
+              0,
+              -67.31262969970703
+            ],
+            "failures": {},
+            "id": "Frost_entry_5",
+            "landing": [
+              180.08096313476562,
+              0,
+              -59.16915512084961
+            ],
+            "landingFloor": [
+              180.08096313476562,
+              0,
+              -59.16915512084961
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  199.3291778564453,
+                  3.0799999237060547,
+                  -67.31262969970703
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  207.43368530273438,
+                  3.3264000415802,
+                  -70.74146270751953
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              180.08096313476562,
+              0,
+              -59.16915512084961
+            ],
+            "room": 3
+          },
+          {
+            "approach": [
+              -191.40000915527344,
+              0,
+              244.20001220703125
+            ],
+            "approachFloor": [
+              -191.40000915527344,
+              0,
+              244.20001220703125
+            ],
+            "failures": {},
+            "id": "Frost_entry_6",
+            "landing": [
+              -191.40000915527344,
+              0,
+              223.3000030517578
+            ],
+            "landingFloor": [
+              -191.40000915527344,
+              0,
+              223.3000030517578
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -191.40000915527344,
+                  3.0799999237060547,
+                  244.20001220703125
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -191.40000915527344,
+                  3.3264000415802,
+                  253.00001525878906
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -191.40000915527344,
+              0,
+              223.3000030517578
+            ],
+            "room": 4
+          },
+          {
+            "approach": [
+              -260.70001220703125,
+              0,
+              160.60000610351562
+            ],
+            "approachFloor": [
+              -260.70001220703125,
+              0,
+              160.60000610351562
+            ],
+            "failures": {},
+            "id": "Frost_entry_7",
+            "landing": [
+              -239.8000030517578,
+              0,
+              160.60000610351562
+            ],
+            "landingFloor": [
+              -239.8000030517578,
+              0,
+              160.60000610351562
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -260.70001220703125,
+                  3.0799999237060547,
+                  160.60000610351562
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -269.5,
+                  3.3264000415802,
+                  160.60000610351562
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -239.8000030517578,
+              0,
+              160.60000610351562
+            ],
+            "room": 4
+          },
+          {
+            "approach": [
+              -26.400001525878906,
+              0,
+              178.41346740722656
+            ],
+            "approachFloor": [
+              -26.400001525878906,
+              0,
+              178.41346740722656
+            ],
+            "failures": {},
+            "id": "Frost_entry_8",
+            "landing": [
+              -26.400001525878906,
+              0,
+              157.5134735107422
+            ],
+            "landingFloor": [
+              -26.400001525878906,
+              0,
+              157.5134735107422
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  -26.400001525878906,
+                  3.0799999237060547,
+                  178.41346740722656
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  -26.400001525878906,
+                  3.3264000415802,
+                  187.21347045898438
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              -26.400001525878906,
+              0,
+              157.5134735107422
+            ],
+            "room": 5
+          },
+          {
+            "approach": [
+              243.8933868408203,
+              0,
+              177.2695770263672
+            ],
+            "approachFloor": [
+              243.8933868408203,
+              0,
+              177.2695770263672
+            ],
+            "failures": {},
+            "id": "Frost_entry_9",
+            "landing": [
+              224.2871551513672,
+              0,
+              184.50880432128906
+            ],
+            "landingFloor": [
+              224.2871551513672,
+              0,
+              184.50880432128906
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  243.8933868408203,
+                  3.0799999237060547,
+                  177.2695770263672
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  252.1486358642578,
+                  3.3264000415802,
+                  174.2214813232422
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              224.2871551513672,
+              0,
+              184.50880432128906
+            ],
+            "room": 6
+          },
+          {
+            "approach": [
+              182.60000610351562,
+              0,
+              272.8000183105469
+            ],
+            "approachFloor": [
+              182.60000610351562,
+              0,
+              272.8000183105469
+            ],
+            "failures": {},
+            "id": "Frost_entry_10",
+            "landing": [
+              182.60000610351562,
+              0,
+              251.90000915527344
+            ],
+            "landingFloor": [
+              182.60000610351562,
+              0,
+              251.90000915527344
+            ],
+            "queue": [
+              {
+                "alpha": false,
+                "feetY": -7.629394538355427e-08,
+                "kind": "Shambler",
+                "position": [
+                  182.60000610351562,
+                  3.0799999237060547,
+                  272.8000183105469
+                ]
+              },
+              {
+                "alpha": false,
+                "feetY": 4.158019972777538e-08,
+                "kind": "Runner",
+                "position": [
+                  182.60000610351562,
+                  3.3264000415802,
+                  281.6000061035156
+                ]
+              }
+            ],
+            "queueDeferred": 2,
+            "resolvedLanding": [
+              182.60000610351562,
+              0,
+              251.90000915527344
+            ],
+            "room": 6
+          }
+        ]
+      }
+    ],
+    "phase": "Overlay"
+  }
+}

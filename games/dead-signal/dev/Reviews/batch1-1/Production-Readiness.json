@@ -1,0 +1,66 @@
+{
+  "release": "dead-signal-v1.8.0",
+  "environment": "production",
+  "approval_to_publish": false,
+  "roblox_runtime_verified": false,
+  "production_touched": false,
+  "production_rollbacks": {
+    "blackwater": {
+      "universe_id": "10770732078",
+      "place_id": "88865473543027",
+      "candidate_sha256": "c2fe2836362efe1ee4c51387589e1f96c8ee1de079a128049a851c77a28e5b59",
+      "candidate_bytes": 2716758,
+      "rollback_production_path": "games/dead-signal/places/blackwater/production.rbxl",
+      "rollback_sha256": "2313a2e0d208d5823b10fa7b464e39b65568568e496488813344a77d44023c1e",
+      "rollback_bytes": 2505532,
+      "source_instances": 61,
+      "exactly_matching_non_config_scripts": true,
+      "production_ids_verified": true,
+      "staging_ids_absent": true,
+      "raw_binary_schema_preserved": true
+    },
+    "cinderworks": {
+      "universe_id": "10770732078",
+      "place_id": "110963636700767",
+      "candidate_sha256": "e8a91c790569719c5451c6b6a5d3bb9fa2a781ca727a1be89b9ca13de93c9d14",
+      "candidate_bytes": 2724603,
+      "rollback_production_path": "games/dead-signal/places/cinderworks/production.rbxl",
+      "rollback_sha256": "ce57452c648c881c8b2c4983f8cd674d3371d305f9a6be5a957398d0a56b9150",
+      "rollback_bytes": 2530680,
+      "source_instances": 61,
+      "exactly_matching_non_config_scripts": true,
+      "production_ids_verified": true,
+      "staging_ids_absent": true,
+      "raw_binary_schema_preserved": true
+    },
+    "whiteout": {
+      "universe_id": "10770732078",
+      "place_id": "109169216914914",
+      "candidate_sha256": "da0ddb2dfe37771692328b9f4cd59b308e88e5e762abadb1896e16279418ecfa",
+      "candidate_bytes": 2726062,
+      "rollback_production_path": "games/dead-signal/places/whiteout/production.rbxl",
+      "rollback_sha256": "6c3a099252e10e491511e28c0527485afdddde9d47dd7f85d1420dd4d0053f0a",
+      "rollback_bytes": 2544278,
+      "source_instances": 61,
+      "exactly_matching_non_config_scripts": true,
+      "production_ids_verified": true,
+      "staging_ids_absent": true,
+      "raw_binary_schema_preserved": true
+    },
+    "dispatch": {
+      "universe_id": "10770732078",
+      "place_id": "92751255902679",
+      "candidate_sha256": "9dc3be0d248112be7c82cac075f37ca0a6fd967c546fc771cd68d2c00d45a14c",
+      "candidate_bytes": 2745680,
+      "rollback_production_path": "games/dead-signal/places/dispatch/production.rbxl",
+      "rollback_sha256": "91ea936ef7cdfe7aed0b85f9f604dc22658f0ec4363a70e531f1e1e005be9af7",
+      "rollback_bytes": 2600130,
+      "source_instances": 61,
+      "exactly_matching_non_config_scripts": true,
+      "production_ids_verified": true,
+      "staging_ids_absent": true,
+      "raw_binary_schema_preserved": true
+    }
+  },
+  "warning": "Offline gate only. Requires owner approval, a separate deliberately dispatched production workflow, and in-game checks."
+}

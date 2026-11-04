@@ -1,0 +1,78 @@
+{
+  "staging": {
+    "places": {
+      "blackwater": {
+        "materialVariants": 24,
+        "meshParts": 726,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 661,
+        "terrain": 1
+      },
+      "cinderworks": {
+        "materialVariants": 24,
+        "meshParts": 752,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 687,
+        "terrain": 1
+      },
+      "dispatch": {
+        "materialVariants": 24,
+        "meshParts": 962,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 873,
+        "terrain": 1
+      },
+      "whiteout": {
+        "materialVariants": 24,
+        "meshParts": 786,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 721,
+        "terrain": 1
+      }
+    },
+    "robloxEngineTested": false,
+    "serialized": false
+  },
+  "production": {
+    "places": {
+      "blackwater": {
+        "materialVariants": 24,
+        "meshParts": 726,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 661,
+        "terrain": 1
+      },
+      "cinderworks": {
+        "materialVariants": 24,
+        "meshParts": 752,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 687,
+        "terrain": 1
+      },
+      "dispatch": {
+        "materialVariants": 24,
+        "meshParts": 962,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 873,
+        "terrain": 1
+      },
+      "whiteout": {
+        "materialVariants": 24,
+        "meshParts": 786,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 721,
+        "terrain": 1
+      }
+    },
+    "robloxEngineTested": false,
+    "serialized": false
+  }
+}

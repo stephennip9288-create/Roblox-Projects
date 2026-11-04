@@ -1,0 +1,74 @@
+{
+  "enginePlaytest": false,
+  "environments": {
+    "production": {
+      "blackwater": {
+        "materialVariants": 24,
+        "meshParts": 726,
+        "sourceBytesExact": true,
+        "sourceRecords": 61,
+        "surfaceAppearances": 661,
+        "terrain": 1
+      },
+      "cinderworks": {
+        "materialVariants": 24,
+        "meshParts": 752,
+        "sourceBytesExact": true,
+        "sourceRecords": 61,
+        "surfaceAppearances": 687,
+        "terrain": 1
+      },
+      "dispatch": {
+        "materialVariants": 24,
+        "meshParts": 962,
+        "sourceBytesExact": true,
+        "sourceRecords": 61,
+        "surfaceAppearances": 873,
+        "terrain": 1
+      },
+      "whiteout": {
+        "materialVariants": 24,
+        "meshParts": 786,
+        "sourceBytesExact": true,
+        "sourceRecords": 61,
+        "surfaceAppearances": 721,
+        "terrain": 1
+      }
+    },
+    "staging": {
+      "blackwater": {
+        "materialVariants": 24,
+        "meshParts": 726,
+        "sourceBytesExact": true,
+        "sourceRecords": 61,
+        "surfaceAppearances": 661,
+        "terrain": 1
+      },
+      "cinderworks": {
+        "materialVariants": 24,
+        "meshParts": 752,
+        "sourceBytesExact": true,
+        "sourceRecords": 61,
+        "surfaceAppearances": 687,
+        "terrain": 1
+      },
+      "dispatch": {
+        "materialVariants": 24,
+        "meshParts": 962,
+        "sourceBytesExact": true,
+        "sourceRecords": 61,
+        "surfaceAppearances": 873,
+        "terrain": 1
+      },
+      "whiteout": {
+        "materialVariants": 24,
+        "meshParts": 786,
+        "sourceBytesExact": true,
+        "sourceRecords": 61,
+        "surfaceAppearances": 721,
+        "terrain": 1
+      }
+    }
+  },
+  "serialized": false
+}

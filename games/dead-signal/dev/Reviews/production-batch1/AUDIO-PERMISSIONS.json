@@ -1,0 +1,452 @@
+{
+  "schema": 1,
+  "universe_id": 10770732078,
+  "experience": "Dead Signal",
+  "permission_page": "https://create.roblox.com/dashboard/creations/experiences/10770732078/permissions",
+  "verified_at": "2026-10-25T21:55:23Z",
+  "verification_method": "Creator Dashboard experience Permissions > Assets; submitted exact active IDs in two groups of 44; all returned Already added; no pending Save Changes",
+  "bound_asset_count": 88,
+  "grants": [
+    {
+      "asset_id": "121376790132442",
+      "name": "board_fracture_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "126280091004313",
+      "name": "frame_scrape_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "128395906553592",
+      "name": "window_contact_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "91133693743569",
+      "name": "wood_break_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "74974756246529",
+      "name": "zombie_groan_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "107418837961539",
+      "name": "zombie_groan_4",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "102111613719129",
+      "name": "zombie_groan_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "85781807029579",
+      "name": "zombie_groan_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "77977864287415",
+      "name": "zombie_attack",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "101844723485575",
+      "name": "zombie_death",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "104410940289409",
+      "name": "whiteout_relay",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "118613729375081",
+      "name": "whiteout_wind",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "102723660598394",
+      "name": "whiteout_structure",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "134212878169682",
+      "name": "sniper_near_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "84968259030086",
+      "name": "sniper_near_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "83959159325978",
+      "name": "sniper_far_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "87938623646249",
+      "name": "sniper_far_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "100889161941844",
+      "name": "smg_near_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "138210152005532",
+      "name": "smg_far_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "108292928491585",
+      "name": "smg_near_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "99783133219658",
+      "name": "smg_near_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "85070421720051",
+      "name": "smg_far_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "120079772303461",
+      "name": "shotgun_near_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "137205669438530",
+      "name": "shotgun_near_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "73467682967027",
+      "name": "smg_far_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "97371915280588",
+      "name": "shotgun_far_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "121842835676822",
+      "name": "shotgun_far_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "77291135958184",
+      "name": "rifle_near_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "107421547844896",
+      "name": "shell_in",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "103291179419925",
+      "name": "rifle_near_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "107624577403804",
+      "name": "rifle_far_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "104346814485237",
+      "name": "rifle_far_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "105606467275775",
+      "name": "pump_close",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "88268166840332",
+      "name": "pump_open",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "119434428584660",
+      "name": "pistol_near_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "87604829105129",
+      "name": "pistol_far_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "102017904483837",
+      "name": "pistol_far_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "97471624861982",
+      "name": "pistol_near_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "118387917863630",
+      "name": "mag_in",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "138265022875111",
+      "name": "mag_out",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "89936457525206",
+      "name": "hound_growl_short",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "70532433125215",
+      "name": "hound_grumble",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "87388300196644",
+      "name": "hound_snarl",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "89090032809123",
+      "name": "kill_confirmation",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "86849256740672",
+      "name": "hound_growl",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "83307276721883",
+      "name": "hound_death_candidate",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "93143322317022",
+      "name": "hound_bark_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "88790988263174",
+      "name": "hound_bark_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "132196039140961",
+      "name": "hound_bark_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "128218143840025",
+      "name": "hit_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "130797048483391",
+      "name": "hit_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "89669375170857",
+      "name": "hit_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "112740987408404",
+      "name": "heavy_far_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "74407642808158",
+      "name": "heavy_far_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "106525422874100",
+      "name": "heavy_near_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "86715539511366",
+      "name": "heavy_near_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "136139362938220",
+      "name": "gear_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "71539557281032",
+      "name": "gear_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "80449212130946",
+      "name": "gear_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "118866650735185",
+      "name": "footstep_wood_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "84938360008219",
+      "name": "footstep_wood_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "132196353218557",
+      "name": "footstep_snow_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "92096615822308",
+      "name": "footstep_snow_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "122008731451290",
+      "name": "footstep_wood_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "81351840288751",
+      "name": "footstep_snow_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "88355418219105",
+      "name": "footstep_concrete_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "128917480971794",
+      "name": "footstep_concrete_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "139934328762795",
+      "name": "footstep_concrete_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "74508665096916",
+      "name": "feed_close",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "125142592885415",
+      "name": "equip",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "136945303779929",
+      "name": "feed_open",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "139588944425252",
+      "name": "entry_land_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "126249959437262",
+      "name": "entry_contact_3",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "108391393992469",
+      "name": "entry_land_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "120328623467553",
+      "name": "entry_land_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "93461646806010",
+      "name": "entry_contact_2",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "98615332369943",
+      "name": "cinderworks_ventilation",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "113592069412298",
+      "name": "dispatch_room",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "94609173091353",
+      "name": "empty",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "114520840714703",
+      "name": "entry_contact_1",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "72299086290179",
+      "name": "cinderworks_machinery",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "133703053328304",
+      "name": "cinderworks_furnace_equipment",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "122674315331941",
+      "name": "bolt_close",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "98916357176793",
+      "name": "bolt_open",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "118856836202756",
+      "name": "blackwater_radio",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "134226440616785",
+      "name": "blackwater_power",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "97474407149894",
+      "name": "blackwater_wind",
+      "result": "Already added"
+    },
+    {
+      "asset_id": "99193189026195",
+      "name": "armor_break",
+      "result": "Already added"
+    }
+  ],
+  "native_production_playback_verified": false
+}

@@ -1,0 +1,914 @@
+{
+  "engine": false,
+  "source": "28dcb6c6f1259e2c2e873ffc2baf90b9fddc0be1",
+  "families": [
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 138,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 36
+      },
+      "id": 1,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 138,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 36
+      },
+      "id": 2,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 140,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 3,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 4,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 5,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 6,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 139,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 36
+      },
+      "id": 7,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 139,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 36
+      },
+      "id": 8,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 141,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 9,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 143,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 10,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 143,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 11,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 143,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 12,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 140,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 36
+      },
+      "id": 13,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 140,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 36
+      },
+      "id": 14,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 15,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 16,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 17,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 18,
+      "map": "Station"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 1,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 2,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 3,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 146,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 4,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 146,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 5,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 146,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 6,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 143,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 7,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 143,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 8,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 145,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 9,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 147,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 10,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 147,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 11,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 147,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 12,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 13,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 14,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 146,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 15,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 148,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 16,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 148,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 17,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 148,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      },
+      "id": 18,
+      "map": "Foundry"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 140,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 1,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 140,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 2,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 3,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 4,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 5,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 39,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 6,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 141,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 7,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 141,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 8,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 143,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 9,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 145,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 10,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 145,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 11,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 40,
+        "instances": 145,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 12,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 13,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      },
+      "id": 14,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      },
+      "id": 15,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 146,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 16,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 146,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 17,
+      "map": "Frost"
+    },
+    {
+      "counts": {
+        "frames": 41,
+        "instances": 146,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      },
+      "id": 18,
+      "map": "Frost"
+    }
+  ],
+  "representative_before_after": [
+    {
+      "map": "Station",
+      "revision": "before",
+      "action": "idle",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 0,
+        "instances": 182,
+        "meshes": 20,
+        "motors": 14,
+        "parts": 85
+      }
+    },
+    {
+      "map": "Station",
+      "revision": "before",
+      "action": "run",
+      "kind": "Runner",
+      "counts": {
+        "frames": 0,
+        "instances": 190,
+        "meshes": 20,
+        "motors": 14,
+        "parts": 89
+      }
+    },
+    {
+      "map": "Station",
+      "revision": "before",
+      "action": "attack",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 0,
+        "instances": 210,
+        "meshes": 26,
+        "motors": 14,
+        "parts": 96
+      }
+    },
+    {
+      "map": "Station",
+      "revision": "before",
+      "action": "climb",
+      "kind": "Warden",
+      "counts": {
+        "frames": 0,
+        "instances": 224,
+        "meshes": 28,
+        "motors": 14,
+        "parts": 102
+      }
+    },
+    {
+      "map": "Station",
+      "revision": "after",
+      "action": "idle",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 39,
+        "instances": 138,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 36
+      }
+    },
+    {
+      "map": "Station",
+      "revision": "after",
+      "action": "run",
+      "kind": "Runner",
+      "counts": {
+        "frames": 39,
+        "instances": 138,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 36
+      }
+    },
+    {
+      "map": "Station",
+      "revision": "after",
+      "action": "attack",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      }
+    },
+    {
+      "map": "Station",
+      "revision": "after",
+      "action": "climb",
+      "kind": "Warden",
+      "counts": {
+        "frames": 39,
+        "instances": 148,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 41
+      }
+    },
+    {
+      "map": "Foundry",
+      "revision": "before",
+      "action": "idle",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 0,
+        "instances": 182,
+        "meshes": 20,
+        "motors": 14,
+        "parts": 85
+      }
+    },
+    {
+      "map": "Foundry",
+      "revision": "before",
+      "action": "run",
+      "kind": "Runner",
+      "counts": {
+        "frames": 0,
+        "instances": 190,
+        "meshes": 20,
+        "motors": 14,
+        "parts": 89
+      }
+    },
+    {
+      "map": "Foundry",
+      "revision": "before",
+      "action": "attack",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 0,
+        "instances": 210,
+        "meshes": 26,
+        "motors": 14,
+        "parts": 96
+      }
+    },
+    {
+      "map": "Foundry",
+      "revision": "before",
+      "action": "climb",
+      "kind": "Warden",
+      "counts": {
+        "frames": 0,
+        "instances": 224,
+        "meshes": 28,
+        "motors": 14,
+        "parts": 102
+      }
+    },
+    {
+      "map": "Foundry",
+      "revision": "after",
+      "action": "idle",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      }
+    },
+    {
+      "map": "Foundry",
+      "revision": "after",
+      "action": "run",
+      "kind": "Runner",
+      "counts": {
+        "frames": 39,
+        "instances": 142,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 38
+      }
+    },
+    {
+      "map": "Foundry",
+      "revision": "after",
+      "action": "attack",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 39,
+        "instances": 146,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 40
+      }
+    },
+    {
+      "map": "Foundry",
+      "revision": "after",
+      "action": "climb",
+      "kind": "Warden",
+      "counts": {
+        "frames": 39,
+        "instances": 152,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 43
+      }
+    },
+    {
+      "map": "Frost",
+      "revision": "before",
+      "action": "idle",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 0,
+        "instances": 186,
+        "meshes": 20,
+        "motors": 14,
+        "parts": 87
+      }
+    },
+    {
+      "map": "Frost",
+      "revision": "before",
+      "action": "run",
+      "kind": "Runner",
+      "counts": {
+        "frames": 0,
+        "instances": 194,
+        "meshes": 20,
+        "motors": 14,
+        "parts": 91
+      }
+    },
+    {
+      "map": "Frost",
+      "revision": "before",
+      "action": "attack",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 0,
+        "instances": 214,
+        "meshes": 26,
+        "motors": 14,
+        "parts": 98
+      }
+    },
+    {
+      "map": "Frost",
+      "revision": "before",
+      "action": "climb",
+      "kind": "Warden",
+      "counts": {
+        "frames": 0,
+        "instances": 228,
+        "meshes": 28,
+        "motors": 14,
+        "parts": 104
+      }
+    },
+    {
+      "map": "Frost",
+      "revision": "after",
+      "action": "idle",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 39,
+        "instances": 140,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      }
+    },
+    {
+      "map": "Frost",
+      "revision": "after",
+      "action": "run",
+      "kind": "Runner",
+      "counts": {
+        "frames": 39,
+        "instances": 140,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 37
+      }
+    },
+    {
+      "map": "Frost",
+      "revision": "after",
+      "action": "attack",
+      "kind": "Shambler",
+      "counts": {
+        "frames": 39,
+        "instances": 144,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 39
+      }
+    },
+    {
+      "map": "Frost",
+      "revision": "after",
+      "action": "climb",
+      "kind": "Warden",
+      "counts": {
+        "frames": 39,
+        "instances": 150,
+        "meshes": 0,
+        "motors": 6,
+        "parts": 42
+      }
+    }
+  ]
+}

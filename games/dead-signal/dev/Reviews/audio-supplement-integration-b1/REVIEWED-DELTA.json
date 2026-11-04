@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "kind": "reviewed-patch-application",
+  "integration_base": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+  "intake_pr": 59,
+  "intake_head": "c598b26dfa2bf45d74e80128f930325ab6156321",
+  "prior_ledger_blob": "2320590827bdd58ad976115728fa9200c7c95c26",
+  "path": "Source/Runtime/shared/Config.lua",
+  "base_blob": "1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2",
+  "applied_blob": "88cccbed93fabff62c72c170a595ea7f6338216e",
+  "patch_blob": "a179ce26e96b631a3b732224f550ec5c19ca60e0",
+  "bindings_blob": "15332ae9bd424125cc5315a6b153b430109390de",
+  "owner_approvals_blob": "ffedfe43d974d3c10baafb977f2f908d89b9c4c9",
+  "scope": "private-staging-only"
+}

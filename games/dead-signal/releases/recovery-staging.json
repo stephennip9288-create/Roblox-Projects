@@ -2,51 +2,51 @@
   "schema": 1,
   "environment": "staging",
   "universe_id": "10771141095",
-  "source_sha": "2a7e99e36ccb36b941990c70e8d43a09b2ed131d",
+  "source_sha": "9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7",
   "artifact": {
-    "id": 12037409887,
-    "run_id": 38882994829,
-    "sha256": "17164c710144ac7c25528875e5ea2ab9de6c007ac2abaa742f5d05e30f984dbf",
-    "expires_at": "2026-10-30",
-    "note": "Failure/expiry blocks deployment; never fall back to historical binaries.",
-    "head_sha": "2a7e99e36ccb36b941990c70e8d43a09b2ed131d"
+    "id": 12109702848,
+    "run_id": 39056526660,
+    "sha256": "e969cc319cc71c6ff55d24c9ddc546d674f2035192e44f6586c5a6fe00b1117b",
+    "expires_at": "2027-01-15",
+    "note": "Retained exact successful Batch 1 staging deployment; owner reported six defects, so gameplay acceptance remains pending. Failure/expiry blocks deployment. Never fall back to historical binaries.",
+    "head_sha": "5f6d0a0c1ab3d462bc0a3f4413d3ce4593a3e6bb"
   },
   "deployment": {
-    "run_id": 38954616169,
+    "run_id": 39056526660,
     "attempt": 1,
     "versions": {
-      "dispatch": 10,
-      "blackwater": 9,
-      "cinderworks": 9,
-      "whiteout": 9
+      "dispatch": 11,
+      "blackwater": 10,
+      "cinderworks": 10,
+      "whiteout": 10
     },
     "workflow_id": 386310450,
-    "control_sha": "2a7e99e36ccb36b941990c70e8d43a09b2ed131d"
+    "control_sha": "5f6d0a0c1ab3d462bc0a3f4413d3ce4593a3e6bb"
   },
   "places": {
     "dispatch": {
       "place_id": "117710269155815",
-      "member": "dispatch.rbxl",
-      "sha256": "5225ebccf8604dd7c6c4b212eb665e0122e5ab2f896cec7e4680a5a97107f8e1",
-      "bytes": 2643341
+      "member": "build/dead-signal-lossless/staging/dispatch.rbxl",
+      "sha256": "c91691452756b65f30da72a2343b440268b572b845e6489ed443061637235b5d",
+      "bytes": 2720966
     },
     "blackwater": {
       "place_id": "102403661108879",
-      "member": "blackwater.rbxl",
-      "sha256": "ae1cbbac03c04629609f8e4cfc6832461e548816271c01c402e0466ed3dca1cd",
-      "bytes": 2614430
+      "member": "build/dead-signal-lossless/staging/blackwater.rbxl",
+      "sha256": "c4969232c3df95fc3ba62baf18c58fafbf0135408a46ba4d88c36e8b866fe7f7",
+      "bytes": 2692046
     },
     "cinderworks": {
       "place_id": "125712056058975",
-      "member": "cinderworks.rbxl",
-      "sha256": "4b58a1de4b2349c9d91ff05aea02bd7e0de5b0ceae73014240f256c4d5ff91c7",
-      "bytes": 2622282
+      "member": "build/dead-signal-lossless/staging/cinderworks.rbxl",
+      "sha256": "c7d1607c33f88b9cac0da14c86d7abdc57e175712cec098c41aa3335db9b9ab5",
+      "bytes": 2699891
     },
     "whiteout": {
       "place_id": "122269451559483",
-      "member": "whiteout.rbxl",
-      "sha256": "4a0805de6b59b4280d27280801661fec3eabff551d0bc41bc817fa85436454c9",
-      "bytes": 2623734
+      "member": "build/dead-signal-lossless/staging/whiteout.rbxl",
+      "sha256": "44c4ea24e267da9f2403edb4a5fa20ab6e57adb11fb864c3d32240ddc087df28",
+      "bytes": 2701352
     }
   }
 }

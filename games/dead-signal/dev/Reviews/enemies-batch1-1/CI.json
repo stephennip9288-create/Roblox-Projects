@@ -1,0 +1,36 @@
+{
+  "commit": "5db50d29001bbbce78540767265f8bb3a2d859ad",
+  "checks": [
+    {
+      "name": "Verify four staging candidates and rollback binaries",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112663/job/117715568500"
+    },
+    {
+      "name": "Python checks, isolated configs and Lune suites",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112697/job/117715568373"
+    },
+    {
+      "name": "Offline source-to-production parity (no publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112651/job/117715568240"
+    },
+    {
+      "name": "safe-source-patch",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112643/job/117715568136"
+    },
+    {
+      "name": "validate",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112632/job/117715567883"
+    }
+  ],
+  "failed_workflow_gate": "All four failed workflow families stop at the same three legacy source-test gates before their artifact build steps. Local manual offline lossless/fidelity checks passed separately; not a CI waiver."
+}

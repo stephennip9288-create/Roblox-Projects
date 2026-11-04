@@ -78,6 +78,30 @@ local hum=make('Humanoid','Humanoid',npcModels[2]);hum.FloorMaterial=r.Enum.Mate
 position(stepper,stepper.Position+r.Vector3.new(1,0,0));now+=.6;before=#events;bridge:tick(now)
 local footstep=false for i=before+1,#events do if events[i].key=='Zombie.Footstep' then footstep=events[i].context.material=='Concrete' end end
 check(footstep,'moving grounded NPC foley uses the physical material and actor lifecycle')
+-- Existing replicated kind is presentation context, not new combat authority.
+local houndRoot=npcModels[1]:FindFirstChild('HumanoidRootPart')
+local houndHum=make('Humanoid','Humanoid',npcModels[1]);houndHum.FloorMaterial=r.Enum.Material.Ice
+position(houndRoot,houndRoot.Position+r.Vector3.new(1,0,0));now+=.6;before=#events;bridge:tick(now)
+local houndStep=false
+for i=before+1,#events do local e=events[i]
+ if e.key=='Zombie.Footstep' and e.context.sourceId=='npc:7:1' then
+  houndStep=e.context.kind=='Hound' and e.context.material=='Ice' and e.context.token==bridge.actors[npcModels[1]].life
+ end
+end
+check(houndStep,'hound foley forwards actual kind/material with the existing actor token')
+before=#events;now+=6;bridge:tick(now)
+local routines=0;local houndRoutine=false;local zombieRoutine=false
+for i=before+1,#events do local e=events[i]
+ if e.key=='Hound.Snarl' or e.key=='Zombie.Groan' then
+  routines+=1
+  check(e.context.routine==true and e.context.kind~=nil and e.context.runId=='7','routine cues explicitly carry priority/kind facts within their current run')
+  houndRoutine=houndRoutine or e.context.kind=='Hound'
+  zombieRoutine=zombieRoutine or e.context.kind=='Shambler'
+ end
+end
+check(routines==2 and houndRoutine and zombieRoutine,'routine context preserves the two-source admission cap across enemy families')
+-- The following tests isolate acknowledged phase edges from unrelated chatter.
+for _,record in pairs(bridge.actors) do record.nextRoutine=now+60 end
 local token=bridge.actors[npcModels[1]].token;local life=bridge.actors[npcModels[1]].life
 npcModels[1]:SetAttribute('EntryCue','Enemy.Entry.Cancel');npcModels[1]:SetAttribute('EntryCueAt',now)
 now+=.2;bridge:tick(now);check(cancelled[token],'server traversal cancellation invalidates entry voice token')

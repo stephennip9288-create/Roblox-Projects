@@ -1,0 +1,436 @@
+{
+  "checks": [
+    {
+      "map": "Station",
+      "reachableSectors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius": 1.85,
+      "grid": 0.75,
+      "reachableCells": 92101,
+      "corridorSamples": 629,
+      "failures": [],
+      "robloxNavmesh": false,
+      "purchaseStages": [
+        {
+          "opened": [],
+          "reachable": [
+            1
+          ]
+        },
+        {
+          "opened": [
+            1
+          ],
+          "reachable": [
+            1,
+            2
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2
+          ],
+          "reachable": [
+            1,
+            2,
+            4
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "opened": [
+            2
+          ],
+          "reachable": [
+            1,
+            4
+          ]
+        },
+        {
+          "opened": [
+            8
+          ],
+          "reachable": [
+            1,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "map": "Foundry",
+      "reachableSectors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius": 2.257,
+      "grid": 0.75,
+      "reachableCells": 172420,
+      "corridorSamples": 818,
+      "failures": [],
+      "robloxNavmesh": false,
+      "purchaseStages": [
+        {
+          "opened": [],
+          "reachable": [
+            1
+          ]
+        },
+        {
+          "opened": [
+            1
+          ],
+          "reachable": [
+            1,
+            2
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2
+          ],
+          "reachable": [
+            1,
+            2,
+            4
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "opened": [
+            2
+          ],
+          "reachable": [
+            1,
+            4
+          ]
+        },
+        {
+          "opened": [
+            8
+          ],
+          "reachable": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "map": "Frost",
+      "reachableSectors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius": 2.035,
+      "grid": 0.75,
+      "reachableCells": 118514,
+      "corridorSamples": 1103,
+      "failures": [],
+      "robloxNavmesh": false,
+      "purchaseStages": [
+        {
+          "opened": [],
+          "reachable": [
+            1
+          ]
+        },
+        {
+          "opened": [
+            1
+          ],
+          "reachable": [
+            1,
+            2
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2
+          ],
+          "reachable": [
+            1,
+            2,
+            4
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "opened": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "reachable": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "opened": [
+            2
+          ],
+          "reachable": [
+            1,
+            4
+          ]
+        },
+        {
+          "opened": [
+            8
+          ],
+          "reachable": [
+            1,
+            5
+          ]
+        }
+      ]
+    }
+  ],
+  "engine": false
+}

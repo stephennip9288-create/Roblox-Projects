@@ -171,7 +171,7 @@ function Controller.audioBindings(fx,player)
             end
             if now>=record.nextRoutine and distance<70 and routine<2 then
                 routine+=1 record.nextRoutine=now+4+(enemyId%7)*.5
-                fx:audioEvent(kind=="Hound" and "Hound.Snarl" or "Zombie.Groan",self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life}))
+                fx:audioEvent(kind=="Hound" and "Hound.Snarl" or "Zombie.Groan",self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life,kind=kind,routine=true}))
             end
             -- NPCs do not receive Roblox's default player-footstep script.
             -- Material slots remain silent until an approved recording is set.
@@ -180,7 +180,7 @@ function Controller.audioBindings(fx,player)
             if distance<38 and (actorRoot.Position-record.position).Magnitude>.15 and now>=(record.stepAt or 0)
                 and material and material~=Enum.Material.Air and footsteps<2 then
                 footsteps+=1 record.stepAt=now+(kind=="Hound" and .35 or .55)
-                local context=self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life,material=material.Name})
+                local context=self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life,material=material.Name,kind=kind})
                 fx:audioEvent("Zombie.Footstep",context)
                 if kind~="Hound" then fx:audioEvent("Zombie.Gear",context) end
             end
@@ -542,9 +542,9 @@ function Controller.start()
                 ui:toast(data.kind=="Armor" and "ARMOR HIT" or data.kind=="ArmorBreak" and "PLATE BROKEN" or data.kind=="Reactor" and "PRESSURE RISING" or "WEAK POINT","amber")
             end
         elseif kind=="CounterActive" then fx:sound("Vent",data.position);fx:particles(data.position,fx.settings.lowEffects and 3 or 8,.9,.6,Color3.fromRGB(159,201,207),false)
-        elseif kind=="EnemyAttack" then fx:sound(data.kind=="Hound" and "Hound.Snarl" or "Zombie.Attack",data.position,audioBindings and audioBindings:context({sourceId=data.id}))
+        elseif kind=="EnemyAttack" then fx:sound(data.kind=="Hound" and "Hound.Attack" or "Zombie.Attack",data.position,audioBindings and audioBindings:context({sourceId=data.id,kind=data.kind}))
         elseif kind=="ArcLink" then fx:tracer(data.origin,data.finish,true)
-        elseif kind=="EnemyDeath" then fx:enemyDeath(data) if audioBindings then fx:audioEvent("Enemy.Death",audioBindings:context({position=data.position,sourceId=data.id,token="death:"..audioBindings.runId..":"..data.id})) end
+        elseif kind=="EnemyDeath" then fx:enemyDeath(data) if audioBindings then fx:audioEvent("Enemy.Death",audioBindings:context({position=data.position,sourceId=data.id,token="death:"..audioBindings.runId..":"..data.id,kind=data.kind})) end
         elseif kind=="Melee" then if data.player==player.UserId then fx:sound("Click") end
         elseif kind=="Board" then fx:sound("Board",data.position)
         end

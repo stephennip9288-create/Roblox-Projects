@@ -1,0 +1,154 @@
+{
+  "source_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077",
+  "all_passed": true,
+  "checks": [
+    {
+      "name": "Offline source-to-production parity (no publish)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169760073/job/117800181470"
+    },
+    {
+      "name": "Python checks, isolated configs and Lune suites",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169760061/job/117800181383"
+    },
+    {
+      "name": "validate",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169760010/job/117800181315"
+    },
+    {
+      "name": "Verify four staging candidates and rollback binaries",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169760028/job/117800181277"
+    },
+    {
+      "name": "safe-source-patch",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169760011/job/117800181130"
+    },
+    {
+      "name": "validate",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169706870/job/117800021666"
+    },
+    {
+      "name": "safe-source-patch",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169706846/job/117800021294"
+    },
+    {
+      "name": "Verify four staging candidates and rollback binaries",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169706825/job/117800021013"
+    },
+    {
+      "name": "Python checks, isolated configs and Lune suites",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169706833/job/117800020931"
+    },
+    {
+      "name": "Offline source-to-production parity (no publish)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39169706812/job/117800020904"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12152570131,
+      "name": "dead-signal-lossless-staging-109",
+      "size_in_bytes": 10274354,
+      "url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12152570131",
+      "archive_download_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12152570131/zip",
+      "expired": false,
+      "created_at": "2026-10-18T21:56:10Z",
+      "expires_at": "2026-11-01T21:56:09Z",
+      "updated_at": "2026-10-18T21:56:10Z",
+      "digest": "sha256:edfb1deee87fee2527258d6b8e309d37a3b297cd6af21238ce66d31af60de4a1",
+      "workflow_run": {
+        "id": 39169706846,
+        "repository_id": 1420126851,
+        "head_repository_id": 1420126851,
+        "head_branch": "integration/dead-signal-batch1-1",
+        "head_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+      },
+      "run_id": 39169706846
+    },
+    {
+      "id": 12152366475,
+      "name": "dead-signal-production-preview-94",
+      "size_in_bytes": 10276809,
+      "url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12152366475",
+      "archive_download_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12152366475/zip",
+      "expired": false,
+      "created_at": "2026-10-18T21:56:11Z",
+      "expires_at": "2026-11-01T21:56:10Z",
+      "updated_at": "2026-10-18T21:56:11Z",
+      "digest": "sha256:a56d69b8ae6a42162354e7dced6aca86bb366112b78d45ce500337dc30b5fd05",
+      "workflow_run": {
+        "id": 39169706812,
+        "repository_id": 1420126851,
+        "head_repository_id": 1420126851,
+        "head_branch": "integration/dead-signal-batch1-1",
+        "head_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+      },
+      "run_id": 39169706812
+    },
+    {
+      "id": 12151833202,
+      "name": "dead-signal-private-staging-preflight-98",
+      "size_in_bytes": 3419,
+      "url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12151833202",
+      "archive_download_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12151833202/zip",
+      "expired": false,
+      "created_at": "2026-10-18T21:55:10Z",
+      "expires_at": "2026-11-17T21:55:10Z",
+      "updated_at": "2026-10-18T21:55:10Z",
+      "digest": "sha256:c945c884ad3884d3e589dce8a75d7bb29b28b09c2fb2de482138677bc8ebe755",
+      "workflow_run": {
+        "id": 39169706825,
+        "repository_id": 1420126851,
+        "head_repository_id": 1420126851,
+        "head_branch": "integration/dead-signal-batch1-1",
+        "head_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+      },
+      "run_id": 39169706825
+    },
+    {
+      "id": 12151659245,
+      "name": "dead-signal-source-ci-124",
+      "size_in_bytes": 6668,
+      "url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12151659245",
+      "archive_download_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12151659245/zip",
+      "expired": false,
+      "created_at": "2026-10-18T21:56:15Z",
+      "expires_at": "2026-11-01T21:56:14Z",
+      "updated_at": "2026-10-18T21:56:15Z",
+      "digest": "sha256:1d085ad27140295aead5537e7b658a7f8dd1862e26afa9c6aa3640a1a0bc1a44",
+      "workflow_run": {
+        "id": 39169706833,
+        "repository_id": 1420126851,
+        "head_repository_id": 1420126851,
+        "head_branch": "integration/dead-signal-batch1-1",
+        "head_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+      },
+      "run_id": 39169706833
+    }
+  ],
+  "root_python_tests": 78,
+  "root_python_tests_passed": true,
+  "source_regression_suites": 33,
+  "assertions": 1026487,
+  "syntax_files": 114,
+  "runtime_scripts": 61
+}

@@ -1,5 +1,11 @@
 -- Six sectors retain their IDs/objectives; footprints and connectivity are authored independently.
 local L={}
+-- Local -Z faces the usable room. Tangent/up/outward is a reflection on a
+-- counter-clockwise footprint; derive X from Y cross Z instead.
+function L.wallFrame(position,outward)
+    local back=Vector3.new(outward.X,0,outward.Z).Unit local up=Vector3.yAxis
+    return CFrame.fromMatrix(position,up:Cross(back),up,back)
+end
 -- Independent facility blockouts: bent bunker wings, industrial crescent, polar listening spine.
 -- Sector IDs and purchased connectivity remain the same as parent #21.
 L.Station={

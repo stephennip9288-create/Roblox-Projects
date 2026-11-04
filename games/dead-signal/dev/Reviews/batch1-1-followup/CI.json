@@ -1,0 +1,62 @@
+{
+  "runtime_test_source": "a4351f50198f073ad3a5cfd89160a5a27b9484ca",
+  "initial_combined_runs": [
+    {
+      "id": 39787735934,
+      "name": "Validate Roblox Cloud Project",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 362,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787735934/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787735934/logs",
+      "workflow_id": 385102467
+    },
+    {
+      "id": 39787735960,
+      "name": "Dead Signal Production Candidate Readiness (No Publish)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 137,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787735960/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787735960/logs",
+      "workflow_id": 386318111
+    },
+    {
+      "id": 39787736088,
+      "name": "Dead Signal Lossless Source Patch (No Publish)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 152,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787736088/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787736088/logs",
+      "workflow_id": 386285171
+    },
+    {
+      "id": 39787735917,
+      "name": "Dead Signal Private Staging Preflight (No Publish)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 143,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787735917/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787735917/logs",
+      "workflow_id": 386307456
+    },
+    {
+      "id": 39787735943,
+      "name": "Dead Signal Work Source CI (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_number": 174,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787735943/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/39787735943/logs",
+      "workflow_id": 386218119
+    }
+  ],
+  "initial_source_ci_failure": {
+    "run_id": 39787735943,
+    "reason": "Runner lacks ffmpeg executable for mandatory supplemental PCM audit; Luau and prior steps passed.",
+    "resolution": "Final Source CI installs ffmpeg explicitly; no audio checks weakened."
+  },
+  "final_exact_head_results": "See completion checkpoint in https://github.com/stephennip9288-create/Roblox-Projects/issues/37 and https://github.com/stephennip9288-create/Roblox-Projects/pull/44/checks",
+  "publication": false
+}

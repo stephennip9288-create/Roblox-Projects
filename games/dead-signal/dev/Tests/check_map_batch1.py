@@ -1,8 +1,9 @@
 """Conservative 3D route-envelope audit of exported source geometry, not Roblox physics.
 
 Run map_remaster.luau first. NumPy/SciPy are optional local audit dependencies.
-Floor continuity and ramp openings are checked by map_batch1.luau; this checks
-other colliders alongside/above both ramps and the entire elevated circuit.
+Floor continuity and ramp openings are checked by map_batch1.luau and the
+produced-wedge/full-width support probes in map_batch11.luau. This checks other
+colliders alongside/above both ramps and the entire elevated circuit.
 """
 from pathlib import Path
 import itertools
@@ -23,7 +24,7 @@ def audit(data, contract):
     for p in data['colliders']:
         if p['group'] == 'DeadSignalBounds' or p['name'].startswith('Gate'):
             continue
-        if p['name'] in ('StairRamp', 'SectorFloor', 'CorridorFloor', 'UpperGalleryDeck', 'ExteriorGround'):
+        if p['name'] in ('StairRamp', 'StairLanding', 'SectorFloor', 'CorridorFloor', 'UpperGalleryDeck', 'ExteriorGround'):
             continue
         cf = np.array(p['cf']); rotation = cf[3:].reshape(3, 3); half = np.array(p['size']) / 2
         extent = np.abs(rotation) @ half
@@ -52,12 +53,25 @@ def audit(data, contract):
                     break
     for g in contract['galleries']:
         for i, stair in enumerate(g['stairs'], 1):
-            sweep(stair['base'], stair['top'], f"room {g['room']} ramp {i}")
+            # The base/top include flat approaches. Linear interpolation across
+            # all three sections puts feet below the actual top landing.
+            base, top = np.array(stair['base']), np.array(stair['top'])
+            direction = top-base; direction[1] = 0
+            length = np.linalg.norm(direction); direction /= length
+            padding = (length-stair['run'])/2
+            start, finish = base+direction*padding, top-direction*padding
+            side = np.array([-direction[2], 0, direction[0]])
+            edge = stair['width']/2-radius-.2
+            assert edge > 0, 'Actor wider than the ramp'
+            for lane in (-edge, -edge/2, 0, edge/2, edge):
+                offset = side*lane
+                for a, b in ((base,start),(start,finish),(finish,top)):
+                    sweep(a+offset, b+offset, f"room {g['room']} ramp {i} lane {lane:.2f}")
         for i, a in enumerate(g['ring']):
             sweep(a, g['ring'][(i+1) % len(g['ring'])], f"room {g['room']} circuit {i+1}")
     return {'map': data['id'], 'samples': samples, 'agentRadius': radius,
             'agentHeight': height, 'sampleSpacing': .65, 'failures': failures,
-            'method': 'inflated oriented collider hulls and vertical intervals; excludes support geometry',
+            'method': 'inflated oriented collider hulls/vertical intervals; five ramp lanes on actual flat-slope-flat profile; support geometry tested separately',
             'robloxPhysics': False}
 
 

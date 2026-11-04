@@ -1,0 +1,77 @@
+{
+  "base": "c80d55aeeae4b51ef8d836949a33bf440890c6b7",
+  "engine": false,
+  "maps": [
+    {
+      "map": "Station",
+      "retainedParts": 5771,
+      "removedOrChangedParts": 0,
+      "addedUnapprovedParts": 0,
+      "changedContractSections": [],
+      "contractSections": [
+        "areas",
+        "doors",
+        "dressing",
+        "entries",
+        "mounts",
+        "nodes",
+        "stairs"
+      ],
+      "retainedPartsSha256": "3ecec2aa22139534e732b56822de26cdfa5c0ed214f86fd353d185d027b02ddf"
+    },
+    {
+      "map": "Foundry",
+      "retainedParts": 6186,
+      "removedOrChangedParts": 0,
+      "addedUnapprovedParts": 0,
+      "changedContractSections": [],
+      "contractSections": [
+        "areas",
+        "doors",
+        "dressing",
+        "entries",
+        "mounts",
+        "nodes",
+        "stairs"
+      ],
+      "retainedPartsSha256": "310077fc987ec8070aa5f7ca6ef2c17791efe06dc8691d2cba9b025293362b4c"
+    },
+    {
+      "map": "Frost",
+      "retainedParts": 6415,
+      "removedOrChangedParts": 0,
+      "addedUnapprovedParts": 0,
+      "changedContractSections": [],
+      "contractSections": [
+        "areas",
+        "doors",
+        "dressing",
+        "entries",
+        "mounts",
+        "nodes",
+        "stairs"
+      ],
+      "retainedPartsSha256": "aea7c9ee7695bbdba80edd9e493d4a0dbf1a708f108fd0006a175acfb5e3798b"
+    }
+  ],
+  "capturedPartProperties": [
+    "hierarchy/name",
+    "class",
+    "CFrame",
+    "size",
+    "color",
+    "material",
+    "variant",
+    "transparency",
+    "CanCollide",
+    "CanQuery",
+    "CanTouch",
+    "collisionGroup"
+  ],
+  "changedExistingFiles": [
+    "games/dead-signal/dev/Source/Runtime/server/Architecture.lua"
+  ],
+  "protectedInputs": 148,
+  "protectedChanges": [],
+  "protectedInventorySha256": "1a4d55a7a22a1a0065e7282ed59e8af73f8e83892ed2e039e86249adbbaaa019"
+}

@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "environment": "staging",
+  "universe_id": "10771141095",
+  "source_sha": "2a7e99e36ccb36b941990c70e8d43a09b2ed131d",
+  "artifact": {
+    "id": 12037409887,
+    "run_id": 38882994829,
+    "sha256": "17164c710144ac7c25528875e5ea2ab9de6c007ac2abaa742f5d05e30f984dbf",
+    "expires_at": "2026-10-30",
+    "note": "Failure/expiry blocks deployment; never fall back to historical binaries.",
+    "head_sha": "2a7e99e36ccb36b941990c70e8d43a09b2ed131d"
+  },
+  "deployment": {
+    "run_id": 38954616169,
+    "attempt": 1,
+    "versions": {
+      "dispatch": 10,
+      "blackwater": 9,
+      "cinderworks": 9,
+      "whiteout": 9
+    },
+    "workflow_id": 386310450,
+    "control_sha": "2a7e99e36ccb36b941990c70e8d43a09b2ed131d"
+  },
+  "places": {
+    "dispatch": {
+      "place_id": "117710269155815",
+      "member": "dispatch.rbxl",
+      "sha256": "5225ebccf8604dd7c6c4b212eb665e0122e5ab2f896cec7e4680a5a97107f8e1",
+      "bytes": 2643341
+    },
+    "blackwater": {
+      "place_id": "102403661108879",
+      "member": "blackwater.rbxl",
+      "sha256": "ae1cbbac03c04629609f8e4cfc6832461e548816271c01c402e0466ed3dca1cd",
+      "bytes": 2614430
+    },
+    "cinderworks": {
+      "place_id": "125712056058975",
+      "member": "cinderworks.rbxl",
+      "sha256": "4b58a1de4b2349c9d91ff05aea02bd7e0de5b0ceae73014240f256c4d5ff91c7",
+      "bytes": 2622282
+    },
+    "whiteout": {
+      "place_id": "122269451559483",
+      "member": "whiteout.rbxl",
+      "sha256": "4a0805de6b59b4280d27280801661fec3eabff551d0bc41bc817fa85436454c9",
+      "bytes": 2623734
+    }
+  }
+}

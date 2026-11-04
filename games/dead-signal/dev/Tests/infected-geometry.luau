@@ -1,6 +1,6 @@
 -- Real generated maps + retained rigs; conservative offline collider sweeps.
 local fs=require('@lune/fs') local r=require('@lune/roblox') local serde=require('@lune/serde')
-local loader=require('./Support/RuntimeLoader') local Geometry=require('./Support/SourceGeometry')
+local loader=require('./Support/RuntimeLoader') local Geometry=require('./Support/EnemyB11Geometry')
 local V=r.Vector3 local count=0 local out={engine=false,maps={},rigs={},failures={},rejected={},redirectedSectors={}}
 local function check(ok,message) assert(ok,message);count+=1 end
 local function vector(v) return {v.X,v.Y,v.Z} end
@@ -22,12 +22,13 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
  local dm=r.deserializePlace(fs.readFile('Places/DeadSignal-v1.8.0-'..id..'.rbxl'));local folders=loader.install(dm)
  local map=loader.new(dm)(folders.server.MapBuilder).build(id)
  print(id..': source map built')
- local world=Geometry.world(map)
+ local strict=table.clone(map);strict.floorRegions={}
+ local world=Geometry.world(strict)
  local load=loader.new(dm,{globals={workspace=world,RaycastParams={new=function() return {} end},OverlapParams={new=function() return {} end}}})
  local N=load(folders.server.Navigation);local Rigs=load(folders.server.EnemyRigs);local Anatomy=load(folders.server.RigAnatomy)
  local parent=r.Instance.new('Folder') local owner={ctx={map=map,players={}},list={},folder=parent}
  local report={id=id,scale=map.scale,colliders={},paths={},windows={}}
- for _,shape in ipairs(world.shapes) do local p=shape.part;report.colliders[#report.colliders+1]={name=p.Name,size=vector(p.Size),cf={p.CFrame:GetComponents()},group=p.CollisionGroup} end
+ for _,shape in ipairs(world.allShapes) do local p=shape.part;report.colliders[#report.colliders+1]={name=p.Name,size=vector(p.Size),cf={p.CFrame:GetComponents()},group=p.CollisionGroup} end
  local specs={{kind='Shambler'},{kind='Runner',mods={Armored=true,Enraged=true}},{kind='Crawler'},
   {kind='Hound'},{kind='Hound',mods={Alpha=true}},{kind='Stalker'},{kind='Warden'}}
  for index,w in ipairs(map.windows) do
@@ -41,7 +42,8 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
    check(floor~=nil,id..' window '..index..' has source floor support')
    local descriptor=N.entryDescriptor(map,w)
    local origin=descriptor and descriptor.approach or V.new(w.outside.X,floor.Y,w.outside.Z)
-   model:PivotTo(r.CFrame.new(origin+V.new(0,N.rootHeight(e),0)))
+   local into=w.entry.approach.LookVector
+   model:PivotTo(r.CFrame.lookAt(origin+V.new(0,N.rootHeight(e),0),origin+V.new(0,N.rootHeight(e),0)+into))
    world.lastBlock=nil
    local plan=N.entryPlan(owner,e,w)
    local label=id..' window '..index..' '..spec.kind..(spec.mods and spec.mods.Alpha and ' Alpha' or spec.mods and ' Ironbound' or '')
@@ -54,7 +56,7 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
      radius=N.agent(e).AgentRadius,height=N.agent(e).AgentHeight,rootHeight=N.rootHeight(e),samples={}}
     for sample=0,90 do
      local p,stage=N.traversalSample(plan,plan.duration*sample/90)
-     if not N.traversalClear(owner,e,previous,p,w,sample==0 or sample==90) then
+     if not N.traversalClear(owner,e,previous,p,w,true,N.rigBounds(e,plan.style,stage),plan.forward) then
       out.failures[#out.failures+1]={label=label,stage=stage,sample=sample,block=world.lastBlock and world.lastBlock:GetFullName() or 'overlap'};break
      end
      check(true,label..' swept sample '..sample)
@@ -72,14 +74,15 @@ for _,id in ipairs({'Station','Foundry','Frost'}) do
  for _,link in ipairs(map.traversals) do for si,spec in ipairs(specs) do
   local model,root,hum=Rigs.build(parent,spec.kind,link.approach,si,id)
   local e={id=si,kind=spec.kind,model=model,root=root,hum=hum,mods=spec.mods or {},entered=true}
-  Rigs.evolve(e);owner.list={[si]=e};model:PivotTo(r.CFrame.new(link.approach+V.new(0,N.rootHeight(e),0)))
+  Rigs.evolve(e);owner.list={[si]=e};local start=link.approach+V.new(0,N.rootHeight(e),0);local direction=(link.landing-link.approach).Unit
+  model:PivotTo(r.CFrame.lookAt(start,start+V.new(direction.X,0,direction.Z)))
   local plan=N.contextPlan(owner,e,link.landing+V.new(0,N.rootHeight(e),0),100)
   local label=id..' '..link.id..' '..spec.kind..(spec.mods and spec.mods.Alpha and ' Alpha' or '')
   check(plan~=nil,label..' eligible rig can use the real authored obstacle/ledge')
   local previous=root.Position
   for sample=0,90 do
-   local at=N.traversalSample(plan,plan.duration*sample/90)
-   check(N.traversalClear(owner,e,previous,at,nil,sample==0 or sample==90),label..' continuous swept sample '..sample)
+   local at,stage=N.traversalSample(plan,plan.duration*sample/90)
+   check(N.traversalClear(owner,e,previous,at,nil,true,N.rigBounds(e,plan.style,stage),plan.forward),label..' continuous swept sample '..sample)
    previous=at
   end
   local floor=N.floor(map,link.landing+V.new(0,3,0))

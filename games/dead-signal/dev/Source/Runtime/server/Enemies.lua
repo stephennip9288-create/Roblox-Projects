@@ -10,6 +10,8 @@ local Movement=require(RS.DeadSignal.Movement)
 local DirectorRules=require(RS.DeadSignal.DirectorRules)
 local T=C.Evolution
 local E={} E.__index=E
+local recoveryClocks={"attack","nextCharge","nextAmbush","nextFlank","precisionAt","overloadUntil","stunnedUntil","shock","damageWindow","windowDamage","attackDamage"}
+local function serverOwner(root) pcall(function() root:SetNetworkOwner(nil) end) end
 -- Selection and damage must agree, including during the travel/disconnect handoff.
 local function living(ctx,player)
     local p=player and ctx.players[player]
@@ -23,32 +25,20 @@ function E.new(ctx)
     return setmetatable({ctx=ctx,list={},nextId=0,folder=U.make("Folder",workspace,{Name="DeadSignalEnemies"}),
         corpses=U.make("Folder",workspace,{Name="DeadSignalCorpses"}),hazards={},hazardId=0,pathBudget=0,pathTokens=4,pathBudgetAt=os.clock(),recovered=0,targetLoads={}},E)
 end
-function E:spawn(kind,window,position,mods,failedEntries)
+function E:spawn(kind,window,position,mods,failedEntries,admission)
     mods=kind=="Warden" and {} or mods or {}
     if not position and self.ctx.director then
         window=self.ctx.director:window(os.clock(),kind,failedEntries) or window
     end
-    self.nextId=self.nextId+1 local id=self.nextId
+    if not admission then self.nextId=self.nextId+1 end
+    local id=admission and admission.id or self.nextId
     local entry=window and Navigation.entryDescriptor and Navigation.entryDescriptor(self.ctx.map,window)
     local origin=entry and entry.approach
     local pos=position or U.finiteVector(origin) and origin+Vector3.new(0,3.5*(self.ctx.map.scale or 1),0) or window.outside
-    if not position then
-        local outward=Vector3.new(pos.X-window.inside.X,0,pos.Z-window.inside.Z)
-        outward=outward.Magnitude>.05 and outward.Unit or Vector3.new(0,0,-1)
-        local tangent=Vector3.new(outward.Z,0,-outward.X) local scale=self.ctx.map.scale or 1
-        for slot=0,24 do
-            local column=slot%5 local lateral=column==0 and 0 or (column%2==1 and 1 or -1)*math.ceil(column/2)
-            local candidate=pos+tangent*(lateral*4*scale)+outward*(math.floor(slot/5)*4*scale)
-            local free=true
-            for _,other in pairs(self.list) do
-                local d=candidate-other.root.Position
-                if not other.dead and Vector3.new(d.X,0,d.Z).Magnitude<3.6*scale then free=false break end
-            end
-            if free then pos=candidate break end
-        end
-    end
-    local model,root,hum=Rigs.build(self.folder,kind,pos,id,self.ctx.map.id)
-    local stats=self.ctx.director and self.ctx.director:stats(kind,mods)
+    -- Construct outside Workspace until a supported, unoccupied exterior slot
+    -- is proven. No transient model may replicate at an unsafe fallback point.
+    local model,root,hum=Rigs.build(nil,kind,pos,id,self.ctx.map.id)
+    local stats=admission and admission.stats or self.ctx.director and self.ctx.director:stats(kind,mods)
     local hp=stats and stats.hp or R.enemyHealth(self.ctx.run.round,kind,C.Modes[self.ctx.run.mode],math.max(1,self.ctx.game:aliveCount()),C.Warden)
     Movement.noJump(hum)
     hum.MaxHealth=hp hum.Health=hp hum.WalkSpeed=stats and stats.speed or R.enemySpeed(self.ctx.run.round,kind)
@@ -59,26 +49,48 @@ function E:spawn(kind,window,position,mods,failedEntries)
         shock=now+8,lastPosition=pos,lastMoved=now,spawned=now,runId=self.ctx.run.id,
         damage=stats and stats.damage or R.enemyDamage(self.ctx.run.round,kind,C.Modes[self.ctx.run.mode]),targetAt=now+(id%7)*.07,phase=1,attackDamage={},damageWindow=now,windowDamage=0}
     enemy.mods=mods enemy.baseSpeed=hum.WalkSpeed enemy.failedEntries=failedEntries
+    enemy.failedEntryUntil=admission and admission.failedEntryUntil
     enemy.armor=mods.Armored and {Head=hp*T.armored.plateHealth,Body=hp*T.armored.plateHealth} or nil
     enemy.reactor=mods.Volatile and hp*T.volatile.reactorHealth or nil
     enemy.packRole=mods.Alpha and "Alpha" or id%3==0 and "Flanker" or "Charger"
     if kind=="Stalker" then enemy.damage=math.min(T.stalker.damageCap,enemy.damage) end
     Rigs.evolve(enemy)
+    if admission and admission.recovery then
+        local state=admission.recovery
+        enemy.hp=state.hp;hum.Health=math.max(1,state.hp);model:SetAttribute("HP",state.hp)
+        enemy.armor=state.armor;enemy.reactor=state.reactor;enemy.phase=state.phase
+        enemy.hitRewards=state.hitRewards;enemy.recoveryAttempts=state.recoveryAttempts
+        for _,key in ipairs(recoveryClocks) do enemy[key]=state[key] end
+        if enemy.armor then for zone,value in pairs(enemy.armor) do if value<=0 then Rigs.breakArmor(enemy,zone) end end end
+        model:SetAttribute("BossPhase",enemy.phase)
+        for _,clock in ipairs({{"overloadUntil","OverloadUntil"},{"stunnedUntil","StunnedUntil"}}) do
+            if state[clock[1]] and state[clock[1]]>now then model:SetAttribute(clock[2],workspace:GetServerTimeNow()+state[clock[1]]-now) end
+        end
+    end
     if not position then
-        local ground=entry and entry.approach or Navigation.floor(self.ctx.map,pos) or Navigation.floor(self.ctx.map,window.inside)
-        if ground then
-            pos=Vector3.new(pos.X,ground.Y+Navigation.rootHeight(enemy),pos.Z)
-            model:PivotTo(CFrame.lookAt(pos,pos+Vector3.new(window.inside.X-pos.X,0,window.inside.Z-pos.Z)))
-            enemy.lastPosition=pos
+        local queued=Navigation.queuePosition(self,enemy,window)
+        if queued then
+            pos=queued
+            local into=Vector3.new(window.inside.X-pos.X,0,window.inside.Z-pos.Z).Unit
+            model:PivotTo(CFrame.lookAt(pos,pos+into));enemy.lastPosition=pos
+        else
+            model:Destroy()
+            local ticket=admission or {id=id,kind=kind,mods=table.clone(mods),failedEntries=failedEntries,
+                failedEntryUntil=enemy.failedEntryUntil,
+                stats={hp=hp,speed=enemy.baseSpeed,damage=enemy.damage},runId=self.ctx.run.id,map=self.ctx.map}
+            ticket.window=window;ticket.pending=true
+            self.pending=self.pending or {};self.pending[#self.pending+1]=ticket
+            return ticket
         end
         enemy.entryQueued=true root.Anchored=true hum.AutoRotate=false
         model:SetAttribute("TraversalStage","Waiting")
     end
-    self.list[id]=enemy
+    self.list[id]=enemy;model.Parent=self.folder
+    if not root.Anchored then serverOwner(root) end
     hum.Died:Connect(function() if self.list[id] then self:kill(enemy,nil,false,false) end end)
     return enemy
 end
-function E:count() return U.count(self.list) end
+function E:count() return U.count(self.list)+#(self.pending or {}) end
 function E:damage(enemy,amount,player,head,attack,damageKind,hitPart)
     if not enemy or enemy.dead or not self.list[enemy.id] then return false end
     if not R.finite(amount) or amount<=0 then return false end
@@ -181,7 +193,7 @@ end
 function E:clear(keepCorpses)
     self:clearHazards()
     for _,e in pairs(self.list) do e.dead=true self:stopTraversal(e,false) Navigation.invalidate(e) e.model:Destroy() end
-    self.list={}
+    self.list={};self.pending={}
     if self.traversalConnection then self.traversalConnection:Disconnect();self.traversalConnection=nil end
     if not keepCorpses then for _,m in ipairs(self.corpses:GetChildren()) do m:Destroy() end end
 end
@@ -235,49 +247,98 @@ function E:clearSight(a,b)
     params.FilterDescendantsInstances={self.ctx.map.model}
     return not workspace:Raycast(a,b-a,params)
 end
-function E:recover(enemy)
-    if enemy.dead then return end
-    self:stopTraversal(enemy,false)
-    local failedEntries=enemy.failedEntries or {}
-    if not enemy.entered and enemy.window then
-        -- A rejected sill/ceiling or blocked landing must not keep selecting
-        -- the same entrance for this species. This is transient, never a quota
-        -- change or an interior reposition, and does not blacklist other kinds.
-        enemy.window.entryBlockedUntil=enemy.window.entryBlockedUntil or {}
-        enemy.window.entryBlockedUntil[enemy.kind]=os.clock()+8
-        failedEntries[enemy.window]=self.ctx.map.navigationRevision or 0
-    end
-    local attempts=(enemy.recoveryAttempts or 0)+1
-    if attempts>=3 and enemy.kind~="Warden" then
-        -- A broken final route must not hold an ordinary wave forever. No kill,
-        -- points or drop is credited for navigation retirement.
-        self.retired=(self.retired or 0)+1 self:kill(enemy,nil,false,false) return
-    end
-    local hp=enemy.hp local rewards=enemy.hitRewards local kind=enemy.kind local window=enemy.window
-    local maxHP,phase,overload=enemy.maxHP,enemy.phase,enemy.overloadUntil
-    enemy.dead=true Navigation.invalidate(enemy) self.list[enemy.id]=nil enemy.model:Destroy()
-    local nextWindow=window
-    if self.ctx.director then
-        nextWindow=self.ctx.director:window(os.clock(),kind,failedEntries)
-        if not nextWindow then
-            -- Try each eligible entrance before repeating one. A fresh bounded
-            -- cycle lets temporary occupancy clear without permanent exclusions.
-            failedEntries={};nextWindow=self.ctx.director:window(os.clock(),kind)
+function E:unobserved(position,enemy,forward)
+    local center,size=Navigation.worldBox(enemy,position,Navigation.rigBounds(enemy,"Walk","Approach"),forward)
+    local points={position,center}
+    for x=-1,1,2 do for y=-1,1,2 do for z=-1,1,2 do points[#points+1]=center+size*Vector3.new(x,y,z)*.5 end end end
+    for player,state in pairs(self.ctx.players) do
+        if player.Parent and state.participating and (state.status=="Alive" or state.status=="Down") then
+            local root=U.root(player)
+            if root then
+                if (root.Position-center).Magnitude<32+size.Magnitude*.5 then return false end
+                local head=player.Character and player.Character:FindFirstChild("Head")
+                for _,point in ipairs(points) do
+                    if self:clearSight(root.Position,point) or head and self:clearSight(head.Position,point) then return false end
+                end
+            end
         end
     end
-    local replacement=self:spawn(kind,nextWindow or window,nil,enemy.mods,failedEntries)
-    replacement.armor=enemy.armor replacement.reactor=enemy.reactor
-    if enemy.armor then for zone,value in pairs(enemy.armor) do if value<=0 then Rigs.breakArmor(replacement,zone) end end end
-    replacement.recoveryAttempts=attempts
-    replacement.nextCharge=enemy.nextCharge replacement.nextAmbush=enemy.nextAmbush
-    replacement.nextFlank=enemy.nextFlank replacement.precisionAt=enemy.precisionAt
-    replacement.traversalUses=enemy.traversalUses
-    -- A smaller crew can produce a lower fresh MaxHealth. Restore the original
-    -- maximum before Health so the engine cannot clamp surviving HP on recovery.
-    replacement.damage=enemy.damage replacement.maxHP=maxHP replacement.hum.MaxHealth=maxHP replacement.phase=phase replacement.overloadUntil=overload
-    replacement.hp=hp replacement.hum.Health=math.max(1,hp) replacement.hitRewards=rewards
-    replacement.model:SetAttribute("MaxHP",maxHP) replacement.model:SetAttribute("BossPhase",phase)
-    replacement.model:SetAttribute("HP",hp) self.recovered=self.recovered+1
+    return true
+end
+function E:recover(enemy,terminal)
+    if enemy.dead then return false end
+    if not enemy.root.Parent or not enemy.model.Parent then
+        -- Engine fall cleanup or external model removal can destroy the root.
+        -- Retain that exact wave unit as an admission ticket, never an empty
+        -- live-list record or a fresh-health replacement inside the building.
+        self:stopTraversal(enemy,false);Navigation.invalidate(enemy)
+        local state={hp=enemy.hp,armor=enemy.armor and table.clone(enemy.armor),reactor=enemy.reactor,
+            phase=enemy.phase,hitRewards=enemy.hitRewards,recoveryAttempts=(enemy.recoveryAttempts or 0)+1}
+        for _,key in ipairs(recoveryClocks) do state[key]=enemy[key] end
+        local ticket={id=enemy.id,kind=enemy.kind,mods=table.clone(enemy.mods or {}),window=enemy.window,
+            failedEntries=enemy.failedEntries,failedEntryUntil=enemy.failedEntryUntil,stats={hp=enemy.maxHP,speed=enemy.baseSpeed,damage=enemy.damage},
+            runId=self.ctx.run.id,map=self.ctx.map,pending=true,recovery=state}
+        self.list[enemy.id]=nil;enemy.dead=true;enemy.model:Destroy()
+        self.pending=self.pending or {};self.pending[#self.pending+1]=ticket
+        return true
+    end
+    if enemy.traversal and not terminal then enemy.traversal.retreat=true;enemy.traversal.recover=true;return false end
+    local now=os.clock()
+    if now<(enemy.recoveryAt or 0) then return false end
+    enemy.recoveryAt=now+4;enemy.recoveryAttempts=(enemy.recoveryAttempts or 0)+1
+    if Navigation.expireEntryFailures then Navigation.expireEntryFailures(enemy,now) end
+    local window=enemy.window local failed=enemy.failedEntries or {};enemy.failedEntries=failed
+    if window then
+        window.entryBlockedUntil=window.entryBlockedUntil or {}
+        window.entryBlockedUntil[enemy.kind]=now+8
+        if enemy.entryFailure=="Geometry" or enemy.entryFailure=="Support" then
+            local revision=self.ctx.map.navigationRevision or 0
+            enemy.failedEntryUntil=enemy.failedEntryUntil or {}
+            if failed[window]~=revision or not enemy.failedEntryUntil[window] then
+                enemy.failedEntryUntil[window]=now+(Navigation.traversalTuning.failedEntrySeconds or 30)
+            end
+            failed[window]=revision
+        end
+    end
+    local nextWindow=self.ctx.director and self.ctx.director:window(now,enemy.kind,failed)
+    local position=nextWindow and nextWindow~=window and Navigation.queuePosition(self,enemy,nextWindow)
+    if not position then
+        enemy.model:SetAttribute("NavigationState","EntryUnavailable")
+        if not enemy.traversal then enemy.lastMoved=now;Navigation.invalidate(enemy) end
+        enemy.entryRetryAt=now+8
+        return false -- Preserve this live wave unit. Never retire quota.
+    end
+    local occluded=false
+    if now>=(self.nextRecoveryVisibility or 0) then
+        self.nextRecoveryVisibility=now+.5
+        local into=Vector3.new(nextWindow.inside.X-position.X,0,nextWindow.inside.Z-position.Z).Unit
+        occluded=self:unobserved(enemy.root.Position,enemy) and self:unobserved(position,enemy,into)
+    end
+    if occluded then
+        -- Both ends must be occluded from every alive/downed operator. This
+        -- preserves the actor and still requires the complete exterior climb.
+        self:stopTraversal(enemy,false)
+        enemy.model:PivotTo(CFrame.lookAt(position,position+Vector3.new(nextWindow.inside.X-position.X,0,nextWindow.inside.Z-position.Z).Unit))
+        enemy.root.AssemblyLinearVelocity=Vector3.zero;enemy.root.AssemblyAngularVelocity=Vector3.zero
+        enemy.root.Anchored=true;enemy.entryQueued=true;enemy.entryRerouting=nil
+        enemy.model:SetAttribute("RecoveryMode","OccludedExterior")
+    elseif enemy.traversal then
+        enemy.model:SetAttribute("NavigationState","EntryObstructed");return false
+    elseif enemy.entered then
+        enemy.lastMoved=now;Navigation.invalidate(enemy)
+        enemy.model:SetAttribute("NavigationState","Replanning");return false
+    else
+        enemy.root.Anchored=false;enemy.entryQueued=nil;enemy.entryRerouting=true;enemy.entryDestination=position
+        serverOwner(enemy.root)
+        enemy.hum.PlatformStand=false;enemy.hum.AutoRotate=true
+        enemy.model:SetAttribute("RecoveryMode","ExteriorRoute")
+    end
+    -- No replacement enemy, health recalculation, points, drops or quota edit.
+    enemy.entered=false;enemy.window=nextWindow;enemy.entryFailures=0;enemy.entryFailure=nil
+    enemy.entryRetryAt=now+Navigation.traversalTuning.retrySeconds
+    enemy.lastPosition=enemy.root.Position;enemy.lastMoved=now
+    self:cancelActions(enemy);Navigation.invalidate(enemy)
+    self.recovered=(self.recovered or 0)+1;return true
 end
 function E:stun(e,seconds)
     if e.dead or e.kind=="Warden" then return end
@@ -391,9 +452,9 @@ function E:startTraversal(e,plan,now)
     if plan.key then e.traversalUses=e.traversalUses or {};e.traversalUses[plan.key]=(e.traversalUses[plan.key] or 0)+1 end
     e.root.Anchored=true;e.root.AssemblyLinearVelocity=Vector3.zero;e.root.AssemblyAngularVelocity=Vector3.zero
     e.hum.AutoRotate=false;e.hum.PlatformStand=true;e.hum:MoveTo(e.root.Position)
-    if collider then collider.CanCollide=false end
+    -- Keep live player/enemy collision during the checked trajectory.
     e.model:SetAttribute("TraversalStyle",plan.style);e.model:SetAttribute("TraversalSpeed",8)
-    e.model:SetAttribute("TraversalStage","Approach");e.model:SetAttribute("TraversalStageAt",workspace:GetServerTimeNow())
+    e.model:SetAttribute("TraversalDirection",1);e.model:SetAttribute("TraversalStage","Approach");e.model:SetAttribute("TraversalStageAt",workspace:GetServerTimeNow())
     e.model:SetAttribute("TraversalStageDuration",plan.stages[1].duration);e.model:SetAttribute("TraversalHeld",false)
     if not self.traversalConnection then
         local accumulated=0
@@ -411,10 +472,11 @@ function E:stopTraversal(e,success)
     if t.plan.window and t.plan.window.activeEntry==e.id then t.plan.window.activeEntry=nil end
     if e.root.Parent then
         e.root.Anchored=not success and t.anchored or false
+        if not e.root.Anchored then serverOwner(e.root) end
         e.root.AssemblyLinearVelocity=Vector3.zero;e.root.AssemblyAngularVelocity=Vector3.zero
     end
     if e.model.Parent then
-        e.hum.PlatformStand=t.platform;e.hum.AutoRotate=success and true or t.autoRotate
+        e.hum.PlatformStand=not success and t.platform or false;e.hum.AutoRotate=success and true or t.autoRotate
         e.hum.WalkSpeed=e.baseSpeed or e.hum.WalkSpeed
     end
     if t.collider and t.collider.Parent then t.collider.CanCollide=t.collides end
@@ -426,7 +488,8 @@ function E:stopTraversal(e,success)
     end
     e.nextTraversal=os.clock()+3;e.entryRetryAt=os.clock()+Navigation.traversalTuning.retrySeconds
     if success then
-        e.entered=true;e.entryQueued=nil;e.entryFailures=0
+        e.entered=true;e.entryQueued=nil;e.entryFailures=0;e.entryFailure=nil
+        if t.plan.window then t.plan.window.lastEntryProgress=os.clock() end
         e.lastPosition=e.root.Position;e.lastMoved=os.clock()
     end
     if self.traversalConnection and not next(self.traversals) then self.traversalConnection:Disconnect();self.traversalConnection=nil end
@@ -442,7 +505,19 @@ function E:tickTraversals(now)
         if t.retreat then self:traversalCue(e,"Cancel",now) end
         local dt=math.clamp(now-t.last,0,Navigation.traversalTuning.stepSeconds);t.last=now
         if now>t.started+t.plan.duration+Navigation.traversalTuning.timeout then
-            self:stopTraversal(e,false);e.entryFailures=3;self:recover(e);continue
+            t.retreat=true;t.recover=true
+            self:recover(e,true)
+            if not e.traversal then continue end
+            -- A blocker may close the reverse path too. End the scripted
+            -- ownership deadline and let the live collider/Humanoid settle;
+            -- never leave an anchored, invulnerable-to-navigation actor here.
+            self:stopTraversal(e,false)
+            e.root.Anchored=false;e.hum.PlatformStand=false;e.hum.AutoRotate=true
+            serverOwner(e.root)
+            e.entryQueued=nil;e.entryRerouting=true
+            e.entryDestination=t.plan.stages[1].a
+            e.model:SetAttribute("NavigationState","EntryPhysicsRecovery")
+            continue
         end
         if now<(e.stunnedUntil or 0) then
             local _,_,phase=Navigation.traversalSample(t.plan,t.elapsed)
@@ -454,27 +529,30 @@ function E:tickTraversals(now)
             if (at-e.root.Position).Magnitude<=Navigation.traversalTuning.maxStep*(self.ctx.map.scale or 1) then break end
             elapsed=(elapsed+t.elapsed)*.5;at,stage,phase,index=Navigation.traversalSample(t.plan,elapsed)
         end
-        if not Navigation.traversalClear(self,e,e.root.Position,at,t.plan.window,elapsed==t.plan.duration) then
+        local clear,reason=Navigation.traversalClear(self,e,e.root.Position,at,t.plan.window,true,Navigation.rigBounds(e,t.plan.style,stage),t.plan.forward)
+        if not clear then
             t.blockedAt=t.blockedAt or now
             local _,_,heldPhase=Navigation.traversalSample(t.plan,t.elapsed)
             e.model:SetAttribute("TraversalHoldPhase",heldPhase)
             e.model:SetAttribute("TraversalHeld",true)
-            if now-t.blockedAt>=Navigation.traversalTuning.blockedSeconds then t.retreat=true;self:traversalCue(e,"Cancel",now) end
+            if now-t.blockedAt>=Navigation.traversalTuning.blockedSeconds then
+                t.retreat=true;t.recover=true;e.entryFailure=reason;self:traversalCue(e,"Cancel",now)
+            end
             continue
         end
         t.blockedAt=nil;t.elapsed=elapsed;e.lastMoved=now
         e.model:PivotTo(CFrame.lookAt(at,at+t.plan.forward))
         if t.stage~=stage or t.retreat~=t.retreatPose or e.model:GetAttribute("TraversalHeld") then
             t.stage=stage;t.retreatPose=t.retreat
-            e.model:SetAttribute("TraversalStage",t.retreat and "Retreat" or stage)
-            e.model:SetAttribute("TraversalStageAt",workspace:GetServerTimeNow()-phase*t.plan.stages[index].duration)
+            e.model:SetAttribute("TraversalStage",stage);e.model:SetAttribute("TraversalDirection",t.retreat and -1 or 1)
+            e.model:SetAttribute("TraversalStageAt",workspace:GetServerTimeNow()+(t.retreat and phase or -phase)*t.plan.stages[index].duration)
             e.model:SetAttribute("TraversalStageDuration",t.plan.stages[index].duration);e.model:SetAttribute("TraversalHeld",false)
             if not t.retreat and stage=="Contact" then self:traversalCue(e,"Contact",now)
             elseif not t.retreat and stage=="Settle" then self:traversalCue(e,"Land",now) end
         end
         if t.retreat and elapsed<=0 then
             self:stopTraversal(e,false);e.entryFailures=(e.entryFailures or 0)+1
-            if e.entryFailures>=3 then self:recover(e) end
+            if t.recover or e.entryFailures>=3 then self:recover(e) end
         elseif elapsed>=t.plan.duration then self:stopTraversal(e,true) end
     end
 end
@@ -542,6 +620,14 @@ function E:behavior(e,tr,now,distance)
 end
 function E:tick(now)
     if not self.ctx.map then return end
+    if self.pending and #self.pending>0 and now>=(self.nextAdmission or 0) and (self.ctx.run.phase=="Wave" or self.ctx.run.phase=="Exfil") then
+        self.nextAdmission=now+Navigation.traversalTuning.planInterval
+        local ticket=table.remove(self.pending,1)
+        if ticket.runId==self.ctx.run.id and ticket.map==self.ctx.map then
+            ticket.pending=nil
+            self:spawn(ticket.kind,ticket.window,nil,ticket.mods,ticket.failedEntries,ticket)
+        end
+    end
     self:tickHazards(now)
     self:coordinate(now)
     self.entryPlanBudget=1
@@ -567,11 +653,33 @@ function E:tick(now)
         elseif not enemy.entered then
             local window=enemy.window
             enemy.hum:MoveTo(enemy.root.Position)
-            if window.count<=0 then
-                if now>=(window.nextEntry or 0) and now>=(enemy.entryRetryAt or 0) and now>=(enemy.entryPlanAt or 0) and self.entryPlanBudget>0 then
-                    self.entryPlanBudget-=1;enemy.entryPlanAt=now+Navigation.traversalTuning.planInterval
-                    local plan=Navigation.entryPlan(self,enemy,window)
-                    if plan then self:startTraversal(enemy,plan,now) end
+            if enemy.entryRerouting then
+                local destination=enemy.entryDestination
+                if destination and (enemy.root.Position-destination).Magnitude<1.5 and Navigation.supported(self,enemy,enemy.root.Position,enemy.root.CFrame.LookVector) then
+                    enemy.entryRerouting=nil;enemy.entryQueued=true;enemy.root.Anchored=true
+                    enemy.hum.AutoRotate=false;enemy.lastMoved=now
+                elseif destination then Navigation.move(self,enemy,destination,now) end
+            elseif window.count<=0 then
+                local leading=Navigation.queueHead(self,enemy,window)
+                if window.activeEntry or not leading then
+                    enemy.lastMoved=math.max(enemy.lastMoved,window.lastEntryProgress or 0)
+                elseif now>=(window.nextEntry or 0) and now>=(enemy.entryRetryAt or 0) and now>=(enemy.entryPlanAt or 0) and self.entryPlanBudget>0 then
+                    local descriptor=Navigation.entryDescriptor(self.ctx.map,window)
+                    local approach=descriptor and descriptor.approach
+                    if approach and Vector3.new(enemy.root.Position.X-approach.X,0,enemy.root.Position.Z-approach.Z).Magnitude>1.5 then
+                        enemy.root.Anchored=false;enemy.hum.AutoRotate=true
+                        serverOwner(enemy.root)
+                        Navigation.move(self,enemy,approach+Vector3.new(0,Navigation.rootHeight(enemy),0),now)
+                    else
+                        self.entryPlanBudget-=1;enemy.entryPlanAt=now+Navigation.traversalTuning.planInterval
+                        local plan,reason=Navigation.entryPlan(self,enemy,window)
+                        if plan then self:startTraversal(enemy,plan,now)
+                        else
+                            enemy.entryFailure=reason or "Support";enemy.entryFailures=(enemy.entryFailures or 0)+1
+                            enemy.model:SetAttribute("NavigationState","Entry"..enemy.entryFailure)
+                            if enemy.entryFailures>=3 then self:recover(enemy) end
+                        end
+                    end
                 end
             elseif now>window.nextTear then
                 window.nextTear=now+R.breachInterval(self.ctx.run.round) window.boards[window.count].Transparency=1 window.count=window.count-1

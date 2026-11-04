@@ -37,7 +37,7 @@ function V.apply(map,def,layout)
     for i,r in ipairs(layout) do
         local origin=Vector3.new(r.x,0,r.z)
         for _,face in ipairs(map.rooms[i].wallFaces) do
-            local rot=CFrame.fromMatrix(Vector3.zero,face.tangent,Vector3.yAxis,face.normal)
+            local rot=Layouts.wallFrame(Vector3.zero,face.normal)
             local inward=-face.normal local span=face.length
             if def.theme=="Station" then
                 -- Ceramic dado, brick piers and the station's broken 03:17 clockwork.
@@ -72,7 +72,7 @@ function V.apply(map,def,layout)
                 local face
                 for _,candidate in ipairs(map.rooms[i].wallFaces) do if candidate.normal.Z<-.4 and candidate.length>6 and (not face or candidate.length>face.length) then face=candidate end end
                 if face then
-                    local cf=CFrame.fromMatrix(face.center,face.tangent,Vector3.yAxis,face.normal)
+                    local cf=Layouts.wallFrame(face.center,face.normal)
                     local at=cf*CFrame.new(0,r.h-5,-.95)
                     p("StationStoppedClock",Vector3.new(.3,4,4),at.Position,Color3.fromRGB(219,211,179),Enum.Material.SmoothPlastic,(cf-cf.Position)*CFrame.Angles(0,math.pi/2,0),Enum.PartType.Cylinder)
                     p("StationClockHour0317",Vector3.new(.15,1,.08),(at*CFrame.new(.55,0,-.2)).Position,shadow,Enum.Material.SmoothPlastic,(cf-cf.Position)*CFrame.Angles(0,0,-1.57))
@@ -104,7 +104,7 @@ function V.apply(map,def,layout)
             if not r.outdoor then
                 local poly=map.rooms[i].polygon
                 for n,a in ipairs(poly) do local b=poly[n%#poly+1] local tangent=(b-a).Unit local normal=Vector3.new(tangent.Z,0,-tangent.X)
-                    local rot=CFrame.fromMatrix(Vector3.zero,tangent,Vector3.yAxis,normal)
+                    local rot=Layouts.wallFrame(Vector3.zero,normal)
                     p("PolarFacetedRoof",Vector3.new((b-a).Magnitude+.3,.8,12),(a+b)*.5-normal*4.5+Vector3.new(0,r.h+2.2,0),Color3.fromRGB(178,198,205),Enum.Material.Snow,rot*CFrame.Angles(.19,0,0))
                 end
             end

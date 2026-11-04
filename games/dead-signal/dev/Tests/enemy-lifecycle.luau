@@ -6,8 +6,14 @@ local function check(ok,msg) assert(ok,msg);count+=1 end
 local function place(root,pos) root.Position=pos;root.CFrame=CF.new(pos) end
 local testOs=table.clone(os);testOs.clock=function() return now end
 local routeClear=true local entry=nil
+local queueAvailable=true
 local nav={invalidate=function(e) e.invalidated=(e.invalidated or 0)+1 end,rootHeight=function() return 3 end,
- traversalTuning={planInterval=.8},entryPlan=function() return entry and {} or nil end,contextPlan=function() return nil end,
+ traversalTuning={planInterval=.8,retrySeconds=1.2},
+ queuePosition=function(_,_,window) return queueAvailable and window.outside or nil end,
+ queueHead=function() return true end,entryDescriptor=function(_,window) return {approach=V.new(window.outside.X,0,window.outside.Z)} end,
+ supported=function() return true end,
+ rigBounds=function() return {low=V.new(-1,-3,-1),high=V.new(1,3,1)} end,
+ worldBox=function(_,pos) return pos,V.new(2,6,2) end,entryPlan=function() return entry and {} or nil end,contextPlan=function() return nil end,
  goal=function(_,_,target) return target end,clearRoute=function() return routeClear end,
  floor=function(_,pos) return V.new(pos.X,0,pos.Z) end,entryPoint=function() return entry end,
  move=function(_,e,target,time) e.hum:MoveTo(target);e.lastMoved=time end}
@@ -42,7 +48,7 @@ local function setup()
   combat={hurt=function(_,p,damage) hits[#hits+1]={player=p,damage=damage} end},game={aliveCount=function() return 2 end,drop=function() end}}
  local e=setmetatable({ctx=ctx,list={},nextId=0,folder=r.Instance.new('Folder'),corpses=r.Instance.new('Folder'),
   hazards={},hazardId=0,targetLoads={},pathTokens=4,pathBudgetAt=now,recovered=0},E)
- ctx.enemies=e;events={};hits={};entry=nil;routeClear=true
+ ctx.enemies=e;events={};hits={};entry=nil;routeClear=true;queueAvailable=true
  local function spawn(kind,mods,entered)
   local position=V.new(0,3,0);if entered==false then position=nil end
   return e:spawn(kind,window,position,mods)
@@ -137,13 +143,13 @@ do
  local e,ctx,p1,_,p2,_,spawn,window=setup();local who=spawn('Shambler',{},false)
  check(not who.entered,'entry recovery fixture starts outside')
  who.lastMoved=now-17;e:tick(now)
- check(who.dead and e.recovered==1 and e:count()==1,'blocked breach slot relocates instead of holding a wave forever')
+ check(not who.dead and e.list[who.id]==who and e:count()==1,'blocked breach preserves the exact live wave unit')
  check(window.entryBlockedUntil.Shambler==now+8,'failed exterior route temporarily excludes that window for the same species')
- check(select(2,next(e.list)).failedEntries[window]==0,'recovery carries a bounded failed-window cycle into the replacement')
- for attempt=2,3 do
-  local nextEnemy=next(e.list) and select(2,next(e.list));nextEnemy.lastMoved=now-17;e:tick(now)
+ check(who.model:GetAttribute('NavigationState')=='EntryUnavailable','no alternate eligible entrance is an explicit navigation blocker')
+ for attempt=2,8 do
+  now+=9;who.lastMoved=now-17;e:tick(now)
  end
- check(e:count()==0 and e.retired==1 and #e.hazards==0,'repeated impossible entry retires without a blast/drop/reward')
+ check(e:count()==1 and not who.dead and not e.retired and #e.hazards==0,'impossible entry retains quota without blast/drop/reward or silent retirement')
  local tearing=spawn('Shambler',{},false);window.count=1;window.boards={r.Instance.new('Part')};window.nextTear=now-1
  tearing.lastMoved=now-15;e:tick(now)
  check(not tearing.dead and tearing.lastMoved==now,'tearing a board counts as legitimate entry progress')
@@ -154,24 +160,29 @@ end
 do
  local e,ctx,_,_,_,_,spawn,window=setup()
  ctx.director={stats=function() return {hp=1000,speed=10,damage=25} end,window=function() return window end}
- local who=spawn('Shambler',{Armored=true,Enraged=true})
- who.armor.Head=0;who.armor.Body=17;who.hp=73;who.reactor=9;who.hitRewards={test=true}
- ctx.director.stats=function() return {hp=20,speed=10,damage=25} end
- who.nextCharge=now+3;who.nextAmbush=now+7;e:recover(who)
- local replacement=select(2,next(e.list))
- check(replacement.hp==73 and replacement.hum.Health==73 and replacement.maxHP==who.maxHP and replacement.hum.MaxHealth==who.maxHP,'crew reduction during recovery preserves exact engine health/max health')
+ local who=spawn('Shambler',{Armored=true,Enraged=true},false)
+ who.armor.Head=0;rigs.breakArmor(who,'Head');who.armor.Body=17;who.hp=73;who.hum.Health=73;who.reactor=9;who.hitRewards={test=true}
+ ctx.director.stats=function() error('retained-actor recovery must not recalculate health') end
+ local alternate=table.clone(window);alternate.inside=V.new(100,3,0);alternate.outside=V.new(100,3,-20)
+ ctx.director.window=function() return alternate end;e.clearSight=function() return true end
+ who.nextCharge=now+3;who.nextAmbush=now+7;local originalModel=who.model;local originalRoot=who.root.Position
+ check(e:recover(who),'an alternate exterior route starts recovery')
+ local replacement=e.list[who.id]
+ check(replacement==who and replacement.model==originalModel and replacement.root.Position==originalRoot and replacement.entryRerouting,'visible recovery walks with the same actor, never respawns or teleports')
+ check(replacement.hp==73 and replacement.hum.Health==73 and replacement.maxHP==1000 and replacement.hum.MaxHealth==1000,'crew reduction during recovery preserves exact engine health/max health')
  check(replacement.armor.Head==0 and replacement.armor.Body==17 and not replacement.armorParts.Head,'recovery preserves broken and partially damaged armor')
- check(replacement.reactor==9 and replacement.hitRewards==who.hitRewards,'recovery preserves weakpoint and hit reward accounting')
- check(replacement.nextCharge==who.nextCharge and replacement.nextAmbush==who.nextAmbush,'recovery cannot reset special cooldowns')
+ check(replacement.reactor==9 and replacement.hitRewards.test,'recovery preserves weakpoint and hit reward accounting')
+ check(replacement.nextCharge==now+3 and replacement.nextAmbush==now+7,'recovery cannot reset special cooldowns')
 end
 do
  local e,ctx,_,_,_,_,spawn,window=setup()
  ctx.director={stats=function() return {hp=1000,speed=10,damage=25} end,
   window=function(_,_,_,failed) if failed and next(failed) then return nil end return window end}
- local who=spawn('Warden',{},false);who.hp=73;who.phase=2
- e:recover(who);local replacement=select(2,next(e.list))
- check(replacement and not next(replacement.failedEntries),'all rejected entrances begin a fresh bounded cycle instead of retaining permanent exclusions')
- check(replacement.kind=='Warden' and replacement.hp==73 and replacement.phase==2 and not replacement.entered,'exhausted entrance recovery preserves the exterior Warden state')
+ local who=spawn('Warden',{},false);who.hp=73;who.phase=2;who.entryFailure='Geometry'
+ e:recover(who)
+ check(e.list[who.id]==who and who.failedEntries[window]==(ctx.map.navigationRevision or 0),'geometry exclusion persists for the current map revision')
+ check(who.kind=='Warden' and who.hp==73 and who.phase==2 and not who.entered and e:count()==1,'exhausted entrance recovery preserves the exterior Warden state and quota')
+ check(who.model:GetAttribute('NavigationState')=='EntryUnavailable' and not who.dead,'all rejected entrances remain an explicit blocker, never a false boss victory')
 end
 do
  local e,ctx,p1,root1,p2,root2,spawn=setup();local who=spawn('Hound')

@@ -1,0 +1,340 @@
+{
+  "enemy_runtime_commit": "5db50d29001bbbce78540767265f8bb3a2d859ad",
+  "map_source_commit": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+  "tools": {
+    "lune": "0.11.0",
+    "luau_compile": "0.743"
+  },
+  "custom": [
+    {
+      "suite": "enemy-b11-runtime",
+      "assertions": 1011,
+      "passed": true,
+      "engine": false
+    },
+    {
+      "suite": "enemy-b11-appearance",
+      "assertions": 11349,
+      "passed": true,
+      "engine": false
+    },
+    {
+      "suite": "enemy-b11-admission",
+      "assertions": 29,
+      "passed": true,
+      "engine": false
+    },
+    {
+      "suite": "enemy-b11-spatial",
+      "assertions": 552,
+      "passed": true,
+      "map_overlay": true,
+      "engine": false
+    }
+  ],
+  "geometry": {
+    "engine": false,
+    "logical_floor_fill": false,
+    "source_stable": true,
+    "windows": 30,
+    "plans": 210,
+    "passed": 210,
+    "maps": [
+      {
+        "map": "Station",
+        "windows": 10,
+        "plans": 70,
+        "passed": 70
+      },
+      {
+        "map": "Foundry",
+        "windows": 10,
+        "plans": 70,
+        "passed": 70
+      },
+      {
+        "map": "Frost",
+        "windows": 10,
+        "plans": 70,
+        "passed": 70
+      }
+    ]
+  },
+  "legacy": {
+    "suites": 26,
+    "passed": 23,
+    "assertions_recorded": 969795,
+    "results": [
+      {
+        "suite": "loading",
+        "passed": true,
+        "assertions": 63
+      },
+      {
+        "suite": "loadingpreview",
+        "passed": true,
+        "assertions": 36
+      },
+      {
+        "suite": "evolution",
+        "passed": true,
+        "assertions": 3389
+      },
+      {
+        "suite": "events",
+        "passed": true,
+        "assertions": 18
+      },
+      {
+        "suite": "presentation",
+        "passed": true,
+        "assertions": 55
+      },
+      {
+        "suite": "director",
+        "passed": true,
+        "assertions": 431
+      },
+      {
+        "suite": "server",
+        "passed": true,
+        "assertions": 35
+      },
+      {
+        "suite": "navigation",
+        "passed": true,
+        "assertions": 13
+      },
+      {
+        "suite": "pursuit",
+        "passed": true,
+        "assertions": 90
+      },
+      {
+        "suite": "rigs",
+        "passed": true,
+        "assertions": 318
+      },
+      {
+        "suite": "weapons",
+        "passed": true,
+        "assertions": 7929
+      },
+      {
+        "suite": "arrival",
+        "passed": true,
+        "assertions": 28
+      },
+      {
+        "suite": "extraction",
+        "passed": true,
+        "assertions": 20
+      },
+      {
+        "suite": "map_remaster",
+        "passed": true,
+        "assertions": 248665
+      },
+      {
+        "suite": "enemy-lifecycle",
+        "passed": false,
+        "assertions": null
+      },
+      {
+        "suite": "enemy-path-recovery",
+        "passed": true,
+        "assertions": 48
+      },
+      {
+        "suite": "combat-ui",
+        "passed": true,
+        "assertions": 638775
+      },
+      {
+        "suite": "combat-input",
+        "passed": true,
+        "assertions": 44
+      },
+      {
+        "suite": "touch",
+        "passed": true,
+        "assertions": 512
+      },
+      {
+        "suite": "integration-contracts",
+        "passed": true,
+        "assertions": 501
+      },
+      {
+        "suite": "weapons-batch1",
+        "passed": true,
+        "assertions": 64271
+      },
+      {
+        "suite": "infected-batch1",
+        "passed": false,
+        "assertions": null
+      },
+      {
+        "suite": "infected-entrances",
+        "passed": true,
+        "assertions": 71
+      },
+      {
+        "suite": "infected-geometry",
+        "passed": false,
+        "assertions": null
+      },
+      {
+        "suite": "audio",
+        "passed": true,
+        "assertions": 4433
+      },
+      {
+        "suite": "batch1-integration",
+        "passed": true,
+        "assertions": 50
+      }
+    ],
+    "red_gates": [
+      "enemy-lifecycle: Navigation mock/preserved identity and quota expectations require MAIN migration",
+      "infected-batch1: old MilitaryRevision/entry collider expectation",
+      "infected-geometry: unsupported isolated baseline anchors and legacy sweeps; integrate Maps and migrate under MAIN review"
+    ]
+  },
+  "compile": {
+    "run": true,
+    "scripts": 61,
+    "passed": true,
+    "errors": []
+  },
+  "root_python": {
+    "tests": 78,
+    "passed": true,
+    "publishing_apis_mocked": true
+  },
+  "protected_native": [
+    {
+      "path": "games/dead-signal/full-baselines/v1.8.0/blackwater.rbxl",
+      "match": true,
+      "sha256": "b7181f8204d43dcccb37aa79797ff2a7408f4c9bc9751f3d2baf07ebd4d4d515"
+    },
+    {
+      "path": "games/dead-signal/full-baselines/v1.8.0/cinderworks.rbxl",
+      "match": true,
+      "sha256": "b1b89378c2ed8cc54d5aa3b95ec6419eb4a6e23b687046ef36915d320a02127f"
+    },
+    {
+      "path": "games/dead-signal/full-baselines/v1.8.0/dispatch.rbxl",
+      "match": true,
+      "sha256": "a3fc4cab05e07d9a2901757007a6b52b7cf3e9acf2cbb49858a52d0a961f596c"
+    },
+    {
+      "path": "games/dead-signal/full-baselines/v1.8.0/whiteout.rbxl",
+      "match": true,
+      "sha256": "445bd3403794f65214822161b14e287363f21d7ff3713ee4079573228d78d168"
+    },
+    {
+      "path": "games/dead-signal/places/blackwater/production.rbxl",
+      "match": true,
+      "sha256": "2313a2e0d208d5823b10fa7b464e39b65568568e496488813344a77d44023c1e"
+    },
+    {
+      "path": "games/dead-signal/places/blackwater/staging.rbxl",
+      "match": true,
+      "sha256": "1f658e892c7a8869c66851cc0b14341af096ab8514a0affc1155f2600aeb2873"
+    },
+    {
+      "path": "games/dead-signal/places/cinderworks/production.rbxl",
+      "match": true,
+      "sha256": "ce57452c648c881c8b2c4983f8cd674d3371d305f9a6be5a957398d0a56b9150"
+    },
+    {
+      "path": "games/dead-signal/places/cinderworks/staging.rbxl",
+      "match": true,
+      "sha256": "b99b559ff4fb5ec34f0139cb270177ef5f2eae86438ac4c00f611e358e52d641"
+    },
+    {
+      "path": "games/dead-signal/places/dispatch/production.rbxl",
+      "match": true,
+      "sha256": "91ea936ef7cdfe7aed0b85f9f604dc22658f0ec4363a70e531f1e1e005be9af7"
+    },
+    {
+      "path": "games/dead-signal/places/dispatch/staging.rbxl",
+      "match": true,
+      "sha256": "c408b9dab16e4c9ce09f870986626dda1b4ed86f60d7d913a20375bfa2734445"
+    },
+    {
+      "path": "games/dead-signal/places/whiteout/production.rbxl",
+      "match": true,
+      "sha256": "6c3a099252e10e491511e28c0527485afdddde9d47dd7f85d1420dd4d0053f0a"
+    },
+    {
+      "path": "games/dead-signal/places/whiteout/staging.rbxl",
+      "match": true,
+      "sha256": "49caec1e2b9b051701372c38327e790b6cd28c513ecf5d00484e8b715460f5a4"
+    }
+  ],
+  "acceptance": {
+    "studio_gameplay": false,
+    "native_visual_quality": false,
+    "published_multiplayer": false,
+    "physical_phone": false,
+    "new_asset_permissions": false,
+    "DS-B1-002_verified": false,
+    "DS-B1-006_verified": false,
+    "DS-B1-006_full_art_overhaul_complete": false,
+    "published": false
+  },
+  "offline_binary_build": {
+    "enemy_runtime_commit": "5db50d29001bbbce78540767265f8bb3a2d859ad",
+    "environment_config": "staging",
+    "places": 4,
+    "script_targets_per_place": 61,
+    "all_untouched_chunks_byte_identical": true,
+    "all_property_signatures_preserved": true,
+    "publish_approved": false,
+    "studio_tested": false,
+    "combined_maps_included": false,
+    "commands": [
+      "python scripts/patch_dead_signal_rbxl.py --environment staging",
+      "python scripts/audit_dead_signal_binary.py --candidate-dir build/dead-signal-lossless/staging --baseline-dir games/dead-signal/full-baselines/v1.8.0"
+    ]
+  },
+  "github_ci": {
+    "commit": "5db50d29001bbbce78540767265f8bb3a2d859ad",
+    "checks": [
+      {
+        "name": "Verify four staging candidates and rollback binaries",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112663/job/117715568500"
+      },
+      {
+        "name": "Python checks, isolated configs and Lune suites",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112697/job/117715568373"
+      },
+      {
+        "name": "Offline source-to-production parity (no publish)",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112651/job/117715568240"
+      },
+      {
+        "name": "safe-source-patch",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112643/job/117715568136"
+      },
+      {
+        "name": "validate",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/39141112632/job/117715567883"
+      }
+    ],
+    "failed_workflow_gate": "All four failed workflow families stop at the same three legacy source-test gates before their artifact build steps. Local manual offline lossless/fidelity checks passed separately; not a CI waiver."
+  }
+}

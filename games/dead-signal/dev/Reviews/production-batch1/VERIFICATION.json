@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "kind": "local-complete-production-candidate-verification",
+  "production_touched": false,
+  "runtime_scripts": 61,
+  "changed_runtime_scripts_from_accepted_staging": [
+    "shared/Config.lua"
+  ],
+  "suites": 39,
+  "assertions": 1071963,
+  "syntax_compilations": 61,
+  "dev_python_tests": 28,
+  "pipeline_python_tests": 82,
+  "optional_input_tests_skipped": 2,
+  "staging_behavior_preserved": true,
+  "profile_store": "DeadSignal_Profile_v1",
+  "production_permissions": "AUDIO-PERMISSIONS.json",
+  "ci_artifact_status": "blocked: GitHub Actions artifact storage quota; do not waive",
+  "builds": {
+    "staging": {
+      "dispatch": {
+        "sha256": "46fb9337bc8e35357f9653ca3a5bf154f4bad01c80a49c279b9647f10afbd42e",
+        "bytes": 2760965
+      },
+      "blackwater": {
+        "sha256": "ae34075342f505d6067577cf717cd8dace86d2d7e4e321e9d7b762ea5aa5aa0c",
+        "bytes": 2732044
+      },
+      "cinderworks": {
+        "sha256": "14d2abb16875c733a26bd26deb850f6e2eb8faa301a057b287d4bc119a4d3f69",
+        "bytes": 2739889
+      },
+      "whiteout": {
+        "sha256": "a272bcfe400032561ef9c7b3c732b14fbb136f6f7829efc3abb3084af6fe0147",
+        "bytes": 2741348
+      }
+    },
+    "production": {
+      "dispatch": {
+        "sha256": "568cb897cbf6cfd0a9d878b8eb0b90dabd223c61654149232d5c919bd3fb87e8",
+        "bytes": 2760973
+      },
+      "blackwater": {
+        "sha256": "3fbb39d4f05e94652d52087f2a246643a52cd0e043fb17ec72e1623a0a8c45fc",
+        "bytes": 2732050
+      },
+      "cinderworks": {
+        "sha256": "3251f7492d9f7a392ff882328e5a296ad22e49132975c0e2853b2fa9c9e4da83",
+        "bytes": 2739895
+      },
+      "whiteout": {
+        "sha256": "4ff600e436668e1680d6df99e53eba41f0216ec8ebad11f1e752428cc0ba1c3c",
+        "bytes": 2741354
+      }
+    }
+  }
+}

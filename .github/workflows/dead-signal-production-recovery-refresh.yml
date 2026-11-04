@@ -1,0 +1,44 @@
+name: Dead Signal Preserve Current Production Recovery (No Publish)
+on:
+  push:
+    branches: [release/dead-signal-production-recovery-refresh]
+    paths:
+      - 'scripts/refresh_dead_signal_production_recovery.py'
+      - '.github/workflows/dead-signal-production-recovery-refresh.yml'
+      - 'tests/test_dead_signal_recovery_refresh.py'
+      - 'games/dead-signal/releases/dead-signal-current-production-1a5b9f3b.zip'
+  pull_request:
+    paths:
+      - 'scripts/refresh_dead_signal_production_recovery.py'
+      - '.github/workflows/dead-signal-production-recovery-refresh.yml'
+      - 'tests/test_dead_signal_recovery_refresh.py'
+      - 'games/dead-signal/releases/dead-signal-current-production-1a5b9f3b.zip'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  preserve-exact-production:
+    if: github.repository == 'stephennip9288-create/Roblox-Projects'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verify existing trusted control regressions
+        run: python -m unittest discover -s tests -v
+      - name: Preserve exact independently retained current production files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/refresh_dead_signal_production_recovery.py
+      - name: Retain verified unchanged production recovery for 90 days
+        uses: actions/upload-artifact@v7
+        with:
+          name: dead-signal-current-production-recovery-${{ github.run_id }}
+          path: build/dead-signal-production-recovery-refresh/
+          retention-days: 90
+          if-no-files-found: error
+# The original artifact has expired. Require the reviewed exact original ZIP;
+# no rebuilds, historical fallback, Roblox credentials, environment or publish command.

@@ -1,0 +1,337 @@
+{
+  "suites": [
+    {
+      "suite": "loading",
+      "passed": true,
+      "assertions": 63,
+      "seconds": 0.114,
+      "output": "Loading artwork assertions passed: 63\n",
+      "errors": ""
+    },
+    {
+      "suite": "loadingpreview",
+      "passed": true,
+      "assertions": 36,
+      "seconds": 0.12,
+      "output": "Studio loading preview assertions passed: 36\n",
+      "errors": ""
+    },
+    {
+      "suite": "evolution",
+      "passed": true,
+      "assertions": 2959,
+      "seconds": 3.799,
+      "output": "Evolution integration assertions passed: 2959\n",
+      "errors": ""
+    },
+    {
+      "suite": "events",
+      "passed": true,
+      "assertions": 18,
+      "seconds": 0.137,
+      "output": "Special wave orchestration assertions passed: 18\n",
+      "errors": ""
+    },
+    {
+      "suite": "presentation",
+      "passed": true,
+      "assertions": 55,
+      "seconds": 0.116,
+      "output": "Evolution presentation assertions passed: 55\n",
+      "errors": ""
+    },
+    {
+      "suite": "director",
+      "passed": true,
+      "assertions": 431,
+      "seconds": 0.028,
+      "output": "Difficulty/director policy assertions passed: 431\n",
+      "errors": ""
+    },
+    {
+      "suite": "server",
+      "passed": true,
+      "assertions": 35,
+      "seconds": 0.135,
+      "output": "Server integration assertions passed: 35\n",
+      "errors": ""
+    },
+    {
+      "suite": "navigation",
+      "passed": true,
+      "assertions": 13,
+      "seconds": 0.15,
+      "output": "Navigation scheduling assertions passed: 12\nNavigation fairness total assertions: 13\n",
+      "errors": ""
+    },
+    {
+      "suite": "pursuit",
+      "passed": true,
+      "assertions": 90,
+      "seconds": 0.988,
+      "output": "Pursuit regression assertions passed: 90\n",
+      "errors": ""
+    },
+    {
+      "suite": "rigs",
+      "passed": true,
+      "assertions": 222,
+      "seconds": 0.189,
+      "output": "Rig and collision assertions passed: 222\n",
+      "errors": ""
+    },
+    {
+      "suite": "weapons",
+      "passed": true,
+      "assertions": 7929,
+      "seconds": 0.398,
+      "output": "Weapon geometry assertions passed: 7929\nReceiver cross-section samples: 4986\n",
+      "errors": ""
+    },
+    {
+      "suite": "arrival",
+      "passed": true,
+      "assertions": 28,
+      "seconds": 0.102,
+      "output": "Arrival handoff assertions passed: 28\n",
+      "errors": ""
+    },
+    {
+      "suite": "extraction",
+      "passed": true,
+      "assertions": 20,
+      "seconds": 0.018,
+      "output": "Extraction regression assertions passed: 20\n",
+      "errors": ""
+    },
+    {
+      "suite": "map_remaster",
+      "passed": true,
+      "assertions": 259384,
+      "seconds": 12.116,
+      "output": "Station map constructed: 5771 parts / 1079 colliders / 0.747 offline seconds\nFoundry map constructed: 6187 parts / 1232 colliders / 1.253 offline seconds\nFrost map constructed: 6415 parts / 1184 colliders / 1.099 offline seconds\nMap remaster contract assertions passed: 23606\nStation Batch 1: 5771 parts, 337 scenery parts, 2 two-ended service walks\nFoundry Batch 1: 6187 parts, 178 scenery parts, 2 two-ended service walks\nFrost Batch 1: 6415 parts, 80 scenery parts, 2 two-ended service walks\nBatch 1 map assertions passed: 235778\nCombined map assertions passed: 259384\n",
+      "errors": ""
+    },
+    {
+      "suite": "map_batch11",
+      "passed": true,
+      "assertions": 26387,
+      "seconds": 28.318,
+      "output": "Station: 0 leaking deck wedges; 4 ramps; 5771 parts\nFoundry: 0 leaking deck wedges; 4 ramps; 6187 parts\nFrost: 0 leaking deck wedges; 4 ramps; 6415 parts\nAfter Batch 1.1 map checks: 26387; failures: 0\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-lifecycle",
+      "passed": true,
+      "assertions": 77,
+      "seconds": 0.121,
+      "output": "Enemy lifecycle regression assertions passed: 77\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-path-recovery",
+      "passed": true,
+      "assertions": 48,
+      "seconds": 0.123,
+      "output": "Enemy path recovery regression assertions passed: 48\n",
+      "errors": ""
+    },
+    {
+      "suite": "combat-ui",
+      "passed": true,
+      "assertions": 638775,
+      "seconds": 16.134,
+      "output": "Combat/UI geometry and layout assertions passed: 638775\nWeapon/tier models: 80 HUD scenarios: 270\n",
+      "errors": ""
+    },
+    {
+      "suite": "combat-input",
+      "passed": true,
+      "assertions": 44,
+      "seconds": 0.285,
+      "output": "Combat controller input assertions passed: 44\n",
+      "errors": ""
+    },
+    {
+      "suite": "touch",
+      "passed": true,
+      "assertions": 512,
+      "seconds": 0.031,
+      "output": "Touch behavior and safe-layout assertions passed: 507\nTouch reload continuity total assertions: 512\n",
+      "errors": ""
+    },
+    {
+      "suite": "integration-contracts",
+      "passed": true,
+      "assertions": 501,
+      "seconds": 3.64,
+      "output": "Combined integration contract assertions passed: 501\n",
+      "errors": ""
+    },
+    {
+      "suite": "weapons-batch1",
+      "passed": true,
+      "assertions": 64271,
+      "seconds": 25.83,
+      "output": "Batch 1 weapon fidelity assertions passed: 64271\nNative-preserving models: 160 maximum authored viewmodel parts: 231\n",
+      "errors": ""
+    },
+    {
+      "suite": "infected-batch1",
+      "passed": true,
+      "assertions": 2501,
+      "seconds": 2.294,
+      "output": "Batch 1 infected assertions passed: 2501\n",
+      "errors": ""
+    },
+    {
+      "suite": "infected-entrances",
+      "passed": true,
+      "assertions": 71,
+      "seconds": 1.142,
+      "output": "Batch 1 entrance contract assertions passed: 71\n",
+      "errors": ""
+    },
+    {
+      "suite": "infected-geometry",
+      "passed": true,
+      "assertions": 25717,
+      "seconds": 31.654,
+      "output": "Station: source map built\nStation: 70/70 entry plans; 16 source colliders; 10132 sweeps\nFoundry: source map built\nFoundry: 70/70 entry plans; 12 source colliders; 10237 sweeps\nFrost: source map built\nFrost: 70/70 entry plans; 14 source colliders; 10169 sweeps\nBatch 1 source-geometry assertions passed: 25717\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-b11-runtime",
+      "passed": true,
+      "assertions": 1069,
+      "seconds": 10.881,
+      "output": "Batch 1.1 enemy runtime assertions passed: 1069\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-b11-appearance",
+      "passed": true,
+      "assertions": 6039,
+      "seconds": 0.788,
+      "output": "Batch 1.1 enemy appearance assertions passed: 6039\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-b11-admission",
+      "passed": true,
+      "assertions": 29,
+      "seconds": 0.88,
+      "output": "Batch 1.1 admission/accounting assertions passed: 29\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-b11-spatial",
+      "passed": true,
+      "assertions": 3441,
+      "seconds": 11.416,
+      "output": "Batch 1.1 spatial parity assertions passed: 3441\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-b11-geometry",
+      "passed": true,
+      "assertions": 210,
+      "seconds": 28.296,
+      "output": "Station: strict physical support audit complete\nFoundry: strict physical support audit complete\nFrost: strict physical support audit complete\nStrict window/profile plans: 210 / 210 windows: 30\nBatch 1.1 enemy geometry assertions passed: 210\n",
+      "errors": ""
+    },
+    {
+      "suite": "map-window-geometry",
+      "passed": true,
+      "assertions": 7453,
+      "seconds": 11.809,
+      "output": "Station: 2330 actual support probes; 0 misses; 0 added landing slabs\nFoundry: 2330 actual support probes; 0 misses; 1 added landing slabs\nFrost: 2330 actual support probes; 0 misses; 0 added landing slabs\nMap window geometry assertions: 7453 failures: 0\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-b1-r6",
+      "passed": true,
+      "assertions": 15359,
+      "seconds": 0.802,
+      "output": "Batch 1 R6 assertions passed: 15359\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-b1-entry-followup",
+      "passed": true,
+      "assertions": 160,
+      "seconds": 8.915,
+      "output": "Batch 1 entry follow-up assertions passed: 160\n",
+      "errors": ""
+    },
+    {
+      "suite": "audio",
+      "passed": true,
+      "assertions": 4433,
+      "seconds": 0.512,
+      "output": "Audio runtime assertions passed: 4433\n",
+      "errors": ""
+    },
+    {
+      "suite": "audio-quality-b11",
+      "passed": true,
+      "assertions": 800,
+      "seconds": 0.235,
+      "output": "Audio quality Batch 1.1 assertions passed: 800\n",
+      "errors": ""
+    },
+    {
+      "suite": "audio-corrections-b1",
+      "passed": true,
+      "assertions": 2121,
+      "seconds": 0.704,
+      "output": "Batch 1 audio correction assertions passed: 2121\n",
+      "errors": ""
+    },
+    {
+      "suite": "audio-supplement-intake",
+      "passed": true,
+      "assertions": 417,
+      "seconds": 0.081,
+      "output": "Supplemental audio candidate assertions passed: 417\n",
+      "errors": ""
+    },
+    {
+      "suite": "batch1-integration",
+      "passed": true,
+      "assertions": 54,
+      "seconds": 4.327,
+      "output": "Batch 1 integration assertions passed: 54\n",
+      "errors": ""
+    }
+  ],
+  "unit_assertions": 1071772,
+  "compile": {
+    "run": true,
+    "scripts": 61,
+    "passed": true,
+    "errors": []
+  },
+  "roblox_engine_playtest": false,
+  "physical_phone_playtest": false,
+  "published_multiplayer_playtest": false,
+  "asset_permissions_verified": false,
+  "mobile_testing_deferred": true,
+  "pipeline_python": {
+    "cases": 82,
+    "passed": true
+  },
+  "audio_provenance_python": {
+    "cases": 25,
+    "passed": 23,
+    "optional_skips": 2,
+    "skips": [
+      "original84 prepared WAV input absent",
+      "pinned supplemental source cache optional in discovery"
+    ],
+    "supplemental_reproduction_separately_passed": true,
+    "supplemental_reproduction_cases": 6
+  },
+  "syntax_files": 122,
+  "runtime_config_blob": "88cccbed93fabff62c72c170a595ea7f6338216e"
+}

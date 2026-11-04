@@ -1,0 +1,345 @@
+{
+  "verified_on": "2026-10-17",
+  "branch": "feature/dead-signal-infected-batch1",
+  "verification_base": "2b7073cda226882343b925569bcc2b51fa7dfd88",
+  "parent_pr": 19,
+  "parent_head": "7d5f23f48eb61fb57a0f785378b22010594237c9",
+  "runtime_records": 61,
+  "runtime_source_blobs": [
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/Enemies.lua",
+      "git_blob_sha": "9653f7e0c7ec9f5a203890d953b1b8ca8ddef169"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/EnemyRigs.lua",
+      "git_blob_sha": "19d7990d66e6c8e612d18d40b9c34082c4062a82"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/HoundRig.lua",
+      "git_blob_sha": "f68c6adb565808e479a2be826ce1df6b56fca4e5"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/InfectedWardrobe.lua",
+      "git_blob_sha": "5e78d38823c905febcbf0606ad60a532ae8fd7cf"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/Navigation.lua",
+      "git_blob_sha": "307f9c11b0685cab10a126b60d5add96df9bdaf4"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/WaveDirector.lua",
+      "git_blob_sha": "5611c6c2c916d63a69c8df56da9be616758e64ac"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/shared/DirectorRules.lua",
+      "git_blob_sha": "6701272b8d2d885472b82bed936bfe7cb158a03d"
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/shared/NPCPose.lua",
+      "git_blob_sha": "57754c4ffa66f88f9edc26500c6a33a8d00d14cf"
+    }
+  ],
+  "unchanged_other_runtime_records": 53,
+  "unchanged_protected_staging_production_binaries": 8,
+  "combined": {
+    "passed": true,
+    "suite_count": 20,
+    "assertions": 580333,
+    "suites": [
+      {
+        "suite": "loading",
+        "passed": true,
+        "assertions": 63,
+        "seconds": 0.65
+      },
+      {
+        "suite": "loadingpreview",
+        "passed": true,
+        "assertions": 36,
+        "seconds": 0.268
+      },
+      {
+        "suite": "evolution",
+        "passed": true,
+        "assertions": 3378,
+        "seconds": 5.226
+      },
+      {
+        "suite": "events",
+        "passed": true,
+        "assertions": 18,
+        "seconds": 0.297
+      },
+      {
+        "suite": "presentation",
+        "passed": true,
+        "assertions": 55,
+        "seconds": 0.429
+      },
+      {
+        "suite": "director",
+        "passed": true,
+        "assertions": 431,
+        "seconds": 0.04
+      },
+      {
+        "suite": "server",
+        "passed": true,
+        "assertions": 35,
+        "seconds": 0.366
+      },
+      {
+        "suite": "navigation",
+        "passed": true,
+        "assertions": 13,
+        "seconds": 0.287
+      },
+      {
+        "suite": "pursuit",
+        "passed": true,
+        "assertions": 90,
+        "seconds": 1.366
+      },
+      {
+        "suite": "rigs",
+        "passed": true,
+        "assertions": 318,
+        "seconds": 0.394
+      },
+      {
+        "suite": "weapons",
+        "passed": true,
+        "assertions": 7612,
+        "seconds": 0.636
+      },
+      {
+        "suite": "arrival",
+        "passed": true,
+        "assertions": 28,
+        "seconds": 0.24
+      },
+      {
+        "suite": "extraction",
+        "passed": true,
+        "assertions": 20,
+        "seconds": 0.028
+      },
+      {
+        "suite": "map_remaster",
+        "passed": true,
+        "assertions": 19444,
+        "seconds": 6.442
+      },
+      {
+        "suite": "enemy-lifecycle",
+        "passed": true,
+        "assertions": 74,
+        "seconds": 0.25
+      },
+      {
+        "suite": "enemy-path-recovery",
+        "passed": true,
+        "assertions": 48,
+        "seconds": 0.448
+      },
+      {
+        "suite": "combat-ui",
+        "passed": true,
+        "assertions": 547642,
+        "seconds": 20.43
+      },
+      {
+        "suite": "combat-input",
+        "passed": true,
+        "assertions": 29,
+        "seconds": 0.683
+      },
+      {
+        "suite": "touch",
+        "passed": true,
+        "assertions": 512,
+        "seconds": 0.041
+      },
+      {
+        "suite": "integration-contracts",
+        "passed": true,
+        "assertions": 487,
+        "seconds": 5.055
+      }
+    ],
+    "compile": {
+      "run": true,
+      "scripts": 61,
+      "passed": true,
+      "errors": []
+    }
+  },
+  "enemy_follow_up": {
+    "passed": true,
+    "suite_count": 3,
+    "assertions": 23020,
+    "suites": [
+      {
+        "suite": "infected-batch1",
+        "passed": true,
+        "assertions": 3362,
+        "seconds": 3.131
+      },
+      {
+        "suite": "infected-entrances",
+        "passed": true,
+        "assertions": 71,
+        "seconds": 1.158
+      },
+      {
+        "suite": "infected-geometry",
+        "passed": true,
+        "assertions": 19587,
+        "seconds": 36.773
+      }
+    ],
+    "registered_in_standard_CI": false,
+    "independent_runner": "Tests/run-infected.py"
+  },
+  "total_luau_assertions": 622758,
+  "python_pipeline_tests": {
+    "passed": true,
+    "tests": 59
+  },
+  "geometry": {
+    "method": "Continuous AABB/OBB source sweeps; conservative wedge boxes; source ground polygons and upper-floor support rays. Does not model Terrain/native physics.",
+    "tested_combinations": 210,
+    "usable": 209,
+    "rejected": [
+      {
+        "block": "Workspace.DeadSignalMap.Maintenance.UpperGalleryDeck",
+        "label": "Station window 6 Warden"
+      }
+    ],
+    "all_sectors_have_each_agent_profile": true,
+    "maps": [
+      {
+        "map": "Station",
+        "usable": 69,
+        "colliders": 694
+      },
+      {
+        "map": "Foundry",
+        "usable": 70,
+        "colliders": 795
+      },
+      {
+        "map": "Frost",
+        "usable": 70,
+        "colliders": 762
+      }
+    ],
+    "accepted_paths_have_no_sweep_failures": true,
+    "assertions": 19587
+  },
+  "roblox_engine_playtest": false,
+  "published_multiplayer_playtest": false,
+  "physical_phone_playtest": false,
+  "asset_permissions_verified": false,
+  "published": false,
+  "pending_integration": [
+    "MAIN DEV registers the three new suites additively.",
+    "Maps #29/MAIN DEV review three Blackwater Warden/gallery exclusions and author any approved contextual links/exterior-footing evidence.",
+    "Controller/Audio #26 adapter consumes entry lifecycle attributes and prevents duplicate Board fallback.",
+    "Native 1/2/4-client all-map movement/hit alignment, art, audio and performance acceptance."
+  ],
+  "evidence_kind": "Offline source/service-double tests and generated geometry projections; no Studio screenshots or native acceptance claim.",
+  "tested_implementation_commit": "e8b11e03c239207dde9660d690f2f5adb8a64a6f",
+  "core_luau_assertions": 603353,
+  "maps_29_compatibility": {
+    "pr": 29,
+    "head": "069d247b39988801fb067c16843e322a34649a5d",
+    "assertions": 19405,
+    "passed": true,
+    "tested_combinations": 210,
+    "usable": 207,
+    "rejected": [
+      {
+        "block": "Workspace.DeadSignalMap.Maintenance.UpperGalleryDeck",
+        "label": "Station window 6 Warden"
+      },
+      {
+        "block": "Workspace.DeadSignalMap.Maintenance.UpperGalleryDeck",
+        "label": "Station window 7 Warden"
+      },
+      {
+        "block": "Workspace.DeadSignalMap.Control Room.UpperGalleryDeck",
+        "label": "Station window 8 Warden"
+      }
+    ],
+    "purchased_graph_redirects": [
+      {
+        "alpha": false,
+        "initialWindow": 1,
+        "kind": "Warden",
+        "map": "Station",
+        "nodes": 2,
+        "room": 4
+      },
+      {
+        "alpha": false,
+        "initialWindow": 1,
+        "kind": "Warden",
+        "map": "Station",
+        "nodes": 2,
+        "room": 5
+      }
+    ],
+    "all_profiles_have_initial_sector_entry": true,
+    "runtime_source_blobs": [
+      {
+        "path": "games/dead-signal/dev/Source/Runtime/server/Architecture.lua",
+        "git_blob_sha": "003ac49c5f4a8bc529b0db32dda19523c60a9609"
+      },
+      {
+        "path": "games/dead-signal/dev/Source/Runtime/server/CinematicWorld.lua",
+        "git_blob_sha": "bc5c980a3962bfef68ab643321c730a169f90c00"
+      },
+      {
+        "path": "games/dead-signal/dev/Source/Runtime/server/MapBuilder.lua",
+        "git_blob_sha": "6f28b5edf4e283ffb1c246711e850469f87f2c66"
+      },
+      {
+        "path": "games/dead-signal/dev/Source/Runtime/server/MapDetail.lua",
+        "git_blob_sha": "efc99d433a47e9bb49cf4dff27a043d14192fe9e"
+      },
+      {
+        "path": "games/dead-signal/dev/Source/Runtime/server/MapRoutes.lua",
+        "git_blob_sha": "a4c2510eac6eb060ca90d98a5f6b03e06bf1d5bf"
+      },
+      {
+        "path": "games/dead-signal/dev/Source/Runtime/server/VisualPass.lua",
+        "git_blob_sha": "3d89ceb01e76623d7ed463b0ab9a454a4bf43d91"
+      },
+      {
+        "path": "games/dead-signal/dev/Source/Runtime/shared/MapLayouts.lua",
+        "git_blob_sha": "3dc681e28d49c8ba8dd389ce36ee8e37d26745f7"
+      }
+    ],
+    "maps": [
+      {
+        "map": "Station",
+        "usable": 67,
+        "colliders": 1062
+      },
+      {
+        "map": "Foundry",
+        "usable": 70,
+        "colliders": 1215
+      },
+      {
+        "map": "Frost",
+        "usable": 70,
+        "colliders": 1167
+      }
+    ],
+    "anchor_normalization": "Supported floor-contact frames or Maps #29 navigation-reference frames (3.5*scale height and opening-centered breach); unknown/missing upper support is rejected.",
+    "native_physics_navmesh": false,
+    "map_files_applied_to_feature_branch": false
+  }
+}

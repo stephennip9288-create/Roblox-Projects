@@ -1,0 +1,65 @@
+[
+  {
+    "map": "Station",
+    "desktop": [
+      {
+        "text": "CLEAR / CHECKPOINT DEBRIS\n750 POINTS",
+        "projectedTextPixels": 39.2,
+        "panelWidthPixels": 704.1
+      }
+    ],
+    "mobileLandscape": [
+      {
+        "text": "CLEAR / CHECKPOINT DEBRIS\n750 POINTS",
+        "projectedTextPixels": 21.2,
+        "panelWidthPixels": 381.4
+      }
+    ],
+    "eyeHeight": 5.4,
+    "distance": 12,
+    "verticalFov": 65,
+    "nativeGui": false
+  },
+  {
+    "map": "Foundry",
+    "desktop": [
+      {
+        "text": "CLEAR / STEEL PALLET STACK\n750 POINTS",
+        "projectedTextPixels": 48.4,
+        "panelWidthPixels": 870.0
+      }
+    ],
+    "mobileLandscape": [
+      {
+        "text": "CLEAR / STEEL PALLET STACK\n750 POINTS",
+        "projectedTextPixels": 26.2,
+        "panelWidthPixels": 471.3
+      }
+    ],
+    "eyeHeight": 5.4,
+    "distance": 12,
+    "verticalFov": 65,
+    "nativeGui": false
+  },
+  {
+    "map": "Frost",
+    "desktop": [
+      {
+        "text": "CLEAR / ICED PRESSURE DOOR\n750 POINTS",
+        "projectedTextPixels": 42.3,
+        "panelWidthPixels": 801.3
+      }
+    ],
+    "mobileLandscape": [
+      {
+        "text": "CLEAR / ICED PRESSURE DOOR\n750 POINTS",
+        "projectedTextPixels": 22.9,
+        "panelWidthPixels": 434.0
+      }
+    ],
+    "eyeHeight": 5.4,
+    "distance": 12,
+    "verticalFov": 65,
+    "nativeGui": false
+  }
+]

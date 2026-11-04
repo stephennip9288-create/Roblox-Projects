@@ -1,0 +1,375 @@
+{
+  "release": "Dead Signal Complete Batch 1 RC1",
+  "tested_runtime_commit": "82cbf594729f33816f953ebc46eae4a578ff6d49",
+  "integration_base": "32b7342370b84e2344d192aa5cdbf877bb0d5245",
+  "all_31_requirements_accounted": true,
+  "specialist_heads": {
+    "maps": "069d247b39988801fb067c16843e322a34649a5d",
+    "enemies": "7c1b15a79a154c36c86a890db46ca3a72fc80673",
+    "combat_ui": "14960d82bdbabcb7c0032d7446a1ed40e47be0e6",
+    "audio": "bd4394d598af0539078dee747e2355653ab588c6"
+  },
+  "lune": {
+    "suites": 26,
+    "assertions": 998937,
+    "all_passed": true,
+    "runtime_compiled": 61,
+    "syntax_files": 104,
+    "results": [
+      {
+        "suite": "loading",
+        "passed": true,
+        "assertions": 63,
+        "seconds": 0.416
+      },
+      {
+        "suite": "loadingpreview",
+        "passed": true,
+        "assertions": 36,
+        "seconds": 0.241
+      },
+      {
+        "suite": "evolution",
+        "passed": true,
+        "assertions": 3378,
+        "seconds": 6.804
+      },
+      {
+        "suite": "events",
+        "passed": true,
+        "assertions": 18,
+        "seconds": 0.239
+      },
+      {
+        "suite": "presentation",
+        "passed": true,
+        "assertions": 55,
+        "seconds": 0.228
+      },
+      {
+        "suite": "director",
+        "passed": true,
+        "assertions": 431,
+        "seconds": 0.042
+      },
+      {
+        "suite": "server",
+        "passed": true,
+        "assertions": 35,
+        "seconds": 0.244
+      },
+      {
+        "suite": "navigation",
+        "passed": true,
+        "assertions": 13,
+        "seconds": 0.239
+      },
+      {
+        "suite": "pursuit",
+        "passed": true,
+        "assertions": 90,
+        "seconds": 1.449
+      },
+      {
+        "suite": "rigs",
+        "passed": true,
+        "assertions": 318,
+        "seconds": 0.496
+      },
+      {
+        "suite": "weapons",
+        "passed": true,
+        "assertions": 7929,
+        "seconds": 1.044
+      },
+      {
+        "suite": "arrival",
+        "passed": true,
+        "assertions": 28,
+        "seconds": 0.213
+      },
+      {
+        "suite": "extraction",
+        "passed": true,
+        "assertions": 20,
+        "seconds": 0.043
+      },
+      {
+        "suite": "map_remaster",
+        "passed": true,
+        "assertions": 248665,
+        "seconds": 18.991
+      },
+      {
+        "suite": "enemy-lifecycle",
+        "passed": true,
+        "assertions": 74,
+        "seconds": 0.163
+      },
+      {
+        "suite": "enemy-path-recovery",
+        "passed": true,
+        "assertions": 48,
+        "seconds": 0.18
+      },
+      {
+        "suite": "combat-ui",
+        "passed": true,
+        "assertions": 638775,
+        "seconds": 22.283
+      },
+      {
+        "suite": "combat-input",
+        "passed": true,
+        "assertions": 44,
+        "seconds": 0.389
+      },
+      {
+        "suite": "touch",
+        "passed": true,
+        "assertions": 512,
+        "seconds": 0.042
+      },
+      {
+        "suite": "integration-contracts",
+        "passed": true,
+        "assertions": 501,
+        "seconds": 4.351
+      },
+      {
+        "suite": "weapons-batch1",
+        "passed": true,
+        "assertions": 64271,
+        "seconds": 32.203
+      },
+      {
+        "suite": "infected-batch1",
+        "passed": true,
+        "assertions": 3362,
+        "seconds": 2.617
+      },
+      {
+        "suite": "infected-entrances",
+        "passed": true,
+        "assertions": 71,
+        "seconds": 0.885
+      },
+      {
+        "suite": "infected-geometry",
+        "passed": true,
+        "assertions": 25717,
+        "seconds": 129.528
+      },
+      {
+        "suite": "audio",
+        "passed": true,
+        "assertions": 4433,
+        "seconds": 0.427
+      },
+      {
+        "suite": "batch1-integration",
+        "passed": true,
+        "assertions": 50,
+        "seconds": 4.171
+      }
+    ]
+  },
+  "python": {
+    "pipeline_tests": 78,
+    "audio_patch_guards": 6,
+    "all_passed": true,
+    "requests": "publisher/artifact latest-run tests use doubles; no Roblox API calls"
+  },
+  "spatial": {
+    "window_profiles": 210,
+    "contextual_profiles": 63,
+    "all_swept_clear": true,
+    "purchase_states": 30,
+    "elevated_samples": 4017,
+    "failures": 0,
+    "roblox_physics_or_navmesh": false
+  },
+  "builds": {
+    "staging": {
+      "dispatch": {
+        "sha256": "c91691452756b65f30da72a2343b440268b572b845e6489ed443061637235b5d",
+        "bytes": 2720966,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "blackwater": {
+        "sha256": "c4969232c3df95fc3ba62baf18c58fafbf0135408a46ba4d88c36e8b866fe7f7",
+        "bytes": 2692046,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "cinderworks": {
+        "sha256": "c7d1607c33f88b9cac0da14c86d7abdc57e175712cec098c41aa3335db9b9ab5",
+        "bytes": 2699891,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "whiteout": {
+        "sha256": "44c4ea24e267da9f2403edb4a5fa20ab6e57adb11fb864c3d32240ddc087df28",
+        "bytes": 2701352,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      }
+    },
+    "production": {
+      "dispatch": {
+        "sha256": "5f853fd4f0d65665a916ae8bef0b1bd7f36666cf496a34486cc39eff14e9be9a",
+        "bytes": 2720981,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "blackwater": {
+        "sha256": "13c82063f53b9af9ad478a131900b1447372aa029270fc0dcb0a4cd97ad92f1e",
+        "bytes": 2692061,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "cinderworks": {
+        "sha256": "a1bef1c394c8d2db3066d3b92ac1657416bbfaa654456e293bb54df83dd99bc3",
+        "bytes": 2699904,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      },
+      "whiteout": {
+        "sha256": "f6558128ca2193c0fe34b918284cfdb9764fcfc1ce727a108f21952b0c835ec7",
+        "bytes": 2701365,
+        "source_records": 61,
+        "raw_fidelity_passed": true,
+        "untouched_chunks_byte_identical": true
+      }
+    }
+  },
+  "native_reopen": {
+    "places": {
+      "blackwater": {
+        "materialVariants": 24,
+        "meshParts": 726,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 661,
+        "terrain": 1
+      },
+      "cinderworks": {
+        "materialVariants": 24,
+        "meshParts": 752,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 687,
+        "terrain": 1
+      },
+      "dispatch": {
+        "materialVariants": 24,
+        "meshParts": 962,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 873,
+        "terrain": 1
+      },
+      "whiteout": {
+        "materialVariants": 24,
+        "meshParts": 786,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 721,
+        "terrain": 1
+      }
+    },
+    "robloxEngineTested": false,
+    "serialized": false
+  },
+  "protected_blobs_unchanged": 113,
+  "runtime_git_blobs": {
+    "games/dead-signal/dev/Source/Runtime/client/AimAssist.lua": "ff2d51483cb12e4fbfcd01dcc27fccef6caad2b0",
+    "games/dead-signal/dev/Source/Runtime/client/Bootstrap.client.lua": "23bea7d1251af85d631642009e3e217d19b1d67e",
+    "games/dead-signal/dev/Source/Runtime/client/Controller.lua": "2c787e73303bce612585347731893887fab6bdde",
+    "games/dead-signal/dev/Source/Runtime/client/Effects.lua": "fb7601ac0d1250639f8f51a34434e0e632328943",
+    "games/dead-signal/dev/Source/Runtime/client/MobileControls.lua": "d7632472ce7bf70bfa39a5e70d1174770a28ab64",
+    "games/dead-signal/dev/Source/Runtime/client/Scope.lua": "fad641afd8584f0102a326606eaa1e3fc590a9d2",
+    "games/dead-signal/dev/Source/Runtime/client/UI.lua": "a1c8cf8e26ed70043e0d8b04b80936d9afc3f0c6",
+    "games/dead-signal/dev/Source/Runtime/server/Architecture.lua": "6c1f23b11d03d9eaf67df415a2fbce2a2064d265",
+    "games/dead-signal/dev/Source/Runtime/server/Bootstrap.server.lua": "cdf4d8f57d8a030b7445bb4a92c4160d1a390c06",
+    "games/dead-signal/dev/Source/Runtime/server/BoundaryGuard.lua": "e9147f95c071f1d6c88baebbf8a1128469b3cf8a",
+    "games/dead-signal/dev/Source/Runtime/server/CinematicWorld.lua": "bc5c980a3962bfef68ab643321c730a169f90c00",
+    "games/dead-signal/dev/Source/Runtime/server/CollisionPolicy.lua": "b31a3b78709673610d013f7332331026f137608f",
+    "games/dead-signal/dev/Source/Runtime/server/Combat.lua": "1e1d52d90ee99164d7ffdcdb8f070c5fe8a6fbed",
+    "games/dead-signal/dev/Source/Runtime/server/Diagnostics.lua": "40a374eadf28a590818d4b3724d9da55dce87ad8",
+    "games/dead-signal/dev/Source/Runtime/server/Enemies.lua": "07a3a0176e2850de09cde523cf71267b221bdb43",
+    "games/dead-signal/dev/Source/Runtime/server/EnemyRigs.lua": "19d7990d66e6c8e612d18d40b9c34082c4062a82",
+    "games/dead-signal/dev/Source/Runtime/server/ExtractionZone.lua": "1d0d59eb34c3845e321c64ce3b505af9311ff916",
+    "games/dead-signal/dev/Source/Runtime/server/Game.lua": "8991e4f7c02f614375e4e3d91694bc0fdccae246",
+    "games/dead-signal/dev/Source/Runtime/server/GraphicsService.lua": "bbb5f323afe03c82771eb0260f1f9b14bfc78248",
+    "games/dead-signal/dev/Source/Runtime/server/HoundRig.lua": "f68c6adb565808e479a2be826ce1df6b56fca4e5",
+    "games/dead-signal/dev/Source/Runtime/server/InfectedWardrobe.lua": "5e78d38823c905febcbf0606ad60a532ae8fd7cf",
+    "games/dead-signal/dev/Source/Runtime/server/Interactions.lua": "44adaee2c712dd5ead515f6d8ef598e12a2cc4bf",
+    "games/dead-signal/dev/Source/Runtime/server/LobbyService.lua": "cc9c9c3f7881ef5dc9dcdd8baaa7c68aabd3b241",
+    "games/dead-signal/dev/Source/Runtime/server/MapBuilder.lua": "6f28b5edf4e283ffb1c246711e850469f87f2c66",
+    "games/dead-signal/dev/Source/Runtime/server/MapDetail.lua": "efc99d433a47e9bb49cf4dff27a043d14192fe9e",
+    "games/dead-signal/dev/Source/Runtime/server/MapRoutes.lua": "9c77c80f541a183055c5957f8a5823f959b4f2cc",
+    "games/dead-signal/dev/Source/Runtime/server/Navigation.lua": "307f9c11b0685cab10a126b60d5add96df9bdaf4",
+    "games/dead-signal/dev/Source/Runtime/server/Network.lua": "fac780a6461577066260b21067ee7f6829a9f3fb",
+    "games/dead-signal/dev/Source/Runtime/server/PerkMachines.lua": "a958c453e1db8415e8ea1b8bfde8ffa396d104d2",
+    "games/dead-signal/dev/Source/Runtime/server/Persistence.lua": "a5498f59693440b02fd6aa90e8a30143ffeacaf4",
+    "games/dead-signal/dev/Source/Runtime/server/RigAnatomy.lua": "49937654dbc3227e13ebffb345aeae34eb633311",
+    "games/dead-signal/dev/Source/Runtime/server/Travel.lua": "b62d6a40989c258ad6722b19c33a3ee4d640000b",
+    "games/dead-signal/dev/Source/Runtime/server/TripRegistry.lua": "fa070bf653c61bb1fe45bd027ccb6e300124bb94",
+    "games/dead-signal/dev/Source/Runtime/server/Vehicles.lua": "f5c20fc852d5594129617f071787e037131a17e3",
+    "games/dead-signal/dev/Source/Runtime/server/VisualPass.lua": "3d89ceb01e76623d7ed463b0ab9a454a4bf43d91",
+    "games/dead-signal/dev/Source/Runtime/server/WaveDirector.lua": "5611c6c2c916d63a69c8df56da9be616758e64ac",
+    "games/dead-signal/dev/Source/Runtime/server/WorldArt.lua": "dd01d9df49b5a86c639f5950a2075aa47f93b60c",
+    "games/dead-signal/dev/Source/Runtime/server/WorldFinish.lua": "f5f166a690b36c2f15edd2a542df76c27259466e",
+    "games/dead-signal/dev/Source/Runtime/shared/ArrivalRules.lua": "f25319496168644d30b6cd48821c9debfbc0b389",
+    "games/dead-signal/dev/Source/Runtime/shared/ArtAssets.lua": "7517a62b0a09eb19d326a710c4af0eb4b4e4926c",
+    "games/dead-signal/dev/Source/Runtime/shared/Config.lua": "8b7cb9d99e68a297118f4120bdbe52e0960baada",
+    "games/dead-signal/dev/Source/Runtime/shared/ControlSettings.lua": "9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996",
+    "games/dead-signal/dev/Source/Runtime/shared/DeploymentRules.lua": "5d2f17afd8f198f6018f18e36dbe3420862b63d9",
+    "games/dead-signal/dev/Source/Runtime/shared/DirectorRules.lua": "6701272b8d2d885472b82bed936bfe7cb158a03d",
+    "games/dead-signal/dev/Source/Runtime/shared/DownedPose.lua": "170dd3ba36be88658be4bed122a3d1f278f3b882",
+    "games/dead-signal/dev/Source/Runtime/shared/Extraction.lua": "d4ebf566552dad583fa0a26f83b2a7a922e5fa18",
+    "games/dead-signal/dev/Source/Runtime/shared/LoadingScreen.lua": "7aadee72efa020a0c798a8e10b90f4ebf89e358d",
+    "games/dead-signal/dev/Source/Runtime/shared/MapLayouts.lua": "3dc681e28d49c8ba8dd389ce36ee8e37d26745f7",
+    "games/dead-signal/dev/Source/Runtime/shared/Movement.lua": "46c11f5a323f78bd4a5860e2b6cd49bc1cceca3a",
+    "games/dead-signal/dev/Source/Runtime/shared/NPCPose.lua": "57754c4ffa66f88f9edc26500c6a33a8d00d14cf",
+    "games/dead-signal/dev/Source/Runtime/shared/NavigationGraph.lua": "f898217e2aef6d3b785300311d96d93ae3f840d0",
+    "games/dead-signal/dev/Source/Runtime/shared/PlaceConfig.lua": "17fd8c26fc5617078d1a58be49020140dd4e6dda",
+    "games/dead-signal/dev/Source/Runtime/shared/Presentation.lua": "a359f45baf14bd9962e7edc429dd5190c1fe4299",
+    "games/dead-signal/dev/Source/Runtime/shared/Rules.lua": "8b64916ed7e97633c7f763be503c1f685bc7ecee",
+    "games/dead-signal/dev/Source/Runtime/shared/ThirdPerson.lua": "2598049a6d10e2c4561005e137469c37007218cc",
+    "games/dead-signal/dev/Source/Runtime/shared/TouchInput.lua": "173c5e5b4bca0fcc70b05775b854f5c801da5189",
+    "games/dead-signal/dev/Source/Runtime/shared/TouchLayout.lua": "664877c8f0ddfc26fb5aa65e15f2935090d46aa5",
+    "games/dead-signal/dev/Source/Runtime/shared/Util.lua": "ec9248bb4b4dd423ae07df7d4e9a1ab6e628f5d6",
+    "games/dead-signal/dev/Source/Runtime/shared/WeaponBlueprints.lua": "61fdc4900333503d64369a523e5d2fe6d7cd508a",
+    "games/dead-signal/dev/Source/Runtime/shared/WeaponDetail.lua": "d93bb5997d72b84c6de22b7584d7546cc9bd0414",
+    "games/dead-signal/dev/Source/Runtime/shared/WeaponModels.lua": "13e33cb36e59e588a0c14ea5b0170b5b2afbef4e"
+  },
+  "recovery_verified_files": 8,
+  "native_asset_changes": false,
+  "profile_migration": false,
+  "original_loading_art_preserved": true,
+  "published_staging": false,
+  "published_production": false,
+  "native_acceptance": {
+    "studio": false,
+    "private_client": false,
+    "physical_mobile_comparison": "deferred",
+    "audio_permissions_or_listening": false
+  },
+  "known_limits": [
+    "Native rendering/physics/networking, art realism, listening and device FPS remain untested.",
+    "Bespoke audio IDs were not supplied; documented stock treatments and silent optional slots remain, per the approved nonblocking-asset policy.",
+    "Default player footsteps are retained and master-mixed; custom player-footstep replacement and automatic room reverb/wall occlusion are not claimed.",
+    "No vent/tunnel spawning is enabled; actual windows, low cover, ledges, ramps and opened-door pursuit are delivered.",
+    "Recovery artifacts expire 2026-10-30 and are recorded pipeline releases, not fresh live Roblox downloads."
+  ]
+}

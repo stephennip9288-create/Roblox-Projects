@@ -1,0 +1,193 @@
+{
+  "runtimeSourceCommit": "529b44c6784053363785e8e04d4744f95ea079eb",
+  "existingSuites": [
+    {
+      "suite": "loading",
+      "passed": true,
+      "assertions": 63,
+      "seconds": 0.172
+    },
+    {
+      "suite": "loadingpreview",
+      "passed": true,
+      "assertions": 36,
+      "seconds": 0.112
+    },
+    {
+      "suite": "evolution",
+      "passed": true,
+      "assertions": 3378,
+      "seconds": 3.569
+    },
+    {
+      "suite": "events",
+      "passed": true,
+      "assertions": 18,
+      "seconds": 0.133
+    },
+    {
+      "suite": "presentation",
+      "passed": true,
+      "assertions": 55,
+      "seconds": 0.112
+    },
+    {
+      "suite": "director",
+      "passed": true,
+      "assertions": 431,
+      "seconds": 0.024
+    },
+    {
+      "suite": "server",
+      "passed": true,
+      "assertions": 35,
+      "seconds": 0.164
+    },
+    {
+      "suite": "navigation",
+      "passed": true,
+      "assertions": 13,
+      "seconds": 0.172
+    },
+    {
+      "suite": "pursuit",
+      "passed": true,
+      "assertions": 90,
+      "seconds": 0.94
+    },
+    {
+      "suite": "rigs",
+      "passed": true,
+      "assertions": 318,
+      "seconds": 0.171
+    },
+    {
+      "suite": "weapons",
+      "passed": true,
+      "assertions": 7929,
+      "seconds": 0.427
+    },
+    {
+      "suite": "arrival",
+      "passed": true,
+      "assertions": 28,
+      "seconds": 0.102
+    },
+    {
+      "suite": "extraction",
+      "passed": true,
+      "assertions": 20,
+      "seconds": 0.017
+    },
+    {
+      "suite": "map_remaster",
+      "passed": true,
+      "assertions": 259370,
+      "seconds": 11.984
+    },
+    {
+      "suite": "enemy-lifecycle",
+      "passed": true,
+      "assertions": 74,
+      "seconds": 0.136
+    },
+    {
+      "suite": "enemy-path-recovery",
+      "passed": true,
+      "assertions": 48,
+      "seconds": 0.119
+    },
+    {
+      "suite": "combat-ui",
+      "passed": true,
+      "assertions": 638775,
+      "seconds": 15.429
+    },
+    {
+      "suite": "combat-input",
+      "passed": true,
+      "assertions": 44,
+      "seconds": 0.273
+    },
+    {
+      "suite": "touch",
+      "passed": true,
+      "assertions": 512,
+      "seconds": 0.031
+    },
+    {
+      "suite": "integration-contracts",
+      "passed": true,
+      "assertions": 501,
+      "seconds": 3.542
+    },
+    {
+      "suite": "weapons-batch1",
+      "passed": true,
+      "assertions": 64271,
+      "seconds": 24.127
+    },
+    {
+      "suite": "infected-batch1",
+      "passed": true,
+      "assertions": 3362,
+      "seconds": 1.588
+    },
+    {
+      "suite": "infected-entrances",
+      "passed": true,
+      "assertions": 71,
+      "seconds": 0.616
+    },
+    {
+      "suite": "infected-geometry",
+      "passed": true,
+      "assertions": 25717,
+      "seconds": 102.872
+    },
+    {
+      "suite": "audio",
+      "passed": true,
+      "assertions": 4433,
+      "seconds": 0.337
+    },
+    {
+      "suite": "batch1-integration",
+      "passed": true,
+      "assertions": 50,
+      "seconds": 3.424
+    }
+  ],
+  "existingAssertions": 1009642,
+  "mapBatch11Assertions": 26386,
+  "combinedAssertions": 1036028,
+  "pythonPipelineTests": 78,
+  "pythonAudioGuardTests": 6,
+  "nativeBuilds": 8,
+  "nativeFidelityPassed": 8,
+  "unchangedProtectedInputs": 152,
+  "entryProfiles": 210,
+  "contextTraversalProfiles": 63,
+  "groundPurchaseStates": 30,
+  "rampSupportSamples": 2940,
+  "elevatedBodySamples": 6953,
+  "sourceProjectionViewports": [
+    [
+      1280,
+      720
+    ],
+    [
+      844,
+      390
+    ]
+  ],
+  "robloxStudio": false,
+  "physicalDesktop": false,
+  "physicalMobile": false,
+  "multiplayer": false,
+  "published": false,
+  "notes": [
+    "Old supplemental elevated audit classified new StairLanding floors as obstacles and interpolated through the flat approaches. Corrected map-owned helper recognizes support and samples five lanes on the real profile. Direct wedge/head-height floor tests remain separate.",
+    "MAIN must register map_batch11; ENEMY must consume final Maps runtime and retest revised whole-rig traversal/occupancy."
+  ]
+}

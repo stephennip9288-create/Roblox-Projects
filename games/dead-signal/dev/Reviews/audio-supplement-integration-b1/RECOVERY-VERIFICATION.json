@@ -1,0 +1,58 @@
+{
+  "trusted_main": "0d319dc86d3e2c1c78ae416488319cd5ab0acbce",
+  "latest_successful_deployment": {
+    "run_id": 39884224314,
+    "attempt": 1,
+    "versions": {
+      "blackwater": 15,
+      "cinderworks": 15,
+      "whiteout": 15,
+      "dispatch": 19
+    },
+    "workflow_id": 386310450,
+    "control_sha": "2e139bfee835cd726f599ace2b319e18587923c9"
+  },
+  "source_sha": "15b08518917482d737f60a7bd8f9c7b9c3bd0a06",
+  "artifact": {
+    "id": 12472042399,
+    "run_id": 39884224314,
+    "sha256": "c1aec94bffd44f0a4f70bedd1246013ab89cc1b089727728298f5b40ee9f9698",
+    "expires_at": "2027-01-21T01:28:53Z",
+    "head_sha": "2e139bfee835cd726f599ace2b319e18587923c9",
+    "note": "Exact owner-authorized Batch1 follow-up successfully uploaded to all4 private staging places; native QA and all6 bug verifications remain pending. No production authorization."
+  },
+  "places": {
+    "blackwater": {
+      "place_id": "102403661108879",
+      "member": "build/dead-signal-lossless/staging/blackwater.rbxl",
+      "sha256": "609ae7a7c0b2e51f52237d550f7b160e9170adad2f432796888262267a29d87a",
+      "bytes": 2731455
+    },
+    "cinderworks": {
+      "place_id": "125712056058975",
+      "member": "build/dead-signal-lossless/staging/cinderworks.rbxl",
+      "sha256": "0f3e93a8f9321982ac08cfd2323c5110cc21d93e3d5c0dcaf871528b9807200a",
+      "bytes": 2739300
+    },
+    "whiteout": {
+      "place_id": "122269451559483",
+      "member": "build/dead-signal-lossless/staging/whiteout.rbxl",
+      "sha256": "16eb401bcb3ea59c09135f19ba4abb955fa49a4b1f3cd6db0fabd9684148e368",
+      "bytes": 2740759
+    },
+    "dispatch": {
+      "place_id": "117710269155815",
+      "member": "build/dead-signal-lossless/staging/dispatch.rbxl",
+      "sha256": "f3ff58b88058256f2b2f5a766c6d879538d313b8a7137306f0d0421da5af64db",
+      "bytes": 2760375
+    }
+  },
+  "zip_crc_and_digests_verified": true,
+  "all_244_source_instances_match_prior_source": true,
+  "candidate_diff_from_deployed_source": "Only the reviewed supplemental staging Config block; generated PlaceConfigs and 60 other scripts per place unchanged",
+  "reported_live_download": false,
+  "out_of_pipeline_changes_checked": false,
+  "latest_github_deployment_success": true,
+  "recovery_record_mutated": false,
+  "published": false
+}

@@ -87,7 +87,7 @@ function B:fire(player,args)
     p.nextShot=now+stats.interval*.97 g.mag=g.mag-1 p.accepted=R.finite(args.seq) and math.floor(args.seq) or 0
     local origin,obstruction=self:muzzle(player,eye)
     if obstruction then
-        self.ctx.feed:FireAllClients("Shot",{player=player.UserId,origin=eye,ends={obstruction.Position},weapon=g.id})
+        self.ctx.feed:FireAllClients("Shot",{player=player.UserId,origin=eye,ends={obstruction.Position},weapon=g.id,tier=g.tier,runId=self.ctx.run.id,seq=args.seq})
         self:ammo(player,args.seq) return
     end
     local dir=args.direction.Unit
@@ -143,7 +143,7 @@ function B:fire(player,args)
             end
         end
     end
-    self.ctx.feed:FireAllClients("Shot",{player=player.UserId,origin=origin,ends=ends,weapon=g.id})
+    self.ctx.feed:FireAllClients("Shot",{player=player.UserId,origin=origin,ends=ends,weapon=g.id,tier=g.tier,runId=self.ctx.run.id,seq=args.seq})
     if hitAny then self.ctx.feed:FireClient(player,"Hit",{kill=killAny,head=headAny,damage=math.floor(hitTotal)}) end
     self:ammo(player,args.seq)
 end

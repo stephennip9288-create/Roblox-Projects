@@ -1,0 +1,38 @@
+{
+  "source": "28dcb6c6f1259e2c2e873ffc2baf90b9fddc0be1",
+  "map_head": "7bf748868a6963f84a52dc8931c866689ea9fa34",
+  "map_architecture_blob": "c5b5294dfd7f6f981ef73f17256868d9e5235652",
+  "engine": false,
+  "assertions": 7453,
+  "support_probes": 6990,
+  "failures": {},
+  "maps": [
+    {
+      "id": "Station",
+      "windows": 10,
+      "queueActors": 19,
+      "queueDeferred": 21,
+      "connectedQueueRouteChecked": true,
+      "supportSamples": 2330,
+      "badSupportSamples": 0
+    },
+    {
+      "id": "Foundry",
+      "windows": 10,
+      "queueActors": 20,
+      "queueDeferred": 20,
+      "connectedQueueRouteChecked": true,
+      "supportSamples": 2330,
+      "badSupportSamples": 0
+    },
+    {
+      "id": "Frost",
+      "windows": 10,
+      "queueActors": 20,
+      "queueDeferred": 20,
+      "connectedQueueRouteChecked": true,
+      "supportSamples": 2330,
+      "badSupportSamples": 0
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "runtimeCommit": "f63b0150f9a794fd20f98768a8237e44a38d068f",
+  "published": false,
+  "studioTested": false,
+  "builds": [
+    {
+      "environment": "staging",
+      "place": "dispatch",
+      "bytes": 2748632,
+      "sha256": "ec73f6eb7a4194de97c260bcb2f4660a19298cb4d202640f3dd69bcc9104bd41",
+      "scriptRecords": 61,
+      "unchangedChunks": 1513,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "environment": "staging",
+      "place": "blackwater",
+      "bytes": 2719710,
+      "sha256": "a6b8442acf7c4a6774c69015091d6a32526ce0f969004baae03281afced98087",
+      "scriptRecords": 61,
+      "unchangedChunks": 1496,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "environment": "staging",
+      "place": "cinderworks",
+      "bytes": 2727557,
+      "sha256": "e7990f403d22968a5edad2d50c273215e917b9b22fda047eab05d3a1c969a63e",
+      "scriptRecords": 61,
+      "unchangedChunks": 1500,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "environment": "staging",
+      "place": "whiteout",
+      "bytes": 2729016,
+      "sha256": "d0f534ff04961095cd77cef73f3a3c222b6ecb06593da6a596f393e3a9aef1d6",
+      "scriptRecords": 61,
+      "unchangedChunks": 1500,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "environment": "production",
+      "place": "dispatch",
+      "bytes": 2748638,
+      "sha256": "8ceb7e65f277088503c61bf3f43f51a7b562cc5c6d7319119a5c30901a3bce8d",
+      "scriptRecords": 61,
+      "unchangedChunks": 1513,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "environment": "production",
+      "place": "blackwater",
+      "bytes": 2719714,
+      "sha256": "d57b28628c693daa077878fa5b6a3f7da84ac0aed21ade1f74df066e7e31e911",
+      "scriptRecords": 61,
+      "unchangedChunks": 1496,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "environment": "production",
+      "place": "cinderworks",
+      "bytes": 2727561,
+      "sha256": "460aba7e333a0b90d52bb28ee3cdec2c0e5488969f5eabfbd80cdd7309db6d6b",
+      "scriptRecords": 61,
+      "unchangedChunks": 1500,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "environment": "production",
+      "place": "whiteout",
+      "bytes": 2729020,
+      "sha256": "4f69bace6d66bf378e1be24cdd1474b774c69e27bcdccc1e1dd065a50cd9febd",
+      "scriptRecords": 61,
+      "unchangedChunks": 1500,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    }
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "schema": 1,
+  "release": "Dead Signal Batch 1.1 integration review",
+  "recommendation": "NOT READY \u2014 Remaining Blockers Listed",
+  "source_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077",
+  "source_tree_sha": "09065452d9f8e6253799f661c134fc95dfcb10e9",
+  "integration_branch": "integration/dead-signal-batch1-1",
+  "combined_pull_request": 44,
+  "scope_complete": false,
+  "staging_published": false,
+  "production_published": false,
+  "specialist_inputs": {
+    "maps": {
+      "pr": 39,
+      "head_sha": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+      "merge_sha": "f89fcbaf6b87162eae4b74cac94f170f956bc974"
+    },
+    "enemies": {
+      "pr": 42,
+      "head_sha": "aee7d5e38d42d862b3ebb66feaf63678be77d17d",
+      "merge_sha": "0548a7e9cf9bf2f06695849b089dc1469cbf93f0"
+    },
+    "adapter": {
+      "pr": 41,
+      "head_sha": "848ccc9259b7e0059b9238280bdb70f4912afdf0",
+      "merge_sha": "d656e754678f291385d343593bfab56f30e9cd18"
+    },
+    "audio": {
+      "pr": 43,
+      "head_sha": "fd802c72f0401e00af022fd7df27dbd119c56005",
+      "merge_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+    }
+  },
+  "bugs": [
+    {
+      "id": "DS-B1-001",
+      "priority": "High",
+      "category": "Audio",
+      "owner": "AUDIO DEV",
+      "status": "In Progress",
+      "source_commit": "fd802c72f0401e00af022fd7df27dbd119c56005",
+      "pull_request": 43,
+      "staging_retest": "pending",
+      "likely_cause": "Artificial physical effects, unsuitable stock substitutions and empty bespoke audio slots.",
+      "required_evidence": "DS-B1-001: no approved uploaded/activated Roblox recordings or staging playback-permission evidence; specialty recording/acceptance gaps remain.",
+      "verified": false,
+      "implementation_notes": "Recording-bank playback/mixing/scheduling integrated;84 prepared WAV/OGG hashes match,9 PCM/Python tests plus6 ownership guards pass. Zero custom Roblox IDs active; licensing/owner upload/moderation/experience access, specialty recordings and listening remain blocked."
+    },
+    {
+      "id": "DS-B1-002",
+      "priority": "High",
+      "category": "Enemies",
+      "owner": "ENEMY DEV + MAP DEV",
+      "status": "Ready for Retest",
+      "source_commit": "aee7d5e38d42d862b3ebb66feaf63678be77d17d",
+      "pull_request": 42,
+      "staging_retest": "pending",
+      "likely_cause": "Exterior support, queue footprint, actual posed-envelope and occupancy/transition/recovery faults.",
+      "required_evidence": "Relevant actual Studio and owner private-staging gameplay evidence from ACCEPTANCE.md.",
+      "verified": false,
+      "implementation_notes": "Supported admission/queues and complete-rig entry/reversal/recovery integrated. All210 window/profile plans,63 contextual plans and quota/lifecycle regressions pass offline. Native Foundry10 seam/apron/crowd/downed/Warden retests pending."
+    },
+    {
+      "id": "DS-B1-003",
+      "priority": "Medium",
+      "category": "Maps",
+      "owner": "MAP DEV",
+      "status": "Ready for Retest",
+      "source_commit": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+      "pull_request": 39,
+      "staging_retest": "pending",
+      "likely_cause": "Reflected wall coordinate frames reported by specialist produced-geometry audit.",
+      "required_evidence": "Relevant actual Studio and owner private-staging gameplay evidence from ACCEPTANCE.md.",
+      "verified": false,
+      "implementation_notes": "Right-handed wall frames repair all99 bays and affected fixtures across angled/curved/hexagonal rooms; actual-transform tests pass; native visual/readability retest pending."
+    },
+    {
+      "id": "DS-B1-004",
+      "priority": "Medium",
+      "category": "Maps",
+      "owner": "MAP DEV",
+      "status": "Ready for Retest",
+      "source_commit": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+      "pull_request": 39,
+      "staging_retest": "pending",
+      "likely_cause": "Insufficient purposeful room dressing and thematic density.",
+      "required_evidence": "Relevant actual Studio and owner private-staging gameplay evidence from ACCEPTANCE.md.",
+      "verified": false,
+      "implementation_notes": "36 purpose-specific assemblies across18 rooms, bounded incidental geometry and reservations integrated; native visual density/device performance pending."
+    },
+    {
+      "id": "DS-B1-005",
+      "priority": "High",
+      "category": "Maps",
+      "owner": "MAP DEV",
+      "status": "Ready for Retest",
+      "source_commit": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+      "pull_request": 39,
+      "staging_retest": "pending",
+      "likely_cause": "Actual wedge footprints can exceed logical deck cuts; stair/landing/head/shoulder alignment.",
+      "required_evidence": "Relevant actual Studio and owner private-staging gameplay evidence from ACCEPTANCE.md.",
+      "verified": false,
+      "implementation_notes": "88 leaking deck wedges repaired;12 full-width flush ramp landings and direct support/headroom checks pass offline. Native both-direction,edge,revive,Warden/extraction collision checks pending."
+    },
+    {
+      "id": "DS-B1-006",
+      "priority": "High",
+      "category": "Enemies",
+      "owner": "ENEMY DEV",
+      "status": "In Progress",
+      "source_commit": "aee7d5e38d42d862b3ebb66feaf63678be77d17d",
+      "pull_request": 42,
+      "staging_retest": "pending",
+      "likely_cause": "Undead anatomy, skin/clothing, face and animation read as equipped mannequins.",
+      "required_evidence": "DS-B1-006: authored undead face/skin/body/uniform overhaul remains incomplete; retained meshes and code poses do not establish visual completion.",
+      "verified": false,
+      "implementation_notes": "Asymmetric gait, timed attacks, bracing/reversing/climb/landing and worn equipment integrated with preserved hitboxes/root collision/ragdoll. Authored face/skin/body/uniform quality still incomplete and native appearance untested."
+    }
+  ],
+  "verification": {
+    "luau_suites": 33,
+    "luau_assertions": 1026487,
+    "runtime_compile": 61,
+    "syntax_files": 114,
+    "root_python_tests_ci": 78,
+    "audio_python_tests_actual_pcm": 9,
+    "audio_mirror_guards": 6,
+    "python_total_test_cases": 93,
+    "skipped_pcm_tests": 0,
+    "ci_checks_passed": 10,
+    "strict_entry_profiles": 210,
+    "authored_contextual_plans": 63,
+    "broadphase_parity_assertions": 3441,
+    "map_regressions": 26386,
+    "elevated_samples": 6953,
+    "ground_purchase_states": 30,
+    "protected_git_blobs_unchanged": 155,
+    "existing_baseline_files_unchanged": 363,
+    "existing_baseline_files_intentionally_changed": 19,
+    "native_environment_place_builds": 8,
+    "source_records_per_build": 61,
+    "source_to_artifact_hash_comparisons": 488
+  },
+  "artifacts": [
+    {
+      "id": 12152570131,
+      "name": "dead-signal-lossless-staging-109",
+      "size_in_bytes": 10274354,
+      "url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12152570131",
+      "archive_download_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12152570131/zip",
+      "expired": false,
+      "created_at": "2026-10-18T21:56:10Z",
+      "expires_at": "2026-11-01T21:56:09Z",
+      "updated_at": "2026-10-18T21:56:10Z",
+      "digest": "sha256:edfb1deee87fee2527258d6b8e309d37a3b297cd6af21238ce66d31af60de4a1",
+      "workflow_run": {
+        "id": 39169706846,
+        "repository_id": 1420126851,
+        "head_repository_id": 1420126851,
+        "head_branch": "integration/dead-signal-batch1-1",
+        "head_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+      },
+      "run_id": 39169706846
+    },
+    {
+      "id": 12152366475,
+      "name": "dead-signal-production-preview-94",
+      "size_in_bytes": 10276809,
+      "url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12152366475",
+      "archive_download_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12152366475/zip",
+      "expired": false,
+      "created_at": "2026-10-18T21:56:11Z",
+      "expires_at": "2026-11-01T21:56:10Z",
+      "updated_at": "2026-10-18T21:56:11Z",
+      "digest": "sha256:a56d69b8ae6a42162354e7dced6aca86bb366112b78d45ce500337dc30b5fd05",
+      "workflow_run": {
+        "id": 39169706812,
+        "repository_id": 1420126851,
+        "head_repository_id": 1420126851,
+        "head_branch": "integration/dead-signal-batch1-1",
+        "head_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+      },
+      "run_id": 39169706812
+    },
+    {
+      "id": 12151833202,
+      "name": "dead-signal-private-staging-preflight-98",
+      "size_in_bytes": 3419,
+      "url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12151833202",
+      "archive_download_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12151833202/zip",
+      "expired": false,
+      "created_at": "2026-10-18T21:55:10Z",
+      "expires_at": "2026-11-17T21:55:10Z",
+      "updated_at": "2026-10-18T21:55:10Z",
+      "digest": "sha256:c945c884ad3884d3e589dce8a75d7bb29b28b09c2fb2de482138677bc8ebe755",
+      "workflow_run": {
+        "id": 39169706825,
+        "repository_id": 1420126851,
+        "head_repository_id": 1420126851,
+        "head_branch": "integration/dead-signal-batch1-1",
+        "head_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+      },
+      "run_id": 39169706825
+    },
+    {
+      "id": 12151659245,
+      "name": "dead-signal-source-ci-124",
+      "size_in_bytes": 6668,
+      "url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12151659245",
+      "archive_download_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/artifacts/12151659245/zip",
+      "expired": false,
+      "created_at": "2026-10-18T21:56:15Z",
+      "expires_at": "2026-11-01T21:56:14Z",
+      "updated_at": "2026-10-18T21:56:15Z",
+      "digest": "sha256:1d085ad27140295aead5537e7b658a7f8dd1862e26afa9c6aa3640a1a0bc1a44",
+      "workflow_run": {
+        "id": 39169706833,
+        "repository_id": 1420126851,
+        "head_repository_id": 1420126851,
+        "head_branch": "integration/dead-signal-batch1-1",
+        "head_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077"
+      },
+      "run_id": 39169706833
+    }
+  ],
+  "environment_builds": {
+    "staging": [
+      {
+        "place": "dispatch",
+        "bytes": 2745665,
+        "sha256": "d9949b061ed7781aedb23f09e0e1770538526bbcac7e8b5c3bf15427a0434775",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1513,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "blackwater",
+        "bytes": 2716743,
+        "sha256": "ccec7486d2180add45ede06a05f5490c4c5bc2b2676cbb5db7fc7a5e678fd435",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1496,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "cinderworks",
+        "bytes": 2724590,
+        "sha256": "8eb56106aadd551f91bc4fe22ae73ccade40571388590cdc846cec6ba5aa645e",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1500,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "whiteout",
+        "bytes": 2726049,
+        "sha256": "2f4e1b9046bf72c5fb6ed49c62c3cffa922154df87f14492ba198fb691c38c43",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1500,
+        "patched_source_prop_chunks": 1
+      }
+    ],
+    "production": [
+      {
+        "place": "dispatch",
+        "bytes": 2745680,
+        "sha256": "9dc3be0d248112be7c82cac075f37ca0a6fd967c546fc771cd68d2c00d45a14c",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1513,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "blackwater",
+        "bytes": 2716758,
+        "sha256": "c2fe2836362efe1ee4c51387589e1f96c8ee1de079a128049a851c77a28e5b59",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1496,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "cinderworks",
+        "bytes": 2724603,
+        "sha256": "e8a91c790569719c5451c6b6a5d3bb9fa2a781ca727a1be89b9ca13de93c9d14",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1500,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "whiteout",
+        "bytes": 2726062,
+        "sha256": "da0ddb2dfe37771692328b9f4cd59b308e88e5e762abadb1896e16279418ecfa",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1500,
+        "patched_source_prop_chunks": 1
+      }
+    ]
+  },
+  "native_reopen": {
+    "places": {
+      "blackwater": {
+        "materialVariants": 24,
+        "meshParts": 726,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 661,
+        "terrain": 1
+      },
+      "cinderworks": {
+        "materialVariants": 24,
+        "meshParts": 752,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 687,
+        "terrain": 1
+      },
+      "dispatch": {
+        "materialVariants": 24,
+        "meshParts": 962,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 873,
+        "terrain": 1
+      },
+      "whiteout": {
+        "materialVariants": 24,
+        "meshParts": 786,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 721,
+        "terrain": 1
+      }
+    },
+    "robloxEngineTested": false,
+    "serialized": false
+  },
+  "native_reopen_production": {
+    "places": {
+      "blackwater": {
+        "materialVariants": 24,
+        "meshParts": 726,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 661,
+        "terrain": 1
+      },
+      "cinderworks": {
+        "materialVariants": 24,
+        "meshParts": 752,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 687,
+        "terrain": 1
+      },
+      "dispatch": {
+        "materialVariants": 24,
+        "meshParts": 962,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 873,
+        "terrain": 1
+      },
+      "whiteout": {
+        "materialVariants": 24,
+        "meshParts": 786,
+        "scripts": 61,
+        "sourcesExactlyMatch": true,
+        "surfaceAppearances": 721,
+        "terrain": 1
+      }
+    },
+    "robloxEngineTested": false,
+    "serialized": false
+  },
+  "blockers": [
+    "DS-B1-001: no approved uploaded/activated Roblox recordings or staging playback-permission evidence; specialty recording/acceptance gaps remain.",
+    "DS-B1-006: authored undead face/skin/body/uniform overhaul remains incomplete; retained meshes and code poses do not establish visual completion.",
+    "Actual Roblox Studio/private-client physics, appearance, listening, multiplayer and device retests are pending. No bug is Verified."
+  ],
+  "actual_studio_playtest": false,
+  "private_staging_retest": false,
+  "physical_mobile_test": false,
+  "two_thumb_control_comparison_deferred": true,
+  "rollback": {
+    "staging_source_sha": "9743b3e9ee59ba74da0d5d9a5e3f2e378230d6f7",
+    "run_id": 39056526660,
+    "versions": {
+      "dispatch": 11,
+      "blackwater": 10,
+      "cinderworks": 10,
+      "whiteout": 10
+    },
+    "artifact_id": 12109702848,
+    "archive_sha256": "e969cc319cc71c6ff55d24c9ddc546d674f2035192e44f6586c5a6fe00b1117b",
+    "expires_at": "2027-01-15T18:04:49Z",
+    "current_recovery_binaries_checked": 8,
+    "archive_crc_checked": true,
+    "trusted_main_record_current": true,
+    "production_record_unchanged": true,
+    "source_admission_for_patch": "rejected as intended; trusted main still pins9743b3e"
+  }
+}

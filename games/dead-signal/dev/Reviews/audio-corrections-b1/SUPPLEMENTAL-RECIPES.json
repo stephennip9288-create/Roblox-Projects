@@ -1,0 +1,268 @@
+[
+  {
+    "name": "wood_break_1",
+    "role": "Dry wood fracture candidate; no looping.",
+    "proposed_slots": [
+      "Board.Break"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_breaking_01.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "wood_break_2",
+    "role": "Dry wood fracture candidate; no looping.",
+    "proposed_slots": [
+      "Board.Break"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_breaking_02.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "wood_stress_1",
+    "role": "Wood stress/creak. Needs a real windup/contact fact; do not invent a loop or predict a board break.",
+    "proposed_slots": [
+      "Board.Stress (future caller needed)"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_cracking_01.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "wood_stress_2",
+    "role": "Wood stress/creak. Needs a real windup/contact fact; do not invent a loop or predict a board break.",
+    "proposed_slots": [
+      "Board.Stress (future caller needed)"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_cracking_02.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "wood_stress_3",
+    "role": "Wood stress/creak. Needs a real windup/contact fact; do not invent a loop or predict a board break.",
+    "proposed_slots": [
+      "Board.Stress (future caller needed)"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_cracking_03.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "wood_debris_1",
+    "role": "Small wood debris, not a separate per-frame runtime event.",
+    "proposed_slots": [
+      "Board.Debris (future caller needed)"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_falling_01.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "wood_debris_2",
+    "role": "Small wood debris, not a separate per-frame runtime event.",
+    "proposed_slots": [
+      "Board.Debris (future caller needed)"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_falling_02.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "frame_scrape_1",
+    "role": "Short masonry drag/contact candidate; actual frame/material suitability pending.",
+    "proposed_slots": [
+      "Enemy.Entry.Contact (replace after review)"
+    ],
+    "layers": [
+      {
+        "source": "scrapes",
+        "member": "scrape-1.wav",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 0.36
+      }
+    ]
+  },
+  {
+    "name": "frame_scrape_2",
+    "role": "Short masonry drag/contact candidate; actual frame/material suitability pending.",
+    "proposed_slots": [
+      "Enemy.Entry.Contact (replace after review)"
+    ],
+    "layers": [
+      {
+        "source": "scrapes",
+        "member": "scrape-2.wav",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 0.36
+      }
+    ]
+  },
+  {
+    "name": "frame_scrape_3",
+    "role": "Short masonry drag/contact candidate; actual frame/material suitability pending.",
+    "proposed_slots": [
+      "Enemy.Entry.Contact (replace after review)"
+    ],
+    "layers": [
+      {
+        "source": "scrapes",
+        "member": "scrape-3.wav",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 0.36
+      }
+    ]
+  },
+  {
+    "name": "board_fracture_1",
+    "role": "One dry wood strike/fracture/debris composite for the server-confirmed board removal; costs one runtime voice. Listening approval pending.",
+    "proposed_slots": [
+      "Board.Break"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_hit_01.ogg",
+        "offset": 0,
+        "gain": 0.8,
+        "max_seconds": 1.0
+      },
+      {
+        "source": "wood",
+        "member": "wood_breaking_01.ogg",
+        "offset": 0.018,
+        "gain": 0.8,
+        "max_seconds": 1.0
+      },
+      {
+        "source": "wood",
+        "member": "wood_falling_01.ogg",
+        "offset": 0.08,
+        "gain": 0.32,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "window_contact_1",
+    "role": "Existing dry wood-frame strike plus short masonry scrape proxy. Separate landing retained; no pitch shift. Native fit must be accepted before replacing the current contact bank.",
+    "proposed_slots": [
+      "Enemy.Entry.Contact"
+    ],
+    "layers": [
+      {
+        "source": "existing_contact",
+        "member": "entry_contact_1.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 0.7
+      },
+      {
+        "source": "scrapes",
+        "member": "scrape-1.wav",
+        "offset": 0.018,
+        "gain": 0.25,
+        "max_seconds": 0.32
+      }
+    ]
+  },
+  {
+    "name": "board_fracture_2",
+    "role": "One dry wood strike/fracture/debris composite for the server-confirmed board removal; costs one runtime voice. Listening approval pending.",
+    "proposed_slots": [
+      "Board.Break"
+    ],
+    "layers": [
+      {
+        "source": "wood",
+        "member": "wood_hit_02.ogg",
+        "offset": 0,
+        "gain": 0.8,
+        "max_seconds": 1.0
+      },
+      {
+        "source": "wood",
+        "member": "wood_breaking_02.ogg",
+        "offset": 0.018,
+        "gain": 0.8,
+        "max_seconds": 1.0
+      },
+      {
+        "source": "wood",
+        "member": "wood_falling_02.ogg",
+        "offset": 0.08,
+        "gain": 0.32,
+        "max_seconds": 1.0
+      }
+    ]
+  },
+  {
+    "name": "window_contact_2",
+    "role": "Existing dry wood-frame strike plus short masonry scrape proxy. Separate landing retained; no pitch shift. Native fit must be accepted before replacing the current contact bank.",
+    "proposed_slots": [
+      "Enemy.Entry.Contact"
+    ],
+    "layers": [
+      {
+        "source": "existing_contact",
+        "member": "entry_contact_2.ogg",
+        "offset": 0,
+        "gain": 1,
+        "max_seconds": 0.7
+      },
+      {
+        "source": "scrapes",
+        "member": "scrape-2.wav",
+        "offset": 0.018,
+        "gain": 0.25,
+        "max_seconds": 0.32
+      }
+    ]
+  }
+]

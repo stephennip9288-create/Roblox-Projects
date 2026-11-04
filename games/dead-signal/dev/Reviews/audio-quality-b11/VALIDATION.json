@@ -1,0 +1,373 @@
+{
+  "schema": 1,
+  "issue": "DS-B1-001",
+  "issue_status": "Open",
+  "evidence_recorded_utc": "2026-10-18T15:15:29.834916+00:00",
+  "branch": "fix/dead-signal-batch1-1-audio",
+  "frozen_base": "206ae616a7de4fe8dd69b1c8019bae6ea8b6863d",
+  "source_checkpoint": "61e8fda4f1b3ed22c33a0970c1333eaf7cd4b8e5",
+  "pull_request": 43,
+  "effects_sha256": "5c6f649fd02fa9f788d15016669bea50874414f07c6b838c2059cd85216d862e",
+  "effects_git_blob": "4f8f6613c7a87eaf81f782605145be3739a1b25e",
+  "runtime_records": 61,
+  "other_runtime_records_unchanged": 60,
+  "tools": {
+    "lune": "0.11.0",
+    "lune_official_archive_sha256": "5a0ea32c3e13e5e3b1dc415c2056bcfe44258b3a811dcd473c50e3b437d10f72",
+    "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers"
+  },
+  "checks": {
+    "existing_luau_runner": {
+      "command": "python Tests/run.py --lune /absolute/path/to/lune",
+      "cwd": "games/dead-signal/dev",
+      "passed": true,
+      "suite_count": 26,
+      "assertions": 998937,
+      "suites": [
+        {
+          "suite": "loading",
+          "passed": true,
+          "assertions": 63
+        },
+        {
+          "suite": "loadingpreview",
+          "passed": true,
+          "assertions": 36
+        },
+        {
+          "suite": "evolution",
+          "passed": true,
+          "assertions": 3378
+        },
+        {
+          "suite": "events",
+          "passed": true,
+          "assertions": 18
+        },
+        {
+          "suite": "presentation",
+          "passed": true,
+          "assertions": 55
+        },
+        {
+          "suite": "director",
+          "passed": true,
+          "assertions": 431
+        },
+        {
+          "suite": "server",
+          "passed": true,
+          "assertions": 35
+        },
+        {
+          "suite": "navigation",
+          "passed": true,
+          "assertions": 13
+        },
+        {
+          "suite": "pursuit",
+          "passed": true,
+          "assertions": 90
+        },
+        {
+          "suite": "rigs",
+          "passed": true,
+          "assertions": 318
+        },
+        {
+          "suite": "weapons",
+          "passed": true,
+          "assertions": 7929
+        },
+        {
+          "suite": "arrival",
+          "passed": true,
+          "assertions": 28
+        },
+        {
+          "suite": "extraction",
+          "passed": true,
+          "assertions": 20
+        },
+        {
+          "suite": "map_remaster",
+          "passed": true,
+          "assertions": 248665
+        },
+        {
+          "suite": "enemy-lifecycle",
+          "passed": true,
+          "assertions": 74
+        },
+        {
+          "suite": "enemy-path-recovery",
+          "passed": true,
+          "assertions": 48
+        },
+        {
+          "suite": "combat-ui",
+          "passed": true,
+          "assertions": 638775
+        },
+        {
+          "suite": "combat-input",
+          "passed": true,
+          "assertions": 44
+        },
+        {
+          "suite": "touch",
+          "passed": true,
+          "assertions": 512
+        },
+        {
+          "suite": "integration-contracts",
+          "passed": true,
+          "assertions": 501
+        },
+        {
+          "suite": "weapons-batch1",
+          "passed": true,
+          "assertions": 64271
+        },
+        {
+          "suite": "infected-batch1",
+          "passed": true,
+          "assertions": 3362
+        },
+        {
+          "suite": "infected-entrances",
+          "passed": true,
+          "assertions": 71
+        },
+        {
+          "suite": "infected-geometry",
+          "passed": true,
+          "assertions": 25717
+        },
+        {
+          "suite": "audio",
+          "passed": true,
+          "assertions": 4433
+        },
+        {
+          "suite": "batch1-integration",
+          "passed": true,
+          "assertions": 50
+        }
+      ]
+    },
+    "audio_quality_b11": {
+      "command": "lune run Tests/audio-quality-b11.luau",
+      "cwd": "games/dead-signal/dev",
+      "passed": true,
+      "assertions": 797,
+      "executes_actual_effects": true,
+      "native_engine": false
+    },
+    "python": [
+      {
+        "command": "python -m unittest discover -s tests -v",
+        "cwd": "repository root",
+        "passed": true,
+        "tests": 78,
+        "skipped": 0
+      },
+      {
+        "command": "python -m unittest discover -s Tests -p test_audio_patch.py -v",
+        "cwd": "games/dead-signal/dev",
+        "passed": true,
+        "tests": 6,
+        "skipped": 0
+      },
+      {
+        "command": "python Tests/test_audio_quality_b11.py --wav-dir ../../../build/dead-signal-audio-b11/WAV -v",
+        "cwd": "games/dead-signal/dev",
+        "passed": true,
+        "tests": 9,
+        "skipped": 0
+      }
+    ],
+    "syntax": {
+      "command": "lune run Tests/syntax.luau",
+      "passed": true,
+      "files": 105,
+      "runtime_files": 61
+    },
+    "place_validation": {
+      "command": "python scripts/validate.py",
+      "passed": true,
+      "configured_places": 4
+    },
+    "isolated_place_configs": {
+      "command": "python scripts/generate_dead_signal_place_configs.py",
+      "passed": true,
+      "staging": 4,
+      "production": 4,
+      "published": false
+    },
+    "main_adapter_overlay": {
+      "pr": 41,
+      "commit": "848ccc9259b7e0059b9238280bdb70f4912afdf0",
+      "controller_git_blob": "8302f9416ed2f0025b3aeed4c78c794020b42af5",
+      "batch1_integration_test_git_blob": "61f02fbbb84677d47f68fe17654fb59a1e1ffba9",
+      "test_only_checkout": "build/audio-adapter-check/dev",
+      "passed": true,
+      "suites": [
+        {
+          "suite": "batch1-integration",
+          "assertions": 54
+        },
+        {
+          "suite": "combat-input",
+          "assertions": 44
+        },
+        {
+          "suite": "audio-quality-b11",
+          "assertions": 797
+        }
+      ],
+      "checked_in_controller_changed": false,
+      "native_engine": false
+    }
+  },
+  "lossless_binary_checks": {
+    "staging": {
+      "patch_command": "python scripts/patch_dead_signal_rbxl.py --baseline-dir games/dead-signal/full-baselines/v1.8.0 --environment staging",
+      "audit_command": "python scripts/audit_dead_signal_binary.py --baseline-dir games/dead-signal/full-baselines/v1.8.0 --candidate-dir build/dead-signal-lossless/staging",
+      "all_property_signatures_preserved": true,
+      "engine_validated": false,
+      "places": {
+        "dispatch": {
+          "untouched_chunks": 1513,
+          "all_untouched_chunks_byte_identical": true,
+          "expected_runtime_replacements": 61,
+          "changed_scripts_from_v1_8_native_baseline": 31,
+          "source_sha256": "a3fc4cab05e07d9a2901757007a6b52b7cf3e9acf2cbb49858a52d0a961f596c",
+          "candidate_sha256": "70742e6af878d66bcd712cc499a1d514bc5ade376ab4cfcdead976c5d1a56a0d",
+          "property_signature_audit_passed": true,
+          "published": false
+        },
+        "blackwater": {
+          "untouched_chunks": 1496,
+          "all_untouched_chunks_byte_identical": true,
+          "expected_runtime_replacements": 61,
+          "changed_scripts_from_v1_8_native_baseline": 31,
+          "source_sha256": "b7181f8204d43dcccb37aa79797ff2a7408f4c9bc9751f3d2baf07ebd4d4d515",
+          "candidate_sha256": "797cfca5131798a50dcf33dce2d4b22c7d95b8d02858ce0f9771cf0321c09d2e",
+          "property_signature_audit_passed": true,
+          "published": false
+        },
+        "cinderworks": {
+          "untouched_chunks": 1500,
+          "all_untouched_chunks_byte_identical": true,
+          "expected_runtime_replacements": 61,
+          "changed_scripts_from_v1_8_native_baseline": 31,
+          "source_sha256": "b1b89378c2ed8cc54d5aa3b95ec6419eb4a6e23b687046ef36915d320a02127f",
+          "candidate_sha256": "3dc196813cc8db8570088f0d4854a088ffd3099919aa785b66904f1b51db76f0",
+          "property_signature_audit_passed": true,
+          "published": false
+        },
+        "whiteout": {
+          "untouched_chunks": 1500,
+          "all_untouched_chunks_byte_identical": true,
+          "expected_runtime_replacements": 61,
+          "changed_scripts_from_v1_8_native_baseline": 31,
+          "source_sha256": "445bd3403794f65214822161b14e287363f21d7ff3713ee4079573228d78d168",
+          "candidate_sha256": "1f5d7297817d510b8218deb894139f1ca6445fca0d3afc2ea1eda4f247336624",
+          "property_signature_audit_passed": true,
+          "published": false
+        }
+      },
+      "comparison_note": "The 31 script differences are versus original v1.8 native places and include previous Batch 1 changes; Audio modifies only Effects versus its frozen branch base."
+    },
+    "production": {
+      "patch_command": "python scripts/patch_dead_signal_rbxl.py --baseline-dir games/dead-signal/full-baselines/v1.8.0 --environment production",
+      "audit_command": "python scripts/audit_dead_signal_binary.py --baseline-dir games/dead-signal/full-baselines/v1.8.0 --candidate-dir build/dead-signal-lossless/production",
+      "all_property_signatures_preserved": true,
+      "engine_validated": false,
+      "places": {
+        "dispatch": {
+          "untouched_chunks": 1513,
+          "all_untouched_chunks_byte_identical": true,
+          "expected_runtime_replacements": 61,
+          "changed_scripts_from_v1_8_native_baseline": 31,
+          "source_sha256": "a3fc4cab05e07d9a2901757007a6b52b7cf3e9acf2cbb49858a52d0a961f596c",
+          "candidate_sha256": "b49da651ddfaa87dcdc08d49071dc7a15087369f61c7c904089d09f16c3385d2",
+          "property_signature_audit_passed": true,
+          "published": false
+        },
+        "blackwater": {
+          "untouched_chunks": 1496,
+          "all_untouched_chunks_byte_identical": true,
+          "expected_runtime_replacements": 61,
+          "changed_scripts_from_v1_8_native_baseline": 31,
+          "source_sha256": "b7181f8204d43dcccb37aa79797ff2a7408f4c9bc9751f3d2baf07ebd4d4d515",
+          "candidate_sha256": "6804246070cee0e7fef40c55c0258501fa7d662474ddbdf7301fe7f3fa373ea9",
+          "property_signature_audit_passed": true,
+          "published": false
+        },
+        "cinderworks": {
+          "untouched_chunks": 1500,
+          "all_untouched_chunks_byte_identical": true,
+          "expected_runtime_replacements": 61,
+          "changed_scripts_from_v1_8_native_baseline": 31,
+          "source_sha256": "b1b89378c2ed8cc54d5aa3b95ec6419eb4a6e23b687046ef36915d320a02127f",
+          "candidate_sha256": "f7b5db407fbf0d1effc2e6573c452f0b34ba7d41505c51b4066d64bb80008a37",
+          "property_signature_audit_passed": true,
+          "published": false
+        },
+        "whiteout": {
+          "untouched_chunks": 1500,
+          "all_untouched_chunks_byte_identical": true,
+          "expected_runtime_replacements": 61,
+          "changed_scripts_from_v1_8_native_baseline": 31,
+          "source_sha256": "445bd3403794f65214822161b14e287363f21d7ff3713ee4079573228d78d168",
+          "candidate_sha256": "c723996c980d0a6d554103e2179854e128dc0de66ced5c9c6894030aa1a957ca",
+          "property_signature_audit_passed": true,
+          "published": false
+        }
+      },
+      "comparison_note": "The 31 script differences are versus original v1.8 native places and include previous Batch 1 changes; Audio modifies only Effects versus its frozen branch base."
+    }
+  },
+  "prepared_audio": {
+    "source_downloads": 22,
+    "candidate_recordings": 84,
+    "committed_ogg_bytes": 1617674,
+    "wav_format": "mono 48000 Hz PCM16",
+    "maximum_wav_bytes": 960044,
+    "maximum_seconds": 10.0,
+    "clipped_pcm_samples": 0,
+    "highest_4x_true_peak_dbfs": -5.514,
+    "crossfaded_loops": 9,
+    "firearm_file_onset_threshold_seconds": 0.035,
+    "onset_scope": "Edited-file leading silence only; not network/animation/Roblox output latency.",
+    "native_listening": false,
+    "roblox_uploaded": false,
+    "roblox_ids_populated": 0,
+    "roblox_permissions_verified": false
+  },
+  "event_inventory": {
+    "keys": 100,
+    "stock_fallback_paths": 73,
+    "silent_until_upload": 27,
+    "configured": 0,
+    "not_all_catalog_keys_have_callers": true
+  },
+  "limitations": [
+    "ContentProvider, Sound, workspace and async behavior use offline doubles; native engine behavior, asset permission, multiplayer timing and device performance remain unverified.",
+    "Lune warns about unsupported Terrain.VoxelGridAssetContentMap metadata; raw lossless audits separately preserve untouched native chunks.",
+    "The 60-record scope audit applies to this isolated specialist branch; intentional Maps/Enemies changes require separate commit-diff scope review in the combined candidate.",
+    "Prepared isolated samples are review candidates, not an activated Roblox mix; source-declared CC0 does not establish Roblox ownership, moderation or experience playback access."
+  ],
+  "acceptance": {
+    "studio_gameplay_listening": "Pending",
+    "physical_mobile": "Pending",
+    "creator_asset_approval": "Pending",
+    "recording_gaps": "See README.md",
+    "main_combined_candidate": "Pending",
+    "publish_authorized": false,
+    "publishing_workflow_dispatched": false,
+    "release_ready": false
+  }
+}

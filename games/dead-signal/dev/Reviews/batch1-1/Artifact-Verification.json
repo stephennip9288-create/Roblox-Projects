@@ -1,0 +1,115 @@
+{
+  "source_sha": "89fa864f6e5413a8f55780c4f6769b3b9807b077",
+  "full_native_baselines": true,
+  "engine": false,
+  "environments": {
+    "staging": [
+      {
+        "place": "dispatch",
+        "bytes": 2745665,
+        "sha256": "d9949b061ed7781aedb23f09e0e1770538526bbcac7e8b5c3bf15427a0434775",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1513,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "blackwater",
+        "bytes": 2716743,
+        "sha256": "ccec7486d2180add45ede06a05f5490c4c5bc2b2676cbb5db7fc7a5e678fd435",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1496,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "cinderworks",
+        "bytes": 2724590,
+        "sha256": "8eb56106aadd551f91bc4fe22ae73ccade40571388590cdc846cec6ba5aa645e",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1500,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "whiteout",
+        "bytes": 2726049,
+        "sha256": "2f4e1b9046bf72c5fb6ed49c62c3cffa922154df87f14492ba198fb691c38c43",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1500,
+        "patched_source_prop_chunks": 1
+      }
+    ],
+    "production": [
+      {
+        "place": "dispatch",
+        "bytes": 2745680,
+        "sha256": "9dc3be0d248112be7c82cac075f37ca0a6fd967c546fc771cd68d2c00d45a14c",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1513,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "blackwater",
+        "bytes": 2716758,
+        "sha256": "c2fe2836362efe1ee4c51387589e1f96c8ee1de079a128049a851c77a28e5b59",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1496,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "cinderworks",
+        "bytes": 2724603,
+        "sha256": "e8a91c790569719c5451c6b6a5d3bb9fa2a781ca727a1be89b9ca13de93c9d14",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1500,
+        "patched_source_prop_chunks": 1
+      },
+      {
+        "place": "whiteout",
+        "bytes": 2726062,
+        "sha256": "da0ddb2dfe37771692328b9f4cd59b308e88e5e762abadb1896e16279418ecfa",
+        "source_records": 61,
+        "sources_exact": true,
+        "reproduced_byte_identically": true,
+        "config_exact": true,
+        "profile_preserved": true,
+        "all_untouched_chunks_byte_identical": true,
+        "untouched_chunks": 1500,
+        "patched_source_prop_chunks": 1
+      }
+    ]
+  }
+}

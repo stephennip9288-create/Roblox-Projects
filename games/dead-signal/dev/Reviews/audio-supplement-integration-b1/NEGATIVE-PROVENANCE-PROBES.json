@@ -1,0 +1,29 @@
+{
+  "temporary_copies_only": true,
+  "probes": [
+    {
+      "probe": "extra_config_edit",
+      "rejected": true
+    },
+    {
+      "probe": "duplicate_supplement",
+      "rejected": true
+    },
+    {
+      "probe": "unreviewed_runtime",
+      "rejected": true
+    },
+    {
+      "probe": "historical_ledger_edit",
+      "rejected": true
+    },
+    {
+      "probe": "prior_ledger_edit",
+      "rejected": true
+    },
+    {
+      "probe": "false_intake_head",
+      "rejected": true
+    }
+  ]
+}

@@ -34,7 +34,7 @@ function W.fit(parent,family,cf,target)
     model:SetAttribute("ArtRevision",6) return true
 end
 local replacements={ShippingCrate={"SupplyCrate",4.5,3.2,3.8},RadioCabinet={"FieldRadio",3.6,2.3,1.8},
-    WornDeskTop={"OfficeDesk",8,3.2,4.1},ExtractionRadio={"FieldRadio",5,3.3,3},StarterAmmunition={"SupplyCrate",3.4,2,2.1},
+    WornDeskTop={"OfficeDesk",8,3.2,4.1},ExtractionRadio={"FieldRadio",5,3.3,3},
     SupplyTin={"SupplyCrate",2.2,1.5,2.2},InstrumentHousing={"FieldRadio",2.5,2,1.5},WorkIslandCabinet={"Cabinet",6,2.6,3.2}}
 function W.apply(parent,theme)
     local source=parent:GetDescendants() local service=game:GetService("MaterialService")

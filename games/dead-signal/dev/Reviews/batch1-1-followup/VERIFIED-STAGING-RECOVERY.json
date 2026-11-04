@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "environment": "staging",
+  "universe_id": "10771141095",
+  "source_sha": "409ae5118981ff5c9ba82802eb41c6a8326a4bc1",
+  "artifact": {
+    "id": 12180128738,
+    "run_id": 39237971450,
+    "sha256": "e543b305b755bb2be330f34404ddfa064d2a1979a9fdb1c184536a1ae74ad197",
+    "expires_at": "2027-01-17T10:30:41Z",
+    "head_sha": "4f41b306d2deec283fe97ac4f7af314bd9055b2f"
+  },
+  "deployment": {
+    "run_id": 39237971450,
+    "attempt": 1,
+    "versions": {
+      "dispatch": 15,
+      "blackwater": 12,
+      "cinderworks": 12,
+      "whiteout": 12
+    },
+    "workflow_id": 386310450,
+    "control_sha": "4f41b306d2deec283fe97ac4f7af314bd9055b2f"
+  },
+  "places": {
+    "dispatch": {
+      "place_id": "117710269155815",
+      "member": "build/dead-signal-lossless/staging/dispatch.rbxl",
+      "sha256": "0c9f78916a1c6146cfacd59eb22b2d07a6432a91004860dc3c5c99f5f3cc3493",
+      "bytes": 2748267,
+      "version": 15,
+      "all_61_deployed_sources_match": true,
+      "binary_fidelity": true
+    },
+    "blackwater": {
+      "place_id": "102403661108879",
+      "member": "build/dead-signal-lossless/staging/blackwater.rbxl",
+      "sha256": "e76e9a73bd79b18acb2259b8a97a4fd738726f8f4e0b34788f58d9acb3603c91",
+      "bytes": 2719345,
+      "version": 12,
+      "all_61_deployed_sources_match": true,
+      "binary_fidelity": true
+    },
+    "cinderworks": {
+      "place_id": "125712056058975",
+      "member": "build/dead-signal-lossless/staging/cinderworks.rbxl",
+      "sha256": "8ccb9f2f4aeb129b5fb50258865bd3c3911cb4f84fbe5465518e3421eb012fe4",
+      "bytes": 2727192,
+      "version": 12,
+      "all_61_deployed_sources_match": true,
+      "binary_fidelity": true
+    },
+    "whiteout": {
+      "place_id": "122269451559483",
+      "member": "build/dead-signal-lossless/staging/whiteout.rbxl",
+      "sha256": "202e89955fdc168e7308eaa4ec05fbae0f57f02b9832cb336b38f4c024fe8bde",
+      "bytes": 2728651,
+      "version": 12,
+      "all_61_deployed_sources_match": true,
+      "binary_fidelity": true
+    }
+  },
+  "verification": "Latest successful GitHub deployment source and exact retained binary artifact; live Roblox API was not queried. All source records at 409ae511 match c80 base.",
+  "informational_only": true,
+  "approval_to_publish": false,
+  "trusted_control_update_pending": true
+}

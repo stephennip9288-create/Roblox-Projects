@@ -10,6 +10,8 @@ local Presentation=require(RS.DeadSignal.Presentation)
 local LoadingScreen=require(RS.DeadSignal.LoadingScreen)
 local PC=require(RS.DeadSignal.PlaceConfig)
 local WeaponModels=require(RS.DeadSignal.WeaponModels)
+local TouchLayout=require(RS.DeadSignal.TouchLayout)
+local ControlSettings=require(RS.DeadSignal.ControlSettings)
 local UI={} UI.__index=UI
 local colors={} for key,value in pairs(Presentation.colors) do colors[key]=U.color(value) end
 local function text(parent,txt,size,pos,dims,color,font)
@@ -34,7 +36,7 @@ function UI.new(send,onMenu)
     local self=setmetatable({send=send,onMenu=onMenu,selectedMap="Station",selectedMode="Standard",boards={},boardKey="StandardSolo",touch=UIS.TouchEnabled},UI)
     local old=Players.LocalPlayer.PlayerGui:FindFirstChild("DeadSignalHUD") if old then old:Destroy() end
     for _,name in ipairs({"DeadSignalReticle","DeadSignalOptic"}) do local prior=Players.LocalPlayer.PlayerGui:FindFirstChild(name) if prior then prior:Destroy() end end
-    local gui=U.make("ScreenGui",Players.LocalPlayer.PlayerGui,{Name="DeadSignalHUD",ResetOnSpawn=false,IgnoreGuiInset=false,DisplayOrder=20,ZIndexBehavior=Enum.ZIndexBehavior.Sibling}) self.gui=gui
+    local gui=U.make("ScreenGui",Players.LocalPlayer.PlayerGui,{Name="DeadSignalHUD",ResetOnSpawn=false,ScreenInsets=Enum.ScreenInsets.CoreUISafeInsets,IgnoreGuiInset=false,DisplayOrder=20,ZIndexBehavior=Enum.ZIndexBehavior.Sibling}) self.gui=gui
     self.reticleGui=U.make("ScreenGui",Players.LocalPlayer.PlayerGui,{Name="DeadSignalReticle",ResetOnSpawn=false,ScreenInsets=Enum.ScreenInsets.None,
         IgnoreGuiInset=true,ClipToDeviceSafeArea=false,DisplayOrder=20,Enabled=false,ZIndexBehavior=Enum.ZIndexBehavior.Sibling})
     self.hud=U.make("Frame",gui,{Name="CombatHUD",Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false})
@@ -44,6 +46,7 @@ function UI.new(send,onMenu)
     self.points=text(self.hud,"500",27,UDim2.new(1,-215,0,16),UDim2.fromOffset(190,38),colors.amber,Enum.Font.GothamBold) self.points.TextXAlignment=Enum.TextXAlignment.Right
     self.ammo=text(self.hud,"12 / 84",self.touch and 18 or 35,self.touch and UDim2.new(.5,-125,1,-66) or UDim2.new(1,-250,1,-67),UDim2.fromOffset(self.touch and 250 or 230,45),colors.text,Enum.Font.GothamBold) self.ammo.TextXAlignment=self.touch and Enum.TextXAlignment.Center or Enum.TextXAlignment.Right
     self.weapon=text(self.hud,"KESTREL 9",12,self.touch and UDim2.new(1,-220,0,106) or UDim2.new(1,-285,1,-89),UDim2.fromOffset(self.touch and 200 or 265,22),colors.muted) self.weapon.TextXAlignment=Enum.TextXAlignment.Right
+    self.grenades=text(self.hud,"",10,nil,nil,colors.muted) self.grenades.TextXAlignment=Enum.TextXAlignment.Right self.grenades.Visible=false
     self.weapon.Visible=not self.touch
     local healthPos=self.touch and UDim2.fromOffset(20,92) or UDim2.new(0,22,1,-60)
     self.healthBG=frame(self.hud,UDim2.fromOffset(self.touch and 160 or 215,7),healthPos,Color3.fromRGB(44,51,53))
@@ -67,6 +70,8 @@ function UI.new(send,onMenu)
     self.crossBars={}
     for _,d in ipairs({{18,6,2,7},{18,27,2,7},{6,18,7,2},{27,18,7,2}}) do self.crossBars[#self.crossBars+1]=frame(self.cross,UDim2.fromOffset(d[3],d[4]),UDim2.fromOffset(d[1],d[2]),colors.text) end
     self.marker=U.make("TextLabel",self.reticleGui,{Text="×",TextSize=36,Font=Enum.Font.Gotham,TextColor3=colors.text,TextTransparency=1,BackgroundTransparency=1,Size=UDim2.fromOffset(60,60),Position=UDim2.new(.5,-30,.5,-30)})
+    self.hitCaption=text(self.reticleGui,"",10,UDim2.new(.5,-60,.5,24),UDim2.fromOffset(120,16),colors.text,Enum.Font.GothamBold)
+    self.hitCaption.TextXAlignment=Enum.TextXAlignment.Center self.hitCaption.TextTransparency=1
     self.hurt=U.make("Frame",gui,{Name="DamageFlash",Size=UDim2.fromScale(1,1),BackgroundColor3=colors.red,BackgroundTransparency=1,BorderSizePixel=0})
     self.spectate=frame(gui,UDim2.fromOffset(300,42),UDim2.new(.5,-150,1,-70)) self.spectate.Visible=false
     self.spectateText=text(self.spectate,"",12,UDim2.fromOffset(45,0),UDim2.fromOffset(210,42)) self.spectateText.TextXAlignment=Enum.TextXAlignment.Center
@@ -87,9 +92,9 @@ function UI.new(send,onMenu)
     self.title=text(self.panel,"OPERATOR TERMINAL",18,UDim2.fromOffset(22,15),UDim2.new(1,-94,0,36),colors.text,Enum.Font.GothamBold) self.title.TextWrapped=true
     button(self.panel,"×",UDim2.fromOffset(44,40),UDim2.new(1,-59,0,13),function() self:close() end)
     self.content=U.make("ScrollingFrame",self.panel,{Position=UDim2.fromOffset(20,66),Size=UDim2.new(1,-40,1,-86),BackgroundTransparency=1,BorderSizePixel=0,CanvasSize=UDim2.fromOffset(0,0),AutomaticCanvasSize=Enum.AutomaticSize.Y,ScrollBarThickness=4,ScrollBarImageColor3=colors.muted})
-    self.bannerFrame=frame(gui,UDim2.fromOffset(560,68),UDim2.new(.5,-280,.2,0),colors.bg) self.bannerFrame.Visible=false
+    self.bannerFrame=frame(self.hud,UDim2.fromOffset(560,68),UDim2.new(.5,-280,.2,0),colors.bg) self.bannerFrame.Visible=false
     self.bannerText=text(self.bannerFrame,"",20,UDim2.fromOffset(18,0),UDim2.new(1,-36,1,0),colors.red,Enum.Font.GothamBold) self.bannerText.TextWrapped=true self.bannerText.TextXAlignment=Enum.TextXAlignment.Center
-    self.toastFrame=frame(gui,UDim2.fromOffset(420,48),UDim2.new(.5,-210,.75,0),colors.bg) self.toastFrame.Visible=false
+    self.toastFrame=frame(self.hud,UDim2.fromOffset(420,48),UDim2.new(.5,-210,.75,0),colors.bg) self.toastFrame.Visible=false
     self.toastText=text(self.toastFrame,"",13,UDim2.fromOffset(12,0),UDim2.new(1,-24,1,0),colors.amber) self.toastText.TextWrapped=true self.toastText.TextXAlignment=Enum.TextXAlignment.Center
     self.loading=LoadingScreen.new(gui) self.travelLayer=self.loading.frame
     -- Both Dispatch and match places show an initial map-specific loading scene.
@@ -99,6 +104,11 @@ function UI.new(send,onMenu)
     local function resize()
         local v=self.hud.AbsoluteSize if not v or v.X<1 then v=workspace.CurrentCamera.ViewportSize end
         local layout=Presentation.layout(v.X,v.Y,self.touch) self.layout=layout
+        local flags={banner=self.bannerFrame.Visible,toast=self.toastFrame.Visible,boss=self.state and self.state.boss~=nil,
+            crew=self.state and #self.state.team>1,down=self.crewDown,effects=self.effects.Text~="",perks=self.perks.Text~=""}
+        local key=tostring(v)..tostring(self.touchSettings)
+        for _,flag in ipairs({"banner","toast","boss","crew","down","effects","perks"}) do key=key..tostring(flags[flag]) end
+        if self.layoutKey==key then return end self.layoutKey=key
         local function fit(obj,r) obj.Size=UDim2.fromOffset(r.w,r.h) obj.Position=UDim2.fromOffset(r.x,r.y) end
         for key,obj in pairs({round=self.round,roundLabel=self.roundLabel,waveInfo=self.waveInfo,points=self.points,
             menu=self.menuButton,health=self.healthBG,healthText=self.healthText,stamina=self.staminaBG,perks=self.perks,
@@ -111,7 +121,35 @@ function UI.new(send,onMenu)
         local bw=math.min(560,v.X-32) self.bannerFrame.Size=UDim2.fromOffset(bw,68) self.bannerFrame.Position=UDim2.new(.5,-bw/2,.2,0)
         local tw=math.min(420,v.X-32) self.toastFrame.Size=UDim2.fromOffset(tw,48) self.toastFrame.Position=UDim2.new(.5,-tw/2,.75,0)
         self.objective.Visible=true self.effects.Visible=true self.team.Visible=true
+        if layout.compact then
+            local settings=self.touchSettings or ControlSettings.resolve(self.profile and self.profile.settings)
+            local occupied=TouchLayout.build(v.X,v.Y,settings)
+            local hud=TouchLayout.combatHUD(occupied,settings,flags) self.combatLayout=hud
+            local function localRect(parent,x,y,w,h) return {x=parent.x+x,y=parent.y+y,w=w,h=h} end
+            local head=hud.heading local account=hud.account local ammo=hud.ammo local vitals=hud.vitals
+            fit(self.roundLabel,localRect(head,0,0,48,10)) fit(self.round,localRect(head,0,9,44,26)) self.round.TextSize=26
+            fit(self.waveInfo,localRect(head,54,0,head.w-54,34)) self.waveInfo.TextWrapped=true self.waveInfo.TextSize=11
+            fit(self.points,localRect(account,0,0,104,32)) fit(self.menuButton,localRect(account,114,0,40,34))
+            fit(self.objective,hud.objective)
+            fit(self.ammo,localRect(ammo,0,14,ammo.w,30)) fit(self.weapon,localRect(ammo,0,0,ammo.w-40,14))
+            fit(self.grenades,localRect(ammo,ammo.w-36,0,36,14)) self.grenades.Visible=true
+            fit(self.healthBG,localRect(vitals,0,0,vitals.w,5)) fit(self.healthText,localRect(vitals,0,7,vitals.w,20))
+            fit(self.staminaBG,localRect(vitals,0,30,vitals.w,2))
+            self.team.Visible=hud.crew~=nil if hud.crew then fit(self.team,hud.crew) end
+            self.effects.Visible=hud.effects~=nil if hud.effects then fit(self.effects,hud.effects) end
+            self.perks.Visible=hud.perks~=nil if hud.perks then fit(self.perks,hud.perks) end
+            if hud.boss then fit(self.bossName,localRect(hud.boss,0,0,hud.boss.w,16)) fit(self.bossBG,localRect(hud.boss,0,20,hud.boss.w,4)) end
+            if hud.banner then fit(self.bannerFrame,hud.banner) end
+            if hud.toast then fit(self.toastFrame,hud.toast) end
+            self.bannerText.TextSize=12 self.bannerText.TextScaled=true self.toastText.TextScaled=true
+            self.team.TextWrapped=true self.team.TextSize=10 self.effects.TextWrapped=true self.effects.TextSize=10
+        else self.round.TextSize=32 self.perks.Visible=true self.grenades.Visible=false end
     end
+    self.resize=resize
+    for _,label in ipairs({self.bannerText,self.toastText}) do
+        U.make("UITextSizeConstraint",label,{MinTextSize=10,MaxTextSize=20})
+    end
+    for _,label in ipairs({self.weapon,self.waveInfo,self.healthText,self.team}) do label.TextTruncate=Enum.TextTruncate.AtEnd end
     self.hud:GetPropertyChangedSignal("AbsoluteSize"):Connect(resize)
     workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(resize) resize()
     return self
@@ -347,6 +385,7 @@ function UI:open(tab)
 end
 function UI:setProfile(profile)
     self.profile=profile
+    if not profile.settings.hitmarkers then self.marker.TextTransparency=1 self.hitCaption.TextTransparency=1 end
     if self.shade.Visible and self.tab~="Results" then self:open(self.tab) end
 end
 function UI:setState(state,displayMag)
@@ -368,6 +407,7 @@ function UI:setState(state,displayMag)
     self.healthBar.Size=UDim2.fromScale(math.clamp(state.health/state.maxHealth,0,1),1)
     self.staminaBar.Size=UDim2.fromScale(math.clamp(state.stamina/state.maxStamina,0,1),1)
     self.healthText.Text=state.status=="Down" and ((state.autoRevive and "LIFELINE ACTIVATING" or "HOLD ON • REVIVE NEEDED").." / "..state.downLeft.."s") or state.health.." HP"
+    if self.layout and self.layout.compact and state.status=="Down" then self.healthText.Text=(state.autoRevive and "LIFELINE" or "REVIVE NEEDED").." / "..state.downLeft.."s" end
     self.healthBar.BackgroundColor3=state.health<45 and colors.red or colors.cyan
     local names={} for _,key in ipairs(C.PerkOrder) do if state.perks[key] then table.insert(names,C.Perks[key].name) end end self.perks.Text=table.concat(names,"  •  ")
     local x=state.extraction
@@ -378,18 +418,23 @@ function UI:setState(state,displayMag)
     if state.boss then self.bossBar.Size=UDim2.fromScale(math.clamp(state.boss.hp/state.boss.max,0,1),1)
         self.bossName.Text="WARDEN / "..(state.boss.overload and "ARMOR OVERLOAD" or "PHASE "..(state.boss.phase or 1))
     end
-    local ef={} for key,expiry in pairs(state.effects) do if expiry>state.serverTime then table.insert(ef,C.Powerups[key].name.." "..math.ceil(expiry-state.serverTime).."s") end end
-    if x then table.insert(ef,x.stage=="Board" and "HOLD POSITION" or x.stage=="Warden" and "KILL THE WARDEN" or x.stage=="Clear" and "ZONE CONTESTED" or "FOLLOW THE RESCUE BEACON") end self.effects.Text=table.concat(ef,"   ")
+    local compact=self.layout and self.layout.compact
+    local shortEffects=compact and {Double="2x POINTS",Instant="LETHAL",Sale="SALE"} or {}
+    local ef={} for key,expiry in pairs(state.effects) do if expiry>state.serverTime then table.insert(ef,(shortEffects[key] or C.Powerups[key].name).." "..math.ceil(expiry-state.serverTime).."s") end end
+    -- Extraction already occupies its dedicated objective/boarding panel. Keep
+    -- that instruction there on compact screens rather than repeating it over
+    -- the fire area alongside power-up durations.
+    if x and not compact then table.insert(ef,x.stage=="Board" and "HOLD POSITION" or x.stage=="Warden" and "KILL THE WARDEN" or x.stage=="Clear" and "ZONE CONTESTED" or "FOLLOW THE RESCUE BEACON") end self.effects.Text=table.concat(ef,compact and " · " or "   ")
     local rows={} local down=false for _,p in ipairs(state.team) do if p.id~=Players.LocalPlayer.UserId then
         down=down or p.status=="Down"
         table.insert(rows,p.name.."  /  "..(p.status=="Alive" and "ACTIVE" or p.status=="Down" and "REVIVE NEEDED" or p.status:upper()))
-    end end self.team.Text=table.concat(rows,"\n") self.team.TextColor3=down and colors.amber or colors.muted
-    if self.layout and self.layout.compact and not self.layout.narrow then
+    end end self.team.Text=table.concat(rows,"\n") self.team.TextColor3=down and colors.amber or colors.muted self.crewDown=down
+    if self.layout and self.layout.compact then
         local downNames={} local active=0
         for _,p in ipairs(state.team) do if p.id~=Players.LocalPlayer.UserId then
             if p.status=="Down" then table.insert(downNames,p.name) elseif p.status=="Alive" then active=active+1 end
         end end
-        self.team.Text=#downNames>0 and "REVIVE: "..table.concat(downNames,", ") or "CREW / "..active.." ACTIVE"
+        self.team.Text=#downNames>0 and "REVIVE "..#downNames..": "..table.concat(downNames,", ") or "CREW / "..active.." ACTIVE"
     end
     self.cross.Visible=state.status=="Alive" and not self.shade.Visible
     self.spectate.Visible=state.status=="Eliminated" and not self.shade.Visible
@@ -397,9 +442,24 @@ function UI:setState(state,displayMag)
     local gun=state.guns[state.slot] if gun then
         local stat=R.weaponStats(C.Weapons[gun.id],gun.tier,state.perks)
         self.ammo.Text=gun.reloadUntil>state.serverTime and "RELOADING" or (displayMag or gun.mag).." / "..gun.reserve
-        self.weapon.Text=string.upper(stat.name).."   /   "..state.grenades.." GRENADES"
+        self.weapon.Text=string.upper(stat.name)..(compact and "" or "   /   "..state.grenades.." GRENADES")
+        self.grenades.Text="G "..state.grenades
     end
     local p=self.profile self.lobbyInfo.Text="DISPATCH"..(p and "  /  RANK "..p.rank.."  /  "..p.credits.." FIELD CREDITS" or "  /  PROFILE LOADING")..(bay and "" or "  /  WALK INTO A BAY")
+    self.resize()
+end
+function UI:setTouchLayout(settings)
+    self.touchSettings=settings self.layoutKey=nil self.resize()
+end
+function UI:reticle(def,fov,viewport,recoil)
+    if not def then return end
+    -- Matches the server's angular hip spread envelope; recoil is visual feedback.
+    -- This does not select targets, change spread, or predict a server hit.
+    local gap=math.clamp(math.floor(math.tan(math.rad(def.spread/2))*viewport.Y/(2*math.tan(math.rad(fov/2)))+(recoil or 0)*2+.5),4,48)
+    if self.reticleGap==gap then return end self.reticleGap=gap
+    for i,xy in ipairs({{19,20-gap-7},{19,20+gap},{20-gap-7,19},{20+gap,19}}) do
+        self.crossBars[i].Position=UDim2.fromOffset(xy[1],xy[2])
+    end
 end
 function UI:travel(data)
     self.loading:set(data.map or "Lobby",data.message,data.active)
@@ -416,17 +476,23 @@ end
 function UI:toast(value,color)
     self.toastToken=(self.toastToken or 0)+1 local token=self.toastToken
     self.toastText.Text=value self.toastText.TextColor3=colors[color] or colors.amber self.toastFrame.Visible=true
-    task.delay(3.3,function() if self.toastToken==token then self.toastFrame.Visible=false end end)
+    self.resize()
+    task.delay(3.3,function() if self.toastToken==token then self.toastFrame.Visible=false self.resize() end end)
 end
 function UI:banner(value,color)
     self.bannerToken=(self.bannerToken or 0)+1 local token=self.bannerToken
     self.bannerText.Text=value self.bannerText.TextColor3=colors[color] or colors.red self.bannerFrame.Visible=true
-    task.delay(3.5,function() if self.bannerToken==token then self.bannerFrame.Visible=false end end)
+    self.resize()
+    task.delay(3.5,function() if self.bannerToken==token then self.bannerFrame.Visible=false self.resize() end end)
 end
 function UI:hit(kill,head)
     if self.profile and not self.profile.settings.hitmarkers then return end
+    if self.hitTween then self.hitTween:Cancel() end if self.captionTween then self.captionTween:Cancel() end
     self.marker.TextColor3=kill and colors.red or (head and colors.cyan or colors.text) self.marker.TextTransparency=0
-    Tween:Create(self.marker,TweenInfo.new(.22),{TextTransparency=1}):Play()
+    self.marker.TextSize=kill and 40 or 36
+    self.hitCaption.Text=kill and "KILL" or head and "HEAD" or "" self.hitCaption.TextTransparency=0
+    self.hitTween=Tween:Create(self.marker,TweenInfo.new(.22),{TextTransparency=1}) self.hitTween:Play()
+    self.captionTween=Tween:Create(self.hitCaption,TweenInfo.new(.28),{TextTransparency=1}) self.captionTween:Play()
 end
 function UI:damage()
     self.hurt.BackgroundTransparency=.78 Tween:Create(self.hurt,TweenInfo.new(.5),{BackgroundTransparency=1}):Play()

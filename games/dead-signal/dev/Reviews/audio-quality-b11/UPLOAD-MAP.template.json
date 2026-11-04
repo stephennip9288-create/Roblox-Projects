@@ -1,0 +1,758 @@
+{
+  "pistol_near_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "081dea2906a7d54c7b561404a0e1d5fc6a2d10348e1a8484b093a01227f35d02"
+  },
+  "pistol_near_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "101dab8ade661f8e3b11959f6c84e4942e35b7608a80ffcc9db0b602668474ad"
+  },
+  "pistol_far_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "86e4a7599ff0b2e3e9879aedfb5ea9d40051397dc7ac5fe81552467b4266c20b"
+  },
+  "pistol_far_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "8a95a210ac3e974097556ab663bd83a9faf81d9716f90d75da5532d5197aea65"
+  },
+  "rifle_near_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "7288930310e0a0e0385e2f338e266d2926bf6eb40c1e8069eefe004c6855f4fc"
+  },
+  "rifle_near_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "d0a84d1f081c1010f1f786c6cdaf535e6e60744493f5e302dd2fb2af05377c70"
+  },
+  "rifle_far_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "0c7ce14a64d58250c6fefdb38a7810170bfe5a29db62d71198443a589d953448"
+  },
+  "rifle_far_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "4807db1176715277eb608f8422b93aa50665b1e80ea976faa9357e82416973ce"
+  },
+  "smg_near_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "c24228b131cf2e489caef27b12464bbdda228fcc88897cba74be4bbf1ff37472"
+  },
+  "smg_near_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "f0b07f595e4b3824039c2dbab414ca24aa58f263825d8d30f315031ae3605e21"
+  },
+  "smg_near_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "7594370ed82544ae398db54b5f7565a557eecb9a39f8854c999ba4d244c1cfc7"
+  },
+  "smg_far_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "b80ec4ea4f93ef2970789fa1662a8d6a4a00e9fce5a41cbfa401b018f7c9e9f0"
+  },
+  "smg_far_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "28459eedbef9bef0f2acd5960fc3dfb92c27c9158fb99d6a6e117a02531d07ee"
+  },
+  "smg_far_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "4b3306bb5ec1351ab17e71233cbd007e96fd8cf9971239f8f31903f75092c226"
+  },
+  "shotgun_near_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "0f942c9e08110c0d5ee6566fb12f2334732c7f774d2ebe98bb8feaf14c5577da"
+  },
+  "shotgun_near_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "337a5b0f296edfea070a898e8a4de3c08431c9add2242d7816e1f0df34469267"
+  },
+  "shotgun_far_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "07bd23307bac737788dd339c8822aecf554b5cc386cc414905ea212915b634ca"
+  },
+  "shotgun_far_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "b2e11a4068e0064cfea6bfec5fdbd07c340c0a9f80c934bcb536bfa26c8018b7"
+  },
+  "heavy_near_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "352acc448843d1ddf09ff5b4db9bfeb4cd41eccc06901710f1eb0fccd302fd0f"
+  },
+  "heavy_near_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "03f601294e9991f0ac27d9376ea2213c17811805f2a3102212d244092bc7a5d6"
+  },
+  "heavy_far_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "d32a19b2eaa32bc88dbdc2c0334bcae70f6a861bbec60985a8943c01475b6a66"
+  },
+  "heavy_far_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "0851c32a2a03b9682bae99995be116f71b24a09a5b7f89583e25747132100a18"
+  },
+  "sniper_near_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "96c7be6afd065cb306d84e98a0d1e3526a1ccf6b495d8b0ee51167a33161be6f"
+  },
+  "sniper_near_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "f43122c65cf81ac47230f8f435f00136413f8e0472e0c811b209e1bbae7e51cd"
+  },
+  "sniper_far_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "d97a989597b30435917afd6818236d6f7136beecf2f9ff67863cac83f05083b5"
+  },
+  "sniper_far_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "5a396b7c12c73cfc94b5589d7e6d81f50bbe2238adb021007b9af5475886dc82"
+  },
+  "mag_out": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "1eb781488507990ecf5447fda28349b8b2a2983d20ff5f3ba6a7483741c9a759"
+  },
+  "mag_in": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "af08f36cd4e02cc11ba7973027c1de7795703833b787215c704c434c01d8a3d9"
+  },
+  "bolt_open": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "93186c4beb0f892be4ebd0c34a8db67f767141477ed4aad457fadd18da59e617"
+  },
+  "bolt_close": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "45c5100664d152ea84f0f4634e2111e4a0f319d9df628175ce53b8dcd8d443c4"
+  },
+  "pump_open": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "5f9b0836183d702b5077be0e27fcc40e77fe9926b592b98769aca2072086c5d1"
+  },
+  "pump_close": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "51f2b7414654bb4a045396d1dbe9d56aec5d5c0ef16ddbc2d21ded688fe5d1cf"
+  },
+  "equip": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "537c34db63971e0c25dd738eb81a082141ac2fbfdc44898c7132e50ca7cafb89"
+  },
+  "empty": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "ac9e898b8c7699a019ea2c29dafdd8722ef5e91a7701ffdd3733b4842bb192e4"
+  },
+  "shell_in": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "89a34048d42c24c33b9ba9d168b25d4743b259539be5ba098641a76a660c0406"
+  },
+  "feed_open": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "df271e3a20d1c863091219c01119c7e593be2fb867f33d6203b9caafbc9daabc"
+  },
+  "feed_close": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "559cde35ee3b9ce7b2c41ee7a5546dcfab5d7f8db4daaad7856eda9467616ab3"
+  },
+  "armor_break": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "b57230665a55b0d82f8efc343f2c6d837f6e4747c0776a0d505b874555e35e80"
+  },
+  "zombie_groan_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "5e93546071041956caf758a22d3bdc11855dda9673696f1103e0241a0705b340"
+  },
+  "zombie_groan_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "766e1e233e16901a56f8d39fa84eaf59bed906ad5d75f1a4456fc502562786ac"
+  },
+  "zombie_groan_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "a65cf0f6ee8ee61a96d299c907a8e67ae5b6709fa29e189c51283a4f53cadf03"
+  },
+  "zombie_groan_4": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "4c63b728238f9b33db9b5efefc647383cdd87c73b860f1e0d8aa5d7f964552b9"
+  },
+  "zombie_attack": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "64530657f3bffe8caa1e68a95d823cd4c04039d984aaa80128a1e7db50961b65"
+  },
+  "zombie_death": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "90f131e3f825f069532583eab735d7509d64b5447bf0d4710c08d8cc0aff5463"
+  },
+  "hound_growl": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "28e4622fce3b98c6824f97627ac3d14afcfaf38191a34d6749c3b168e1bac812"
+  },
+  "hound_grumble": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "c6d2b6aedb32d73a105df011aac0e15b74178d294bbf4093dbafdc9ca140effc"
+  },
+  "hound_snarl": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "b8aadcedc2fcf8f37f84b0e929016eea87c500615a858ee9f4cfd1ce393472f4"
+  },
+  "hound_growl_short": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "11ebe7921de15b65d88f36f7a3a975fa0a736509cd948d4a352a18a05b0c65be"
+  },
+  "hound_bark_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "621caf82404463bb522c3bbaaf844e1829908cf9889a4c68cc4004c1fc2bbf5e"
+  },
+  "hound_bark_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "f62c1f3da61089241b8387f45174a676b84fe69e6d6e09ff21401f6e5a8b67a1"
+  },
+  "hound_bark_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "0fc40599ddd677c1592f7aff3dfe44758fba4170cf81602de89a38465388bfa9"
+  },
+  "hound_death_candidate": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "5dd3844cbb6544cb04b961a09a84c01d3542df83fc6abb7f54b254bd074d6320"
+  },
+  "footstep_concrete_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "aaf05c146d41a3dbcfdc13b6277a91e133860d4dc65551719b5f5e7abaa6daac"
+  },
+  "footstep_concrete_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "8fdb094d0b441f784e443c0c64666cfd843006c8a7f18618702a67790ab7dd22"
+  },
+  "footstep_concrete_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "f363927d270aad12fee239a72fda26bb34ba4562b14dc54ba3942b1229d801d6"
+  },
+  "footstep_wood_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "5d58fb30de0ba495d61f4fe3aec5a985a24bac2e3ca0b909e9b260f762eab003"
+  },
+  "footstep_wood_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "1fd295d168d7633a3af37e92cf2396a76fcdb09aed9c5a279651f5034b33184e"
+  },
+  "footstep_wood_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "af81f5eebe1c260c64e2422a919914b7028c969e71634744915fe770dd43148f"
+  },
+  "footstep_snow_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "84eeb4acea3d290eb204f62d4c705fad7ad7fa8c672bb398cc3dd7c4cd2195d8"
+  },
+  "footstep_snow_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "c2f8983049c6b581259a9462061ad85ebbd22abf4543a5a5dd3f6065d0c06d9a"
+  },
+  "footstep_snow_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "1fe71af2c130f32fd30b312c753fb28ec7d6b17f1be4809901e805339409edfe"
+  },
+  "entry_contact_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "b2714aa46b8c42ca6844de2d4f69da451acc3feb0a85633694239bd61d31615d"
+  },
+  "entry_land_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "0e890e4b0338fff27bba5efdea54679e4554051453157a4af6e9c640c83a1512"
+  },
+  "hit_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "fa89d56f4a762c18ea6dfee7ce6cd0648123cb6fa71b3c8f9aa17477cf5f8f99"
+  },
+  "gear_1": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "9a4cfdf73e2751395295f944896d32dd0d338f12cd450198aa1f69229db706d0"
+  },
+  "entry_contact_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "e03218faa67f17070d289bcaaabd5bf5337c432cb2c83c37ab040198b73c8902"
+  },
+  "entry_land_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "d750c242c00f59df38a191e8631e83667c47c9439ad81376a4a46fce8eef64da"
+  },
+  "hit_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "9de6ffbdeaae2bd503af5c73639b87db922f50e2dd6ed4f5a2c1ca7f8699cc59"
+  },
+  "gear_2": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "5e830b82525824d5eca7dea26e95e88d1edc60f4d02ed958bd6de4180ea35ebb"
+  },
+  "entry_contact_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "aa522224f846366fe6ed56c63849b5a945d5b50125db0fa563dfcf1e331635ed"
+  },
+  "entry_land_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "140555067cc6e07c537ad1972c53ffbaa09859963930a4dc66ab5a8b8bb6365b"
+  },
+  "hit_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "72d4ba3e54d568cff6bbd7a883a5fb567285790ccb92cc5d6424bc631a71a6ec"
+  },
+  "gear_3": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "f5213f981af0f564062c45b1fe6309d4fdb03f953ece073aec922a25ac54d9f2"
+  },
+  "kill_confirmation": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "3effa713a86673ea28b021666620ac2a8f5e83ce066507ac3c01eec06de6a93a"
+  },
+  "blackwater_wind": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "8aa6532c34454c97de81d307b549e057b2677e21ae47941946835390f9f5f6fc"
+  },
+  "blackwater_radio": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "58649f5bd8f5428c1a7401a505bc72b36c6a54439f94177b02e932e6d236e6d6"
+  },
+  "blackwater_power": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "80eacc46229831259eac8746d9f5b60e35c49e191fb8f532cc8c8033c3b262de"
+  },
+  "cinderworks_machinery": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "c771a9f77c64daf21fa52ded06a5dca10c132fd7b04b6ddeac0ecf0e7baaa066"
+  },
+  "cinderworks_furnace_equipment": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "b4746dbb6a7c6b25b6b32a72aa2b8fb1d3cfe1ea224012ea84cbde4471bd7484"
+  },
+  "cinderworks_ventilation": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "565f46b5a089670e7065a9bd64a4acb90cc5010f1adae71911be7f8f469cad68"
+  },
+  "whiteout_wind": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "2ca357c01d5999ca9bafc66541cce76a523dead201dd863d8311376186527ee6"
+  },
+  "whiteout_relay": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "f3431d0fd19f67833f4685323c0a521d3ac5839353718ff319364a2f0189215d"
+  },
+  "dispatch_room": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "48d97117281c980ba5b6ee8ad05e24bc8e0a181a127b9e3ac52dc078035d76fa"
+  },
+  "whiteout_structure": {
+    "asset_id": null,
+    "creator_reviewed": false,
+    "moderation_approved": false,
+    "sample_listening_approved": false,
+    "permission_universe_id": "10771141095",
+    "experience_permission_verified": false,
+    "wav_sha256": "354d61d9918a2534b39aedacdd29db5ef1218ac579bc432e1fb34305ee92088b"
+  }
+}

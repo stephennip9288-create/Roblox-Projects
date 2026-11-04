@@ -1,0 +1,32 @@
+{
+  "wood": {
+    "page": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+    "download_url": "https://opengameart.org/sites/default/files/100-CC0-wood-metal-SFX.zip",
+    "bytes": 1990361,
+    "sha256": "be6eba63b03409ac0c77787a956b1503a7c186403d04aef9725c52644a4b7878",
+    "author": "rubberduck",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "provenance": "Wood breaking, cracking, falling and strikes; source-declared recordings/sound effects.",
+    "cache_name": "wood.zip"
+  },
+  "scrapes": {
+    "page": "https://opengameart.org/content/scrapes",
+    "download_url": "https://opengameart.org/sites/default/files/scrapes.zip",
+    "bytes": 960162,
+    "sha256": "9598070ddd77ed99e922df1d4472a249624adcd945794d1b6eba88ac77f6a014",
+    "author": "AntumDeluge",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "provenance": "Objects dragged across a cinder block, edited with Audacity. Rough masonry contact proxy; not a verified wood/metal window frame recording.",
+    "cache_name": "scrapes.zip"
+  },
+  "existing_contact": {
+    "path": "../audio-quality-b11/Auditions",
+    "manifest": "../audio-quality-b11/RECORDINGS.json",
+    "license": "CC0-1.0",
+    "author": "Kenney",
+    "page": "https://kenney.nl/assets/impact-sounds",
+    "provenance": "Existing reviewed impactWood contact cuts; source pin and credits retained in the previous recording package."
+  }
+}

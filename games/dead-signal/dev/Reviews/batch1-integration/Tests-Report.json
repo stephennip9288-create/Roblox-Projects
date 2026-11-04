@@ -1,0 +1,224 @@
+{
+  "suites": [
+    {
+      "suite": "loading",
+      "passed": true,
+      "assertions": 63,
+      "seconds": 0.416,
+      "output": "Loading artwork assertions passed: 63\n",
+      "errors": ""
+    },
+    {
+      "suite": "loadingpreview",
+      "passed": true,
+      "assertions": 36,
+      "seconds": 0.241,
+      "output": "Studio loading preview assertions passed: 36\n",
+      "errors": ""
+    },
+    {
+      "suite": "evolution",
+      "passed": true,
+      "assertions": 3378,
+      "seconds": 6.804,
+      "output": "Evolution integration assertions passed: 3378\n",
+      "errors": ""
+    },
+    {
+      "suite": "events",
+      "passed": true,
+      "assertions": 18,
+      "seconds": 0.239,
+      "output": "Special wave orchestration assertions passed: 18\n",
+      "errors": ""
+    },
+    {
+      "suite": "presentation",
+      "passed": true,
+      "assertions": 55,
+      "seconds": 0.228,
+      "output": "Evolution presentation assertions passed: 55\n",
+      "errors": ""
+    },
+    {
+      "suite": "director",
+      "passed": true,
+      "assertions": 431,
+      "seconds": 0.042,
+      "output": "Difficulty/director policy assertions passed: 431\n",
+      "errors": ""
+    },
+    {
+      "suite": "server",
+      "passed": true,
+      "assertions": 35,
+      "seconds": 0.244,
+      "output": "Server integration assertions passed: 35\n",
+      "errors": ""
+    },
+    {
+      "suite": "navigation",
+      "passed": true,
+      "assertions": 13,
+      "seconds": 0.239,
+      "output": "Navigation scheduling assertions passed: 12\nNavigation fairness total assertions: 13\n",
+      "errors": ""
+    },
+    {
+      "suite": "pursuit",
+      "passed": true,
+      "assertions": 90,
+      "seconds": 1.449,
+      "output": "Pursuit regression assertions passed: 90\n",
+      "errors": ""
+    },
+    {
+      "suite": "rigs",
+      "passed": true,
+      "assertions": 318,
+      "seconds": 0.496,
+      "output": "Rig and collision assertions passed: 318\n",
+      "errors": ""
+    },
+    {
+      "suite": "weapons",
+      "passed": true,
+      "assertions": 7929,
+      "seconds": 1.044,
+      "output": "Weapon geometry assertions passed: 7929\nReceiver cross-section samples: 4986\n",
+      "errors": ""
+    },
+    {
+      "suite": "arrival",
+      "passed": true,
+      "assertions": 28,
+      "seconds": 0.213,
+      "output": "Arrival handoff assertions passed: 28\n",
+      "errors": ""
+    },
+    {
+      "suite": "extraction",
+      "passed": true,
+      "assertions": 20,
+      "seconds": 0.043,
+      "output": "Extraction regression assertions passed: 20\n",
+      "errors": ""
+    },
+    {
+      "suite": "map_remaster",
+      "passed": true,
+      "assertions": 248665,
+      "seconds": 18.991,
+      "output": "Station map constructed: 5527 parts / 1065 colliders / 1.267 offline seconds\nFoundry map constructed: 5920 parts / 1218 colliders / 2.118 offline seconds\nFrost map constructed: 6127 parts / 1170 colliders / 1.486 offline seconds\nMap remaster contract assertions passed: 22761\nStation Batch 1: 5527 parts, 337 scenery parts, 2 two-ended service walks\nFoundry Batch 1: 5920 parts, 178 scenery parts, 2 two-ended service walks\nFrost Batch 1: 6127 parts, 80 scenery parts, 2 two-ended service walks\nBatch 1 map assertions passed: 225904\nCombined map assertions passed: 248665\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-lifecycle",
+      "passed": true,
+      "assertions": 74,
+      "seconds": 0.163,
+      "output": "Enemy lifecycle regression assertions passed: 74\n",
+      "errors": ""
+    },
+    {
+      "suite": "enemy-path-recovery",
+      "passed": true,
+      "assertions": 48,
+      "seconds": 0.18,
+      "output": "Enemy path recovery regression assertions passed: 48\n",
+      "errors": ""
+    },
+    {
+      "suite": "combat-ui",
+      "passed": true,
+      "assertions": 638775,
+      "seconds": 22.283,
+      "output": "Combat/UI geometry and layout assertions passed: 638775\nWeapon/tier models: 80 HUD scenarios: 270\n",
+      "errors": ""
+    },
+    {
+      "suite": "combat-input",
+      "passed": true,
+      "assertions": 44,
+      "seconds": 0.389,
+      "output": "Combat controller input assertions passed: 44\n",
+      "errors": ""
+    },
+    {
+      "suite": "touch",
+      "passed": true,
+      "assertions": 512,
+      "seconds": 0.042,
+      "output": "Touch behavior and safe-layout assertions passed: 507\nTouch reload continuity total assertions: 512\n",
+      "errors": ""
+    },
+    {
+      "suite": "integration-contracts",
+      "passed": true,
+      "assertions": 501,
+      "seconds": 4.351,
+      "output": "Combined integration contract assertions passed: 501\n",
+      "errors": ""
+    },
+    {
+      "suite": "weapons-batch1",
+      "passed": true,
+      "assertions": 64271,
+      "seconds": 32.203,
+      "output": "Batch 1 weapon fidelity assertions passed: 64271\nNative-preserving models: 160 maximum authored viewmodel parts: 231\n",
+      "errors": ""
+    },
+    {
+      "suite": "infected-batch1",
+      "passed": true,
+      "assertions": 3362,
+      "seconds": 2.617,
+      "output": "Batch 1 infected assertions passed: 3362\n",
+      "errors": ""
+    },
+    {
+      "suite": "infected-entrances",
+      "passed": true,
+      "assertions": 71,
+      "seconds": 0.885,
+      "output": "Batch 1 entrance contract assertions passed: 71\n",
+      "errors": ""
+    },
+    {
+      "suite": "infected-geometry",
+      "passed": true,
+      "assertions": 25717,
+      "seconds": 129.528,
+      "output": "Station: source map built\nStation: 70/70 entry plans; 1065 source colliders; 8829 sweeps\nFoundry: source map built\nFoundry: 70/70 entry plans; 1218 source colliders; 8908 sweeps\nFrost: source map built\nFrost: 70/70 entry plans; 1170 source colliders; 8879 sweeps\nBatch 1 source-geometry assertions passed: 25717\n",
+      "errors": ""
+    },
+    {
+      "suite": "audio",
+      "passed": true,
+      "assertions": 4433,
+      "seconds": 0.427,
+      "output": "Audio runtime assertions passed: 4433\n",
+      "errors": ""
+    },
+    {
+      "suite": "batch1-integration",
+      "passed": true,
+      "assertions": 50,
+      "seconds": 4.171,
+      "output": "Batch 1 integration assertions passed: 50\n",
+      "errors": ""
+    }
+  ],
+  "unit_assertions": 998937,
+  "compile": {
+    "run": true,
+    "scripts": 61,
+    "passed": true,
+    "errors": []
+  },
+  "roblox_engine_playtest": false,
+  "physical_phone_playtest": false,
+  "published_multiplayer_playtest": false,
+  "asset_permissions_verified": false,
+  "mobile_testing_deferred": true
+}

@@ -1,0 +1,375 @@
+{
+  "enemy_runtime_commit": "5db50d29001bbbce78540767265f8bb3a2d859ad",
+  "map_source_commit": "9c50b6f7ff65f6f79d4550526aab40d6b84a363f",
+  "map_runtime_commit": "529b44c6784053363785e8e04d4744f95ea079eb",
+  "runtime_records": 61,
+  "new_runtime_records": 0,
+  "files": [
+    {
+      "path": "Source/Runtime/client/AimAssist.lua",
+      "enemy_sha256": "27b9e853f84688f99937e9cc178048453c123649c18a2193f11f46182ffb3c4a",
+      "combined_sha256": "27b9e853f84688f99937e9cc178048453c123649c18a2193f11f46182ffb3c4a",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/client/Bootstrap.client.lua",
+      "enemy_sha256": "6e4d58d43f187e8b5d2545a49c1996dfa4894be8e7fa6cc06698138cae67b6c0",
+      "combined_sha256": "6e4d58d43f187e8b5d2545a49c1996dfa4894be8e7fa6cc06698138cae67b6c0",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/client/Controller.lua",
+      "enemy_sha256": "dedcdfc889bd3f972475869eabcc3ac33a6c260442fe8d906a07e4e6981476ee",
+      "combined_sha256": "dedcdfc889bd3f972475869eabcc3ac33a6c260442fe8d906a07e4e6981476ee",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/client/Effects.lua",
+      "enemy_sha256": "0b6dd28847340d7ef7d4bc90ad5f82a4b4d77b9927e0931df356b5867408feeb",
+      "combined_sha256": "0b6dd28847340d7ef7d4bc90ad5f82a4b4d77b9927e0931df356b5867408feeb",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/client/MobileControls.lua",
+      "enemy_sha256": "92642d1cb4f39de32b1da0c5f143465839a55a4a023b40733cbb467759f5a09c",
+      "combined_sha256": "92642d1cb4f39de32b1da0c5f143465839a55a4a023b40733cbb467759f5a09c",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/client/Scope.lua",
+      "enemy_sha256": "25381ace57c241b24fd2a1af4aa64e3b93f5e07507862f4ba3ae366b68dde415",
+      "combined_sha256": "25381ace57c241b24fd2a1af4aa64e3b93f5e07507862f4ba3ae366b68dde415",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/client/UI.lua",
+      "enemy_sha256": "29af94cb14f87c5ce39af7b2069617214feca31d0f788e0733e8f2594aedf604",
+      "combined_sha256": "29af94cb14f87c5ce39af7b2069617214feca31d0f788e0733e8f2594aedf604",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Architecture.lua",
+      "enemy_sha256": "3f05cbf797f3e5a815399124f99d1e6bac61ccc317268499c60b5b0caef69190",
+      "combined_sha256": "e45171857a9b2c124688c8a8aa0e3a8dd1393ffd0f95048390de3b58d8e25f95",
+      "map_overlay": true
+    },
+    {
+      "path": "Source/Runtime/server/Bootstrap.server.lua",
+      "enemy_sha256": "a464dae86e04ac0d5cf4ec6bdae8a79ee1079873bf77b36baf4c58996d5cc83f",
+      "combined_sha256": "a464dae86e04ac0d5cf4ec6bdae8a79ee1079873bf77b36baf4c58996d5cc83f",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/BoundaryGuard.lua",
+      "enemy_sha256": "7cce0a3d7dbb1b0790281b00f300c5f7139ece47cfa0970103bf11d43f5ef8c5",
+      "combined_sha256": "7cce0a3d7dbb1b0790281b00f300c5f7139ece47cfa0970103bf11d43f5ef8c5",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/CinematicWorld.lua",
+      "enemy_sha256": "376e0cb76c8824256b71c3aae942f565b468cb4403d68bc3a8482ad629269ab2",
+      "combined_sha256": "376e0cb76c8824256b71c3aae942f565b468cb4403d68bc3a8482ad629269ab2",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/CollisionPolicy.lua",
+      "enemy_sha256": "a6ff8e97dfaf3d0ddf3d62c01177b5915311a1c8dbcf16afbf39437fdd179ee2",
+      "combined_sha256": "a6ff8e97dfaf3d0ddf3d62c01177b5915311a1c8dbcf16afbf39437fdd179ee2",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Combat.lua",
+      "enemy_sha256": "82b8ea0a825a45ac3e74d3a0791a2eaad45a8f5244e6a5be21635fed93aa8adf",
+      "combined_sha256": "82b8ea0a825a45ac3e74d3a0791a2eaad45a8f5244e6a5be21635fed93aa8adf",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Diagnostics.lua",
+      "enemy_sha256": "e8eb233e1e3145e6421b7c827b59435431dfbcdd5272629c80f56ed0d02b85d7",
+      "combined_sha256": "e8eb233e1e3145e6421b7c827b59435431dfbcdd5272629c80f56ed0d02b85d7",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Enemies.lua",
+      "enemy_sha256": "502e97a94dc809e3c3a9318693135761a41fb8cff600f51119429b8c15475662",
+      "combined_sha256": "502e97a94dc809e3c3a9318693135761a41fb8cff600f51119429b8c15475662",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/EnemyRigs.lua",
+      "enemy_sha256": "63b53972be0947fdd186f933578727d93479a4ed5f3d1897546caa7a51bd8418",
+      "combined_sha256": "63b53972be0947fdd186f933578727d93479a4ed5f3d1897546caa7a51bd8418",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/ExtractionZone.lua",
+      "enemy_sha256": "2bb335006623fb7ccb626d48ad0ec23cd70092de574aa31cb89ad75aec0abd09",
+      "combined_sha256": "2bb335006623fb7ccb626d48ad0ec23cd70092de574aa31cb89ad75aec0abd09",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Game.lua",
+      "enemy_sha256": "6c8d4a773fdc234e127326bbd2a4ec82ac83107284e56d67d926e4d119b58f69",
+      "combined_sha256": "6c8d4a773fdc234e127326bbd2a4ec82ac83107284e56d67d926e4d119b58f69",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/GraphicsService.lua",
+      "enemy_sha256": "908ca31e1fa25895d2d48630873bc3b8cf5e9bf51ac58383abe9c93ac04c7ee1",
+      "combined_sha256": "908ca31e1fa25895d2d48630873bc3b8cf5e9bf51ac58383abe9c93ac04c7ee1",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/HoundRig.lua",
+      "enemy_sha256": "c89a5b40b84413f205e33fed8b63d0035c5ec17710d74684e45d62cf4c1ef2fb",
+      "combined_sha256": "c89a5b40b84413f205e33fed8b63d0035c5ec17710d74684e45d62cf4c1ef2fb",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/InfectedWardrobe.lua",
+      "enemy_sha256": "fa4e542fd61403f2736b5edf50b34be1eba00b63388992c46c90a12b2bad5f36",
+      "combined_sha256": "fa4e542fd61403f2736b5edf50b34be1eba00b63388992c46c90a12b2bad5f36",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Interactions.lua",
+      "enemy_sha256": "0bcfa0d33eddb39ab52a928deb520a0ab5e5dbb4763b246b32fa87e80a937f4b",
+      "combined_sha256": "0bcfa0d33eddb39ab52a928deb520a0ab5e5dbb4763b246b32fa87e80a937f4b",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/LobbyService.lua",
+      "enemy_sha256": "7520795b03c2b44d70dda1790afbfea713250d1ddeb8db158f8f874db3d39f29",
+      "combined_sha256": "7520795b03c2b44d70dda1790afbfea713250d1ddeb8db158f8f874db3d39f29",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/MapBuilder.lua",
+      "enemy_sha256": "9f2ab127a1150ea81effecb353cdf507433b7cebfa5fc8dc44fd36a49dc6a2d7",
+      "combined_sha256": "399f53f796f7ac09d6645014ba0cb2b01e06257532e84c89186c0e86a946cb1f",
+      "map_overlay": true
+    },
+    {
+      "path": "Source/Runtime/server/MapDetail.lua",
+      "enemy_sha256": "493604b32d353b9bfc533af35e02416ff974adc93075e7a0f9abcf96485d0c83",
+      "combined_sha256": "e303104dfca2f7918503c2f62f215777729c634c8d67e77967e784301d8bccd6",
+      "map_overlay": true
+    },
+    {
+      "path": "Source/Runtime/server/MapRoutes.lua",
+      "enemy_sha256": "079dc4c91fed3c748bcfa2485fcac412d0c7151eb989c2691befd97f6d3eabc4",
+      "combined_sha256": "079dc4c91fed3c748bcfa2485fcac412d0c7151eb989c2691befd97f6d3eabc4",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Navigation.lua",
+      "enemy_sha256": "a9ddff48c3e9346f2807a85dc9bdf6fbdab7bd88f63e436a0dd9a679bac3a6a4",
+      "combined_sha256": "a9ddff48c3e9346f2807a85dc9bdf6fbdab7bd88f63e436a0dd9a679bac3a6a4",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Network.lua",
+      "enemy_sha256": "32d4f1b1f4ef885361957da2261026fc73979e146697c0064fce3a1704215cb5",
+      "combined_sha256": "32d4f1b1f4ef885361957da2261026fc73979e146697c0064fce3a1704215cb5",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/PerkMachines.lua",
+      "enemy_sha256": "9f7431b67b399dd704dccd9f888d59b1f6e4b6f8827f83954cabda46a5d5bea8",
+      "combined_sha256": "9f7431b67b399dd704dccd9f888d59b1f6e4b6f8827f83954cabda46a5d5bea8",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Persistence.lua",
+      "enemy_sha256": "7beb14e318aeec0c72b23e39fa82c0c83f16142b2f794f28929e9180108e22ab",
+      "combined_sha256": "7beb14e318aeec0c72b23e39fa82c0c83f16142b2f794f28929e9180108e22ab",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/RigAnatomy.lua",
+      "enemy_sha256": "486afc94295448e68e916b63ffbdcce90247711e86d329152c6baa284a9aaf04",
+      "combined_sha256": "486afc94295448e68e916b63ffbdcce90247711e86d329152c6baa284a9aaf04",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Travel.lua",
+      "enemy_sha256": "583a21968a5b6022f080cd2f905d00e77851254701c1f37431a8f681ca8901b1",
+      "combined_sha256": "583a21968a5b6022f080cd2f905d00e77851254701c1f37431a8f681ca8901b1",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/TripRegistry.lua",
+      "enemy_sha256": "bead898101148260689682d803edad962b8a21435ab3f79fcd5cd330c8d57547",
+      "combined_sha256": "bead898101148260689682d803edad962b8a21435ab3f79fcd5cd330c8d57547",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/Vehicles.lua",
+      "enemy_sha256": "e6a07f28b2380c11a2753c00442d1344a0c7a3a04e0007df44bf6207c6a744c2",
+      "combined_sha256": "e6a07f28b2380c11a2753c00442d1344a0c7a3a04e0007df44bf6207c6a744c2",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/VisualPass.lua",
+      "enemy_sha256": "3b67faba45642647309666feff1795d98d1d981f9174c70a74f45ea86139d13f",
+      "combined_sha256": "8f6252af65a5b632ec852cbbf90122b317c158811cfa3b2d75a2d839c2417e40",
+      "map_overlay": true
+    },
+    {
+      "path": "Source/Runtime/server/WaveDirector.lua",
+      "enemy_sha256": "05492c49b3f5199cf5397851e84cf733c138cfba1f96ee92a11f2d7321d5c898",
+      "combined_sha256": "05492c49b3f5199cf5397851e84cf733c138cfba1f96ee92a11f2d7321d5c898",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/WorldArt.lua",
+      "enemy_sha256": "fb3419f9766214c6064360bab9f853a73a7b7b02de83f6e007f1f7f65f0060b8",
+      "combined_sha256": "fb3419f9766214c6064360bab9f853a73a7b7b02de83f6e007f1f7f65f0060b8",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/server/WorldFinish.lua",
+      "enemy_sha256": "84fae830e105a2915619b4cc83549a3ca2a158500774793ae241ad3793f5a16a",
+      "combined_sha256": "84fae830e105a2915619b4cc83549a3ca2a158500774793ae241ad3793f5a16a",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/ArrivalRules.lua",
+      "enemy_sha256": "f07b78675b9fdf92c01c63562f7bda27c6306f75170903d3f8e795d4d706aa22",
+      "combined_sha256": "f07b78675b9fdf92c01c63562f7bda27c6306f75170903d3f8e795d4d706aa22",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/ArtAssets.lua",
+      "enemy_sha256": "f760fe4d3a11ac90aefc78fa6d0798930f7f67cccb749120f5feab99cc6b6f21",
+      "combined_sha256": "f760fe4d3a11ac90aefc78fa6d0798930f7f67cccb749120f5feab99cc6b6f21",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/Config.lua",
+      "enemy_sha256": "0e7633c7d7e2fec0c5f6716106e938b631d3b0de5945e8cd8b872a2ddbba4799",
+      "combined_sha256": "0e7633c7d7e2fec0c5f6716106e938b631d3b0de5945e8cd8b872a2ddbba4799",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/ControlSettings.lua",
+      "enemy_sha256": "8a327d1860868691fa0a623a5a08c21736f093416a5ffb946024793cedd5eb1d",
+      "combined_sha256": "8a327d1860868691fa0a623a5a08c21736f093416a5ffb946024793cedd5eb1d",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/DeploymentRules.lua",
+      "enemy_sha256": "3b20963f02268a2f33c98ebd3a9c801ac0a1ea14951e5737d2541bc93b0e2f0b",
+      "combined_sha256": "3b20963f02268a2f33c98ebd3a9c801ac0a1ea14951e5737d2541bc93b0e2f0b",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/DirectorRules.lua",
+      "enemy_sha256": "b08a45eb986a629d6e3661c136a6d0645005aeded79918e6b83004abb8f95417",
+      "combined_sha256": "b08a45eb986a629d6e3661c136a6d0645005aeded79918e6b83004abb8f95417",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/DownedPose.lua",
+      "enemy_sha256": "a1802ad3fe18edc3fe7fdf057a286028cfa3caf0f6e3457825bb8174dd5924b9",
+      "combined_sha256": "a1802ad3fe18edc3fe7fdf057a286028cfa3caf0f6e3457825bb8174dd5924b9",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/Extraction.lua",
+      "enemy_sha256": "985ad88b50657e823f5da0183e0855b636801b760cc4eee28ef402bb6c6b156b",
+      "combined_sha256": "985ad88b50657e823f5da0183e0855b636801b760cc4eee28ef402bb6c6b156b",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/LoadingScreen.lua",
+      "enemy_sha256": "11875290f40aa44f40f02b9acc86a6f34b0be82807a082d035c11b8417997af3",
+      "combined_sha256": "11875290f40aa44f40f02b9acc86a6f34b0be82807a082d035c11b8417997af3",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/MapLayouts.lua",
+      "enemy_sha256": "ebe95c6f524c79f2b75cc9399712616b7b2e859bd565c36c82d7650ede229ba5",
+      "combined_sha256": "38fd46bfc514cc8107ee7b2a9042257313e8abf28c05fcc736a2bee75ecac74e",
+      "map_overlay": true
+    },
+    {
+      "path": "Source/Runtime/shared/Movement.lua",
+      "enemy_sha256": "502c4ebe2e6e7c7e4dfcc56ae47c399108769876808563d00ad961c774f27169",
+      "combined_sha256": "502c4ebe2e6e7c7e4dfcc56ae47c399108769876808563d00ad961c774f27169",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/NPCPose.lua",
+      "enemy_sha256": "5888871ef94cf30551e3464ccfe4676957dd31328400496226310340123bb6d3",
+      "combined_sha256": "5888871ef94cf30551e3464ccfe4676957dd31328400496226310340123bb6d3",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/NavigationGraph.lua",
+      "enemy_sha256": "3eb72e1aaf491dc2a4469fc7b96ac8348757686d8637cfb12adcd5fdf6214341",
+      "combined_sha256": "3eb72e1aaf491dc2a4469fc7b96ac8348757686d8637cfb12adcd5fdf6214341",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/PlaceConfig.lua",
+      "enemy_sha256": "9c6e8ba63a84001708cbf62e8144edaad1133a37ce7ed1ce13da3030a1c8a083",
+      "combined_sha256": "9c6e8ba63a84001708cbf62e8144edaad1133a37ce7ed1ce13da3030a1c8a083",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/Presentation.lua",
+      "enemy_sha256": "f0a13a5b9f15448b5e09a8da56df8f3cb2b6a01e9147f0a9811783bf0608c98f",
+      "combined_sha256": "f0a13a5b9f15448b5e09a8da56df8f3cb2b6a01e9147f0a9811783bf0608c98f",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/Rules.lua",
+      "enemy_sha256": "6ae2dfc5e99d6530be16741db8a6b451333294dda0cc4f5cbc6d6187bffada09",
+      "combined_sha256": "6ae2dfc5e99d6530be16741db8a6b451333294dda0cc4f5cbc6d6187bffada09",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/ThirdPerson.lua",
+      "enemy_sha256": "5db093c04473ba13540367c7c0df6d9c237ce89338b53cdafe6d8851bddcbbb8",
+      "combined_sha256": "5db093c04473ba13540367c7c0df6d9c237ce89338b53cdafe6d8851bddcbbb8",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/TouchInput.lua",
+      "enemy_sha256": "f1e784f33cd924ab8238dda2aedeb551d5069a99a1b2af8f9bd251cca56ebe1a",
+      "combined_sha256": "f1e784f33cd924ab8238dda2aedeb551d5069a99a1b2af8f9bd251cca56ebe1a",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/TouchLayout.lua",
+      "enemy_sha256": "af6328df47ed8cf5243aa4760774bc555c0eaec205a72610b466e37d564f647e",
+      "combined_sha256": "af6328df47ed8cf5243aa4760774bc555c0eaec205a72610b466e37d564f647e",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/Util.lua",
+      "enemy_sha256": "cdc2811eda9ac577b0ee8760fbc9d24ba3fb6ce181ef422600d1407fac5e3ffa",
+      "combined_sha256": "cdc2811eda9ac577b0ee8760fbc9d24ba3fb6ce181ef422600d1407fac5e3ffa",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/WeaponBlueprints.lua",
+      "enemy_sha256": "dee97fb39657933f9acb53d93deb752b2c33f64764c705c2283311b28b57c2c9",
+      "combined_sha256": "dee97fb39657933f9acb53d93deb752b2c33f64764c705c2283311b28b57c2c9",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/WeaponDetail.lua",
+      "enemy_sha256": "f1f97967da488103338fa44c90817ad22cb85729cb0aa227f20fa33266a4ac11",
+      "combined_sha256": "f1f97967da488103338fa44c90817ad22cb85729cb0aa227f20fa33266a4ac11",
+      "map_overlay": false
+    },
+    {
+      "path": "Source/Runtime/shared/WeaponModels.lua",
+      "enemy_sha256": "a47939f6a0e47216c1a708df32a3bfbfddafb51c43a425d5a9dfa46511cf8533",
+      "combined_sha256": "a47939f6a0e47216c1a708df32a3bfbfddafb51c43a425d5a9dfa46511cf8533",
+      "map_overlay": false
+    }
+  ]
+}

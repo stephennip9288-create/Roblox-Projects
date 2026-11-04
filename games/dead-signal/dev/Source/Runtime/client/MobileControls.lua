@@ -109,6 +109,7 @@ function M:resize()
     self.widgets.Fire.text.Text=self.settings.leftGesture=="Toggle" and "FIRE\nTOGGLE" or "FIRE"
     self.widgets.Move.text.Text=self.settings.fireLayout=="Left" and self.settings.leftGesture=="Outer" and "↑ FIRE EDGE" or "MOVE"
     self.widgets.Move.text.Position=UDim2.fromScale(0,.07) self.widgets.Move.text.Size=UDim2.fromScale(1,.2) self.widgets.Move.text.TextSize=10
+    self.ui:setTouchLayout(self.settings)
     if self.editor then self:editorLabel() end
 end
 function M:setSettings(settings)
@@ -121,8 +122,13 @@ function M:blocked(input,processed)
     for _,obj in ipairs(Players.LocalPlayer.PlayerGui:GetGuiObjectsAtPosition(input.Position.X,input.Position.Y)) do
         if not obj:IsDescendantOf(self.gui) and (obj:IsA("GuiButton") or obj:IsA("TextBox") or obj:IsA("ScrollingFrame") or obj.Active) then return true end
     end
+    local offset=self.frame.AbsolutePosition
+    local role=self.layout and Layout.role(self.layout,self.settings,input.Position.X-offset.X,input.Position.Y-offset.Y)
+    -- Actual processed/interactive GUI still wins. A projected world prompt's
+    -- conservative fallback radius cannot swallow a saved control button.
+    if role and role~="look" and role~="reserved" then return false end
     -- Built-in prompt GUI can live in CoreGui; reserve its visible click target too.
-    local camera=workspace.CurrentCamera local offset=self.frame.AbsolutePosition
+    local camera=workspace.CurrentCamera
     for prompt in pairs(self.prompts) do
         local parent=prompt.Parent
         local pos=parent and (parent:IsA("Attachment") and parent.WorldPosition or parent:IsA("BasePart") and parent.Position)

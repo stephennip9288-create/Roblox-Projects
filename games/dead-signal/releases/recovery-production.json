@@ -9,7 +9,7 @@
     "sha256": "e4e6da7fb0e97aa380a847a27aacea29b704febce166a021c00387233163b06a",
     "expires_at": "2027-02-02T08:35:30Z",
     "head_sha": "e7287ffc86f7427a1470290b41657c73265cfb2b",
-    "note": "Exact four-place production set owner-published in run 41800682585; independently downloaded and CRC/SHA256/member-size checked against actual job's candidate manifest. Previous known-good artifact 13283390341 retained under history/production-41800682585-previous.json. New-production native gameplay smoke testing pending; do not merge draft recovery update until smoke acceptance."
+    "note": "Exact four-place production set owner-published in run 41800682585; independently downloaded and CRC/SHA256/member-size checked against actual job's candidate manifest. Previous known-good artifact 13283390341 retained under history/production-41800682585-previous.json. Owner reports new-production gameplay works (Issue #63 comment 6653072353); no independent exhaustive device test claimed. Post-release recovery metadata was reviewed under strict no-publish gates; prior known-good is preserved."
   },
   "deployment": {
     "run_id": 41800682585,

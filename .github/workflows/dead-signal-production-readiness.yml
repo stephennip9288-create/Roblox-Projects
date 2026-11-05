@@ -5,7 +5,9 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_postrelease_recovery.py'
       - 'tests/test_dead_signal_production_admission.py'
+      - 'tests/test_dead_signal_postrelease_recovery.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
       - 'games/dead-signal/dev/Source/**'
@@ -104,12 +106,23 @@ jobs:
           if path.is_file():
               record = json.loads(path.read_text())
               if record.get('ready_for_production') is True:
-                  admission.completion(record, record['source_sha'],
-                      json.loads((records / 'recovery-production.json').read_text()),
-                      json.loads((records / 'batch-1-production-audio-permissions.json').read_text()))
+                  recovery = json.loads((records / 'recovery-production.json').read_text())
+                  permissions = json.loads((records / 'batch-1-production-audio-permissions.json').read_text())
+                  # A new *owner-published* recovery must not replace the previous
+                  # rollback used to authorize the original production deploy.
+                  if (recovery.get('source_sha') == record['rollback']['source_sha']
+                          and recovery.get('deployment') == record['rollback']['deployment']):
+                      admission.completion(record, record['source_sha'], recovery, permissions)
+                      print('Prepublication admission and original reviewed rollback verified')
+                  else:
+                      import dead_signal_postrelease_recovery as postrelease
+                      historical = json.loads((records / 'history/production-41800682585-previous.json').read_text())
+                      acceptance = json.loads((records / 'history/production-41800682585-acceptance.json').read_text())
+                      postrelease.completion(record, historical, recovery, permissions, acceptance)
+                      print('Owner-accepted published recovery and original known-good archive verified; no deploy admitted')
                   admission.verify_ci(record, os.environ['GH_TOKEN'])
                   admission.verify_builds(record)
-                  print('Reviewed production acceptance, five live CI runs and eight exact builds verified; no publishing')
+                  print('Historical source CI and eight built hashes verified; no publishing')
               else:
                   print('Production admission remains not ready; no publication is permitted')
           else:

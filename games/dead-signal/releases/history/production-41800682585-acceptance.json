@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-1-production-smoke-acceptance",
+  "production_run_id": 41800682585,
+  "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+  "owner_reported_production_gameplay_accepted": true,
+  "owner_words": "It works",
+  "question_context": "After successful publication, the owner was asked: Have you tested the newly published production version yet?",
+  "evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/63#issuecomment-6653072353",
+  "coverage": "Broad owner-reported live production smoke acceptance; individual mechanic/device logs not independently provided",
+  "independent_exhaustive_device_testing_claimed": false,
+  "known_silent_reload_mechanism_stages": 11,
+  "reviewed_published_versions": {
+    "dispatch": 29,
+    "blackwater": 23,
+    "cinderworks": 22,
+    "whiteout": 22
+  },
+  "no_additional_publication_requested": true,
+  "batch_2_or_3_included": false
+}

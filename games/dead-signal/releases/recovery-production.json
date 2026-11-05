@@ -2,51 +2,51 @@
   "schema": 1,
   "environment": "production",
   "universe_id": "10770732078",
-  "source_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71",
+  "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
   "artifact": {
-    "id": 13283390341,
-    "run_id": 41744401356,
-    "sha256": "85bdbbf6519bbe086bb8683a310f6c34d4a2c084a82585c28b16a7b4f1f7085f",
-    "expires_at": "2027-02-02T00:07:12Z",
-    "head_sha": "c3da4eb7ef3dacc038664d74007f22fd0fbc2cae",
-    "note": "Exact current-production members rehosted from the verified owner-approved original ZIP; original artifact expired. No rebuild, Roblox requests or publication. Original provenance retained in history/production-recovery-original-12081841244.json."
+    "id": 13309518810,
+    "run_id": 41800682585,
+    "sha256": "e4e6da7fb0e97aa380a847a27aacea29b704febce166a021c00387233163b06a",
+    "expires_at": "2027-02-02T08:35:30Z",
+    "head_sha": "e7287ffc86f7427a1470290b41657c73265cfb2b",
+    "note": "Exact four-place production set owner-published in run 41800682585; independently downloaded and CRC/SHA256/member-size checked against actual job's candidate manifest. Previous known-good artifact 13283390341 retained under history/production-41800682585-previous.json. Owner reports new-production gameplay works (Issue #63 comment 6653072353); no independent exhaustive device test claimed. Post-release recovery metadata was reviewed under strict no-publish gates; prior known-good is preserved."
   },
   "deployment": {
-    "run_id": 38985770842,
-    "attempt": 4,
+    "run_id": 41800682585,
+    "attempt": 1,
     "versions": {
-      "dispatch": 28,
-      "blackwater": 22,
-      "cinderworks": 21,
-      "whiteout": 21
+      "dispatch": 29,
+      "blackwater": 23,
+      "cinderworks": 22,
+      "whiteout": 22
     },
     "workflow_id": 386320766,
-    "control_sha": "1a5b9f3b811137b6881090ad634a13624d33dd71"
+    "control_sha": "e7287ffc86f7427a1470290b41657c73265cfb2b"
   },
   "places": {
     "dispatch": {
       "place_id": "92751255902679",
-      "member": "production/dispatch.rbxl",
-      "sha256": "6fa9cd5f1a6dee73d9cebde3b1db99e513ac8dc7112df9c760d8594f93d8c60c",
-      "bytes": 2643388
+      "member": "dispatch.rbxl",
+      "sha256": "568cb897cbf6cfd0a9d878b8eb0b90dabd223c61654149232d5c919bd3fb87e8",
+      "bytes": 2760973
     },
     "blackwater": {
       "place_id": "88865473543027",
-      "member": "production/blackwater.rbxl",
-      "sha256": "2a4a8dee7c84b8bf377836c4d3209a2f14353fd186362ab1061c8f4726db9a20",
-      "bytes": 2614475
+      "member": "blackwater.rbxl",
+      "sha256": "3fbb39d4f05e94652d52087f2a246643a52cd0e043fb17ec72e1623a0a8c45fc",
+      "bytes": 2732050
     },
     "cinderworks": {
       "place_id": "110963636700767",
-      "member": "production/cinderworks.rbxl",
-      "sha256": "d8d18798ff99f5d522f3a3c36ee241b4430fac23da73d6b7e77279ad9cc73ecb",
-      "bytes": 2622327
+      "member": "cinderworks.rbxl",
+      "sha256": "3251f7492d9f7a392ff882328e5a296ad22e49132975c0e2853b2fa9c9e4da83",
+      "bytes": 2739895
     },
     "whiteout": {
       "place_id": "109169216914914",
-      "member": "production/whiteout.rbxl",
-      "sha256": "353828433231561c09763a7151f2977b67e0872b27c78819d92b050f10440fe2",
-      "bytes": 2623779
+      "member": "whiteout.rbxl",
+      "sha256": "4ff600e436668e1680d6df99e53eba41f0216ec8ebad11f1e752428cc0ba1c3c",
+      "bytes": 2741354
     }
   }
 }

@@ -182,6 +182,11 @@ function A.build(map,layout,P,S,light,def)
         local gate=P("Gate"..index,Vector3.new(14,14,.65),mid+UP*7,Color3.fromRGB(66,73,66),Enum.Material.CorrodedMetal,true,rot)
         local d={part=gate,a=link[1],b=link[2],cost=link[3],name=link[4],open=false,position=mid*s,waypoints={}}
         for _,v in ipairs(path) do d.waypoints[#d.waypoints+1]=v*s end map.doors[index]=d
+        -- The Cryo Lab approach runs almost tangent to its angled wall. Give
+        -- complete walking rigs room to turn before crossing the jamb. This
+        -- moves the navigation hint within the existing supported corridor;
+        -- the authored floor, walls, gate and player passage stay unchanged.
+        if map.id=="Frost" and index==7 then d.waypoints[3]+=eb.normal*(2.25*s) end
         local corridor={door=d,waypoints=d.waypoints,areas={}}
         local corridorHeight=(layout[link[1]].upper or layout[link[2]].upper) and (def.theme=="Station" and 21 or 22) or 18
         for n=1,#path-1 do

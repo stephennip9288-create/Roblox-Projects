@@ -1,0 +1,20 @@
+{
+  "zip_links": {
+    "passed": true,
+    "internal_links": 44,
+    "members": 31,
+    "audio_files": 10,
+    "wav_masters": 10
+  },
+  "codec_checks": "CODEC-QA.json",
+  "browser_playback_test": {
+    "passed": false,
+    "status": "Blocked by environment, not an asserted player pass",
+    "attempts": [
+      "Playwright default Chromium bundle not installed",
+      "System /usr/bin/chromium launch rejected: Unix process-singleton socket() Operation not permitted"
+    ]
+  },
+  "native_roblox_listening_passed": false,
+  "physical_mobile_playtest_passed": false
+}

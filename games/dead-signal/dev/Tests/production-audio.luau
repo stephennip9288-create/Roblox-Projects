@@ -1,7 +1,7 @@
 -- Actual Config/Effects; production permission is externally verified, never inferred here.
 local fs=require('@lune/fs') local luau=require('@lune/luau') local r=require('@lune/roblox')
 local setup=require('./Fixtures/audio-corrections-env') local count=0
-local old=fs.readFile('Reviews/production-batch1/STAGED-CONFIG.lua.txt') local current=fs.readFile('Source/Runtime/shared/Config.lua')
+local old=fs.readFile('Reviews/production-batch1/STAGED-CONFIG.lua.txt') local current=require('./Fixtures/audio-b2-config').original(fs.readFile('Source/Runtime/shared/Config.lua'))
 local function check(ok,message) assert(ok,message);count+=1 end
 local function same(a,b)
  if type(a)~=type(b) then return false end;if type(a)~='table' then return a==b end

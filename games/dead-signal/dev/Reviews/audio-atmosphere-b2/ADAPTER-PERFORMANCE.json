@@ -1,0 +1,24 @@
+{
+  "engineCostsIncluded": false,
+  "native": false,
+  "profiles": {
+    "Low": {
+      "actors": 40,
+      "distinctFoleySources": 12,
+      "maxAdapterMs": 1.0039549999873998,
+      "p95AdapterMs": 0.7758399999602261,
+      "peakRequestsPerTick": 6,
+      "ticks": 250,
+      "virtualSeconds": 25
+    },
+    "Normal": {
+      "actors": 40,
+      "distinctFoleySources": 12,
+      "maxAdapterMs": 0.9596499999133812,
+      "p95AdapterMs": 0.8115620000808121,
+      "peakRequestsPerTick": 6,
+      "ticks": 250,
+      "virtualSeconds": 25
+    }
+  }
+}

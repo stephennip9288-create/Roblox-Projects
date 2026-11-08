@@ -1,0 +1,347 @@
+{
+  "schema": 1,
+  "issue": 62,
+  "scope": [
+    "B2-02",
+    "B2-05",
+    "B2-07"
+  ],
+  "starting_main": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "branch": "feature/dead-signal-b2-audio-atmosphere",
+  "pr": 70,
+  "base_branch": "integration/dead-signal-batch2",
+  "runtime_records": 61,
+  "event_count": 125,
+  "new_event_count": 22,
+  "new_assets_activated": false,
+  "native_listening_passed": false,
+  "mobile_gameplay_measured": false,
+  "staging_published": false,
+  "production_published": false,
+  "known_batch1_reload_stage_gaps": 11,
+  "batch3_included": false,
+  "new_music_candidates": [
+    {
+      "name": "blackwater_calm",
+      "event": "Music.Station.Calm",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "24e2e36d6899e3c41ca20af4e5ebbea22e75ef23f7cc52fe67befbf2614d0244",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "blackwater_pressure",
+      "event": "Music.Station.Pressure",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "5100c24ab941c236cd690b32c293347a08facb0d6e56752c8c359ce0ef27196a",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "cinderworks_calm",
+      "event": "Music.Foundry.Calm",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "fc9bcb4cb825b68c191feefe1a3088847871c15464ecf55505e219fc9a64a2ca",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "cinderworks_pressure",
+      "event": "Music.Foundry.Pressure",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "11487fa8b0446e9457d72d4084edf0147d1fd52b855b3002f7f384a6091db181",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "whiteout_calm",
+      "event": "Music.Frost.Calm",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "5289e59780abd1516936ad660ed376e87859630bf588424120fdcc0a291322d2",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "whiteout_pressure",
+      "event": "Music.Frost.Pressure",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "1e89692105f21330d98fb45dbf71588234b0396550ed7ad3a899e13a2dac43db",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "dispatch_calm",
+      "event": "Music.Lobby.Calm",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "f91353f2dc5aab370d0ff0954513a049d589f38133f3cc69b596ba868bb495de",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "warden_pressure",
+      "event": "Music.Warden",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "06b30bba6efbf950ae965201056f0ac20e4167905316152bba5d9075927386e6",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "extraction_pressure",
+      "event": "Music.Extraction",
+      "seconds": 32,
+      "loop": true,
+      "ogg_sha256": "9a543fed46ed15830e928e82c357be84133ba67acd1671256d55395dd05f1986",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    },
+    {
+      "name": "rare_score_stinger",
+      "event": "Atmosphere.Stinger",
+      "seconds": 3,
+      "loop": false,
+      "ogg_sha256": "cbf6408980063ece96ce4f8de7c90b136f1e1deef55630cdf652cac449c8a90e",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": false,
+        "10770732078": false
+      },
+      "activated": false
+    }
+  ],
+  "new_physical_recording_requests": [
+    {
+      "filename": "blackwater_metal_creak_1.wav",
+      "event": "Atmosphere.Station.Creak",
+      "required_content": "Distant stressed steel or electrical cabinet frame; restrained resonance; no weapon or close attack implication",
+      "max_seconds": 4.5,
+      "source_and_rights": "Original owner/performer recording or documented license permitting Roblox game use and editing",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "stagingAccess": false,
+      "productionAccess": false,
+      "status": "Recording not supplied",
+      "included": false,
+      "activated": false
+    },
+    {
+      "filename": "cinderworks_steam_release_1.wav",
+      "event": "Atmosphere.Foundry.Steam",
+      "required_content": "Dry pressure valve hiss with a believable mechanical onset; no water splash",
+      "max_seconds": 4.5,
+      "source_and_rights": "Original owner/performer recording or documented license permitting Roblox game use and editing",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "stagingAccess": false,
+      "productionAccess": false,
+      "status": "Recording not supplied",
+      "included": false,
+      "activated": false
+    },
+    {
+      "filename": "cinderworks_steel_impact_1.wav",
+      "event": "Atmosphere.Foundry.Impact",
+      "required_content": "Distant heavy steel strike with short natural decay; no gunshot or player hit",
+      "max_seconds": 3.0,
+      "source_and_rights": "Original owner/performer recording or documented license permitting Roblox game use and editing",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "stagingAccess": false,
+      "productionAccess": false,
+      "status": "Recording not supplied",
+      "included": false,
+      "activated": false
+    },
+    {
+      "filename": "infected_distant_cry_1.wav",
+      "event": "Atmosphere.Cry",
+      "required_content": "Original performed infected cry; no words; distant threat character without an urgent nearby attack cue",
+      "max_seconds": 4.5,
+      "source_and_rights": "Original owner/performer recording or documented license permitting Roblox game use and editing",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "stagingAccess": false,
+      "productionAccess": false,
+      "status": "Recording not supplied",
+      "included": false,
+      "activated": false
+    },
+    {
+      "filename": "infected_breath_1.wav",
+      "event": "Zombie.Breath",
+      "required_content": "Close strained human/infected breath; quiet dry detail; no canine or swimming sound",
+      "max_seconds": 2.5,
+      "source_and_rights": "Original owner/performer recording or documented license permitting Roblox game use and editing",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "stagingAccess": false,
+      "productionAccess": false,
+      "status": "Recording not supplied",
+      "included": false,
+      "activated": false
+    },
+    {
+      "filename": "infected_clothing_drag_1.wav",
+      "event": "Zombie.Drag",
+      "required_content": "Clothing and body weight dragging across rough ground; short contact; no blade or splash",
+      "max_seconds": 2.0,
+      "source_and_rights": "Original owner/performer recording or documented license permitting Roblox game use and editing",
+      "roblox_asset_id": null,
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "listeningApproved": false,
+      "robloxApproved": false,
+      "stagingAccess": false,
+      "productionAccess": false,
+      "status": "Recording not supplied",
+      "included": false,
+      "activated": false
+    }
+  ],
+  "reused_approved_banks": [
+    {
+      "event": "Atmosphere.Moan",
+      "existing_bank": "Zombie.Groan",
+      "new_upload_required": false
+    },
+    {
+      "event": "Atmosphere.Station.Radio",
+      "existing_bank": "World.Station.radio",
+      "new_upload_required": false
+    },
+    {
+      "event": "Atmosphere.Foundry.Machinery",
+      "existing_bank": "World.Foundry.machinery",
+      "new_upload_required": false
+    },
+    {
+      "event": "Atmosphere.Frost.Relay",
+      "existing_bank": "World.Frost.relay",
+      "new_upload_required": false
+    },
+    {
+      "event": "Atmosphere.Frost.Creak",
+      "existing_bank": "World.Frost.structure",
+      "new_upload_required": false
+    },
+    {
+      "event": "Enemy.Awareness",
+      "existing_bank": "Zombie.Groan",
+      "new_upload_required": false
+    }
+  ],
+  "required_gate_flags": [
+    "rightsCleared",
+    "creatorReviewed",
+    "listeningApproved",
+    "robloxApproved"
+  ],
+  "required_permission": "permissions[tostring(game.GameId)] == true",
+  "active_default_new_banks": {},
+  "fallback": "Continue accepted Batch1 beds and suitable groan/radio/machinery/relay/creak aliases; no unrelated placeholder for missing slots. Score and unavailable physical slots remain silent.",
+  "dependencies": {
+    "MAIN": "Review and integrate; combine B2 provenance and suite registrations before merge/release.",
+    "ENEMY_71": "Genuine detection attributes, target/run before AwarenessAt; sole existing audio observer.",
+    "COMBAT_72": "Preserve audioBindings and existing Results audio call while merging movement.",
+    "MAP_69": "Existing zone/landmark schema retained; no audio geometry edit."
+  },
+  "native_acceptance": "See NATIVE-LISTENING.md; no gameplay acceptance inferred from source tests."
+}

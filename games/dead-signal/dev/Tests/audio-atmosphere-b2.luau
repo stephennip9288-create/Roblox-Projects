@@ -52,6 +52,10 @@ do
     row.permissions={['10770732078']=true};check(not e.fx:audioAvailable(key),'Wrong experience rejected')
     row.permissions={['10771141095']=true};row.id='not-an-asset';check(not e.fx:audioAvailable(key),'Invalid ID rejected')
     row.id='rbxassetid://800001';check(e.fx:audioAvailable(key),'Exact reviewed staging permission accepted')
+    local inventory={};for _,entry in ipairs(e.fx:audioInventory()) do inventory[entry.key]=entry end
+    check(inventory[key].configured and inventory['Atmosphere.Station.Radio'].configured,'Inventory resolves reviewed new slots and approved aliases')
+    row.creatorReviewed=false
+    for _,entry in ipairs(e.fx:audioInventory()) do if entry.key==key then check(not entry.configured,'Inventory never advertises an unapproved new asset') end end
     e.fx:audioDestroy()
 end
 -- Crossfades coalesce rapid authoritative changes; Low never stacks music voices.
@@ -125,8 +129,42 @@ for _,extra in ipairs({{phase='Preparing',special=true},{phase='Wave',boss=true}
     local e=setup(false,config());ready(e,e.config.SoundIds);scene(e,'Station',extra.phase,extra);e:advance(180)
     check((e.fx.audio.scareEvents or 0)==0,'No random scares during warnings/end states/high pressure');e.fx:audioDestroy()
 end
+-- Dense actual-mixer traffic with the new music layer enabled. Native perceived
+-- readability remains pending, but critical admission and owned budgets cannot
+-- be displaced by a crowd's routine requests.
+for _,low in ipairs({false,true}) do
+    local e=setup(low,config());ready(e,e.config.SoundIds);approved(e,'Music.Station.Pressure',90)
+    scene(e,'Station','Wave');e:advance(5)
+    for tick=1,30 do
+        e:advance(.2)
+        for actor=1,40 do
+            local p=r.Vector3.new(actor+2,0,0)
+            e.fx:sound('Zombie.Groan',p,{sourceId='crowd:'..actor,routine=true})
+            e.fx:sound('Zombie.Footstep',p,{sourceId='crowd:'..actor,material='Concrete'})
+            e.fx:sound('Zombie.Attack',p,{sourceId='crowd:'..actor})
+        end
+        e.fx:sound('Weapon.Report',nil,{weaponId='Kestrel',firstPerson=true,sourceId='local-weapon'})
+        if tick%5==0 then
+            local warning=e.fx:sound('ShockCharge',r.Vector3.new(4,0,0),{sourceId='critical:'..tick})
+            check(warning and warning.priority==4,'Crowded mixer preserves new critical warning admission')
+        end
+        local d=e.fx:audioDiagnostics()
+        check(d.voices<=(low and 12 or 20) and d.musicVoices<=(low and 1 or 2),'Dense score plus SFX respects native voice caps')
+        check(d.peakBudget<=.820001 and d.pending<=2,'Dense score plus SFX respects peak/load bounds')
+    end
+    e.fx:audioDestroy();check(e:live('Sound')==0,'Dense score/SFX session cleanup')
+end
 do
     local e=setup(false,config());ready(e,e.config.SoundIds);scene(e,'Station',nil,{atmosphereAnchors={r.Vector3.new(10,0,0)}});e:advance(180)
     check((e.fx.audio.scareEvents or 0)==0,'No fabricated close enemy direction');e.fx:audioDestroy()
 end
+-- Auditable inventory of real source/default banks, never the test IDs above.
+local serde=require('@lune/serde');local inventories={nativePlaybackVerified=false,universes={}}
+for _,universe in ipairs({10771141095,10770732078}) do
+    local e=setup(false,config(universe));local rows=e.fx:audioInventory()
+    for _,row in ipairs(rows) do row.available=e.fx:audioAvailable(row.key);row.defaultBank=e.fx:audioBank(row.key,{}) end
+    inventories.universes[tostring(universe)]=rows;e.fx:audioDestroy()
+end
+if not fs.isDir('Validation') then fs.writeDir('Validation') end
+fs.writeFile('Validation/Audio-B2-Event-Inventory.json',serde.encode('json',inventories,true))
 print('Batch2 atmosphere assertions passed:',count)

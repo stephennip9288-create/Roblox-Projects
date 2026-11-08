@@ -404,6 +404,7 @@ function FX:audioInventory()
     local result={};local ids=C.SoundIds or {};local evolution=C.Evolution and C.Evolution.audio or {}
     for key,spec in pairs(audioCatalog) do
         local configured=hasBank(ids[key]) or hasBank(evolution[key]) or hasBank(ids[spec.alias]) or hasBank(evolution[spec.alias]) or hasBank(ids[spec.config])
+        if spec.b2Asset or spec.reuse then configured=self:audioAvailable(key) end
         result[#result+1]={key=key,group=spec.group,priority=spec.priority,range=spec.range,cooldown=spec.cooldown,
             seconds=spec.seconds,loop=spec.loop==true,configured=configured,
             fallback=spec.stock and "rbxasset://sounds/"..spec.stock or "silent-until-upload",fallbackPitch=spec.pitch,

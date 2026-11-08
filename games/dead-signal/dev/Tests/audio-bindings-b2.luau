@@ -62,4 +62,35 @@ local nextState=table.clone(state);nextState.runId=2;b:set(nextState,false)
 check(states[#states].runId=='2','New run changes scene identity')
 check(next(b.actors)==nil,'Old-run actors cannot emit after restart')
 b:destroy();check(b.destroyed,'Binding cleanup')
+-- Forty moving actors in each quality mode. CPU measures this Luau adapter with
+-- fake replicated objects only; it excludes the engine, mixer, decoder and GPU.
+local serde=require('@lune/serde');local performance={native=false,engineCostsIncluded=false,profiles={}}
+for _,low in ipairs({false,true}) do
+    calls={};models={};fx.settings.lowEffects=low
+    for id=1,50 do
+        models[id]=model(id,id%7==0 and 'Hound' or 'Zombie')
+        models[id].root.Position=r.Vector3.new(id<=40 and 5+(id-1)*.5 or 100+id,0,0)
+    end
+    local dense=Controller.audioBindings(fx,player);dense:set(state,false)
+    local durations,served={},{};local peakCalls=0
+    for index=1,250 do
+        calls={}
+        for _,actor in ipairs(models) do actor.root.Position+=r.Vector3.new(index%2==0 and 2.2 or -2.2,0,0) end
+        clock+=.1;local started=os.clock();dense:tick(clock,true);durations[#durations+1]=(os.clock()-started)*1000
+        peakCalls=math.max(peakCalls,#calls)
+        for _,event in ipairs(calls) do if event.key=='Zombie.Footstep' then served[event.context.sourceId]=true end end
+        local tracked=0;for _ in pairs(dense.actors) do tracked+=1 end
+        check(tracked==40,'Dense movement retains nearest40 bound')
+    end
+    local total=0;for _ in pairs(served) do total+=1 end
+    check(total>=2 and total<=40,'Dense near-threat foley remains readable without voicing every actor')
+    check(peakCalls<=6,'Two movement and two routine requests per adapter tick, plus bounded gear')
+    table.sort(durations)
+    performance.profiles[low and 'Low' or 'Normal']={actors=40,virtualSeconds=25,ticks=250,
+        p95AdapterMs=durations[math.ceil(#durations*.95)],maxAdapterMs=durations[#durations],
+        peakRequestsPerTick=peakCalls,distinctFoleySources=total}
+    dense:destroy();check(next(dense.actors)==nil,'Dense adapter lifecycle cleanup')
+end
+if not fs.isDir('Validation') then fs.writeDir('Validation') end
+fs.writeFile('Validation/Audio-B2-Adapter-Performance.json',serde.encode('json',performance,true))
 print('Batch2 audio binding assertions passed:',count)

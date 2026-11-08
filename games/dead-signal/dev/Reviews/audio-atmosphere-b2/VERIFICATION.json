@@ -1,0 +1,440 @@
+{
+  "schema": 1,
+  "scope": "AUDIO B2-02/05/07 only; no combined-lane integration or native acceptance",
+  "starting_main": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "source_checkpoint_commit": "577f0efb6415ca56dcc8a5078ae319b904ed7eb4",
+  "final_runtime_hashes": "PROPOSED-RUNTIME-DELTA.json",
+  "runtime_inventory": 61,
+  "owned_runtime_changes": 3,
+  "original_sound_banks_preserved": true,
+  "frozen_batch1_ledgers_preserved": true,
+  "lune": {
+    "version": "0.11.0",
+    "suites": 41,
+    "assertions": 1088001,
+    "all_passed": true,
+    "results": [
+      {
+        "suite": "loading",
+        "passed": true,
+        "assertions": 63,
+        "seconds": 0.183
+      },
+      {
+        "suite": "loadingpreview",
+        "passed": true,
+        "assertions": 36,
+        "seconds": 0.203
+      },
+      {
+        "suite": "evolution",
+        "passed": true,
+        "assertions": 2959,
+        "seconds": 3.747
+      },
+      {
+        "suite": "events",
+        "passed": true,
+        "assertions": 18,
+        "seconds": 0.227
+      },
+      {
+        "suite": "presentation",
+        "passed": true,
+        "assertions": 55,
+        "seconds": 0.203
+      },
+      {
+        "suite": "director",
+        "passed": true,
+        "assertions": 431,
+        "seconds": 0.028
+      },
+      {
+        "suite": "server",
+        "passed": true,
+        "assertions": 35,
+        "seconds": 0.227
+      },
+      {
+        "suite": "navigation",
+        "passed": true,
+        "assertions": 13,
+        "seconds": 0.219
+      },
+      {
+        "suite": "pursuit",
+        "passed": true,
+        "assertions": 90,
+        "seconds": 0.98
+      },
+      {
+        "suite": "rigs",
+        "passed": true,
+        "assertions": 222,
+        "seconds": 0.228
+      },
+      {
+        "suite": "weapons",
+        "passed": true,
+        "assertions": 7929,
+        "seconds": 0.47
+      },
+      {
+        "suite": "arrival",
+        "passed": true,
+        "assertions": 28,
+        "seconds": 0.192
+      },
+      {
+        "suite": "extraction",
+        "passed": true,
+        "assertions": 20,
+        "seconds": 0.019
+      },
+      {
+        "suite": "map_remaster",
+        "passed": true,
+        "assertions": 259384,
+        "seconds": 12.77
+      },
+      {
+        "suite": "map_batch11",
+        "passed": true,
+        "assertions": 26387,
+        "seconds": 27.803
+      },
+      {
+        "suite": "enemy-lifecycle",
+        "passed": true,
+        "assertions": 77,
+        "seconds": 0.199
+      },
+      {
+        "suite": "enemy-path-recovery",
+        "passed": true,
+        "assertions": 48,
+        "seconds": 0.209
+      },
+      {
+        "suite": "combat-ui",
+        "passed": true,
+        "assertions": 638775,
+        "seconds": 16.89
+      },
+      {
+        "suite": "combat-input",
+        "passed": true,
+        "assertions": 44,
+        "seconds": 0.369
+      },
+      {
+        "suite": "touch",
+        "passed": true,
+        "assertions": 512,
+        "seconds": 0.029
+      },
+      {
+        "suite": "integration-contracts",
+        "passed": true,
+        "assertions": 501,
+        "seconds": 4.039
+      },
+      {
+        "suite": "weapons-batch1",
+        "passed": true,
+        "assertions": 64271,
+        "seconds": 27.459
+      },
+      {
+        "suite": "infected-batch1",
+        "passed": true,
+        "assertions": 2501,
+        "seconds": 2.59
+      },
+      {
+        "suite": "infected-entrances",
+        "passed": true,
+        "assertions": 71,
+        "seconds": 1.229
+      },
+      {
+        "suite": "infected-geometry",
+        "passed": true,
+        "assertions": 25717,
+        "seconds": 32.644
+      },
+      {
+        "suite": "enemy-b11-runtime",
+        "passed": true,
+        "assertions": 1069,
+        "seconds": 11.361
+      },
+      {
+        "suite": "enemy-b11-appearance",
+        "passed": true,
+        "assertions": 6039,
+        "seconds": 0.85
+      },
+      {
+        "suite": "enemy-b11-admission",
+        "passed": true,
+        "assertions": 29,
+        "seconds": 1.046
+      },
+      {
+        "suite": "enemy-b11-spatial",
+        "passed": true,
+        "assertions": 3441,
+        "seconds": 12.718
+      },
+      {
+        "suite": "enemy-b11-geometry",
+        "passed": true,
+        "assertions": 210,
+        "seconds": 29.694
+      },
+      {
+        "suite": "map-window-geometry",
+        "passed": true,
+        "assertions": 7453,
+        "seconds": 12.559
+      },
+      {
+        "suite": "enemy-b1-r6",
+        "passed": true,
+        "assertions": 15359,
+        "seconds": 0.856
+      },
+      {
+        "suite": "enemy-b1-entry-followup",
+        "passed": true,
+        "assertions": 160,
+        "seconds": 9.364
+      },
+      {
+        "suite": "audio",
+        "passed": true,
+        "assertions": 4433,
+        "seconds": 0.521
+      },
+      {
+        "suite": "audio-quality-b11",
+        "passed": true,
+        "assertions": 822,
+        "seconds": 0.239
+      },
+      {
+        "suite": "audio-corrections-b1",
+        "passed": true,
+        "assertions": 2297,
+        "seconds": 0.767
+      },
+      {
+        "suite": "audio-supplement-intake",
+        "passed": true,
+        "assertions": 417,
+        "seconds": 0.09
+      },
+      {
+        "suite": "production-audio",
+        "passed": true,
+        "assertions": 191,
+        "seconds": 0.114
+      },
+      {
+        "suite": "batch1-integration",
+        "passed": true,
+        "assertions": 54,
+        "seconds": 3.761
+      },
+      {
+        "suite": "audio-atmosphere-b2",
+        "passed": true,
+        "assertions": 15317,
+        "seconds": 2.994
+      },
+      {
+        "suite": "audio-bindings-b2",
+        "passed": true,
+        "assertions": 523,
+        "seconds": 0.363
+      }
+    ]
+  },
+  "luau_compile": {
+    "all_passed": true,
+    "files": 126,
+    "runtime_records": 61
+  },
+  "python_root": {
+    "cases": 98,
+    "passed": 98,
+    "skipped": 0
+  },
+  "python_dev": {
+    "cases": 35,
+    "passed": 33,
+    "skipped": 2,
+    "skip_reasons": [
+      "Optional original Batch1 prepared WAV directory not supplied",
+      "Optional original fourteen-file PCM source cache not supplied"
+    ]
+  },
+  "new_audio_codec": {
+    "clips": 10,
+    "all_passed": true,
+    "method": "Independent ffprobe and ffmpeg float decode with 4x oversampling",
+    "report": "CODEC-QA.json",
+    "native_listening": false
+  },
+  "owner_package": {
+    "filename": "Dead-Signal-Batch2-Audio-Upload.zip",
+    "bytes": 24807150,
+    "sha256": "7edbfd5806ea9dcb4ab0a0176c322999f827e6439e8b6b2bb349f4ccaa4f76e0",
+    "files": 31,
+    "contains": {
+      "ogg": 10,
+      "wavMasters": 10,
+      "physicalRecordings": 0
+    },
+    "uploadedToRoblox": false,
+    "newAssetsActivated": false
+  },
+  "adapter_performance": {
+    "engineCostsIncluded": false,
+    "native": false,
+    "profiles": {
+      "Low": {
+        "actors": 40,
+        "distinctFoleySources": 12,
+        "maxAdapterMs": 1.0039549999873998,
+        "p95AdapterMs": 0.7758399999602261,
+        "peakRequestsPerTick": 6,
+        "ticks": 250,
+        "virtualSeconds": 25
+      },
+      "Normal": {
+        "actors": 40,
+        "distinctFoleySources": 12,
+        "maxAdapterMs": 0.9596499999133812,
+        "p95AdapterMs": 0.8115620000808121,
+        "peakRequestsPerTick": 6,
+        "ticks": 250,
+        "virtualSeconds": 25
+      }
+    }
+  },
+  "lossless_local_builds": [
+    {
+      "environment": "staging",
+      "place": "dispatch",
+      "expected_source_targets": 61,
+      "changed_scripts_vs_v18": 31,
+      "unchanged_binary_chunks": 1513,
+      "unchanged_chunks_byte_identical": true,
+      "property_signatures_preserved": true,
+      "sha256": "d80d9ed36d3fb79b533000c64f929543682bb4fa7138845a6d06984d4ebaae80",
+      "publish_approved": false,
+      "engine_verified": false
+    },
+    {
+      "environment": "staging",
+      "place": "blackwater",
+      "expected_source_targets": 61,
+      "changed_scripts_vs_v18": 31,
+      "unchanged_binary_chunks": 1496,
+      "unchanged_chunks_byte_identical": true,
+      "property_signatures_preserved": true,
+      "sha256": "140d79bfbdac515a616ff269e5378e3c6f9d82222e2ab3dc0469bf9e0195ecbe",
+      "publish_approved": false,
+      "engine_verified": false
+    },
+    {
+      "environment": "staging",
+      "place": "cinderworks",
+      "expected_source_targets": 61,
+      "changed_scripts_vs_v18": 31,
+      "unchanged_binary_chunks": 1500,
+      "unchanged_chunks_byte_identical": true,
+      "property_signatures_preserved": true,
+      "sha256": "1300069d09e3b4922f7292df4b757d78cb7530099b55e92293f1575b457e6e14",
+      "publish_approved": false,
+      "engine_verified": false
+    },
+    {
+      "environment": "staging",
+      "place": "whiteout",
+      "expected_source_targets": 61,
+      "changed_scripts_vs_v18": 31,
+      "unchanged_binary_chunks": 1500,
+      "unchanged_chunks_byte_identical": true,
+      "property_signatures_preserved": true,
+      "sha256": "eb64ddbdc40a5b3a22fbd5c94abb8e90d8d3a1d4296857710dfd130b9cf23383",
+      "publish_approved": false,
+      "engine_verified": false
+    },
+    {
+      "environment": "production",
+      "place": "dispatch",
+      "expected_source_targets": 61,
+      "changed_scripts_vs_v18": 31,
+      "unchanged_binary_chunks": 1513,
+      "unchanged_chunks_byte_identical": true,
+      "property_signatures_preserved": true,
+      "sha256": "0a2313712973da65bb1468abbf4cb6e655e7bb55a9e60906f939d9d5ef1e28f0",
+      "publish_approved": false,
+      "engine_verified": false
+    },
+    {
+      "environment": "production",
+      "place": "blackwater",
+      "expected_source_targets": 61,
+      "changed_scripts_vs_v18": 31,
+      "unchanged_binary_chunks": 1496,
+      "unchanged_chunks_byte_identical": true,
+      "property_signatures_preserved": true,
+      "sha256": "89d0fe938b31431ca9ff8a43fde430350103918ae0d276641716bbbfec0a1b11",
+      "publish_approved": false,
+      "engine_verified": false
+    },
+    {
+      "environment": "production",
+      "place": "cinderworks",
+      "expected_source_targets": 61,
+      "changed_scripts_vs_v18": 31,
+      "unchanged_binary_chunks": 1500,
+      "unchanged_chunks_byte_identical": true,
+      "property_signatures_preserved": true,
+      "sha256": "fe9da34609fde1c9edc2ebda6b5aa57f5e02d4bac99fab734dba7c098a1ed784",
+      "publish_approved": false,
+      "engine_verified": false
+    },
+    {
+      "environment": "production",
+      "place": "whiteout",
+      "expected_source_targets": 61,
+      "changed_scripts_vs_v18": 31,
+      "unchanged_binary_chunks": 1500,
+      "unchanged_chunks_byte_identical": true,
+      "property_signatures_preserved": true,
+      "sha256": "e0d47425d164103338dc5927e24075a2fc7e7f2625cc2bfe0a0bb1e30c25806f",
+      "publish_approved": false,
+      "engine_verified": false
+    }
+  ],
+  "production_offline_source_teleport_rollback_check_passed": true,
+  "native_roblox_playtest": false,
+  "physical_phone_playtest": false,
+  "published_multiplayer_playtest": false,
+  "new_asset_permissions_verified": false,
+  "staging_published": false,
+  "production_published": false,
+  "github_ci": "Final branch-head checks are recorded in PR70; not inferred from local checks.",
+  "remaining": [
+    "MAIN source review, shared Controller/suite/provenance integration",
+    "Owner acceptance/rights review, upload/moderation and exact-universe permissions for ten music candidates",
+    "Six suitable new physical recordings and corresponding review/upload/grants",
+    "Studio and native Android/iOS/headphone/speaker/multiplayer crowded-wave listening and profiling"
+  ]
+}

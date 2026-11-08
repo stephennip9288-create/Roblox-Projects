@@ -1,7 +1,5 @@
-# Batch 2 audio source checkpoint
+# Batch 2 audio source delivery
 
-Owner scope: Issue #62, B2-02/05/07. Branch feature/dead-signal-b2-audio-atmosphere starts from main7aaf323de6153134df2154c7ae3b1613a596495b. No Batch1 limitations are reopened.
+PR #70 remains OPEN DRAFT for MAIN review, targeting integration/dead-signal-batch2. Source implementation, original music owner package, manifest, full offline regression/build evidence and native listening checklist are complete. See README.md, MAIN-INTEGRATION.md and VERIFICATION.json for exact scope and dependencies.
 
-Implemented bounded music crossfades/foreground ducking, varied distant authored-position atmosphere with silence windows, lifecycle/mute/Low safeguards, movement/material infected foley and optional fresh server-acquisition audio. Existing approved SoundIds and VFX/input/gameplay authority are preserved. New music/foley assets require explicit rights/creator/listening/moderation and exact-universe permissions; default new banks remain empty.
-
-Source/test checkpoint only. Final owner-upload package, full verification, manifest and native/device listening checklist are being prepared. No merge, asset upload or staging/production publication. MAIN owns integration and ENEMY must implement/agree the optional AwarenessAt/AwarenessTargetUserId/AwarenessRunId server fact.
+41 Lune suites /1,088,001 assertions;126 Luau files compile;98 root Python cases pass;33 dev Python cases pass with two optional historical-PCM skips; eight local lossless/fidelity audits pass. New music/physical assets are not activated. Native/mobile/listening acceptance remains pending. No merge, Roblox upload or staging/production publication.

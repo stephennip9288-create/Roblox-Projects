@@ -143,6 +143,8 @@ ctx.run={phase='Preparing',deadline=now+100,effects={}};ctx.map={traps={}}
 p.health=100;p.lastHurt=now;p2.health=100;p2.lastHurt=now;p.motion.debt=4
 now+=.1;local rescue=setmetatable({ctx=ctx,drops={}},RescueGame);rescue:tick(now,.1)
 check(p.motion.debt>0 and p.motion.debt<=4,'boundary rescue rebases without renewing movement credit')
+p.stamina=0;input(ahead,true);step(-ahead*.1,.01)
+check(not p.sprinting and hum.WalkSpeed<=9.5,'exhaustion cannot replace the stricter observed reverse cap')
 -- Actual UI method: readable words in the existing vitals row, no new widget.
 local UI=load(f.client.UI);local view=setmetatable({state={status='Alive',participating=true,health=100},healthText=r.Instance.new('TextLabel'),staminaBar=r.Instance.new('Frame')},UI)
 view:movement(true,50,100,'ready');check(view.healthText.Text=='100 HP · RUN 50%','textual sprint/stamina feedback')

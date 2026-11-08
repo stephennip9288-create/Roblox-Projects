@@ -565,7 +565,7 @@ function G:movePlayer(player,p,hum,root,now,dt)
     p.sprinting=result.sprinting
     p.stamina=Movement.stamina(p.stamina,R.stamina(p.perks),p.sprinting,dt)
     if p.stamina<=1 then p.sprinting=false p.sprintRequested=false result.reason="stamina"
-        options.requested=false result.speed=Movement.policy(p.moveIntent or Vector3.zero,facing,options).speed end
+        options.requested=false result.speed=math.min(result.speed,Movement.policy(p.moveIntent or Vector3.zero,facing,options).speed) end
     local previous=p.motion.speed or 0
     p.motion.speed=Movement.approach(previous,result.speed,dt) hum.WalkSpeed=p.motion.speed
     local ok,safe=Movement.audit(p.motion,root.Position,now,p.motion.speed)

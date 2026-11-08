@@ -50,6 +50,11 @@ check(G.stateKey(map)~=key,'door state change invalidates routes without relying
 door.open=true;map.rooms[2].unlocked=false
 check(not G.plan(map,V.zero,V.new(40,0,0)),'locked target room cannot be entered through an open door')
 map.rooms[2].unlocked=true
+blocked=false;model:PivotTo(r.CFrame.new(15,3.08,12));door.open=false
+check(not N.clearRoute(owner.ctx,e,V.new(25,3.08,12)),'a logical closed gate is respected even if its physical collider is missing')
+door.open=true
+check(N.clearRoute(owner.ctx,e,V.new(25,3.08,12)),'the same supported segment becomes legal after opening')
+model:PivotTo(r.CFrame.new(0,3.08,0))
 -- Late paths from a previous access state cannot resurrect a closed route.
 e.navRevision=nil;N.invalidate(e);blocked=true;now+=1;owner.pathBudget=4
 N.move(owner,e,V.new(40,3.08,0),now)
@@ -59,4 +64,39 @@ door.open=false;finish()
 check(not e.path and not e.computing and owner.activePaths==0,'door closure rejects a late asynchronous result')
 N.move(owner,e,V.new(40,3.08,0),now+.2)
 check(hum:GetAttribute('TestMoveTo')==root.Position,'locked path never falls back to a direct player MoveTo')
+-- FIFO remains fair beyond fifteen seconds; a stalled holder loses its lease.
+do
+ local actors={};local crowd={ctx={map=map},list=actors}
+ door.open=true
+ for id=1,40 do actors[id]={id=id,model=r.Instance.new('Model'),root={Parent=true,Position=V.new(19,3,12)},routeNode='door1p2'} end
+ local served={}
+ for round=1,45 do
+  local time=round*1.3
+  for id=1,40 do if N.portal(crowd,actors[id],time) then served[id]=true end end
+ end
+ local total=0;for _ in pairs(served) do total+=1 end
+ check(total==40,'all forty persistent doorway waiters receive a lease without starvation')
+ for id=1,40 do check(crowd.list[id]==actors[id],'doorway scheduling preserves live actor '..id) end
+ local holder=crowd.portalQueues[1].lease.id;actors[holder].dead=true
+ local replacement
+ for id=1,40 do if not actors[id].dead and N.portal(crowd,actors[id],60) then replacement=id;break end end
+ check(replacement and replacement~=holder,'dead reservation holder cannot block a doorway')
+end
+-- Reachability participates in real target selection, not only movement fallback.
+do
+ local E=load(f.server.Enemies);local function player(id,pos)
+  local character=r.Instance.new('Model');local part=r.Instance.new('Part');part.Name='HumanoidRootPart';part.CFrame=r.CFrame.new(pos);part.Position=pos;part.Parent=character
+  return {Parent=true,UserId=id,Character=character}
+ end
+ model:PivotTo(r.CFrame.new(18,3.08,0))
+ local near=player(2,V.new(23,3,0));local far=player(1,V.new(-10,3,0))
+ owner.ctx.players={[near]={participating=true,status='Alive'},[far]={participating=true,status='Alive'}}
+ owner.targetLoads={};setmetatable(owner,E);e.targetAt=0;e.target=nil
+ map.rooms[2].unlocked=false;door.open=false;now+=1
+ check(owner:target(e,now)==far,'accessible survivor is preferred to a closer survivor behind a locked transition')
+ map.rooms[2].unlocked=true;door.open=true;e.targetAt=0;now+=1
+ check(owner:target(e,now)==near,'door opening and room access changes permit fresh target acquisition')
+ owner.ctx.players[near].travelling=true;now+=.1
+ check(owner:target(e,now)==far,'travelling target is immediately discarded')
+end
 print('Batch 2 navigation assertions passed:',count)

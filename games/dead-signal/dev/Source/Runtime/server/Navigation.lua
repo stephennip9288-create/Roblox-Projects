@@ -1,4 +1,4 @@
--- Engine paths pursue the live player. Portals are recovery hints, never room centers.
+-- Room/portal intent plus physically checked native pursuit; accepted entry paths stay separate.
 local RS=game:GetService("ReplicatedStorage")
 local Graph=require(RS.DeadSignal.NavigationGraph)
 local PF=game:GetService("PathfindingService")
@@ -9,7 +9,7 @@ local Pose=require(RS.DeadSignal.NPCPose)
 local T=Rules.tuning
 local N={} local UP=Vector3.new(0,1,0)
 N.traversalTuning={maxConcurrent=4,planInterval=.8,maxStep=1.1,stepSeconds=.08,blockedSeconds=.45,retrySeconds=1.2,timeout=7,failedEntrySeconds=30,queueLevelTolerance=.25}
-N.pursuitTuning={retryMax=4,stuckSeconds=2,reacquireSeconds=6,avoidSeconds=6,maxWaypoints=128}
+N.pursuitTuning={retryMax=4,stuckSeconds=2,reacquireSeconds=6,avoidSeconds=6,maxWaypoints=128,roomPlansPerTick=4}
 local floorInventories=setmetatable({},{__mode="k"})
 local function flat(v) return Vector3.new(v.X,0,v.Z) end
 function N.rootHeight(e)
@@ -34,13 +34,35 @@ end
 function N.floor(map,pos)
     local source=map.floorParts or {};local exterior=map.model and map.model:FindFirstChild("ExteriorGround")
     local inventory=floorInventories[map]
-    if not inventory or inventory.source~=source or inventory.count~=#source or inventory.exterior~=exterior then
+    if not inventory or inventory.source~=source or inventory.count~=#source or inventory.exterior~=exterior or inventory.revision~=map.navigationRevision then
         local floors=table.clone(source);if exterior then floors[#floors+1]=exterior end
         local params=RaycastParams.new();params.FilterType=Enum.RaycastFilterType.Include
         params.FilterDescendantsInstances=floors;params.RespectCanCollide=true
-        inventory={source=source,count=#source,exterior=exterior,params=params};floorInventories[map]=inventory
+        local ids={};for i,part in ipairs(floors) do ids[part]=i end
+        inventory={source=source,count=#source,exterior=exterior,revision=map.navigationRevision,params=params,ids=ids,supportFilters={},filterOrder={}};floorInventories[map]=inventory
     end
-    local hit=workspace:Raycast(pos+UP,Vector3.new(0,-40,0),inventory.params) return hit and hit.Position
+    local hit=workspace:Raycast(pos+UP,Vector3.new(0,-40,0),inventory.params) return hit and hit.Position,hit and hit.Instance
+end
+local function supportFilter(map,support)
+    local inventory=floorInventories[map];local ids={}
+    for part in pairs(support) do if inventory.ids[part] then ids[#ids+1]=inventory.ids[part] end end
+    table.sort(ids);local key=table.concat(ids,",");local cached=inventory.supportFilters[key]
+    if cached then return cached end
+    -- Partition the map hierarchy around only the sampled supporting parts.
+    -- Walls, unrelated decks/ceilings, props and closed gates remain included.
+    local include={}
+    local function visit(instance)
+        if support[instance] then return end
+        local split=false
+        for floor in pairs(support) do if floor:IsDescendantOf(instance) then split=true;break end end
+        if split then for _,child in ipairs(instance:GetChildren()) do visit(child) end else include[#include+1]=instance end
+    end
+    visit(map.model)
+    local params=RaycastParams.new();params.FilterType=Enum.RaycastFilterType.Include;params.FilterDescendantsInstances=include
+    params.CollisionGroup="DeadSignalEnemies";params.RespectCanCollide=true
+    if #inventory.filterOrder>=64 then inventory.supportFilters[table.remove(inventory.filterOrder,1)]=nil end
+    inventory.filterOrder[#inventory.filterOrder+1]=key;inventory.supportFilters[key]=params
+    return params
 end
 -- Complete retained rig bounds, sampled once per stage. Mesh bounds are
 -- conservative; they include art, gear, hit zones and the live body collider.
@@ -144,11 +166,38 @@ function N.goal(ctx,e,target,_now)
     local goal=ground and Vector3.new(target.X,ground.Y+N.rootHeight(e),target.Z) or target
     e.liveGoal=goal return goal
 end
+function N.accessSegment(map,e,target)
+    if e.entered==false or not map.navigation or not Graph.plan then return true end
+    local a=e.root.Position;local delta=target-a
+    local locked=false;for _,room in ipairs(map.rooms) do if not room.unlocked then locked=true;break end end
+    if locked then for _,t in ipairs({0,.25,.5,.75,1}) do
+        local room=Graph.locate(map,a+delta*t-UP*N.rootHeight(e))
+        if map.rooms[room] and not map.rooms[room].unlocked then e.navFailure="LockedRoom";return false end
+    end end
+    for index,door in ipairs(map.doors or {}) do if not door.open then
+        local points=door.waypoints or {};local normal=door.part and flat(door.part.CFrame.LookVector)
+            or points[2] and points[3] and flat(points[3]-points[2])
+        if normal and normal.Magnitude>.01 then
+            normal=normal.Unit;local center=door.position
+            local da=flat(a-center):Dot(normal);local db=flat(target-center):Dot(normal)
+            if da*db<=0 and math.abs(da-db)>.001 then
+                local t=math.clamp(da/(da-db),0,1);local at=a+delta*t
+                local tangent=Vector3.new(normal.Z,0,-normal.X)
+                local width=door.part and door.part.Size.X*.5 or 7*(map.scale or 1)
+                if math.abs(flat(at-center):Dot(tangent))<=width+N.agent(e).AgentRadius then
+                    e.navFailure="ClosedDoor";e.blockedDoor=index;return false
+                end
+            end
+        end
+    end end
+    return true
+end
 function N.clearRoute(ctx,e,target)
     local delta=target-e.root.Position
     local distance=flat(delta).Magnitude
     if distance>30 or math.abs(delta.Y)>math.max(1.3,distance*.65) then return false end
     if delta.Magnitude<.05 then return true end
+    if not N.accessSegment(ctx.map,e,target) then return false end
     local a=N.agent(e) local p=RaycastParams.new()
     p.FilterType=Enum.RaycastFilterType.Include p.FilterDescendantsInstances={ctx.map.model}
     p.CollisionGroup="DeadSignalEnemies" p.RespectCanCollide=true
@@ -165,12 +214,34 @@ function N.clearRoute(ctx,e,target)
     local center=e.root.Position+UP*(low+high)*.5
     local size=Vector3.new(math.abs(direction.Z)*width+math.abs(direction.X)*depth,high-low,
         math.abs(direction.X)*width+math.abs(direction.Z)*depth)
-    if workspace:Blockcast(CFrame.new(center),size,delta,p) then return false end
     local feet=e.root.Position.Y-N.rootHeight(e)
-    for _,t in ipairs({.25,.5,.75,1}) do
-        local ground=N.floor(ctx.map,e.root.Position+delta*t)
+    local support={};local samples={}
+    for _,t in ipairs({0,.25,.5,.75,1}) do
+        local ground,part=N.floor(ctx.map,e.root.Position+delta*t)
         if not ground or math.abs(ground.Y-(feet+delta.Y*t))>1.2 then return false end
-    end return true
+        if part then support[part]=true end
+        samples[#samples+1]={position=e.root.Position+delta*t,height=ground.Y}
+    end
+    local inventory=floorInventories[ctx.map]
+    for _=1,6 do
+        local hit=workspace:Blockcast(CFrame.new(center),size,delta,p)
+        if not hit then return true end
+        local part=hit.Instance
+        if not part or not inventory.ids[part] then return false end
+        if not support[part] then
+            -- Flush landings intentionally overlap deck pieces. A support ray
+            -- returns only one of them; confirm the other floor independently.
+            local floorParams=RaycastParams.new();floorParams.FilterType=Enum.RaycastFilterType.Include
+            floorParams.FilterDescendantsInstances={part};floorParams.RespectCanCollide=true
+            for _,sample in ipairs(samples) do
+                local contact=workspace:Raycast(sample.position+UP,Vector3.new(0,-40,0),floorParams)
+                if contact and math.abs(contact.Position.Y-sample.height)<.05 then support[part]=true;break end
+            end
+        end
+        if not support[part] then return false end
+        p=supportFilter(ctx.map,support)
+    end
+    return false
 end
 function N.pursuitAgent(e)
     local agent=N.agent(e)
@@ -204,6 +275,9 @@ function N.sync(owner)
     end
     return key
 end
+function N.beginTick(owner)
+    N.sync(owner);owner.roomPlanBudget=N.pursuitTuning.roomPlansPerTick
+end
 function N.canPursue(owner,e,target,now)
     local map=owner.ctx.map
     if not map.navigation or not Graph.plan then return true end
@@ -212,7 +286,9 @@ function N.canPursue(owner,e,target,now)
     local key=from..":"..fl..":"..to..":"..tl
     local cached=owner.accessCache[key]
     if cached==nil then
-        cached=Graph.plan(map,e.root.Position-UP*N.rootHeight(e),target)~=nil;owner.accessCache[key]=cached
+        cached=Graph.reachable and Graph.reachable(map,e.root.Position-UP*N.rootHeight(e),target)
+            or not Graph.reachable and Graph.plan(map,e.root.Position-UP*N.rootHeight(e),target)~=nil
+        owner.accessCache[key]=cached
     end
     return cached
 end
@@ -227,6 +303,10 @@ function N.intent(owner,e,goal,now)
     for id,untilAt in pairs(e.avoidNodes or {}) do if now>=untilAt then e.avoidNodes[id]=nil end end
     if not route or route.key~=key or route.toRoom~=to or route.toLevel~=tl or route.target~=e.target
         or route.fromLevel~=fl and route.fromRoom==from then
+        if owner.roomPlanBudget then
+            if owner.roomPlanBudget<=0 then e.navFailure="RouteBudget";N.trace(owner,e,"route-deferred",e.navFailure,now);return nil end
+            owner.roomPlanBudget-=1
+        end
         route=Graph.plan(map,e.root.Position-UP*N.rootHeight(e),goal-UP*N.rootHeight(e),{avoid=e.avoidNodes})
         if not route then
             e.intentFailedKey=failedKey;e.intentRetryAt=now+.8
@@ -246,7 +326,7 @@ end
 function N.failure(owner,e,reason,now)
     e.pathFailures=(e.pathFailures or 0)+1;e.navFailure=reason
     e.nextPath=now+math.min(N.pursuitTuning.retryMax,.65*2^math.min(3,e.pathFailures-1))
-    if e.pathFailures>=3 and e.routeNode then
+    if e.pathFailures>=3 and e.routeNode and now-(e.progressAt or now)>N.pursuitTuning.stuckSeconds then
         e.avoidNodes=e.avoidNodes or {};e.avoidNodes[e.routeNode]=now+N.pursuitTuning.avoidSeconds;e.roomRoute=nil
     end
     N.trace(owner,e,"path-failure",reason,now);e.model:SetAttribute("NavigationState","Retrying")
@@ -279,15 +359,19 @@ function N.compute(owner,e,goal,now)
         if owner.ctx.map~=map or accessKey(map)~=topology or e.targetRoot~=target then
             e.nextPath=0;N.trace(owner,e,"stale-result","AccessOrTargetChanged");return
         end
-        local points={}
+        local points={};local reason=not ok and "ComputeError" or path.Status~=Enum.PathStatus.Success and "NativeNoPath" or "EmptyNativePath"
         -- Waypoint retrieval/normalization can fail as well as ComputeAsync.
         -- Reject empty and jumping paths without replacing a usable old route.
         if ok and path.Status==Enum.PathStatus.Success then ok=pcall(function()
             for _,point in ipairs(path:GetWaypoints()) do
-                if point.Action==Enum.PathWaypointAction.Jump then error("Jumping route rejected") end
-                if not U.finiteVector(point.Position) then error("Invalid native waypoint") end
+                if point.Action==Enum.PathWaypointAction.Jump then reason="JumpWaypoint";error("Jumping route rejected") end
+                if not U.finiteVector(point.Position) then reason="InvalidWaypoint";error("Invalid native waypoint") end
                 local ground=owner.ctx.map and N.floor(owner.ctx.map,point.Position+UP*3)
-                if map and not ground then error("Unsupported native waypoint") end
+                if map and not ground then reason="UnsupportedWaypoint";error("Unsupported native waypoint") end
+                if e.entered~=false and map and map.navigation then
+                    local room=Graph.locate(map,ground or point.Position)
+                    if not map.rooms[room].unlocked then reason="LockedWaypoint";error("Locked native waypoint") end
+                end
                 points[#points+1]={Position=ground or point.Position,Action=point.Action}
                 if #points>=N.pursuitTuning.maxWaypoints then break end
             end
@@ -295,11 +379,11 @@ function N.compute(owner,e,goal,now)
         if ok and map and #points>0 then
             local nextPoint
             for _,point in ipairs(points) do if not N.waypointReached(e,point.Position) then nextPoint=point;break end end
-            if nextPoint then ok=N.clearRoute(owner.ctx,e,N.segmentTarget(owner.ctx,e,nextPoint.Position+UP*N.rootHeight(e)))
+            if nextPoint then ok=N.clearRoute(owner.ctx,e,N.segmentTarget(owner.ctx,e,nextPoint.Position+UP*N.rootHeight(e)));reason=ok and reason or "BlockedNativeSegment"
             elseif flat(goal-e.root.Position).Magnitude>2 then ok=false end
         end
         if not ok or not path or path.Status~=Enum.PathStatus.Success or #points==0 then
-            N.failure(owner,e,"NativePathFailed",os.clock());return
+            N.failure(owner,e,reason,os.clock());return
         end
         release(e) e.path=points e.index=1 e.pathGoal=goal e.pathObject=path e.pathFailures=0
         e.nextPath=os.clock()+1.05+(e.id%7)*.035 e.model:SetAttribute("NavigationState","Pursuing")
@@ -608,7 +692,7 @@ function N.portal(owner,e,now)
     end
     owner.portalQueues=owner.portalQueues or {};local q=owner.portalQueues[index]
     if not q then q={waiting={}};owner.portalQueues[index]=q end
-    e.portalDoor=index;q.waiting[e.id]=q.waiting[e.id] or now
+    e.portalDoor=index;e.portalSeenAt=now;q.waiting[e.id]=q.waiting[e.id] or now
     if q.lease then
         local actor=owner.list[q.lease.id]
         if not actor or actor.dead or not actor.root.Parent or now>=q.lease.untilAt then
@@ -620,7 +704,7 @@ function N.portal(owner,e,now)
         local best,at
         for id,since in pairs(q.waiting) do
             local actor=owner.list[id]
-            if not actor or actor.dead or actor.portalDoor~=index or now-since>15 then q.waiting[id]=nil
+            if not actor or actor.dead or actor.portalDoor~=index or now-(actor.portalSeenAt or since)>2 then q.waiting[id]=nil
             elseif now>=(actor.portalBackoffUntil or 0) and (not at or since<at or since==at and id<best) then best=id;at=since end
         end
         if best then q.lease={id=best,untilAt=now+1.25,progressAt=now} end
@@ -688,14 +772,18 @@ end
 function N.move(owner,e,target,now)
     local goal=N.goal(owner.ctx,e,target,now) local revision=owner.ctx.map.navigationRevision or 0
     local topology=N.sync(owner)
-    if e.navRevision~=revision or e.navTopology and e.navTopology~=topology then N.invalidate(e);e.navRevision=revision end
+    if e.navRevision~=revision or e.navTopology and e.navTopology~=topology then N.invalidate(e);e.navRevision=revision;e.clearRetryAt=nil end
     e.navTopology=topology
     local leg=N.intent(owner,e,goal,now)
     local destination
     if not leg then
-        e.model:SetAttribute("NavigationState","NoRoomRoute")
+        e.model:SetAttribute("NavigationState",e.navFailure=="RouteBudget" and "WaitingRouteBudget" or "NoRoomRoute")
     elseif not N.portal(owner,e,now) then
         e.movingTo=nil;e.hum:MoveTo(e.root.Position);N.watchdog(owner,e,leg,now,true);return
+    elseif not e.path and now<(e.clearRetryAt or 0) and (e.root.Position-e.clearPosition).Magnitude<.3 and (leg-e.clearGoal).Magnitude<1.5 then
+        -- A stationary blocked actor need not repeat the same spatial work at
+        -- every AI tick. Access/target movement cancels this short, bounded hold.
+        e.movingTo=nil;e.hum:MoveTo(e.root.Position);N.watchdog(owner,e,leg,now);return
     elseif N.clearRoute(owner.ctx,e,leg) then
         if e.path or e.computing then N.invalidate(e,false,true) end
         destination=leg;e.navFailure=nil;e.blockedDoor=nil;e.model:SetAttribute("NavigationState","Direct")
@@ -705,10 +793,12 @@ function N.move(owner,e,target,now)
         while point and N.waypointReached(e,point.Position,e.index>1 and e.path[e.index-1].Position) do e.index+=1 point=e.path[e.index] end
         if point then
             local at=N.segmentTarget(owner.ctx,e,point.Position+UP*N.rootHeight(e))
-            if N.clearRoute(owner.ctx,e,at) then destination=at
+            if N.clearRoute(owner.ctx,e,at) then destination=at;e.navFailure=nil;e.blockedDoor=nil
             else N.invalidate(e,false,true);N.failure(owner,e,"BlockedSegment",now) end
-        elseif (e.pathFailures or 0)>=2 then
-            local route=e.roomRoute and e.roomRoute.points or Graph.route(owner.ctx.map,e.root.Position,target)
+        elseif (e.pathFailures or 0)>=2 and not e.roomRoute then
+            -- Legacy producers may still supply recovery hints. A planned room
+            -- route must never rescan already-completed anchors behind the NPC.
+            local route=Graph.route(owner.ctx.map,e.root.Position,target)
             for _,hint in ipairs(route or {}) do
                 local ground=N.floor(owner.ctx.map,hint+UP*3) local p=ground and ground+UP*N.rootHeight(e) or hint
                 if flat(p-e.root.Position).Magnitude>2 and N.clearRoute(owner.ctx,e,p) then destination=p break end
@@ -728,6 +818,8 @@ function N.move(owner,e,target,now)
         end
     end
     if destination then destination=N.steer(owner,e,destination) end
+    if leg and not destination then e.clearGoal=leg;e.clearPosition=e.root.Position;e.clearRetryAt=now+.3+e.id%3*.025
+    else e.clearRetryAt=nil end
     e.movingTo=destination e.hum:MoveTo(destination or e.root.Position)
     N.watchdog(owner,e,destination or leg,now)
 end

@@ -171,7 +171,7 @@ function P.sample(model,root,time)
         local yaw=math.clamp(model:GetAttribute("AwarenessYaw") or 0,-.55,.55)*ease
         local pitch=math.clamp(model:GetAttribute("AwarenessPitch") or 0,-.15,.15)*ease
         local variant=model:GetAttribute("AwarenessVariant") or 1
-        out.Neck=out.Neck*CFrame.Angles(-pitch,yaw,variant==2 and .035*ease or 0)
+        out.Neck=out.Neck*CFrame.Angles(pitch,yaw,variant==2 and .035*ease or 0)
         out.RootJoint=out.RootJoint*CFrame.Angles(variant==3 and -.025*ease or 0,yaw*.18,0)
     end
     local hitAge=time-(model:GetAttribute("HitAt") or -100)

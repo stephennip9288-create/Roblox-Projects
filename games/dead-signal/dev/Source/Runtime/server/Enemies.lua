@@ -257,7 +257,9 @@ function E:awareness(e,player,tr,now)
     local pitch=math.clamp(math.asin(math.clamp(direction.Y,-1,1)),-.15,.15)
     local at=workspace:GetServerTimeNow();local variant=e.id%3+1
     e.model:SetAttribute("AwarenessYaw",yaw);e.model:SetAttribute("AwarenessPitch",pitch)
-    e.model:SetAttribute("AwarenessVariant",variant);e.model:SetAttribute("AwarenessDuration",.85);e.model:SetAttribute("AwarenessAt",at)
+    e.model:SetAttribute("AwarenessVariant",variant);e.model:SetAttribute("AwarenessDuration",.85)
+    e.model:SetAttribute("AwarenessTargetUserId",player.UserId);e.model:SetAttribute("AwarenessRunId",self.ctx.run.id)
+    e.model:SetAttribute("AwarenessAt",at) -- Publish the timestamp last; AUDIO consumes only fresh coherent facts.
     local run=tostring(self.ctx.run.id);local source="enemy:"..run..":"..e.id
     self.ctx.feed:FireAllClients("EnemyAwareness",{runId=self.ctx.run.id,id=e.id,kind=e.kind,position=e.root.Position,
         variant=variant,sourceId=source,token="awareness:"..run..":"..e.id..":"..e.awarenessSequence})
@@ -651,7 +653,7 @@ function E:behavior(e,tr,now,distance)
 end
 function E:tick(now)
     if not self.ctx.map then return end
-    if Navigation.sync then Navigation.sync(self) end
+    if Navigation.beginTick then Navigation.beginTick(self) elseif Navigation.sync then Navigation.sync(self) end
     if self.pending and #self.pending>0 and now>=(self.nextAdmission or 0) and (self.ctx.run.phase=="Wave" or self.ctx.run.phase=="Exfil") then
         self.nextAdmission=now+Navigation.traversalTuning.planInterval
         local ticket=table.remove(self.pending,1)

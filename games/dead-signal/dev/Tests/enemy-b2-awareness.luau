@@ -26,6 +26,7 @@ do
  local event=h.events[1]
  check(event and event.kind=='EnemyAwareness' and event.data.runId==1 and event.data.id==e.id,'genuine detection uses the existing server feed')
  check(event.data.sourceId=='enemy:1:1' and event.data.token=='awareness:1:1:1','run/source/sequence permit AUDIO deduplication')
+ check(e.model:GetAttribute('AwarenessTargetUserId')==p.UserId and e.model:GetAttribute('AwarenessRunId')==h.ctx.run.id,'AUDIO receives genuine coherent target/run attributes')
  check(math.abs(e.model:GetAttribute('AwarenessYaw'))<=.55 and math.abs(e.model:GetAttribute('AwarenessPitch'))<=.15,'bounded look angles')
  check(e.root.CFrame==original and e.hp==hp and not e.windup and not e.root.Anchored,'awareness changes no movement, health, attack or physics authority')
  for i=1,100 do h.time+=.1;h.enemies:awareness(e,p,tr,h.time) end
@@ -40,6 +41,8 @@ do
  h.enemies:awareness(e,p,tr,h.time);local peak=h.Pose.sample(e.model,e.root,h.time+.425)
  check(peak.Neck~=before.Neck and peak.RootJoint~=before.RootJoint,'R6 look affects head and upper body')
  check(peak.RootJoint.Position==before.RootJoint.Position,'subtle torso rotation adds no translation')
+ e.model:SetAttribute('AwarenessYaw',0);e.model:SetAttribute('AwarenessPitch',.12);e.model:SetAttribute('AwarenessVariant',1)
+ check(h.Pose.sample(e.model,e.root,h.time+.425).Neck.LookVector.Y>before.Neck.LookVector.Y,'positive elevation turns toward an above-head player')
  local atStart=h.Pose.sample(e.model,e.root,h.time);local atEnd=h.Pose.sample(e.model,e.root,h.time+.85)
  e.model:SetAttribute('AwarenessAt',nil)
  check(atStart.Neck==h.Pose.sample(e.model,e.root,h.time).Neck,'look begins at the existing pose')

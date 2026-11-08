@@ -61,6 +61,26 @@ function N.stateKey(map)
     for _,door in ipairs(map.doors or {}) do parts[#parts+1]=door.open and "1" or "0" end
     return table.concat(parts,":")
 end
+function N.reachable(map,start,target)
+    local g=map.navigation;if not g then return true end
+    local from,fl=N.locate(map,start);local to,tl=N.locate(map,target)
+    if not map.rooms[from].unlocked or not map.rooms[to].unlocked then return false end
+    if from==to and fl==tl then return true end
+    local queue,seen={},{}
+    for id,node in pairs(g.nodes) do if node.room==from and node.level==fl and node.kind~="center" then queue[#queue+1]=id;seen[id]=true end end
+    local index=1
+    while index<=#queue do
+        local id=queue[index];index+=1;local node=g.nodes[id]
+        if node.room==to and node.level==tl then return true end
+        for _,edge in ipairs(g.edges[id]) do
+            local nextNode=g.nodes[edge.to]
+            if not seen[edge.to] and nextNode.kind~="center" and map.rooms[nextNode.room].unlocked and (not edge.door or edge.door.open) then
+                seen[edge.to]=true;queue[#queue+1]=edge.to
+            end
+        end
+    end
+    return false
+end
 function N.plan(map,start,target,options)
     local g=map.navigation if not g then return {} end
     local from,fl=N.locate(map,start) local to,tl=N.locate(map,target)

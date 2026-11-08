@@ -176,6 +176,7 @@ jobs:
             candidate/build/dead-signal-lossless/staging/
             candidate/games/dead-signal/releases/batch-1.json
             candidate/games/dead-signal/releases/batch-2-staging.json
+            candidate/games/dead-signal/releases/batch-2-gameplay-staging.json
             candidate/games/dead-signal/dev/Reviews/batch2-integration/
           retention-days: 90
           if-no-files-found: error

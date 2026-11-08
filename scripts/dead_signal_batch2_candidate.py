@@ -20,9 +20,11 @@ PREFIX = 'games/dead-signal/dev/'
 REVIEW = PREFIX + 'Reviews/batch2-integration/'
 MANIFEST = REVIEW + 'REVIEWED-RUNTIME.json'
 BUILDS = REVIEW + 'REVIEWED-BUILDS.json'
-MANIFEST_BLOB = '0c44a7883a966f46402c06e9b4b81938ad9bc695'
-BUILDS_BLOB = '7687038bfa315f50fd6bdac7b0449f526bd0b046'
+MANIFEST_BLOB = '06d588c5603496b92cfdae123af1add570a4248a'
+BUILDS_BLOB = 'b3b2d607b5da267fd518443f9b271ca4af87d684'
 RECORD = 'batch-2-staging.json'
+GAMEPLAY_RECORD = 'batch-2-gameplay-staging.json'
+GAMEPLAY_RELEASE = 'dead-signal-batch-2-gameplay-only-private-staging'
 HEADS = {
     'maps': '7b8c2442530c11afc47cd40f50c03a03349f6c39',
     'audio': '4807fd25193bc721a3473858d2c744250614aaaf',
@@ -101,6 +103,10 @@ def verify_audio(root=ROOT, require_active=False):
     if blob(raw) != doc['audio_intake_blob']:
         raise ValueError('Reviewed sixteen-asset intake changed')
     intake = json.loads(raw)
+    for name, key in [('AUDIO-SOURCE-REVIEW.json', 'audio_source_review_blob'),
+                      ('HOSTED-CONTENT-COMPARISON.json', 'hosted_content_comparison_blob')]:
+        if blob((root / REVIEW / name).read_bytes()) != doc.get(key):
+            raise ValueError('Reviewed source/content evidence changed: ' + name)
     rows = intake['recordings']
     if (len(rows) != 16 or len({r['event'] for r in rows}) != 16
             or len({r['roblox_asset_id'] for r in rows}) != 16
@@ -132,6 +138,23 @@ def verify_audio(root=ROOT, require_active=False):
             'rightsCleared', 'creatorReviewed', 'listeningApproved', 'robloxApproved')) for r in rows):
         raise ValueError('Unresolved asset rights/source, creator review or moderation/playback gate')
     return intake
+
+
+def verify_audio_disabled(root=ROOT):
+    """Separate gameplay QA requires all sixteen exact banks to remain gated."""
+    root = Path(root)
+    intake = verify_audio(root)
+    policy = (root / REVIEW / 'CONFIG-POLICY.luau.txt').read_text()
+    config = (root / PREFIX / 'Source/Runtime/shared/Config.lua').read_text()
+    if config.count(policy) != 1 or policy.count(',robloxApproved=false,') != 16:
+        raise ValueError('Gameplay-only QA requires the exact sixteen-bank disabled Config policy')
+    for row in intake['recordings']:
+        line = next((s for s in policy.splitlines() if '["' + row['event'] + '"]=' in s), '')
+        if (row.get('activated') is not False or row.get('robloxApproved') is not False
+                or ('id="rbxassetid://' + row['roblox_asset_id'] + '"') not in line
+                or 'robloxApproved=false' not in line):
+            raise ValueError('Gameplay-only QA cannot activate a new audio bank: ' + row['event'])
+    return {r['event']: r['roblox_asset_id'] for r in intake['recordings']}
 
 
 def build_record(root=ROOT):
@@ -194,12 +217,10 @@ def verify_historical_builds(record, root=ROOT):
     return True
 
 
-def staging_completion(record, source_sha, records, now=None):
-    """Fail closed until separate staging authorization and all audio gates exist."""
+def _staging_identity(record, source_sha, release):
     from dead_signal_release_guard import full_sha
     import dead_signal_production_admission as admission
-    from datetime import datetime, timezone, timedelta
-    if (record.get('schema') != 1 or record.get('release') != 'dead-signal-batch-2-private-staging'
+    if (record.get('schema') != 1 or record.get('release') != release
             or not full_sha(source_sha) or record.get('source_sha') != source_sha
             or record.get('owner_staging_authorization') is not True
             or not record.get('owner_authorization_evidence')
@@ -212,6 +233,11 @@ def staging_completion(record, source_sha, records, now=None):
             or record.get('integrated_heads') != HEADS
             or record.get('engine_gameplay_verified') is not False):
         raise ValueError('Batch 2 has no exact separately authorized private-staging admission')
+
+
+def staging_completion(record, source_sha, records, now=None):
+    """Full-audio admission is unchanged: all sixteen approvals are required."""
+    _staging_identity(record, source_sha, 'dead-signal-batch-2-private-staging')
     audio = record.get('audio', {})
     if (audio.get('asset_count') != 16 or audio.get('fully_approved_assets') != 16
             or audio.get('independent_staging_grants_verified') is not True
@@ -219,6 +245,28 @@ def staging_completion(record, source_sha, records, now=None):
             or audio.get('moderation_and_playback_eligible') is not True):
         raise ValueError('All sixteen Batch 2 audio intake gates must pass before staging')
     verify_audio(require_active=True)
+    return _staging_evidence(record, source_sha, records, now)
+
+
+def gameplay_staging_completion(record, source_sha, records, now=None):
+    """Distinct owner-approved gameplay test, never a full-audio acceptance."""
+    _staging_identity(record, source_sha, GAMEPLAY_RELEASE)
+    disabled = verify_audio_disabled()
+    audio = record.get('audio', {})
+    if (record.get('approval_scope') != 'GAMEPLAY_QA_NEW_AUDIO_DISABLED'
+            or record.get('owner_accepts_audio_exclusion') is not True
+            or record.get('full_batch2_accepted') is not False
+            or audio.get('asset_count') != 16 or audio.get('fully_approved_assets') != 0
+            or audio.get('enabled_new_assets') != 0 or audio.get('disabled_assets') != disabled
+            or audio.get('independent_staging_grants_verified') is not True
+            or audio.get('moderation_and_playback_eligible') is not False):
+        raise ValueError('Gameplay-only staging needs explicit audio exclusion and all sixteen banks disabled')
+    return _staging_evidence(record, source_sha, records, now)
+
+
+def _staging_evidence(record, source_sha, records, now=None):
+    import dead_signal_production_admission as admission
+    from datetime import datetime, timezone, timedelta
     if set(record.get('ci', {})) != admission.FAMILIES:
         raise ValueError('Five source-specific Batch 2 CI families are required')
     for family, check in record['ci'].items():
@@ -238,11 +286,14 @@ def staging_completion(record, source_sha, records, now=None):
     return record
 
 
-def verify_staging_source(candidate, source_sha, records):
+def verify_staging_source(candidate, source_sha, records, record_name=RECORD):
     from dead_signal_release_guard import verify_checkout
     from dead_signal_production_admission import verify_ci
-    record = json.loads((Path(records) / RECORD).read_text())
-    staging_completion(record, source_sha, records)
+    if record_name not in (RECORD, GAMEPLAY_RECORD):
+        raise ValueError('Unknown Batch 2 staging admission')
+    record = json.loads((Path(records) / record_name).read_text())
+    completion = gameplay_staging_completion if record_name == GAMEPLAY_RECORD else staging_completion
+    completion(record, source_sha, records)
     verify_checkout(candidate, source_sha)
     verify_tree(candidate)
     for lane, ancestor in {**HEADS, 'baseline': BASE}.items():

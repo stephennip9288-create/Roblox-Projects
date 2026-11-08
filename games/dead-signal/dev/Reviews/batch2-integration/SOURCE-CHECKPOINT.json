@@ -1,15 +1,15 @@
 {
   "schema": 1,
-  "reviewed_source_sha": "fccea067b804933c6d6db936b6332ceb5b662cdb",
-  "reviewed_source_tree": "c9737d5bf3ec4f837df37af84b732d1c45004dae",
+  "reviewed_source_sha": null,
+  "reviewed_source_tree": null,
   "integration_branch": "integration/dead-signal-batch2",
   "combined_pr": 73,
   "combined_pr_url": "https://github.com/stephennip9288-create/Roblox-Projects/pull/73",
   "main_untouched_checkpoint": "7aaf323de6153134df2154c7ae3b1613a596495b",
   "runtime_records": 61,
   "reviewed_runtime_deltas": 13,
-  "runtime_manifest_blob": "0c44a7883a966f46402c06e9b4b81938ad9bc695",
-  "build_manifest_blob": "7687038bfa315f50fd6bdac7b0449f526bd0b046",
+  "runtime_manifest_blob": "06d588c5603496b92cfdae123af1add570a4248a",
+  "build_manifest_blob": "b3b2d607b5da267fd518443f9b271ca4af87d684",
   "specialist_merges": [
     {
       "pr": 69,
@@ -41,9 +41,9 @@
   "staging_published": false,
   "production_published": false,
   "native_qa_verified": false,
-  "candidate_intent": "Exact source-reviewed offline artifact candidate; new audio activation is blocked pending truthful intake evidence. Separate owner authorization is required for private staging.",
+  "candidate_intent": "Separately reviewed gameplay-only private staging; all sixteen new audio banks disabled; exact immutable commit/CI/artifact provenance pending next metadata checkpoint.",
   "prior_checkpoint": {
-    "sha": "3038bb9fdd6c15145c1bd9d560c17625b24df42f",
-    "lossless_failure": "Final workflow wrapper could not import the new verifier; runtime suites/builds/fidelity had passed. Fixed with actual-wrapper positive and negative regression."
+    "sha": "fccea067b804933c6d6db936b6332ceb5b662cdb",
+    "history": "History/fccea067/"
   }
 }

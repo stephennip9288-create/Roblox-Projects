@@ -1,0 +1,369 @@
+{
+  "schema": 1,
+  "method": "ffmpeg float32 decode to 48 kHz stereo; full-track delay search bounded to 50 ms, both channels normalized correlation, gain-fitted RMS error; expected pairing from exact owner-approved asset names/IDs",
+  "source_archive_sha256": "41716d4d9daee68b8c76ec17816a8c8abb97ba63665f07ba51660d790559f19b",
+  "hosted_source": "Owner-authenticated Creator Store audio element; downloadMedia of the DOM-exposed blob, no hidden API/session extraction",
+  "does_not_establish": [
+    "Explicit Roblox moderationState",
+    "Native ContentProvider/engine playback",
+    "Future eligibility or immutable hosted revision"
+  ],
+  "recordings": [
+    {
+      "roblox_asset_id": "92629845353488",
+      "name": "infected_clothing_drag_1",
+      "source_sha256": "75697dd4d7b5dd1253d59b9bb8bf0edd81461469339a595c6ad912a649738fe5",
+      "source_bytes": 352778,
+      "hosted_sha256": "8b56b8046855fd054ae852e52ecbeccfdce6ae20d990de5393b08af6028e7e1a",
+      "hosted_bytes": 33322,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 95973,
+      "hosted_frames_48000": 95973,
+      "aligned_frames": 95973,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.96928895,
+        0.99237484
+      ],
+      "fitted_gain": 0.97632884,
+      "normalized_rms_error": 0.1620082,
+      "decoded_content_match": false
+    },
+    {
+      "roblox_asset_id": "128855928185941",
+      "name": "blackwater_metal_creak_1",
+      "source_sha256": "8cdae33e34d33621bae9444b575a3a17b906a7e435d65375039c97336faa3bd1",
+      "source_bytes": 635982,
+      "hosted_sha256": "6594e960021c75084a45cf19c25cbc76344a60ff317b124fbd8767171a752019",
+      "hosted_bytes": 81058,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 158976,
+      "hosted_frames_48000": 158976,
+      "aligned_frames": 158976,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99264523,
+        0.98969572
+      ],
+      "fitted_gain": 0.9817619,
+      "normalized_rms_error": 0.12996314,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "101059835221623",
+      "name": "cinderworks_steam_release_1",
+      "source_sha256": "58a2c1d8f440f8e4646258309ae1cee892c4308882c64206aa14c67e3bd74b64",
+      "source_bytes": 366414,
+      "hosted_sha256": "0765ffdb9c7c9f22fcf72b42c127dd57a988e53f19b06e7736e59532e3c66bbf",
+      "hosted_bytes": 33109,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 183168,
+      "hosted_frames_48000": 183169,
+      "aligned_frames": 183168,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.911923,
+        0.9053364
+      ],
+      "fitted_gain": 0.87523799,
+      "normalized_rms_error": 0.41752309,
+      "decoded_content_match": false
+    },
+    {
+      "roblox_asset_id": "123384623508546",
+      "name": "cinderworks_steel_impact_1",
+      "source_sha256": "7b44d408646cd57f9b65446ba0a3b1ba2f7cf01bf5fb841413cefbd404dea439",
+      "source_bytes": 189006,
+      "hosted_sha256": "61a8431fc929b158c8d277a835a24ffd95841da7b0e8903697e2a8d68ef4d3fa",
+      "hosted_bytes": 21197,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 51409,
+      "hosted_frames_48000": 51409,
+      "aligned_frames": 51409,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99278135,
+        0.99305989
+      ],
+      "fitted_gain": 0.9788663,
+      "normalized_rms_error": 0.11875282,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "124107740668584",
+      "name": "infected_distant_cry_1",
+      "source_sha256": "22f170aee93e7080d6b4a26c62646640222e1cb4cb20bd1b16522d16dbce6c52",
+      "source_bytes": 793878,
+      "hosted_sha256": "aff9ec7cf73a204dce7ed2b16f535f7a4cba3decbf17b2ab4cf6427a96ca77a2",
+      "hosted_bytes": 70395,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 216000,
+      "hosted_frames_48000": 216000,
+      "aligned_frames": 216000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99533877,
+        0.9955865
+      ],
+      "fitted_gain": 0.98723701,
+      "normalized_rms_error": 0.09496448,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "122477333598212",
+      "name": "infected_breath_1",
+      "source_sha256": "69ef7d3c2fb7fa0bd06ef4952c3bf3e726dcbaf5d76bf07bca870186a54123ff",
+      "source_bytes": 239882,
+      "hosted_sha256": "f6df4d73960ac8a56cc15b52b6ed35d54e44818ce0644763f42183b8d93168e2",
+      "hosted_bytes": 23305,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 119902,
+      "hosted_frames_48000": 119903,
+      "aligned_frames": 119902,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.98772416,
+        0.98695814
+      ],
+      "fitted_gain": 1.00107732,
+      "normalized_rms_error": 0.15819323,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "138465772345022",
+      "name": "blackwater_calm",
+      "source_sha256": "24e2e36d6899e3c41ca20af4e5ebbea22e75ef23f7cc52fe67befbf2614d0244",
+      "source_bytes": 160179,
+      "hosted_sha256": "528f3135f73313d268676cf81e0fa709b381b9e31f61d735ec85b948ad85105a",
+      "hosted_bytes": 104454,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.9965461,
+        0.9965461
+      ],
+      "fitted_gain": 0.98766885,
+      "normalized_rms_error": 0.08304137,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "130706797589872",
+      "name": "blackwater_pressure",
+      "source_sha256": "5100c24ab941c236cd690b32c293347a08facb0d6e56752c8c359ce0ef27196a",
+      "source_bytes": 156880,
+      "hosted_sha256": "188fc2bb222c2d712cc24ac987a203c0c662c02f5b166a6fb11e6f091c481466",
+      "hosted_bytes": 99812,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99702282,
+        0.99702282
+      ],
+      "fitted_gain": 0.98854394,
+      "normalized_rms_error": 0.07710701,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "127835878664881",
+      "name": "cinderworks_calm",
+      "source_sha256": "fc9bcb4cb825b68c191feefe1a3088847871c15464ecf55505e219fc9a64a2ca",
+      "source_bytes": 140558,
+      "hosted_sha256": "328836fcc0ad6291359697b8d8e351ee05c74f07433c27f699b35868e73bb6f7",
+      "hosted_bytes": 89240,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99710292,
+        0.99710292
+      ],
+      "fitted_gain": 0.98784717,
+      "normalized_rms_error": 0.07606418,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "136397741479585",
+      "name": "cinderworks_pressure",
+      "source_sha256": "11487fa8b0446e9457d72d4084edf0147d1fd52b855b3002f7f384a6091db181",
+      "source_bytes": 179520,
+      "hosted_sha256": "62abc33b460f64afa26700f17c26dfd0d3c788a4d5071b6cc21c7d23012849fb",
+      "hosted_bytes": 114031,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99691134,
+        0.99691134
+      ],
+      "fitted_gain": 0.98798964,
+      "normalized_rms_error": 0.07853519,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "76339621502898",
+      "name": "whiteout_calm",
+      "source_sha256": "5289e59780abd1516936ad660ed376e87859630bf588424120fdcc0a291322d2",
+      "source_bytes": 179723,
+      "hosted_sha256": "6a8dac6caed80aa3aab93d247c43326fa9e10ea21ae786b632d34380f083dd85",
+      "hosted_bytes": 123514,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99463664,
+        0.99463664
+      ],
+      "fitted_gain": 0.97758403,
+      "normalized_rms_error": 0.10343093,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "76092484114227",
+      "name": "whiteout_pressure",
+      "source_sha256": "1e89692105f21330d98fb45dbf71588234b0396550ed7ad3a899e13a2dac43db",
+      "source_bytes": 170914,
+      "hosted_sha256": "a7607302523b6f1de144f7ff66f8753763f403931a3c1fcb76e1ab95ea8628ff",
+      "hosted_bytes": 118555,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99513172,
+        0.99513172
+      ],
+      "fitted_gain": 0.98437059,
+      "normalized_rms_error": 0.09855388,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "78163810591784",
+      "name": "dispatch_calm",
+      "source_sha256": "f91353f2dc5aab370d0ff0954513a049d589f38133f3cc69b596ba868bb495de",
+      "source_bytes": 174076,
+      "hosted_sha256": "fb0de6d270fd55537da82b56c1dad6ba1a5a3749e0196763b6907221e4069356",
+      "hosted_bytes": 112109,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99525309,
+        0.99525309
+      ],
+      "fitted_gain": 0.97951954,
+      "normalized_rms_error": 0.09732054,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "125448982783761",
+      "name": "warden_pressure",
+      "source_sha256": "06b30bba6efbf950ae965201056f0ac20e4167905316152bba5d9075927386e6",
+      "source_bytes": 160583,
+      "hosted_sha256": "c8ace42c3adc696e4622149d94403329b5bc0d194d64f90a9f9843eed0c8a220",
+      "hosted_bytes": 102650,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99724973,
+        0.99724973
+      ],
+      "fitted_gain": 0.98956393,
+      "normalized_rms_error": 0.07411466,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "99490559372066",
+      "name": "extraction_pressure",
+      "source_sha256": "9a543fed46ed15830e928e82c357be84133ba67acd1671256d55395dd05f1986",
+      "source_bytes": 191448,
+      "hosted_sha256": "f15ac719aefc8709dbb4f51560b5e2d3fe0e2df8dbb658a93209939a53485ca6",
+      "hosted_bytes": 132584,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 1536000,
+      "hosted_frames_48000": 1536000,
+      "aligned_frames": 1536000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.9962134,
+        0.9962134
+      ],
+      "fitted_gain": 0.97446382,
+      "normalized_rms_error": 0.08694169,
+      "decoded_content_match": true
+    },
+    {
+      "roblox_asset_id": "79202413557343",
+      "name": "rare_score_stinger",
+      "source_sha256": "cbf6408980063ece96ce4f8de7c90b136f1e1deef55630cdf652cac449c8a90e",
+      "source_bytes": 26112,
+      "hosted_sha256": "6881b8f79c2ed56f6379501cd5966f6ee1d13d5ff2fd47a951961b4d63b7d4c2",
+      "hosted_bytes": 17363,
+      "byte_identical": false,
+      "lag_samples_48000": 0,
+      "source_frames_48000": 144000,
+      "hosted_frames_48000": 144000,
+      "aligned_frames": 144000,
+      "source_coverage": 1.0,
+      "channel_correlations": [
+        0.99581208,
+        0.99581208
+      ],
+      "fitted_gain": 0.98488863,
+      "normalized_rms_error": 0.09142378,
+      "decoded_content_match": true
+    }
+  ],
+  "observed_at": "2026-11-08T23:36:40.300915+00:00",
+  "strict_match_criteria": {
+    "minimum_both_channel_correlation": 0.98,
+    "minimum_source_coverage": 0.99,
+    "maximum_normalized_rms_error": 0.2
+  },
+  "strict_matches": 14,
+  "inconclusive_assets": [
+    "92629845353488",
+    "101059835221623"
+  ],
+  "interpretation": "Fourteen strict full-track matches; steam and clothing drag remain inconclusive under the same threshold. No threshold was relaxed to pass those recordings. All sixteen are lossy hosted encodings, not byte-identical originals.",
+  "browser_previews": {
+    "count": 16,
+    "all_loaded_readyState": 4,
+    "all_progressed_without_media_error": true,
+    "native_engine": false,
+    "uploader": "Lenwyrd",
+    "uploader_user_id": "6206795757"
+  }
+}

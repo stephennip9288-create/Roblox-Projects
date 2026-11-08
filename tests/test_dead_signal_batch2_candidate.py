@@ -1,5 +1,6 @@
 """Review, preservation, exact-build and fail-closed Batch 2 release boundaries."""
 import ast
+from copy import deepcopy
 import json
 import re
 from pathlib import Path
@@ -89,10 +90,110 @@ class Batch2Candidate(unittest.TestCase):
         self.assertEqual(len(intake['recordings']), 16)
         self.assertTrue(all(r['listeningApproved'] for r in intake['recordings']))
         self.assertFalse(intake['owner_listening_reconfirmation_required'])
+        self.assertTrue(all(r['rightsCleared'] and r['creatorReviewed'] for r in intake['recordings']))
+        self.assertEqual(sum(r['hosted_content_strict_match'] for r in intake['recordings']), 14)
         with self.assertRaisesRegex(ValueError, 'rights/source'):
             gate.verify_audio(require_active=True)
         self.assertTrue(all(r['activated'] is False and r['native_playback_verified'] is False
                             for r in intake['recordings']))
+
+    def gameplay_fixture(self):
+        """Synthetic authorization exercises the gate; never edits a real admission."""
+        records = ROOT / 'games/dead-signal/releases'
+        row = json.loads((records / gate.GAMEPLAY_RECORD).read_text())
+        source = '1' * 40
+        row.update(source_sha=source, owner_staging_authorization=True,
+                   owner_authorization_evidence='synthetic unit-test evidence',
+                   owner_accepts_audio_exclusion=True, ready_for_staging=True)
+        import dead_signal_production_admission as admission
+        row['ci'] = {family: {'source_sha': source, 'conclusion': 'success', 'run_id': 1}
+                     for family in admission.FAMILIES}
+        builds = gate.build_record()['builds']['staging']
+        row['staging_binary_sha256'] = {p: r['sha256'] for p, r in builds.items()}
+        row['staging_binary_bytes'] = {p: r['bytes'] for p, r in builds.items()}
+        return row, source, records
+
+    def test_separate_gameplay_gate_accepts_only_explicit_disabled_audio_scope(self):
+        row, source, records = self.gameplay_fixture()
+        self.assertEqual(gate.gameplay_staging_completion(row, source, records), row)
+        changes = {'owner_staging_authorization': False, 'owner_accepts_audio_exclusion': False,
+                   'owner_authorization_evidence': None, 'ready_for_staging': False,
+                   'production_authorization': True, 'engine_gameplay_verified': True,
+                   'full_batch2_accepted': True, 'approval_scope': 'FULL_AUDIO',
+                   'source_sha': 'main', 'release': 'dead-signal-batch-2-private-staging'}
+        for key, value in changes.items():
+            with self.subTest(field=key), self.assertRaises(ValueError):
+                gate.gameplay_staging_completion({**row, key: value}, source, records)
+        for key, value in {'enabled_new_assets': 1, 'fully_approved_assets': 16,
+                           'disabled_assets': {}, 'moderation_and_playback_eligible': True}.items():
+            mutated = deepcopy(row)
+            mutated['audio'][key] = value
+            with self.subTest(audio=key), self.assertRaises(ValueError):
+                gate.gameplay_staging_completion(mutated, source, records)
+
+    def test_gameplay_scope_preserves_ci_build_rollback_and_full_audio_gates(self):
+        row, source, records = self.gameplay_fixture()
+        for key, value in {'ci': {}, 'staging_binary_sha256': {}, 'rollback': {}}.items():
+            with self.subTest(field=key), self.assertRaises(ValueError):
+                gate.gameplay_staging_completion({**row, key: value}, source, records)
+        from datetime import datetime, timezone
+        with self.assertRaisesRegex(ValueError, 'Refresh staging rollback'):
+            gate.gameplay_staging_completion(row, source, records,
+                                             now=datetime(2027, 1, 20, tzinfo=timezone.utc))
+        # Renaming gameplay QA to full audio cannot bypass the original 16-asset gate.
+        full = deepcopy(row)
+        full['release'] = 'dead-signal-batch-2-private-staging'
+        full['audio'].update(fully_approved_assets=16, rights_and_source_verified=True,
+                             moderation_and_playback_eligible=True)
+        with self.assertRaisesRegex(ValueError, 'rights/source'):
+            gate.staging_completion(full, source, records)
+
+    def test_disabled_policy_is_in_the_actual_pinned_config(self):
+        expected = {r['event']: r['roblox_asset_id'] for r in gate.verify_audio()['recordings']}
+        self.assertEqual(gate.verify_audio_disabled(self.root), expected)
+        path = self.root / gate.PREFIX / 'Source/Runtime/shared/Config.lua'
+        old = path.read_text()
+        try:
+            path.write_text(old.replace('robloxApproved=false', 'robloxApproved=true', 1))
+            with self.assertRaisesRegex(ValueError, 'disabled Config policy'):
+                gate.verify_audio_disabled(self.root)
+        finally:
+            path.write_text(old)
+
+    def test_real_gameplay_record_is_not_owner_authorized(self):
+        records = ROOT / 'games/dead-signal/releases'
+        record = json.loads((records / gate.GAMEPLAY_RECORD).read_text())
+        self.assertIs(record['owner_staging_authorization'], False)
+        self.assertIs(record['owner_accepts_audio_exclusion'], False)
+        self.assertIs(record['ready_for_staging'], False)
+        with self.assertRaises(ValueError):
+            gate.gameplay_staging_completion(record, record['source_sha'], records)
+
+    def test_trusted_router_selects_the_distinct_gameplay_record(self):
+        import dead_signal_release_guard as release
+        row, source, _ = self.gameplay_fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            records = Path(directory)
+            (records / gate.GAMEPLAY_RECORD).write_text(json.dumps(row))
+            with patch.object(gate, 'verify_staging_source', return_value=row) as verify:
+                self.assertEqual(release.verify_staging_deploy_source(ROOT, source, records), row)
+                verify.assert_called_once_with(ROOT, source, records, gate.GAMEPLAY_RECORD)
+
+    def test_gameplay_upload_gate_rejects_a_changed_binary_before_any_publish(self):
+        import dead_signal_staging_rollout as rollout
+        row, _, _ = self.gameplay_fixture()
+        approved = {p: {'candidate_sha256': row['staging_binary_sha256'][p],
+                        'candidate_bytes': row['staging_binary_bytes'][p]} for p in rollout.ORDER}
+        approved['whiteout']['candidate_sha256'] = '0' * 64
+        with patch.dict('os.environ', {'GITHUB_REF': 'refs/heads/main',
+                                       'GITHUB_REPOSITORY': 'stephennip9288-create/Roblox-Projects',
+                                       'ROBLOX_API_KEY': 'synthetic-not-a-key'}), \
+             patch.object(rollout, 'approved_release_source', return_value=row), \
+             patch.object(rollout, 'preflight', return_value=approved), \
+             patch.object(rollout, 'publish') as network:
+            with self.assertRaisesRegex(ValueError, 'binary SHA256 mismatch: whiteout'):
+                rollout.run('deploy', 'DEPLOY-PRIVATE-STAGING')
+            network.assert_not_called()
 
     def test_staging_is_not_admitted_by_source_review_or_owner_listening(self):
         records = ROOT / 'games/dead-signal/releases'

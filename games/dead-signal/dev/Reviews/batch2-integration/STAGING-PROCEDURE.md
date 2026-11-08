@@ -1,35 +1,17 @@
 # Owner-controlled Batch 2 private-staging procedure
 
-**Current admission: BLOCKED. No workflow has been dispatched.** The exact reviewed source and CI references are in `SOURCE-CHECKPOINT.json`; the main-trusted record is `games/dead-signal/releases/batch-2-staging.json`. Source integration and owner listening acceptance do not authorize staging publication.
+No deployment is authorized by this document. The concrete candidate is recorded in `SOURCE-CHECKPOINT.json` and `games/dead-signal/releases/batch-2-gameplay-staging.json`. It includes completed Batch 2 gameplay code and deliberately disables all sixteen new audio banks. The earlier full-audio admission is separate and continues to require all sixteen complete approval gates.
 
-1. Supply the remaining recording source/rights and creator/content evidence and verify each asset's moderation/playback eligibility. Keep the existing owner listening acceptance and verified 32 experience grants. MAIN applies only evidenced flags; if any runtime policy bytes change, MAIN reviews/pins a new source manifest, rebuilds/pins all eight outputs and reruns all five workflow families on the new immutable source. No automatic flag flipping or reused build hashes.
-2. Review the final four-place candidate, native-fidelity reports, open native-QA checklist and exact rollback. The staging recovery must still identify the latest successful deployment, contain four verified native files and have more than 14 days remaining. Refresh through the existing owner-controlled process if required; never overwrite the previous known-good archive.
-3. Give separate explicit authorization for that exact Batch 2 private-staging source. MAIN records its evidence, exact full 40-character source SHA, source-specific successful CI, complete audio gates and four staging build pins in the admission. The source record must remain production-unauthorized. An owner-approved controls PR must place the reviewed staging controls/admission on `main`; this integration task does not merge to main or dispatch a deployment.
-4. On GitHub Actions choose **Dead Signal Controlled Private Staging**, workflow file `dead-signal-private-staging.yml`, **Use workflow from: main**. Enter **operation: deploy**, **confirmation: DEPLOY-PRIVATE-STAGING**, **source_sha: the exact full SHA in the approved Batch 2 staging admission**. Do not substitute an integration-branch name, latest branch head, old Batch 1 source or an unreviewed SHA.
-5. The workflow checks main-trusted source admission, exact checkout and specialist ancestry, current CI, source/asset gates, current rollback, all offline suites, four lossless builds/fidelity and exact binary pins, then reinstalls trusted controls before upload. It uses only the staging key and universe, uploads Blackwater/Cinderworks/Whiteout first and Dispatch last, and retains the reviewed candidate and rollback manifest for 90 days. Any preflight failure stops publication. An upload failure triggers restoration of all four recorded staging files; inspect every rollback result before further action.
-6. Verify all four deployment results and retain the run/artifact/version IDs. Update the current staging recovery record only after the successful deployed output is independently checked, preserving its predecessor. Perform the outstanding native/device/multiplayer and audio QA. Report actual results and defects; do not infer gameplay acceptance from CI or binary fidelity. Production requires a later, separately reviewed release and explicit owner authorization.
+1. Review the immutable source, all five source-specific successful CI families, all eight independently verified native builds, audio exclusions, and current four-place staging recovery. The rollback must still be the latest successful staging deployment and have more than fourteen days remaining. Recheck current metadata before dispatch.
+2. Obtain final owner authorization for that **exact full SHA**, private staging universe `10771141095`, and the explicit exclusion of all sixteen new audio banks. The owner must also approve placing the reviewed controls/admission in PR #73 onto `main`. This preparation does not merge that PR or dispatch a workflow. Record the actual authorization evidence; do not use the earlier desire to begin testing as authorization.
+3. In the distinct gameplay admission, retain `approval_scope=GAMEPLAY_QA_NEW_AUDIO_DISABLED`, `full_batch2_accepted=false`, exact disabled event/ID pairs, source-specific CI/build/recovery pins, `engine_gameplay_verified=false`, and `production_authorization=false`. Only after the explicit authorization may `owner_staging_authorization`, `owner_accepts_audio_exclusion` and `ready_for_staging` become true. A metadata-only control commit may record authorization while the selected game source stays pinned to the reviewed source SHA.
+4. Merge the owner-approved reviewed controls/admission onto `main`; verify that the main workflow and independent pins match the approved candidate. Never use candidate game code to choose a weaker policy. The trusted workflow installs main controls before validation and reinstalls them after candidate tests.
+5. On GitHub Actions choose **Dead Signal Controlled Private Staging**, workflow `dead-signal-private-staging.yml`, **Use workflow from: main**, **operation: deploy**, **confirmation: DEPLOY-PRIVATE-STAGING**, and **source_sha: the exact full SHA in the approved gameplay admission**. Never substitute the branch name, latest branch head, a metadata commit, the old source or an unapproved SHA.
+6. Before upload the workflow rechecks authorization, exact source/ancestry, all sixteen disabled banks, current CI, current rollback, offline suites, four lossless staging builds/fidelity and their exact pins. It uses only the staging key/universe, uploads Blackwater/Cinderworks/Whiteout first and Dispatch last, and retains the reviewed candidate/rollback artifacts for ninety days. Any preflight failure stops publication. An upload failure triggers restoration of all four recorded staging files; inspect each rollback result.
+7. Verify all four resulting place versions and retain deployment/artifact provenance. Only then update the staging recovery through the existing owner-controlled process, preserving its predecessor. Follow `GAMEPLAY-STAGING-QA.md`; record actual results and return defects to the relevant specialist. No gameplay/native/device/multiplayer acceptance is inferred from offline checks. Production needs a separate review and explicit later authorization.
 
-After those gates pass, the equivalent owner CLI is:
+Exact dispatch fields will be supplied with the final verified source summary. The current admission has authorization false and is intentionally rejected by the deployment guard.
 
-```bash
-gh workflow run dead-signal-private-staging.yml \
-  --repo stephennip9288-create/Roblox-Projects \
-  --ref main \
-  -f operation=deploy \
-  -f confirmation=DEPLOY-PRIVATE-STAGING \
-  -f source_sha=FULL_SHA_FROM_THE_APPROVED_BATCH_2_ADMISSION
-```
+The existing owner-only rollback operation remains `operation=rollback`, `confirmation=RESTORE-PRIVATE-STAGING`, workflow branch `main`, with an empty `source_sha`. It uses the recorded current recovery and remains usable when candidate CI or audio intake fails. This document does not authorize a rollback now.
 
-The placeholder is intentional: the current record is not authorized and enabling the still-gated audio will require a newly reviewed source. MAIN must provide the resulting concrete SHA before the owner dispatches this command.
-
-The existing owner-only recovery operation remains:
-
-```bash
-gh workflow run dead-signal-private-staging.yml \
-  --repo stephennip9288-create/Roblox-Projects \
-  --ref main \
-  -f operation=rollback \
-  -f confirmation=RESTORE-PRIVATE-STAGING
-```
-
-Rollback selects the exact recorded current staging recovery, with no new `source_sha`; it remains usable when candidate CI or audio intake fails. These instructions do not authorize running either command now.
+For a later full-audio release, independently establish explicit Roblox moderation/eligibility, resolve steam/clothing-drag source equivalence and perform authorized native ContentProvider/audio QA. Apply only evidenced flags, repin changed runtime bytes, regenerate all eight build pins, rerun all five CI families and obtain a separate exact-source authorization. Do not convert the gameplay-only admission into full-audio acceptance.

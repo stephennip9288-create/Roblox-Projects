@@ -1,0 +1,477 @@
+{
+  "schema": 1,
+  "issue": 62,
+  "recorded_at": "2026-11-08T20:11:10.951413+00:00",
+  "owner_listening_reconfirmation_required": false,
+  "source_inventory_url": "https://create.roblox.com/dashboard/creations?activeTab=Audio&inventoryView=list",
+  "permissions": {
+    "staging": {
+      "universe_id": "10771141095",
+      "page": "https://create.roblox.com/dashboard/creations/experiences/10771141095/permissions",
+      "observed_at": "2026-11-08T20:11:10.951413+00:00",
+      "method": "read-only Creator Dashboard Assets permission CSV export",
+      "total_existing_grants": 911,
+      "full_export_sha256": "0c6fa75c64ac855ee1f871482db14502165077b803e1574f96dc21ec7432013f",
+      "matched_new_audio_grants": 16,
+      "reviewed_subset_file": "STAGING-GRANTS.csv",
+      "subset_blob": "4bf97b1e3e001caabcee5d19ead6561a8135e581",
+      "permissions_modified": false,
+      "subset_line_endings": "LF; exported row content unchanged"
+    },
+    "production": {
+      "universe_id": "10770732078",
+      "page": "https://create.roblox.com/dashboard/creations/experiences/10770732078/permissions",
+      "observed_at": "2026-11-08T20:11:10.951413+00:00",
+      "method": "read-only Creator Dashboard Assets permission CSV export",
+      "total_existing_grants": 922,
+      "full_export_sha256": "6d870c91a0f2f041538b0f3b3225891ea1379b89d2f4ed923345659c8c52c0f4",
+      "matched_new_audio_grants": 16,
+      "reviewed_subset_file": "PRODUCTION-GRANTS.csv",
+      "subset_blob": "4bf97b1e3e001caabcee5d19ead6561a8135e581",
+      "permissions_modified": false,
+      "subset_line_endings": "LF; exported row content unchanged"
+    }
+  },
+  "recordings": [
+    {
+      "event": "Music.Station.Calm",
+      "name": "blackwater_calm",
+      "roblox_asset_id": "138465772345022",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "24e2e36d6899e3c41ca20af4e5ebbea22e75ef23f7cc52fe67befbf2614d0244",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Music.Station.Pressure",
+      "name": "blackwater_pressure",
+      "roblox_asset_id": "130706797589872",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "5100c24ab941c236cd690b32c293347a08facb0d6e56752c8c359ce0ef27196a",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Music.Foundry.Calm",
+      "name": "cinderworks_calm",
+      "roblox_asset_id": "127835878664881",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "fc9bcb4cb825b68c191feefe1a3088847871c15464ecf55505e219fc9a64a2ca",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Music.Foundry.Pressure",
+      "name": "cinderworks_pressure",
+      "roblox_asset_id": "136397741479585",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "11487fa8b0446e9457d72d4084edf0147d1fd52b855b3002f7f384a6091db181",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Music.Frost.Calm",
+      "name": "whiteout_calm",
+      "roblox_asset_id": "76339621502898",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "5289e59780abd1516936ad660ed376e87859630bf588424120fdcc0a291322d2",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Music.Frost.Pressure",
+      "name": "whiteout_pressure",
+      "roblox_asset_id": "76092484114227",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "1e89692105f21330d98fb45dbf71588234b0396550ed7ad3a899e13a2dac43db",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Music.Lobby.Calm",
+      "name": "dispatch_calm",
+      "roblox_asset_id": "78163810591784",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "f91353f2dc5aab370d0ff0954513a049d589f38133f3cc69b596ba868bb495de",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Music.Warden",
+      "name": "warden_pressure",
+      "roblox_asset_id": "125448982783761",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "06b30bba6efbf950ae965201056f0ac20e4167905316152bba5d9075927386e6",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Music.Extraction",
+      "name": "extraction_pressure",
+      "roblox_asset_id": "99490559372066",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "9a543fed46ed15830e928e82c357be84133ba67acd1671256d55395dd05f1986",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Atmosphere.Stinger",
+      "name": "rare_score_stinger",
+      "roblox_asset_id": "79202413557343",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Original deterministic musical source and OGG hash inspected; uploaded-byte equivalence and owner creator/rights disposition pending",
+      "source_ogg_sha256": "cbf6408980063ece96ce4f8de7c90b136f1e1deef55630cdf652cac449c8a90e",
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Atmosphere.Station.Creak",
+      "name": "blackwater_metal_creak_1",
+      "roblox_asset_id": "128855928185941",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Source recording, performer/creator and ownership/license evidence not supplied",
+      "source_ogg_sha256": null,
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Atmosphere.Foundry.Steam",
+      "name": "cinderworks_steam_release_1",
+      "roblox_asset_id": "101059835221623",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Source recording, performer/creator and ownership/license evidence not supplied",
+      "source_ogg_sha256": null,
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Atmosphere.Foundry.Impact",
+      "name": "cinderworks_steel_impact_1",
+      "roblox_asset_id": "123384623508546",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Source recording, performer/creator and ownership/license evidence not supplied",
+      "source_ogg_sha256": null,
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Atmosphere.Cry",
+      "name": "infected_distant_cry_1",
+      "roblox_asset_id": "124107740668584",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Source recording, performer/creator and ownership/license evidence not supplied",
+      "source_ogg_sha256": null,
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Zombie.Breath",
+      "name": "infected_breath_1",
+      "roblox_asset_id": "122477333598212",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Source recording, performer/creator and ownership/license evidence not supplied",
+      "source_ogg_sha256": null,
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    },
+    {
+      "event": "Zombie.Drag",
+      "name": "infected_clothing_drag_1",
+      "roblox_asset_id": "92629845353488",
+      "uploader": "Lenwyrd",
+      "uploaded": true,
+      "upload_evidence": "Creator Dashboard named audio row and existing permission export",
+      "listeningApproved": true,
+      "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+      "rightsCleared": false,
+      "creatorReviewed": false,
+      "robloxApproved": false,
+      "permissions": {
+        "10771141095": true,
+        "10770732078": true
+      },
+      "permission_evidence": [
+        "STAGING-GRANTS.csv",
+        "PRODUCTION-GRANTS.csv"
+      ],
+      "source_review": "Source recording, performer/creator and ownership/license evidence not supplied",
+      "source_ogg_sha256": null,
+      "uploaded_bytes_compared": false,
+      "moderation_status": "not independently established by Uploaded source label",
+      "native_playback_verified": false,
+      "activated": false
+    }
+  ],
+  "fully_approved_assets": 0,
+  "native_in_game_playback_verified": false,
+  "notes": [
+    "Uploaded is the dashboard Source column, not a moderation result.",
+    "All 32 grants independently observed in existing permission exports; no Add/Save operation used.",
+    "Ten original music source files are present and reviewed. The six physical recording sources and licenses are missing.",
+    "Runtime mappings retain accurate false approval gates until separate evidence exists."
+  ]
+}

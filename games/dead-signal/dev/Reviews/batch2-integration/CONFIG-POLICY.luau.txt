@@ -1,22 +1,23 @@
 -- START BATCH 2 AUDIO POLICY
 -- MAIN reviewed intake: owner listening accepted; both universe grants independently exported.
--- Rights/source, creator review and Roblox moderation/playback eligibility remain unresolved.
+-- Original-source/creator review complete; explicit Roblox moderation and native playback remain unverified.
+-- Gameplay-only candidate: all sixteen new banks stay disabled through robloxApproved=false.
 C.AudioAtmosphere={enabled=true,universeId=game.GameId,minimumInterval=35,assets={
-    ["Music.Station.Calm"]={id="rbxassetid://138465772345022",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Music.Station.Pressure"]={id="rbxassetid://130706797589872",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Music.Foundry.Calm"]={id="rbxassetid://127835878664881",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Music.Foundry.Pressure"]={id="rbxassetid://136397741479585",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Music.Frost.Calm"]={id="rbxassetid://76339621502898",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Music.Frost.Pressure"]={id="rbxassetid://76092484114227",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Music.Lobby.Calm"]={id="rbxassetid://78163810591784",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Music.Warden"]={id="rbxassetid://125448982783761",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Music.Extraction"]={id="rbxassetid://99490559372066",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Atmosphere.Stinger"]={id="rbxassetid://79202413557343",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Atmosphere.Station.Creak"]={id="rbxassetid://128855928185941",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Atmosphere.Foundry.Steam"]={id="rbxassetid://101059835221623",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Atmosphere.Foundry.Impact"]={id="rbxassetid://123384623508546",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Atmosphere.Cry"]={id="rbxassetid://124107740668584",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Zombie.Breath"]={id="rbxassetid://122477333598212",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
-    ["Zombie.Drag"]={id="rbxassetid://92629845353488",rightsCleared=false,creatorReviewed=false,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Station.Calm"]={id="rbxassetid://138465772345022",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Station.Pressure"]={id="rbxassetid://130706797589872",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Foundry.Calm"]={id="rbxassetid://127835878664881",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Foundry.Pressure"]={id="rbxassetid://136397741479585",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Frost.Calm"]={id="rbxassetid://76339621502898",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Frost.Pressure"]={id="rbxassetid://76092484114227",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Lobby.Calm"]={id="rbxassetid://78163810591784",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Warden"]={id="rbxassetid://125448982783761",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Music.Extraction"]={id="rbxassetid://99490559372066",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Atmosphere.Stinger"]={id="rbxassetid://79202413557343",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Atmosphere.Station.Creak"]={id="rbxassetid://128855928185941",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Atmosphere.Foundry.Steam"]={id="rbxassetid://101059835221623",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Atmosphere.Foundry.Impact"]={id="rbxassetid://123384623508546",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Atmosphere.Cry"]={id="rbxassetid://124107740668584",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Zombie.Breath"]={id="rbxassetid://122477333598212",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
+    ["Zombie.Drag"]={id="rbxassetid://92629845353488",rightsCleared=true,creatorReviewed=true,listeningApproved=true,robloxApproved=false,permissions={["10771141095"]=true,["10770732078"]=true},gain=1},
 }}
 -- END BATCH 2 AUDIO POLICY

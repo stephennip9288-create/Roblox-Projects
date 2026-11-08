@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "recorded_at": "2026-11-08T20:23:08.820312+00:00",
+  "recorded_at": "2026-11-08T23:40:34.816445+00:00",
   "root_python": {
-    "tests": 109,
-    "passed": 109,
+    "tests": 115,
+    "passed": 115,
     "failures": 0
   },
   "dev_python": {
@@ -45,12 +45,18 @@
   "bugs_marked_verified": false,
   "lune": {
     "suites": 48,
-    "passed": 48,
-    "assertions": 1251174,
-    "engine_playtest": false,
-    "physical_device_playtest": false
+    "status": "Current complete run in progress; no success inferred from prior checkpoint"
   },
-  "reviewed_source_sha": "fccea067b804933c6d6db936b6332ceb5b662cdb",
-  "github_five_required_families_passed": true,
-  "github_artifacts_independently_downloaded_and_verified": true
+  "reviewed_source_sha": null,
+  "github_five_required_families_passed": false,
+  "github_artifacts_independently_downloaded_and_verified": false,
+  "audio_originals_and_hosted_content_review": {
+    "original_wav_hashes_verified": 6,
+    "original_music_ogg_hashes_verified": 10,
+    "hosted_previews_played": 16,
+    "strict_decoded_content_matches": 14,
+    "inconclusive": 2,
+    "roblox_moderation_state_verified": false,
+    "new_audio_banks_enabled": 0
+  }
 }

@@ -232,6 +232,7 @@ def run(operation, confirmation):
     approved = preflight(current=True) if operation == "deploy" else current_baselines()
     if isinstance(release_record, dict) and release_record.get("release") in (
             "dead-signal-batch-2-private-staging",
+            "dead-signal-batch-2-gameplay-only-private-staging",
             "dead-signal-batch-1-1-private-staging-qa",
             "dead-signal-batch-1-1-audio-audition-private-staging"):
         for place in ORDER:

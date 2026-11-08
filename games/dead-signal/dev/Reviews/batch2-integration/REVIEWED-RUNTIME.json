@@ -310,7 +310,7 @@
     },
     "Source/Runtime/shared/Config.lua": {
       "base_blob": "8a314e4cec13a3d1f3e231628be203c36a493412",
-      "blob_sha": "6ee680aad34dff81b70c5cfff00f8402cbeed8bb",
+      "blob_sha": "65911edd08b084dca2696fd50c41efe24d178776",
       "specialist_sources": [
         {
           "lane": "audio",
@@ -320,7 +320,7 @@
         }
       ],
       "baseline_file": "Baseline/shared/Config.lua.txt",
-      "review_reason": "Additive sixteen-ID intake, accepted listening and independently verified universe grants; unresolved review flags remain false"
+      "review_reason": "Exact sixteen owner-approved IDs/grants/listening; original-source creator/rights reviewed; Roblox approval false for every new bank, so gameplay-only QA cannot activate them"
     },
     "Source/Runtime/shared/ControlSettings.lua": {
       "base_blob": "9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996",
@@ -845,7 +845,9 @@
     "games/dead-signal/releases/recovery-production.json": "b64432e08634a20206cb3ee07ce067221dd8f1f0",
     "games/dead-signal/releases/recovery-staging.json": "92df017b2bef780914db77cc3a1bd4b875cc721e"
   },
-  "config_policy_blob": "9409f7efa5ce1ebe2c207a24002284ade78af34e",
-  "audio_intake_blob": "080c836d8cd5a9517e7058c2d2d3777cce207c1c",
-  "historical_evidence": "All existing Batch 1 review files, native places, release admissions and recovery records retained byte-for-byte; separate B2 ledger only."
+  "config_policy_blob": "06bc5713e6c5dd30c7a88fe3b537235a359df58b",
+  "audio_intake_blob": "87064dbce4e79d73fc70b00d0820dd7ee2f8d061",
+  "historical_evidence": "All existing Batch 1 review files, native places, release admissions and recovery records retained byte-for-byte; separate B2 ledger only.",
+  "audio_source_review_blob": "eafa9bc353fbf945a95837d1489f46666339a2d2",
+  "hosted_content_comparison_blob": "9c4865f9432cdde21440e0fee71cd018ad78a449"
 }

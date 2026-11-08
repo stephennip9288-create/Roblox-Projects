@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "reviewed_at": "2026-11-08T23:36:40.300915+00:00",
+  "rightsCleared_interpretation": "Project original-source rights review: ten generated compositions with no external audio inputs, six owner-attested self-recorded/performed effects with no third-party samples or other performers. Does not assert a Roblox moderation decision or uploaded revision identity.",
+  "creatorReviewed_interpretation": "MAIN inspected the original sources/generator and the uploader identity/mapping. Hosted comparison outcomes are recorded independently.",
+  "owner_source_evidence": [
+    "https://github.com/stephennip9288-create/Roblox-Projects/pull/73#issuecomment-6728110538",
+    "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6727281439",
+    "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6728525723"
+  ],
+  "owner_listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
+  "physical_source_archive": {
+    "name": "sounds.zip",
+    "bytes": 1672525,
+    "sha256": "41716d4d9daee68b8c76ec17816a8c8abb97ba63665f07ba51660d790559f19b",
+    "entries": 6,
+    "crc_verified": true,
+    "nested_encrypted_or_extra_entries": false,
+    "originals_private": true,
+    "public_original_upload_authorized": false
+  },
+  "physical_recordings": [
+    {
+      "filename": "blackwater_metal_creak_1.wav",
+      "sha256": "8cdae33e34d33621bae9444b575a3a17b906a7e435d65375039c97336faa3bd1",
+      "bytes": 635982,
+      "channels": 2,
+      "pcm_bits": 16,
+      "sample_rate": 48000,
+      "frames": 158976,
+      "duration_seconds": 3.312,
+      "uncompressed_PCM": true
+    },
+    {
+      "filename": "cinderworks_steam_release_1.wav",
+      "sha256": "58a2c1d8f440f8e4646258309ae1cee892c4308882c64206aa14c67e3bd74b64",
+      "bytes": 366414,
+      "channels": 2,
+      "pcm_bits": 16,
+      "sample_rate": 24000,
+      "frames": 91584,
+      "duration_seconds": 3.816,
+      "uncompressed_PCM": true
+    },
+    {
+      "filename": "cinderworks_steel_impact_1.wav",
+      "sha256": "7b44d408646cd57f9b65446ba0a3b1ba2f7cf01bf5fb841413cefbd404dea439",
+      "bytes": 189006,
+      "channels": 2,
+      "pcm_bits": 16,
+      "sample_rate": 44100,
+      "frames": 47232,
+      "duration_seconds": 1.0710204081632653,
+      "uncompressed_PCM": true
+    },
+    {
+      "filename": "infected_breath_1.wav",
+      "sha256": "69ef7d3c2fb7fa0bd06ef4952c3bf3e726dcbaf5d76bf07bca870186a54123ff",
+      "bytes": 239882,
+      "channels": 2,
+      "pcm_bits": 16,
+      "sample_rate": 24000,
+      "frames": 59951,
+      "duration_seconds": 2.4979583333333335,
+      "uncompressed_PCM": true
+    },
+    {
+      "filename": "infected_clothing_drag_1.wav",
+      "sha256": "75697dd4d7b5dd1253d59b9bb8bf0edd81461469339a595c6ad912a649738fe5",
+      "bytes": 352778,
+      "channels": 2,
+      "pcm_bits": 16,
+      "sample_rate": 44100,
+      "frames": 88175,
+      "duration_seconds": 1.9994331065759636,
+      "uncompressed_PCM": true
+    },
+    {
+      "filename": "infected_distant_cry_1.wav",
+      "sha256": "22f170aee93e7080d6b4a26c62646640222e1cb4cb20bd1b16522d16dbce6c52",
+      "bytes": 793878,
+      "channels": 2,
+      "pcm_bits": 16,
+      "sample_rate": 44100,
+      "frames": 198450,
+      "duration_seconds": 4.5,
+      "uncompressed_PCM": true
+    }
+  ],
+  "music": {
+    "count": 10,
+    "generator": "games/dead-signal/dev/Reviews/audio-atmosphere-b2/prepare_music.py",
+    "generator_blob": "a91e5a76556eee7ca86fb7457e918642ad0098b8",
+    "inventory_blob": "ec053d764a9b98950b4c23296fba81a71781d111",
+    "source": "deterministic additive synthesis; no external samples or audio inputs",
+    "all_10_existing_ogg_hashes_verified": true
+  },
+  "roblox": {
+    "hosted_previews_played": 16,
+    "explicit_moderation_state_verified": false,
+    "moderation_check_url": "https://apis.roblox.com/assets/v1/assets/79202413557343",
+    "observed_response": {
+      "errors": [
+        {
+          "code": 0,
+          "message": "Invalid authentication data provided"
+        }
+      ]
+    },
+    "required_access": "Owner-authorized asset:read Open Cloud/OAuth, or an explicit owner-visible moderation result. Existing grants and working owner previews do not substitute for this result.",
+    "native_ContentProvider_verified": false
+  },
+  "rightsCleared_count": 16,
+  "creatorReviewed_count": 16,
+  "robloxApproved_count": 0,
+  "enabled_new_assets": 0
+}

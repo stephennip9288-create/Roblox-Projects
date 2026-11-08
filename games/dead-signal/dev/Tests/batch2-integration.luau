@@ -29,7 +29,7 @@ for _,universe in ipairs({10771141095,10770732078,0,1}) do
         check(bank.id=='rbxassetid://'..row.roblox_asset_id,'Exact owner ID for '..row.event)
         check(bank.listeningApproved==true,'Existing owner listening acceptance carried forward')
         check(bank.permissions['10771141095']==true and bank.permissions['10770732078']==true,'Both independently exported grants retained')
-        check(bank.rightsCleared==false and bank.creatorReviewed==false and bank.robloxApproved==false,'Unresolved approvals remain honest')
+        check(bank.rightsCleared==true and bank.creatorReviewed==true and bank.robloxApproved==false,'Reviewed originals and owner rights retained; Roblox approval remains unresolved')
         e.loaded[bank.id]=true
         check(not e.fx:audioAvailable(row.event),'Even a loaded asset cannot bypass unresolved review gates')
     end

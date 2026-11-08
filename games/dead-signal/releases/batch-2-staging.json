@@ -134,10 +134,11 @@
     }
   },
   "blockers": [
-    "Separate explicit owner staging authorization has not been given.",
-    "Six physical recording sources/performers/ownership or licenses are missing.",
-    "Uploaded-content equivalence and creator/rights review remain pending.",
-    "Roblox moderation/playback eligibility and native ContentProvider playback are not independently verified."
+    "Separate final owner authorization has not been given.",
+    "Original-source rights/creator review is now complete in AUDIO-SOURCE-REVIEW.json; this older source/CI/build checkpoint is retained, not approval of changed bytes.",
+    "Explicit Roblox moderationState and native ContentProvider playback remain unverified for all sixteen new assets.",
+    "Steam and clothing drag uploaded-content comparisons remain inconclusive under the unchanged strict threshold.",
+    "Full-audio admission requires a future separately reviewed source with all sixteen gates satisfied; gameplay-only QA uses a distinct admission."
   ],
   "native_qa": "Not performed; no bug is marked Verified and no device/Studio acceptance inferred from offline tests.",
   "candidate_artifacts": {

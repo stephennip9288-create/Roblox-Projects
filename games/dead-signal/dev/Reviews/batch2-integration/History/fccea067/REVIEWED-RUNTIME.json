@@ -1,0 +1,851 @@
+{
+  "schema": 1,
+  "kind": "reviewed-batch-2-source-intake",
+  "baseline": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "integrated_heads": {
+    "maps": "7b8c2442530c11afc47cd40f50c03a03349f6c39",
+    "audio": "4807fd25193bc721a3473858d2c744250614aaaf",
+    "enemies": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+    "combat_ui": "26bcbfe5558f6fc0ff6e067c200649578a5502be"
+  },
+  "scope": [
+    "B2-01",
+    "B2-02",
+    "B2-03",
+    "B2-04",
+    "B2-05",
+    "B2-06",
+    "B2-07",
+    "B2-08"
+  ],
+  "publication_authorized": false,
+  "reviewer": "MAIN DEV source review; owner roadmap Issue #62",
+  "records": {
+    "Source/Runtime/client/AimAssist.lua": {
+      "base_blob": "ff2d51483cb12e4fbfcd01dcc27fccef6caad2b0",
+      "blob_sha": "ff2d51483cb12e4fbfcd01dcc27fccef6caad2b0",
+      "specialist_sources": []
+    },
+    "Source/Runtime/client/Bootstrap.client.lua": {
+      "base_blob": "23bea7d1251af85d631642009e3e217d19b1d67e",
+      "blob_sha": "23bea7d1251af85d631642009e3e217d19b1d67e",
+      "specialist_sources": []
+    },
+    "Source/Runtime/client/Controller.lua": {
+      "base_blob": "8302f9416ed2f0025b3aeed4c78c794020b42af5",
+      "blob_sha": "41f89f0ccc2c8449b80662d486f78e73750f36ad",
+      "specialist_sources": [
+        {
+          "lane": "audio",
+          "pr": 70,
+          "head": "4807fd25193bc721a3473858d2c744250614aaaf",
+          "blob": "bcba26ad7a73369606adce43585051d09864e51a"
+        },
+        {
+          "lane": "combat_ui",
+          "pr": 72,
+          "head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+          "blob": "6218a493ed0e51cbc24d60d922641c2216fd41ab"
+        }
+      ],
+      "baseline_file": "Baseline/client/Controller.lua.txt",
+      "review_reason": "AUDIO audioBindings and single Results dispatch combined with COMBAT movement/input/render hunks"
+    },
+    "Source/Runtime/client/Effects.lua": {
+      "base_blob": "eba3364383e7bef7fc7fbe831287b257bdd0d43a",
+      "blob_sha": "636881d017de65ee6711dd5c0d4193b949e33054",
+      "specialist_sources": [
+        {
+          "lane": "audio",
+          "pr": 70,
+          "head": "4807fd25193bc721a3473858d2c744250614aaaf",
+          "blob": "636881d017de65ee6711dd5c0d4193b949e33054"
+        }
+      ],
+      "baseline_file": "Baseline/client/Effects.lua.txt",
+      "review_reason": "AUDIO bounded atmosphere/music/foley mixer; non-audio prefix and VFX suffix preserved"
+    },
+    "Source/Runtime/client/MobileControls.lua": {
+      "base_blob": "d7632472ce7bf70bfa39a5e70d1174770a28ab64",
+      "blob_sha": "d7632472ce7bf70bfa39a5e70d1174770a28ab64",
+      "specialist_sources": []
+    },
+    "Source/Runtime/client/Scope.lua": {
+      "base_blob": "fad641afd8584f0102a326606eaa1e3fc590a9d2",
+      "blob_sha": "fad641afd8584f0102a326606eaa1e3fc590a9d2",
+      "specialist_sources": []
+    },
+    "Source/Runtime/client/UI.lua": {
+      "base_blob": "a1c8cf8e26ed70043e0d8b04b80936d9afc3f0c6",
+      "blob_sha": "24e53c2ab5fd93cdc81def3b94a891a43e59f263",
+      "specialist_sources": [
+        {
+          "lane": "combat_ui",
+          "pr": 72,
+          "head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+          "blob": "24e53c2ab5fd93cdc81def3b94a891a43e59f263"
+        }
+      ],
+      "baseline_file": "Baseline/client/UI.lua.txt",
+      "review_reason": "COMBAT existing vitals row sprint/stamina feedback"
+    },
+    "Source/Runtime/server/Architecture.lua": {
+      "base_blob": "c5b5294dfd7f6f981ef73f17256868d9e5235652",
+      "blob_sha": "7ad97ec938268a0dffa4f9cb8d81da491e44ab03",
+      "specialist_sources": [
+        {
+          "lane": "maps",
+          "pr": 69,
+          "head": "7b8c2442530c11afc47cd40f50c03a03349f6c39",
+          "blob": "7ad97ec938268a0dffa4f9cb8d81da491e44ab03"
+        }
+      ],
+      "baseline_file": "Baseline/server/Architecture.lua.txt",
+      "review_reason": "Exact MAP #69 Whiteout door7 waypoint3 correction; physical geometry unchanged"
+    },
+    "Source/Runtime/server/Bootstrap.server.lua": {
+      "base_blob": "cdf4d8f57d8a030b7445bb4a92c4160d1a390c06",
+      "blob_sha": "cdf4d8f57d8a030b7445bb4a92c4160d1a390c06",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/BoundaryGuard.lua": {
+      "base_blob": "e9147f95c071f1d6c88baebbf8a1128469b3cf8a",
+      "blob_sha": "e9147f95c071f1d6c88baebbf8a1128469b3cf8a",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/CinematicWorld.lua": {
+      "base_blob": "bc5c980a3962bfef68ab643321c730a169f90c00",
+      "blob_sha": "bc5c980a3962bfef68ab643321c730a169f90c00",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/CollisionPolicy.lua": {
+      "base_blob": "b31a3b78709673610d013f7332331026f137608f",
+      "blob_sha": "b31a3b78709673610d013f7332331026f137608f",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/Combat.lua": {
+      "base_blob": "1e1d52d90ee99164d7ffdcdb8f070c5fe8a6fbed",
+      "blob_sha": "1e1d52d90ee99164d7ffdcdb8f070c5fe8a6fbed",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/Diagnostics.lua": {
+      "base_blob": "40a374eadf28a590818d4b3724d9da55dce87ad8",
+      "blob_sha": "cf2229459ecc724ad53ab0e5709904f42e15e066",
+      "specialist_sources": [
+        {
+          "lane": "enemies",
+          "pr": 71,
+          "head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+          "blob": "cf2229459ecc724ad53ab0e5709904f42e15e066"
+        }
+      ],
+      "baseline_file": "Baseline/server/Diagnostics.lua.txt",
+      "review_reason": "ENEMY Studio-only bounded navigation snapshots and counters"
+    },
+    "Source/Runtime/server/Enemies.lua": {
+      "base_blob": "cfaa77d5d92927a4e0dd561e96569ff510373f50",
+      "blob_sha": "80764500cdef1e1772ca79344eba1349d5755628",
+      "specialist_sources": [
+        {
+          "lane": "enemies",
+          "pr": 71,
+          "head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+          "blob": "80764500cdef1e1772ca79344eba1349d5755628"
+        }
+      ],
+      "baseline_file": "Baseline/server/Enemies.lua.txt",
+      "review_reason": "ENEMY reachable-target pursuit, real acquisition facts and recovery lifecycle"
+    },
+    "Source/Runtime/server/EnemyRigs.lua": {
+      "base_blob": "634f3bee0aa21d341814d6585881aee69eb8c402",
+      "blob_sha": "634f3bee0aa21d341814d6585881aee69eb8c402",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/ExtractionZone.lua": {
+      "base_blob": "1d0d59eb34c3845e321c64ce3b505af9311ff916",
+      "blob_sha": "1d0d59eb34c3845e321c64ce3b505af9311ff916",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/Game.lua": {
+      "base_blob": "8991e4f7c02f614375e4e3d91694bc0fdccae246",
+      "blob_sha": "5ed98222efca69bab5dd570794436d757901475b",
+      "specialist_sources": [
+        {
+          "lane": "combat_ui",
+          "pr": 72,
+          "head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+          "blob": "5ed98222efca69bab5dd570794436d757901475b"
+        }
+      ],
+      "baseline_file": "Baseline/server/Game.lua.txt",
+      "review_reason": "COMBAT authoritative directional movement, stamina and accumulated displacement validation; no profile changes"
+    },
+    "Source/Runtime/server/GraphicsService.lua": {
+      "base_blob": "bbb5f323afe03c82771eb0260f1f9b14bfc78248",
+      "blob_sha": "bbb5f323afe03c82771eb0260f1f9b14bfc78248",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/HoundRig.lua": {
+      "base_blob": "f68c6adb565808e479a2be826ce1df6b56fca4e5",
+      "blob_sha": "f68c6adb565808e479a2be826ce1df6b56fca4e5",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/InfectedWardrobe.lua": {
+      "base_blob": "490d85b05242d5a3d9b5805d1ce89f4295a46c0e",
+      "blob_sha": "490d85b05242d5a3d9b5805d1ce89f4295a46c0e",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/Interactions.lua": {
+      "base_blob": "44adaee2c712dd5ead515f6d8ef598e12a2cc4bf",
+      "blob_sha": "44adaee2c712dd5ead515f6d8ef598e12a2cc4bf",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/LobbyService.lua": {
+      "base_blob": "cc9c9c3f7881ef5dc9dcdd8baaa7c68aabd3b241",
+      "blob_sha": "cc9c9c3f7881ef5dc9dcdd8baaa7c68aabd3b241",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/MapBuilder.lua": {
+      "base_blob": "9ea3b71df4db75306aba95642303814325a870b9",
+      "blob_sha": "9ea3b71df4db75306aba95642303814325a870b9",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/MapDetail.lua": {
+      "base_blob": "da6852f1ccfe1d26f3bdf88b86746370fa155f18",
+      "blob_sha": "da6852f1ccfe1d26f3bdf88b86746370fa155f18",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/MapRoutes.lua": {
+      "base_blob": "9c77c80f541a183055c5957f8a5823f959b4f2cc",
+      "blob_sha": "9c77c80f541a183055c5957f8a5823f959b4f2cc",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/Navigation.lua": {
+      "base_blob": "bc0def04621503103c2c9d792392ee432a8ac40b",
+      "blob_sha": "5dcbf69c029f991bb72624a1a3aad198337aec5c",
+      "specialist_sources": [
+        {
+          "lane": "enemies",
+          "pr": 71,
+          "head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+          "blob": "5dcbf69c029f991bb72624a1a3aad198337aec5c"
+        }
+      ],
+      "baseline_file": "Baseline/server/Navigation.lua.txt",
+      "review_reason": "ENEMY portal/stair intent, physical native-segment validation, bounded planning and congestion/recovery"
+    },
+    "Source/Runtime/server/Network.lua": {
+      "base_blob": "fac780a6461577066260b21067ee7f6829a9f3fb",
+      "blob_sha": "8232088e19e5ecb76dd92d7852b19c9cbe8f6fcc",
+      "specialist_sources": [
+        {
+          "lane": "combat_ui",
+          "pr": 72,
+          "head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+          "blob": "8232088e19e5ecb76dd92d7852b19c9cbe8f6fcc"
+        }
+      ],
+      "baseline_file": "Baseline/server/Network.lua.txt",
+      "review_reason": "COMBAT finite optional movement context on existing Look/Sprint messages"
+    },
+    "Source/Runtime/server/PerkMachines.lua": {
+      "base_blob": "a958c453e1db8415e8ea1b8bfde8ffa396d104d2",
+      "blob_sha": "a958c453e1db8415e8ea1b8bfde8ffa396d104d2",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/Persistence.lua": {
+      "base_blob": "a5498f59693440b02fd6aa90e8a30143ffeacaf4",
+      "blob_sha": "a5498f59693440b02fd6aa90e8a30143ffeacaf4",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/RigAnatomy.lua": {
+      "base_blob": "49937654dbc3227e13ebffb345aeae34eb633311",
+      "blob_sha": "49937654dbc3227e13ebffb345aeae34eb633311",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/Travel.lua": {
+      "base_blob": "b62d6a40989c258ad6722b19c33a3ee4d640000b",
+      "blob_sha": "b62d6a40989c258ad6722b19c33a3ee4d640000b",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/TripRegistry.lua": {
+      "base_blob": "fa070bf653c61bb1fe45bd027ccb6e300124bb94",
+      "blob_sha": "fa070bf653c61bb1fe45bd027ccb6e300124bb94",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/Vehicles.lua": {
+      "base_blob": "f5c20fc852d5594129617f071787e037131a17e3",
+      "blob_sha": "f5c20fc852d5594129617f071787e037131a17e3",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/VisualPass.lua": {
+      "base_blob": "1360f714fd19beb73add9e56a5edaf03f4f0f4cc",
+      "blob_sha": "1360f714fd19beb73add9e56a5edaf03f4f0f4cc",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/WaveDirector.lua": {
+      "base_blob": "5611c6c2c916d63a69c8df56da9be616758e64ac",
+      "blob_sha": "5611c6c2c916d63a69c8df56da9be616758e64ac",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/WorldArt.lua": {
+      "base_blob": "dd01d9df49b5a86c639f5950a2075aa47f93b60c",
+      "blob_sha": "dd01d9df49b5a86c639f5950a2075aa47f93b60c",
+      "specialist_sources": []
+    },
+    "Source/Runtime/server/WorldFinish.lua": {
+      "base_blob": "f5f166a690b36c2f15edd2a542df76c27259466e",
+      "blob_sha": "f5f166a690b36c2f15edd2a542df76c27259466e",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/ArrivalRules.lua": {
+      "base_blob": "f25319496168644d30b6cd48821c9debfbc0b389",
+      "blob_sha": "f25319496168644d30b6cd48821c9debfbc0b389",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/ArtAssets.lua": {
+      "base_blob": "7517a62b0a09eb19d326a710c4af0eb4b4e4926c",
+      "blob_sha": "7517a62b0a09eb19d326a710c4af0eb4b4e4926c",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/Config.lua": {
+      "base_blob": "8a314e4cec13a3d1f3e231628be203c36a493412",
+      "blob_sha": "6ee680aad34dff81b70c5cfff00f8402cbeed8bb",
+      "specialist_sources": [
+        {
+          "lane": "audio",
+          "pr": 70,
+          "head": "4807fd25193bc721a3473858d2c744250614aaaf",
+          "blob": "bb8db57d3e840641c282a1f89a2d1d21508c3431"
+        }
+      ],
+      "baseline_file": "Baseline/shared/Config.lua.txt",
+      "review_reason": "Additive sixteen-ID intake, accepted listening and independently verified universe grants; unresolved review flags remain false"
+    },
+    "Source/Runtime/shared/ControlSettings.lua": {
+      "base_blob": "9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996",
+      "blob_sha": "9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/DeploymentRules.lua": {
+      "base_blob": "5d2f17afd8f198f6018f18e36dbe3420862b63d9",
+      "blob_sha": "5d2f17afd8f198f6018f18e36dbe3420862b63d9",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/DirectorRules.lua": {
+      "base_blob": "6701272b8d2d885472b82bed936bfe7cb158a03d",
+      "blob_sha": "6701272b8d2d885472b82bed936bfe7cb158a03d",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/DownedPose.lua": {
+      "base_blob": "170dd3ba36be88658be4bed122a3d1f278f3b882",
+      "blob_sha": "170dd3ba36be88658be4bed122a3d1f278f3b882",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/Extraction.lua": {
+      "base_blob": "d4ebf566552dad583fa0a26f83b2a7a922e5fa18",
+      "blob_sha": "d4ebf566552dad583fa0a26f83b2a7a922e5fa18",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/LoadingScreen.lua": {
+      "base_blob": "7aadee72efa020a0c798a8e10b90f4ebf89e358d",
+      "blob_sha": "7aadee72efa020a0c798a8e10b90f4ebf89e358d",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/MapLayouts.lua": {
+      "base_blob": "76755f6d703629adda0202566a1df22c97de4a31",
+      "blob_sha": "76755f6d703629adda0202566a1df22c97de4a31",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/Movement.lua": {
+      "base_blob": "46c11f5a323f78bd4a5860e2b6cd49bc1cceca3a",
+      "blob_sha": "1d63b83587955a0f406cd03bb59eaabe2d1ddf0b",
+      "specialist_sources": [
+        {
+          "lane": "combat_ui",
+          "pr": 72,
+          "head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+          "blob": "1d63b83587955a0f406cd03bb59eaabe2d1ddf0b"
+        }
+      ],
+      "baseline_file": "Baseline/shared/Movement.lua.txt",
+      "review_reason": "COMBAT shared directional/sprint/stamina/camera rules"
+    },
+    "Source/Runtime/shared/NPCPose.lua": {
+      "base_blob": "3a003e8abaad63c5ffa7c4a19117d28e151771d1",
+      "blob_sha": "44169a322b4f2fcb9442971074d2df2ea439a839",
+      "specialist_sources": [
+        {
+          "lane": "enemies",
+          "pr": 71,
+          "head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+          "blob": "44169a322b4f2fcb9442971074d2df2ea439a839"
+        }
+      ],
+      "baseline_file": "Baseline/shared/NPCPose.lua.txt",
+      "review_reason": "ENEMY restrained R6 acquisition pose respecting attack/stun/traversal priority"
+    },
+    "Source/Runtime/shared/NavigationGraph.lua": {
+      "base_blob": "f898217e2aef6d3b785300311d96d93ae3f840d0",
+      "blob_sha": "e5693aa49fe175fe7e4b6ae417e04779a49076b6",
+      "specialist_sources": [
+        {
+          "lane": "enemies",
+          "pr": 71,
+          "head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+          "blob": "e5693aa49fe175fe7e4b6ae417e04779a49076b6"
+        }
+      ],
+      "baseline_file": "Baseline/shared/NavigationGraph.lua.txt",
+      "review_reason": "ENEMY room/portal reachability, door state and deterministic plan metadata"
+    },
+    "Source/Runtime/shared/PlaceConfig.lua": {
+      "base_blob": "17fd8c26fc5617078d1a58be49020140dd4e6dda",
+      "blob_sha": "17fd8c26fc5617078d1a58be49020140dd4e6dda",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/Presentation.lua": {
+      "base_blob": "a359f45baf14bd9962e7edc429dd5190c1fe4299",
+      "blob_sha": "a359f45baf14bd9962e7edc429dd5190c1fe4299",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/Rules.lua": {
+      "base_blob": "8b64916ed7e97633c7f763be503c1f685bc7ecee",
+      "blob_sha": "8b64916ed7e97633c7f763be503c1f685bc7ecee",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/ThirdPerson.lua": {
+      "base_blob": "2598049a6d10e2c4561005e137469c37007218cc",
+      "blob_sha": "2598049a6d10e2c4561005e137469c37007218cc",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/TouchInput.lua": {
+      "base_blob": "173c5e5b4bca0fcc70b05775b854f5c801da5189",
+      "blob_sha": "173c5e5b4bca0fcc70b05775b854f5c801da5189",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/TouchLayout.lua": {
+      "base_blob": "664877c8f0ddfc26fb5aa65e15f2935090d46aa5",
+      "blob_sha": "664877c8f0ddfc26fb5aa65e15f2935090d46aa5",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/Util.lua": {
+      "base_blob": "ec9248bb4b4dd423ae07df7d4e9a1ab6e628f5d6",
+      "blob_sha": "ec9248bb4b4dd423ae07df7d4e9a1ab6e628f5d6",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/WeaponBlueprints.lua": {
+      "base_blob": "61fdc4900333503d64369a523e5d2fe6d7cd508a",
+      "blob_sha": "61fdc4900333503d64369a523e5d2fe6d7cd508a",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/WeaponDetail.lua": {
+      "base_blob": "d93bb5997d72b84c6de22b7584d7546cc9bd0414",
+      "blob_sha": "d93bb5997d72b84c6de22b7584d7546cc9bd0414",
+      "specialist_sources": []
+    },
+    "Source/Runtime/shared/WeaponModels.lua": {
+      "base_blob": "13e33cb36e59e588a0c14ea5b0170b5b2afbef4e",
+      "blob_sha": "13e33cb36e59e588a0c14ea5b0170b5b2afbef4e",
+      "specialist_sources": []
+    }
+  },
+  "protected_batch1_files": {
+    "games/dead-signal/dev/Reviews/COMBAT-UI.md": "c580b89624028af5e8824da085af814d0327e053",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/board_fracture_1.ogg": "65b7948d6c7a741fca0b98b618b4f41890e3a491",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/board_fracture_2.ogg": "9abb37a68112f3b4d71540fec153c7fc3ef35cab",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/frame_scrape_1.ogg": "451decb2d67f9a1625f5c67a8ffea737c3ca702b",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/frame_scrape_2.ogg": "bdae6fb7415db4437e155a42807d3069dbf46000",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/frame_scrape_3.ogg": "4cc241b10b61911264eb8fa875647410588ac55f",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/window_contact_1.ogg": "6a4b3351aca2ae6f2e604d00a13b9c17e087e1d7",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/window_contact_2.ogg": "aa1a16a604887ed452c9ee7952ad61386291d6c4",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/wood_break_1.ogg": "e03a1637345bfddc66da77a34b3e320c5a970f96",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/wood_break_2.ogg": "bfbcd566b760beca745492218a9364226d500557",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/wood_debris_1.ogg": "58a7b620554256ed94cbbbe31979c61229f8db97",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/wood_debris_2.ogg": "d492767dfc289d717dfcb9abfed64b42b7cb9c37",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/wood_stress_1.ogg": "01ef7c91848b64a131c3fb850332e56ce0232896",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/wood_stress_2.ogg": "0fc5a2495257ce5920b4ccd22a0df3f363cb1410",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Auditions/wood_stress_3.ogg": "86516edcbf27d763e5ebc4b7568b455c8cc9c5a4",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/BASELINE-RUNTIME.json": "a5f6c619624fa5a1372327c978cc4df86b08987b",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/EVENT-ASSET-AUDIT.json": "250ddcc59d28b8fe3a78b631b161613379bcdaae",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/LISTEN.html": "0dec67be562cd03ce80b0d7c07e67c428c9d483b",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/LISTENING-CHECKLIST.md": "3af69e92303099ee119278c94bc701258802e1ea",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/MAIN-INTEGRATION.md": "15763837991aa9cfefe5ed23d3266eba72f978d8",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/README.md": "ab9fe8fe1a0cc1c0ac4718bc30c7c24177d22508",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/STATUS.md": "5d518060f70f10c339e141c569a60ef2bb195af6",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/SUPPLEMENTAL-RECIPES.json": "cf109f3baf9a22856fc9583aa87d42546d292674",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/SUPPLEMENTAL-RECORDINGS.json": "1ed379144d8a14488b771bf16bcb33885c71561c",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/SUPPLEMENTAL-SOURCES.json": "31f0e94d83b8814507787537ac84a48c28a9fc46",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/SUPPLEMENTAL-UPLOAD.template.json": "11c1fe6295907b5e6f266d4991c1ff687a9304a1",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/Studio-listening-capture.client.luau": "1937b7bc1affff49f23500349d57e57b1a7a9c38",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/VALIDATION.json": "a6476a7f1b6e0876f339145cc49309e58d6ddc59",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/board_fracture_1.wav": "33f29fc0c5915357b3d11db269db5caa209deee1",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/board_fracture_2.wav": "d7a02264ccaa3a3e7bec91237ba613d546a16690",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/frame_scrape_1.wav": "b18662afcc6ece5f6160cd57ce0f53ffc73d5797",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/frame_scrape_2.wav": "c0d08801188ebe324491f7a747f5cdf39e03cbe2",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/frame_scrape_3.wav": "ae8a6e213d4d3f164a8b27a98c1bcb3caf6080f3",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/window_contact_1.wav": "6f6ce490571e289d490d86b79a7d19531e3be506",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/window_contact_2.wav": "d90ace503738a029eb0c59aafbdfa0018b9063d5",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/wood_break_1.wav": "c3dad10e21807e91a64047d32b40854264983ba1",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/wood_break_2.wav": "8f139681b4d25512d95014c07aa3dc628e4e5c5e",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/wood_debris_1.wav": "1f2cf7126d5725c166f1795e773fe99e4f1b8308",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/wood_debris_2.wav": "a157aa41c1a25cdea1a057521b9d91c9519ae9d4",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/wood_stress_1.wav": "b37200807ef1648953bffe30ef80c0958f063986",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/wood_stress_2.wav": "bb2a1fc4fd558a52754b1b3e5f19f403050668bc",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/WAV/wood_stress_3.wav": "d4bcd58080d38d663b0c9ab2e2767e6f64042f61",
+    "games/dead-signal/dev/Reviews/audio-corrections-b1/prepare_supplemental.py": "aef38e8fa0b618d26a905d84d5349756d26a64ce",
+    "games/dead-signal/dev/Reviews/audio-immersion/ASSET-MATRIX.md": "eeb5d5f2c2e0c40100b51c31295e59525d997e8d",
+    "games/dead-signal/dev/Reviews/audio-immersion/EVENT-INVENTORY.md": "86d7658bf360d1c0ba384659fbef25dfffacf6ba",
+    "games/dead-signal/dev/Reviews/audio-immersion/Effects-audio.luau": "8fb758a6670a697ca2703409c76e40b9681381f1",
+    "games/dead-signal/dev/Reviews/audio-immersion/LISTENING-CHECKLIST.md": "fae227811897fe743142e4befb01c576968f83da",
+    "games/dead-signal/dev/Reviews/audio-immersion/README.md": "399f44662354b0534cb53e51763d5d517888ee3e",
+    "games/dead-signal/dev/Reviews/audio-immersion/Verification-Report.json": "bc347569893294bca47f4bf31a48974b480bd136",
+    "games/dead-signal/dev/Reviews/audio-immersion/prepare_audio_patch.py": "8ccbb2a9064446f2c9c7bfde4241938d5ef28978",
+    "games/dead-signal/dev/Reviews/audio-immersion/verify_audio.py": "9aa4a8b10fe1c25e58186bbf7380bb575272868c",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/armor_break.ogg": "12a27bd1c70983226fe6e0a8beb9adc4fc74f204",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/blackwater_power.ogg": "a725e48f03cdfd40634b9ff9fde612c800497ba8",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/blackwater_radio.ogg": "8d589f0ce9ac8f656c00b5a84b8939533fc4f9b0",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/blackwater_wind.ogg": "b3b0dd4e77176b699ca7ab9edbfe391ae390bf9a",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/bolt_close.ogg": "8834eeacbe4648fc4a1cf1434c939d28a7b08e35",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/bolt_open.ogg": "6bc05dc80d5abd5da72d04dd486b30f13767b64b",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/cinderworks_furnace_equipment.ogg": "a72db0788cd401f17d4b3992c42797920784cd0f",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/cinderworks_machinery.ogg": "ca9c3b3b7264f589eb0efcf7f47e6180b23d0da4",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/cinderworks_ventilation.ogg": "01b7268a4daaf6a0a0f5ce0a0016e688ecf40592",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/dispatch_room.ogg": "c521a25a5e1b0b7542bfc50bdf305240e3d4c0d0",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/empty.ogg": "fbe9b4393d5f4a05b30fb7cc6b3dcde64183c0ad",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/entry_contact_1.ogg": "06e351421ddf967c32d322b0d8040aaa01596303",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/entry_contact_2.ogg": "3ecc46faf1896df2332179c2a9cdbdc2075feb47",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/entry_contact_3.ogg": "42db8b951c5209a7820b1b4a4d1589de00bf34f4",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/entry_land_1.ogg": "3bf970004202b3f320406c72c0eb862982b99783",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/entry_land_2.ogg": "275bb3258f5fd7e04eb23cf918f0df95c69ca0fb",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/entry_land_3.ogg": "67e5f34aa4f9cff9d0e783a328a519170c3f1697",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/equip.ogg": "4a9bf57061abd24ddb214f32e447f18bcee9883e",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/feed_close.ogg": "9d672e8a9341e8a3c5f414facb2006ca437db9bd",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/feed_open.ogg": "c88d22380659bc310ed3f2b6649ccf9aac14b520",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_concrete_1.ogg": "b96cf9ee5264fe0f49ce6e3d2d9557364d8e096d",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_concrete_2.ogg": "b8638c0f2adeb2080092fbfd03797e948e5ba740",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_concrete_3.ogg": "3e5fd64bc85c6b1900e25a60623608da391c7e7e",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_snow_1.ogg": "bcf8ce70d29a60e1f3ca7df51f8dfbd97039ab14",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_snow_2.ogg": "3fbf3da0b10e446db6752a05efaaf8c46aedbc52",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_snow_3.ogg": "75be1284b01f25b1a6acc471d717f2699754cb01",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_wood_1.ogg": "a1a35a118454070a92779c83544cf50c32ad16d9",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_wood_2.ogg": "bfeda8e15fd1d99985eb3147a69db40d2bdd65a6",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/footstep_wood_3.ogg": "bab0d92efb91e521ebd977690fdf6079163c8994",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/gear_1.ogg": "578e531839991b37996069553081c4f65d43e606",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/gear_2.ogg": "76f53e83cfda2fe45c5cc755561cc98a0a8a1445",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/gear_3.ogg": "55e833809d46cfb8b2f9eb2f2bca251d2caba647",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/heavy_far_1.ogg": "67e6f4e390ccbb918fd81c43bc290d60f4807dfc",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/heavy_far_2.ogg": "a269506cb346c18d56bf53cb5cbb64dc67360733",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/heavy_near_1.ogg": "3e3f6f1d9386dc17439510cea5b5aa88574cab88",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/heavy_near_2.ogg": "0293871d2d7add009e6b1b129c9936500182f288",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hit_1.ogg": "ebe1de85f75fdcade787e243b9906ddfafd9b519",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hit_2.ogg": "7453797fbd7a78e9040a911ac769e568560d244b",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hit_3.ogg": "841a9c4e42954431f5b95827c6e704ca8177d105",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hound_bark_1.ogg": "c3586712863b5431d54634c67511e8b0a647f299",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hound_bark_2.ogg": "ce76b9d4ca71545a89167b6a3b1ff1f2b3403283",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hound_bark_3.ogg": "f41f00edc188a8cbcd591a2594ead96c895c178b",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hound_death_candidate.ogg": "750beaac13d541832de6dc7cad84f42bc16a9c60",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hound_growl.ogg": "cd12fbf6c563c545e9494ef4c6e29422db86a70e",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hound_growl_short.ogg": "869310b3db9f8f04a559c8fc0cf6d894616083f4",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hound_grumble.ogg": "5ab9a59d8262d8656918ce0e5409dab4ff83f172",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/hound_snarl.ogg": "d4b2664ca206efa9a9ffdb4777a33552ffd238d2",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/kill_confirmation.ogg": "806054e4060ab3981284ddd936f51dfe6b4f0f6b",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/mag_in.ogg": "5cd84a7efef3c20ec69b645e85a8813337b16807",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/mag_out.ogg": "5bb5120459d224f1f806dab619c3db2bab267d6a",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/pistol_far_1.ogg": "a26ae6a5a9e57a5d0470798eb35e6eb7dadf6339",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/pistol_far_2.ogg": "2df8ffae82b410ad90abd4378b73cd92e6ff0ace",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/pistol_near_1.ogg": "23122a7eb07e7353a922e641a091c330c9e013ff",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/pistol_near_2.ogg": "2979b683c122a5593e1b7dc04573a8cd19a8140a",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/pump_close.ogg": "c223dcd55f1a94d7179c895ee75df28dabc90f8c",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/pump_open.ogg": "1e3e6b0fa2e679eb7cf223c01e6d574ce0cfc791",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/rifle_far_1.ogg": "39aefc40693107b4b21b092a94e772be249ab80f",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/rifle_far_2.ogg": "d2fd772add500ea683a1478b5ad2c613793e1db3",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/rifle_near_1.ogg": "2e70f4ffaad260498cedb42d2ae8a22ea7077ae7",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/rifle_near_2.ogg": "5371595ce598e33029c0abfe83b1a52b26daf346",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/shell_in.ogg": "9ff906f829a0b1d008f2cf6dbd190d16f7570865",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/shotgun_far_1.ogg": "e83b290690a4d147e676c275a16c50d75cbe96d3",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/shotgun_far_2.ogg": "ec7a7b1a99163e91cfad09c928d80b98af35fc68",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/shotgun_near_1.ogg": "942d6c914199c4aa905475b017e264ed830afce0",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/shotgun_near_2.ogg": "865cef493435737e8f47d7f685ed684516d36eb6",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/smg_far_1.ogg": "eedb37ad7ec204fc6dade8f67e8cb17898883ca8",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/smg_far_2.ogg": "8094b0f645b60a69955513467d23b4db063af36e",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/smg_far_3.ogg": "cf02b3b9cb341b703690977759ba1f305fd635f2",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/smg_near_1.ogg": "75fc6b28a176ebfffcd9727572323218c124e5a9",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/smg_near_2.ogg": "2cbc066eb582789958d103b6d987c82e2eef7cba",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/smg_near_3.ogg": "087c61a20052968ce5e64b833a737a2d68280072",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/sniper_far_1.ogg": "3d0f3c1f665617ad4792de45e7a6e2a0ed49b788",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/sniper_far_2.ogg": "795e71260988276f078bb6aeaf97321c5cc26716",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/sniper_near_1.ogg": "90065c348ab521046c3f13a7d24e6fad74775a35",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/sniper_near_2.ogg": "22aa1dda88bf5350d97d1d7685137d8e32498cc8",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/whiteout_relay.ogg": "8b3fa1e3444b704a8127614392af5e13872efc04",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/whiteout_structure.ogg": "6ab0afdf69073f2571ee20d3c7a2a106f7c6255d",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/whiteout_wind.ogg": "725fcb52c2a37603d4114785d7d40d18e537eed6",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/zombie_attack.ogg": "df0e6ae9c5db0cf271a8bb8bbf35ea566ed8956b",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/zombie_death.ogg": "df323c20234a247e84f4518fad4a7d17fe678eda",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/zombie_groan_1.ogg": "627b96d14003b8af43bb1ff415ab30dbf4fe3f03",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/zombie_groan_2.ogg": "495cfdfd51097a9c06531455764d753181223f6a",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/zombie_groan_3.ogg": "e3ac6f370fa5773b82c9bf487be285ab8df80edb",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/Auditions/zombie_groan_4.ogg": "a026bb97d321c08593e845f1dce36636add92d87",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/BASELINE-RUNTIME.json": "d345e0e625afc92a31246c8731e398c489651e79",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/EVENT-INVENTORY.json": "1617bf5df7a2887f0f038b6fd23e9c29355ec2e8",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/LISTEN.html": "ea89174f4f779509415cdd018a0b9049f1585873",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/LISTENING-CHECKLIST.md": "cf7e39a42caac9a4150caa75088f55d804015b8f",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/MAIN-INTEGRATION.md": "f2d09d567b3248e16b40a3a535362305b3bda055",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/OWNER-UPLOADS-UNVERIFIED.json": "94aac65175bbe8790b5740f6c9fb288e6e71ebbd",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/README.md": "91c8e9bd17b62857dbcb0e2b647b66ad6835af92",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/RECORDING-RECIPES.json": "e5b7b4b9ccb271b99905dba8c3af55726ea34f06",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/RECORDINGS.json": "71c62aa16d20810726800e977f63caf26b6fe06b",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/SOURCES.json": "8c812fa9085b7a2fe12611d3367f831483104729",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/STAGING-AUDITION.md": "301ddc0765afafd4d7775f0313ae512239964005",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/STATUS.md": "2af2c526553b4c6f85cc01307e6d46199f52ac3d",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/UPLOAD-MAP.template.json": "0fcaffdc25c00e1b65fc17d82d845918cb1dc8d1",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/VALIDATION.json": "e6196c3a7fbc4198fe1395fa0da7fcdbcbe089cd",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/emit_bindings.py": "ecfa58939edf7a276bdc7ab6457b0b7aba8627f5",
+    "games/dead-signal/dev/Reviews/audio-quality-b11/prepare_recordings.py": "1c656f8fbb41457a943fe0b29a04cee9a8900a4f",
+    "games/dead-signal/dev/Reviews/audio-supplement-intake-b1/OWNER-APPROVALS.json": "ffedfe43d974d3c10baafb977f2f908d89b9c4c9",
+    "games/dead-signal/dev/Reviews/audio-supplement-intake-b1/README.md": "de8f25019258c125daaf2490bb3734fbc0fd9e94",
+    "games/dead-signal/dev/Reviews/audio-supplement-intake-b1/STAGING-BINDINGS.luau.txt": "15332ae9bd424125cc5315a6b153b430109390de",
+    "games/dead-signal/dev/Reviews/audio-supplement-intake-b1/STAGING-CONFIG.patch": "a179ce26e96b631a3b732224f550ec5c19ca60e0",
+    "games/dead-signal/dev/Reviews/audio-supplement-intake-b1/VALIDATION.json": "ca8d670c0f1620f40c0cd9c9fc44b0fa382b1ca2",
+    "games/dead-signal/dev/Reviews/audio-supplement-intake-b1/prepare_bindings.py": "2784c93598248e55a2b2dd327d062af1e94b7041",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/ACCEPTANCE.md": "e800f8b3e1c3a53d684393990f79486f5d15af14",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/BUILDS.json": "4c5122ef571573f71664174912c2936b5d0ad22d",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/NATIVE-REOPEN.json": "849708d7bd6cf549169bf59c4e81f49cb2baef16",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/NEGATIVE-PROVENANCE-PROBES.json": "104a610731c5ad47b52614fb65361b5b28bc6baf",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/PRESERVATION.json": "420bd32eb9c386b173fe370946339a86757f47e8",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/README.md": "d938c472cfc92fe598b51b0d09f27ca3bf1ca320",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/RECOVERY-VERIFICATION.json": "29fe3fc4e6f8ab4c642e9c81f04e3ff754f80072",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/REVIEWED-DELTA.json": "eb32b370fbddeaa53a75607dba576cd5e591cd89",
+    "games/dead-signal/dev/Reviews/audio-supplement-integration-b1/TESTS.json": "4515a32341c43a0cdd617f80ddbd7b45b079e545",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/ACCEPTANCE.md": "793b63488a8d4c46b8109e7c3943e5e105f557af",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/AUDIO-ASSET-STATUS.md": "57f9c6029e05650b0f853406c029652713399c5b",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/BUILDS.json": "cbbf3269c998a974acb7ba8a3f5c730392bdd82b",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/CI.json": "9a9a2c9e007a4846beb57e5e93c8d69ad19b3691",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/FULL-RIG-GEOMETRY.json": "de62d3496fba5c5dc62d0e2ed24019a70e5b52a4",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/NATIVE-REOPEN.json": "d1a3b3f90c3f8b448042da820f817863b6c9425f",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/PRESERVATION.json": "50fd97794f0be231e568490c780e7f64f1b2ea78",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/PRODUCTION-FIDELITY.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/QUEUES.json": "3e9138acd7f7966db56d0e7bb30a0770b4fcc14b",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/README.md": "b281c2d8f68fd9e9a0228798eb861e1574a792a0",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/REVIEWED-RUNTIME.json": "2320590827bdd58ad976115728fa9200c7c95c26",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/STAGING-FIDELITY.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/TESTS.json": "e62e890fb5ac0091795667f351b5b87783d047dc",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/VERIFIED-STAGING-RECOVERY.json": "218c200fab60fe330aea9292a04eb618cf6b6912",
+    "games/dead-signal/dev/Reviews/batch1-1-followup/WINDOW-SUPPORT.json": "88bb5d88a73143f9bca449d74242c681b0ff73d4",
+    "games/dead-signal/dev/Reviews/batch1-1/ACCEPTANCE.md": "b371cd447e7cb567672b93f8b23742fe1c25b8aa",
+    "games/dead-signal/dev/Reviews/batch1-1/ASSET-ACTIONS.md": "1f4b52d3005c930a3eed2c79bb85f2097ea67df6",
+    "games/dead-signal/dev/Reviews/batch1-1/Artifact-Verification.json": "d0e580c572cbb9e2261c47596f96801f8cb215d9",
+    "games/dead-signal/dev/Reviews/batch1-1/Audio-Validation.json": "2064ed54eb913f2f3dc6e4502b148d894b58326b",
+    "games/dead-signal/dev/Reviews/batch1-1/BUGS.json": "c9b04762b23cd05e7144d6967efafe72f5bb5edc",
+    "games/dead-signal/dev/Reviews/batch1-1/Build-Report.json": "6d9145fd9a1d885c40571e6a914db7e4b4a9df9b",
+    "games/dead-signal/dev/Reviews/batch1-1/CI-Tests-Report.json": "6941e7c96524363079bd3a62222f52038018a090",
+    "games/dead-signal/dev/Reviews/batch1-1/CI.json": "3d3c37dbec231e2d1407a871aff507dcf094dce4",
+    "games/dead-signal/dev/Reviews/batch1-1/Elevated-Clearance.json": "1c82fb58f481c5862e85beb090155b4f3110c589",
+    "games/dead-signal/dev/Reviews/batch1-1/Enemy-Geometry.json": "0e1b8cad11413ba611996c38923a3f835e93f10b",
+    "games/dead-signal/dev/Reviews/batch1-1/Ground-Clearance.json": "2f936b27a8ce9a07cc9a682dcdd096751e7b539c",
+    "games/dead-signal/dev/Reviews/batch1-1/Independent-Staging-Lossless.json": "e8fbc970dc3066c74766535615f5abaad71e028f",
+    "games/dead-signal/dev/Reviews/batch1-1/Native-Reopen-Production.json": "8768df60bb38c4be9bc1b8cc3410ab6c012a8f35",
+    "games/dead-signal/dev/Reviews/batch1-1/Native-Reopen.json": "8768df60bb38c4be9bc1b8cc3410ab6c012a8f35",
+    "games/dead-signal/dev/Reviews/batch1-1/Production-Readiness.json": "0db8c3f44209f04c635a6c72ff090bb77f977cd8",
+    "games/dead-signal/dev/Reviews/batch1-1/Protected-Inputs.json": "978e88b3dd51cd7113327061fcc8d83877aac7d4",
+    "games/dead-signal/dev/Reviews/batch1-1/README.md": "ac494ad5ac16d6ab8e0beb42b539cbbe445f6d3d",
+    "games/dead-signal/dev/Reviews/batch1-1/REVIEWED-RUNTIME.json": "dcf56e871bb56f809df77515b73cfaa60fa32638",
+    "games/dead-signal/dev/Reviews/batch1-1/Recovery-Verification.json": "f0421cf12b2ddd1be7648dbe2d6265a087eb873d",
+    "games/dead-signal/dev/Reviews/batch1-1/STAGING-SHA256SUMS.txt": "5b00d0015b6c1614e2fc00568325ddcada0450fe",
+    "games/dead-signal/dev/Reviews/batch1-1/Source-Inventories.json": "4ff14b5d7a6be29aaeed7a6661c3edbe91119d8b",
+    "games/dead-signal/dev/Reviews/batch1-1/Tests-Report.json": "47b2eee9b191834972c0d3b1406025f83829127b",
+    "games/dead-signal/dev/Reviews/batch1-1/production-BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/batch1-1/production-LOSSLESS-REPORT.json": "abe5d0d7b1f76b8d87eed761e4a10956b13334c3",
+    "games/dead-signal/dev/Reviews/batch1-1/staging-BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/batch1-1/staging-LOSSLESS-REPORT.json": "e8fbc970dc3066c74766535615f5abaad71e028f",
+    "games/dead-signal/dev/Reviews/batch1-integration/ACCEPTANCE.md": "ba109875b6bbdd0984331ca81e26f569d66e7745",
+    "games/dead-signal/dev/Reviews/batch1-integration/Build-Report.json": "085a3dc43dd1763e5bfe72da584e4637f10cc21c",
+    "games/dead-signal/dev/Reviews/batch1-integration/Elevated-Clearance.json": "823b3e3a82f9946d2c83ffb03419c07843355d8a",
+    "games/dead-signal/dev/Reviews/batch1-integration/Ground-Clearance.json": "2f936b27a8ce9a07cc9a682dcdd096751e7b539c",
+    "games/dead-signal/dev/Reviews/batch1-integration/Integration-Native-Reopen.json": "8768df60bb38c4be9bc1b8cc3410ab6c012a8f35",
+    "games/dead-signal/dev/Reviews/batch1-integration/README.md": "bc2ade72787a00f501e172a420b5ec48825c08df",
+    "games/dead-signal/dev/Reviews/batch1-integration/Tests-Report.json": "849072b5449dfbcccb8a892f0195f43518315416",
+    "games/dead-signal/dev/Reviews/batch1-integration/production-BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/batch1-integration/production-LOSSLESS-REPORT.json": "d8567e79ab544c49fd0eb6619be8cd261103cb9e",
+    "games/dead-signal/dev/Reviews/batch1-integration/staging-BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/batch1-integration/staging-LOSSLESS-REPORT.json": "b21ae4eac1cabd751bc6a6708ed752a83568869a",
+    "games/dead-signal/dev/Reviews/combat-ui-layout.svg": "97e3eca8bf81ec529f0ad214f7493fdd9d2da244",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/Asset-Requirements.md": "0e215454eaf0659a23a641e0c242a3304ac801f6",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/CI.json": "bfe64f08419c378716a9ff606c0a74283057504b",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/Evidence.json": "58d535526a25c2fd79263c87ca64751df84726a4",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/Geometry.json": "ec54f0a6d9dc98b629f8348582a0fbbf5c7272eb",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/LOSSLESS-REPORT.json": "51264fff576dd0b0afe5e8490f4f27b352e3b2fe",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/MAIN-INTEGRATION.md": "1fb67bc8f5a60595f0f3766e3cc47a1667cd759d",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/README.md": "3e21d4ed3de295bc823111fce1665c346dfde94a",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/Rig-Reference.json": "08b81b2f5169029d6d85c3f90bfe6a743225be45",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/Studio-Retest.md": "72d32e370612dcb47d9d81b18918d3c71182de2d",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/Tested-Runtime.json": "17a63d906db02b7ac33302fcc2d34115bb5f8640",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/foundry-poses.svg": "8e083d152577bc7857f6d40e202deb7149e19260",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/frost-poses.svg": "5869823c382b30cf3dc46baad7c2855465e2f15e",
+    "games/dead-signal/dev/Reviews/enemies-batch1-1/station-poses.svg": "05a686a3031fe76ed8571bfa2b06ad7534defa08",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Before-after-poses.svg": "80b9bc06d62ca89f49c8a35486eca81de7b4aaec",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Budgets.json": "a1fb9056d1327827c8b34268389d266f854ce39f",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/CI.json": "fba72f8074a7e2786874d391e70e1942a085fbc6",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Combined-geometry.json": "a1895095c30a1b4599dda18f7b6f6d0de11b8dd1",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Combined-map.json": "8c74287c4168fa9a94c0e096bce64538ca804aea",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Manual-checks.json": "fcd5b7a242074ab44f020b7e16c39f3ea5231cc9",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Queues-after.json": "3e9138acd7f7966db56d0e7bb30a0770b4fcc14b",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Queues-before.json": "bceff4f7c530800717507f41b072ffaafa5a0381",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/R6-families.svg": "80431e0c9981797163d34204219ac919170975d2",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/README.md": "b11b17fdd6aac0f7ed72489044b524dc83257081",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Runtime.json": "fdfcb3815e869090f2e584fb866bf9652d2e8a86",
+    "games/dead-signal/dev/Reviews/enemy-b1-r6-followup/Tests.json": "d5fd36a24f07fe43ce9d3bef9b70582977aecf9d",
+    "games/dead-signal/dev/Reviews/infected-batch1/README.md": "cd2331b49fa0f6dc786d6053548358a0fbbd3678",
+    "games/dead-signal/dev/Reviews/infected-batch1/Verification-Report.json": "b67fc843b85629a7732a1742e3c6862cad5b6ddc",
+    "games/dead-signal/dev/Reviews/infected-batch1/entry-sections-maps29.png": "8f96665d5533236c3268ee2f6646e2e98c8fd4a4",
+    "games/dead-signal/dev/Reviews/infected-batch1/entry-sections.png": "4062e63f825b804c8c11fd18eb8d47c2f7edc6c8",
+    "games/dead-signal/dev/Reviews/infected-batch1/k9-before-after.png": "8073be8de41acfaa66d9b4f4fc9ca5643fc05b20",
+    "games/dead-signal/dev/Reviews/infected-batch1/uniforms-before-after.png": "035685cbd1a9cfb243150a0fdcdb91c8dfb3636a",
+    "games/dead-signal/dev/Reviews/integration/ACCEPTANCE.md": "0d314e249b1e745862aa6cf1dea14ea30ba17b09",
+    "games/dead-signal/dev/Reviews/integration/Build-Report.json": "ea3c04effc739e00b7cc54b9834e56bd66be571a",
+    "games/dead-signal/dev/Reviews/integration/README.md": "f7300e3be077e075bfc64921ce21b1b8cf362098",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Compilation.json": "faa17e6113438096a0c3965b39f30ac16e05642c",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Elevated-Clearance.json": "1c82fb58f481c5862e85beb090155b4f3110c589",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Foundry-Rooms-Before-After.png": "8cec53f1d29d573d4bea9cf9b4600471abbc56b2",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Foundry-Stair-Collision.png": "ba1f28065d8209c785c776a381e0040a687d01b9",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Foundry-Wall-Viewports.png": "85f1e31cb8a32802f4bc94c18ae5188d587035fc",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Frost-Rooms-Before-After.png": "6d2c21eb9d148dfbddcdac6a9e3794a586dfc2fd",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Frost-Stair-Collision.png": "ddfde016cc290b38137da6e30e5e9ee887146c8b",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Frost-Wall-Viewports.png": "a486af4bceeaceebba6333ea5c8a8017356fc5f2",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Geometry-Checks.json": "ca7adad136dd8a71b58090b28be21cd5bbf01db0",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Ground-Reachability.json": "2f936b27a8ce9a07cc9a682dcdd096751e7b539c",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Projection-Measurements.json": "ba85b91ccc5ade6104ee623cf733a4735e70a971",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Protected-Inputs.json": "ddabc1404925b0e0da0429c6cdc254f86bc517e7",
+    "games/dead-signal/dev/Reviews/map-batch1-1/README.md": "2d3822e11f3b3c7cf66d452ae0f2255c3dd02671",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Staged-Reproduction.json": "489b844e4f068f899e374fe27d83451e790307e7",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Station-Rooms-Before-After.png": "7215ac7912a9c0087aeb1fe16f6c1fcbee600c6a",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Station-Stair-Collision.png": "4f32f568a948f6c100baf48ff2d49ed64456bc36",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Station-Wall-Viewports.png": "4bb0c5e34f27040f75f79839b7eb2b1b03967da0",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Tested-Runtime.json": "cfcf119d7001dbd6aa3c8badf08f9addb6bb4804",
+    "games/dead-signal/dev/Reviews/map-batch1-1/Validation-Summary.json": "d75b6e1a744e30ba55dd66ab5cf069eaba858adf",
+    "games/dead-signal/dev/Reviews/map-batch1-1/production-Binary-Fidelity.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/map-batch1-1/production-Lossless.json": "921e72d1056d2830b4de950162a45ee7f75f8f24",
+    "games/dead-signal/dev/Reviews/map-batch1-1/staging-Binary-Fidelity.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/map-batch1-1/staging-Lossless.json": "24635d870ba43765d638a367f32b8131e3fa3804",
+    "games/dead-signal/dev/Reviews/map-batch1/BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/map-batch1/Clearance-Report.json": "09c7d34df9e0571c844d11a79a6ed22338f9e6f1",
+    "games/dead-signal/dev/Reviews/map-batch1/Construction-Report.json": "c224fe80ca909fefbdbfa4842efced7920a8d87d",
+    "games/dead-signal/dev/Reviews/map-batch1/Contracts-Report.json": "6b9d37a0b93de35e1231a9e5270345d0c575b677",
+    "games/dead-signal/dev/Reviews/map-batch1/Elevated-Clearance-Report.json": "823b3e3a82f9946d2c83ffb03419c07843355d8a",
+    "games/dead-signal/dev/Reviews/map-batch1/Foundry-Access-Plan.png": "0e8e2c749dbaba89d462915aa1190715f634da39",
+    "games/dead-signal/dev/Reviews/map-batch1/Foundry-Sign-Projections.png": "89a6d1f86e43b747d1e241f86b5fa9c620facd69",
+    "games/dead-signal/dev/Reviews/map-batch1/Foundry-World-Cutaway.png": "8298b0a7b7783576b4832afc796b537ecd563e0c",
+    "games/dead-signal/dev/Reviews/map-batch1/Frost-Access-Plan.png": "2817d43076d5ac2b899276785359a71851d97d32",
+    "games/dead-signal/dev/Reviews/map-batch1/Frost-Sign-Projections.png": "fdc05169e16185f8eba51b2e67326a9948533ba3",
+    "games/dead-signal/dev/Reviews/map-batch1/Frost-World-Cutaway.png": "cd7fe7b65db2d662a711ad55ae44243f68c3d316",
+    "games/dead-signal/dev/Reviews/map-batch1/INVENTORIES.md": "2599d8c86950eb8845f199f4fd50a5dbf7ad257d",
+    "games/dead-signal/dev/Reviews/map-batch1/LOSSLESS-REPORT.json": "682a14fdada59e0ab1506b48091b61f052cc583d",
+    "games/dead-signal/dev/Reviews/map-batch1/Projection-Measurements.json": "247701e3c0262fc1f0757931e7136cd745203963",
+    "games/dead-signal/dev/Reviews/map-batch1/README.md": "8881d0331e3bea107411f07d953fef0514e7f51f",
+    "games/dead-signal/dev/Reviews/map-batch1/Station-Access-Plan.png": "75bf4840c8b20880e3ca418698858c7c7d88e471",
+    "games/dead-signal/dev/Reviews/map-batch1/Station-Sign-Projections.png": "5ffd6a7513c96f1c260461e4faaf69bc2aac3bd5",
+    "games/dead-signal/dev/Reviews/map-batch1/Station-World-Cutaway.png": "12f5598d43b6e7d24ef32863a17f9568116a7ee9",
+    "games/dead-signal/dev/Reviews/map-batch1/Syntax-Report.json": "fb29bf94850e2319da4385ebb6fa4173a95c7ada",
+    "games/dead-signal/dev/Reviews/map-batch1/Tests-Report.json": "020b6635ae2a6a0a4042847c36042025c1b34462",
+    "games/dead-signal/dev/Reviews/map-batch1/Verification-Report.json": "f22ae7322b2afde369e2827d1814aacf6a15f857",
+    "games/dead-signal/dev/Reviews/map-remaster/BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/map-remaster/Clearance-Report.json": "330be9fd6c9d9371dcfe603a0e57f02e0491d654",
+    "games/dead-signal/dev/Reviews/map-remaster/Construction-Report.json": "cff1bba5298c5b88ae67a50aa8d67714cfe22da9",
+    "games/dead-signal/dev/Reviews/map-remaster/Foundry-Before-After.png": "53eb46b6f3b42164dc962f80f03bdf331cbb9dcf",
+    "games/dead-signal/dev/Reviews/map-remaster/Foundry-Mobile-Gate.png": "b106e954e891b797d09b9736f99c8309419e6aed",
+    "games/dead-signal/dev/Reviews/map-remaster/Frost-Before-After.png": "28097dfa7aeea35048c7956e175d37283c5e7e16",
+    "games/dead-signal/dev/Reviews/map-remaster/Frost-Mobile-Gate.png": "e85b043a84bfba4efeb936a90f2070540339f23a",
+    "games/dead-signal/dev/Reviews/map-remaster/LOSSLESS-REPORT.json": "a3b9f1e61755078fd6669088e09a0abda59b78be",
+    "games/dead-signal/dev/Reviews/map-remaster/README.md": "895640948884be309f7a08ed7413322b662f9ae6",
+    "games/dead-signal/dev/Reviews/map-remaster/Station-Before-After.png": "fd72464d0aac3671f41b13da93a04f80a002fc3f",
+    "games/dead-signal/dev/Reviews/map-remaster/Station-Mobile-Gate.png": "bd6974744f0b9ef31f978ad54911641ea8bdc644",
+    "games/dead-signal/dev/Reviews/map-remaster/Tests-Report.json": "5d844cfa260a98d1f41c247342b4aa6f115bd4b7",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/After-Report.json": "7ee955a5ad6366da488dfc842a5d652ff4e5d23d",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/Before-Report.json": "7c7c1d622a420f93498464ab0b2f61b4bfa07142",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/Builds.json": "fb84bc8521181c632136db59c9192d8714b0a215",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/Cinderworks-window10-support.png": "055876cf6f754ddf43397d66eef2d56d7e11744d",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/Consumer-Preview.json": "caaf81f050483f9018d2b1977da3a376136e90aa",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/Preservation.json": "3185e5c17f4d0989f0d8a8f45bcc70c6d62c94e9",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/README.md": "5dd7289e5f57151ec6ff1524c1673bc2dc86f453",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/Runtime.json": "3317e300a6e9334b8677ffb113d6923e205a2155",
+    "games/dead-signal/dev/Reviews/map-window-geometry-b1/Tests.json": "f8aa35c0627fad90e9ed91fd0ef74a80ea949e17",
+    "games/dead-signal/dev/Reviews/production-batch1/AUDIO-PERMISSIONS.json": "f97687fda33cad40456f3ae23c6422e4c3762c07",
+    "games/dead-signal/dev/Reviews/production-batch1/PRODUCTION-BINDINGS.luau.txt": "d4c907b38e250ebf8a92c07d4885b03dd2156616",
+    "games/dead-signal/dev/Reviews/production-batch1/README.md": "080783a14e5da33b043bef447d3b9ff692b78e84",
+    "games/dead-signal/dev/Reviews/production-batch1/SOURCE-DELTA.json": "d87b77514dbcf4acf3a55afe8ef15116c77fd1eb",
+    "games/dead-signal/dev/Reviews/production-batch1/STAGED-CONFIG.lua.txt": "88cccbed93fabff62c72c170a595ea7f6338216e",
+    "games/dead-signal/dev/Reviews/production-batch1/VERIFICATION.json": "85d96024086566bddec8e8a933fb4e80c4443fb3",
+    "games/dead-signal/dev/Reviews/production-batch1/production-BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/production-batch1/production-LOSSLESS-REPORT.json": "dadcd88acc2fff6b8c702c55a2de2fd085b1c657",
+    "games/dead-signal/dev/Reviews/production-batch1/staging-BINARY-FIDELITY-REPORT.json": "3910bc7ad4a3eb9bcc05b5823c3886d0da7bf976",
+    "games/dead-signal/dev/Reviews/production-batch1/staging-LOSSLESS-REPORT.json": "c903c6c6a6edb3253bb969a925253d637365fffd",
+    "games/dead-signal/dev/Reviews/weapons-batch1/ADS-Projection.png": "67545c2fb44e275fffcc5e54ec9ae3a0432d6ca5",
+    "games/dead-signal/dev/Reviews/weapons-batch1/Construction-1.png": "dd4e6c43a6b0b4a3603de70447b208ed899f9704",
+    "games/dead-signal/dev/Reviews/weapons-batch1/Construction-2.png": "94c79d600501eb05b1bf31fcb583a5cae2be9f3a",
+    "games/dead-signal/dev/Reviews/weapons-batch1/Geometry-Report.json": "4fde21986fba2c61b83bcea258d4616faa70351c",
+    "games/dead-signal/dev/Reviews/weapons-batch1/MOUNT-BOUNDS.md": "2bef4c276578b63f7860f1546354e62df8e6249b",
+    "games/dead-signal/dev/Reviews/weapons-batch1/README.md": "7675ff495289df498e37dcee9d91b067ce65ed84",
+    "games/dead-signal/dev/Reviews/weapons-batch1/Verification-Report.json": "e37ff88bbf33a5338f23ce1f64ea7b8f7371d83b",
+    "games/dead-signal/full-baselines/v1.8.0/IMPORT-MANIFEST.json": "f4296cd04fdb4a7fa1cce891c6dc12aa2c9f28d5",
+    "games/dead-signal/full-baselines/v1.8.0/README.md": "e57cf3b3421d3f1b25ee0bd7c153b24084e44d24",
+    "games/dead-signal/full-baselines/v1.8.0/blackwater.rbxl": "744b13ac7599172432a64a8bff4b78870345cb30",
+    "games/dead-signal/full-baselines/v1.8.0/cinderworks.rbxl": "215b56f8bfef53be36771d748aa9ea1c7ea7d3c2",
+    "games/dead-signal/full-baselines/v1.8.0/dispatch.rbxl": "6b681b4087f6763d8c768956edf89e2c0b6323ba",
+    "games/dead-signal/full-baselines/v1.8.0/whiteout.rbxl": "fa89bbb257db770f1971e7c03644b8e3fb54b960",
+    "games/dead-signal/places/blackwater/README.md": "cae6be939c05b63f5fe1098889e34e1efb76accb",
+    "games/dead-signal/places/blackwater/deploy.example.json": "5b84d73c70cda533c9c9b02cf4d11a292f01365d",
+    "games/dead-signal/places/blackwater/deploy.json": "c36613a2d77d2c56b5a668ef01ef929490d88a89",
+    "games/dead-signal/places/blackwater/production.rbxl": "db9bb6e3107a4b3411b5b7d71d13bf90715369c5",
+    "games/dead-signal/places/blackwater/staging.rbxl": "9626efbae3439c6d32afa8eec647a9878ce0d5fb",
+    "games/dead-signal/places/cinderworks/README.md": "82225c5ce4b7c57456cd7e6ba10c4fd506286ca5",
+    "games/dead-signal/places/cinderworks/deploy.example.json": "7e0caf4eaee4d410c7b346cc5f83dfccaee11d59",
+    "games/dead-signal/places/cinderworks/deploy.json": "9776399b271c79a7c40f1241bf07255077df625d",
+    "games/dead-signal/places/cinderworks/production.rbxl": "9eccf599261d4307d0510de73ef74796bd496128",
+    "games/dead-signal/places/cinderworks/staging.rbxl": "861b2fc1c694c31a7fd64d7739f943648f629d54",
+    "games/dead-signal/places/dispatch/README.md": "3617a2871a508b978ddc397d47ecd7c807556a4a",
+    "games/dead-signal/places/dispatch/deploy.example.json": "3863ffb926b6abf0bbca8856295220c3106bf80d",
+    "games/dead-signal/places/dispatch/deploy.json": "bc4fcf8dcf37f17791ee85b8203e8aa14bc98fb8",
+    "games/dead-signal/places/dispatch/production.rbxl": "da1853830fa8a61da2f9e1a54cf68774007ad1df",
+    "games/dead-signal/places/dispatch/staging.rbxl": "b01afbb8ceb2779d7ba435d5f07ec15497be2bc7",
+    "games/dead-signal/places/whiteout/README.md": "baf237fbb956bbb032f31f29efed67ea8ff76f5c",
+    "games/dead-signal/places/whiteout/deploy.example.json": "cd75adc1233d754effbdb193cd7ee388201139d7",
+    "games/dead-signal/places/whiteout/deploy.json": "9167774d8414f2d7c635d755ebb429a477bbcb60",
+    "games/dead-signal/places/whiteout/production.rbxl": "14a10cef536e69309d0860fde89d481a0386516b",
+    "games/dead-signal/places/whiteout/staging.rbxl": "91008b2c7abc713b1fbcf11533ef9a80aa9e09e5",
+    "games/dead-signal/releases/BATCH-1-AUDIO-STATUS.md": "820998d03a133f8265e0d3b0d2fcbed8ff0f07b7",
+    "games/dead-signal/releases/Preparation-Report.json": "db1593338817d8b86ada8e74eb1853be4ea575b4",
+    "games/dead-signal/releases/README.md": "b8f9ef1b310a683def2b0ee73ed4e277f5344d89",
+    "games/dead-signal/releases/batch-1-1-audio-audition-qa.json": "a025649f6b8a472b7d539815845fced89decbfcf",
+    "games/dead-signal/releases/batch-1-1-staging-qa.json": "8ddbb3a51258c24828bbf617737403c77022c8e9",
+    "games/dead-signal/releases/batch-1-production-audio-permissions.json": "f97687fda33cad40456f3ae23c6422e4c3762c07",
+    "games/dead-signal/releases/batch-1-production-storage-plan.json": "ac5ad2a37ec286cd5364f7594591607e55cfb1fc",
+    "games/dead-signal/releases/batch-1-production.json": "9fa8e6a8f3da26eeb4b10128de073f2012b4db37",
+    "games/dead-signal/releases/batch-1.json": "da648f1745cd5b9aa4c7005a08a0911841ff76da",
+    "games/dead-signal/releases/dead-signal-current-production-1a5b9f3b.zip": "d5584c7aee049f33e16ec1d75976c1855f8aa8d1",
+    "games/dead-signal/releases/history/audio-admission-15b08518-before-supplements.json": "a9cc640c200f9248d5f058f1122c37d2b0103405",
+    "games/dead-signal/releases/history/batch-1-1-source-c2d4fb02.json": "73f842c51432dcf79e172413625705d434f7458b",
+    "games/dead-signal/releases/history/production-41800682585-acceptance.json": "a93de423610837996cd93b9cbfca81015820efc9",
+    "games/dead-signal/releases/history/production-41800682585-previous.json": "526279ddb28c44ef6bed521987a67d924798d7d3",
+    "games/dead-signal/releases/history/production-cleanup-2026-10-25.json": "1cf87fdd89d31b0a16bd03cfaaebb80fe7da1080",
+    "games/dead-signal/releases/history/production-final-preparation-2026-11-03.json": "e7a8c64ac9e6016a3b42e503d150998b84cc43be",
+    "games/dead-signal/releases/history/production-owner-procedure-2026-10-25.md": "17c7ceaa2222b464930e5257cc239442e21070a9",
+    "games/dead-signal/releases/history/production-public-ci-2026-11-03.json": "dcae8ce66d52eb037331028d1eae419d28105679",
+    "games/dead-signal/releases/history/production-recovery-original-12081841244.json": "27880e673c4a7d7557a1bd4c30d95f358e1c91dd",
+    "games/dead-signal/releases/history/production-recovery-renewal-2026-11-03.json": "9f2558b1df139581c5fda53e2f98dbd547cd38da",
+    "games/dead-signal/releases/history/production-safeguards-2026-10-25.json": "1d7a33ebb00ec972b3881d9d2b9349c7f085ecd2",
+    "games/dead-signal/releases/history/release-readme-before-production-2026-11-03.md": "de6d41a36a71b20f5219e66bab189f56a81bade5",
+    "games/dead-signal/releases/history/staging-38954616169.json": "29c81062965dc922f6dc9efd21a18f5f6e8aee0e",
+    "games/dead-signal/releases/history/staging-39883826778.json": "d11563fd989ab36e3d64bdc4be833581749cab85",
+    "games/dead-signal/releases/history/staging-39884224314.json": "f9588fc52798ab7e769374219ea1c9f72d75b750",
+    "games/dead-signal/releases/history/staging-40054332185.json": "2a6db4d61e63391965e3ae08e89a1611a7057926",
+    "games/dead-signal/releases/prepared/README.md": "5145c2e452b151a187361fef6e31e0ecae6ebb2a",
+    "games/dead-signal/releases/prepared/audio-supplement-b1-evidence.json": "74b3dbde3ac3a119f462b9ee99900df09c8de411",
+    "games/dead-signal/releases/prepared/audio-supplement-b1.json": "7882ba1a1557be1c276e039829532d7530dad876",
+    "games/dead-signal/releases/recovery-production.json": "b64432e08634a20206cb3ee07ce067221dd8f1f0",
+    "games/dead-signal/releases/recovery-staging.json": "92df017b2bef780914db77cc3a1bd4b875cc721e"
+  },
+  "config_policy_blob": "9409f7efa5ce1ebe2c207a24002284ade78af34e",
+  "audio_intake_blob": "080c836d8cd5a9517e7058c2d2d3777cce207c1c",
+  "historical_evidence": "All existing Batch 1 review files, native places, release admissions and recovery records retained byte-for-byte; separate B2 ledger only."
+}

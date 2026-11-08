@@ -17,11 +17,12 @@ def module(name):
 
 
 class AudioAtmosphereB2(unittest.TestCase):
-    def test_only_three_owned_runtime_deltas(self):
+    def test_only_reviewed_runtime_deltas(self):
         baseline=json.loads((REVIEW/'BASELINE-RUNTIME.json').read_text())
         current={str(p.relative_to(DEV)):p.read_bytes() for p in (DEV/'Source/Runtime').rglob('*.lua')}
         self.assertEqual(set(current),set(baseline));self.assertEqual(len(current),61)
-        self.assertEqual({k for k,v in current.items() if blob(v)!=baseline[k]},set(PINNED))
+        from batch2_scope import reviewed_paths
+        self.assertEqual({k for k,v in current.items() if blob(v)!=baseline[k]},reviewed_paths())
         for name,data in current.items():
             self.assertEqual(blob(runtime_baseline(name,data)),baseline[name],name)
 

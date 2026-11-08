@@ -5,6 +5,8 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_batch2_candidate.py'
+      - 'tests/test_dead_signal_batch2_candidate.py'
       - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
@@ -18,6 +20,8 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_batch2_candidate.py'
+      - 'tests/test_dead_signal_batch2_candidate.py'
       - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'

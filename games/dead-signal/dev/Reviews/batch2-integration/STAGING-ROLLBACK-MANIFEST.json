@@ -1,0 +1,44 @@
+{
+  "game": "dead-signal",
+  "target": "staging",
+  "source": "Verified published-release artifacts",
+  "rollback_files": {
+    "blackwater": {
+      "place_id": "102403661108879",
+      "sha256": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747",
+      "byte_count": 2731765,
+      "file": "build/dead-signal-recovery/staging/blackwater.rbxl",
+      "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+      "deployment_run": 40054332185,
+      "version": 16
+    },
+    "cinderworks": {
+      "place_id": "125712056058975",
+      "sha256": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b",
+      "byte_count": 2739610,
+      "file": "build/dead-signal-recovery/staging/cinderworks.rbxl",
+      "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+      "deployment_run": 40054332185,
+      "version": 16
+    },
+    "whiteout": {
+      "place_id": "122269451559483",
+      "sha256": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00",
+      "byte_count": 2741069,
+      "file": "build/dead-signal-recovery/staging/whiteout.rbxl",
+      "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+      "deployment_run": 40054332185,
+      "version": 16
+    },
+    "dispatch": {
+      "place_id": "117710269155815",
+      "sha256": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413",
+      "byte_count": 2760685,
+      "file": "build/dead-signal-recovery/staging/dispatch.rbxl",
+      "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+      "deployment_run": 40054332185,
+      "version": 20
+    }
+  },
+  "production_touched": false
+}

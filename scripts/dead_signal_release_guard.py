@@ -157,6 +157,12 @@ def staging_audio_qa_completion(record, source_sha):
 
 def verify_staging_deploy_source(candidate, source_sha, records=RECORDS):
     """Select an exact main-trusted completed Batch 1 or separately approved staging-only QA source."""
+    batch2_path = Path(records) / 'batch-2-staging.json'
+    if batch2_path.is_file():
+        batch2 = json.loads(batch2_path.read_text())
+        if source_sha == batch2.get('source_sha'):
+            from dead_signal_batch2_candidate import verify_staging_source
+            return verify_staging_source(candidate, source_sha, records)
     original = json.loads((Path(records) / "batch-1.json").read_text())
     if source_sha == original.get("source_sha"):
         verify_source(candidate, original, source_sha)

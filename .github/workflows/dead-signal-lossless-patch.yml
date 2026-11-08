@@ -5,6 +5,8 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_batch2_candidate.py'
+      - 'tests/test_dead_signal_batch2_candidate.py'
       - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
@@ -19,6 +21,8 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_batch2_candidate.py'
+      - 'tests/test_dead_signal_batch2_candidate.py'
       - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
@@ -106,7 +110,10 @@ jobs:
               assert r['expected_replacement_count']>=60
               assert not r['publish_approved'] and not r['studio_tested']
               assert (d/f'{name}.rbxl').stat().st_size>100_000
-          print('Four binary source-only patch reports verified; no publish.')
+          if Path('games/dead-signal/dev/Reviews/batch2-integration/REVIEWED-RUNTIME.json').is_file():
+              from dead_signal_batch2_candidate import verify_builds
+              verify_builds(environments=('staging',))
+          print('Four binary source-only patch reports and exact Batch 2 build pins verified; no publish.')
           PY
       - name: Upload offline-patched staging candidates (REVIEW ONLY)
         if: ${{ steps.baseline.outputs.ready == 'true' }}

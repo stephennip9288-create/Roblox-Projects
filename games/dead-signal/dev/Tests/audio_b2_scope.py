@@ -14,6 +14,9 @@ PINNED={'Source/Runtime/client/Effects.lua':('Effects-before.txt','eba3364383e7b
 def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
 
 def runtime_baseline(name,data):
+    if (DEV/'Reviews/batch2-integration/REVIEWED-RUNTIME.json').is_file():
+        from batch2_scope import runtime_baseline as combined_baseline
+        return combined_baseline(name,data)
     if name not in PINNED:return data
     filename,sha=PINNED[name];base=(REVIEW/filename).read_bytes()
     assert blob(base)==sha,'Pinned Batch1 source changed: '+name

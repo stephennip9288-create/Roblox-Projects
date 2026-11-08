@@ -5,6 +5,8 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_batch2_candidate.py'
+      - 'tests/test_dead_signal_batch2_candidate.py'
       - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
@@ -17,6 +19,8 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_batch2_candidate.py'
+      - 'tests/test_dead_signal_batch2_candidate.py'
       - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
@@ -28,6 +32,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   preflight:
@@ -54,6 +59,10 @@ jobs:
           python scripts/validate.py
       - name: Generate staging and production ID configs
         run: python scripts/generate_dead_signal_place_configs.py
+      - name: Download and verify current staging recovery without publishing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/dead_signal_release_guard.py recovery --environment staging --operation deploy
       - name: Install pinned Lune runtime
         uses: CompeyDev/setup-rokit@v0.1.2
         with:
@@ -80,13 +89,17 @@ jobs:
           import sys
           sys.path.insert(0, "scripts")
           from dead_signal_staging_rollout import preflight, verified_baselines, write_backup_manifest
-          approved=preflight()
+          approved=preflight(current=True)
           assert len(approved)==4
           assert len(verified_baselines())==4
           write_backup_manifest(approved)
+          from pathlib import Path
+          if Path("games/dead-signal/dev/Reviews/batch2-integration/REVIEWED-RUNTIME.json").is_file():
+              from dead_signal_batch2_candidate import verify_builds
+              verify_builds(environments=("staging",))
           for place, meta in approved.items():
               print(f"READY (offline only): {place}, 61 scripts, stage place {meta['staging_place_id']}")
-          print("STAGING PREFLIGHT PASSED. No API keys, no publishing.")
+          print("STAGING PREFLIGHT PASSED. Exact current recovery and candidate pins verified; no Roblox credentials or publishing.")
           PY
       - name: Archive offline preflight and rollback verification
         uses: actions/upload-artifact@v7

@@ -5,6 +5,8 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_batch2_candidate.py'
+      - 'tests/test_dead_signal_batch2_candidate.py'
       - 'scripts/dead_signal_postrelease_recovery.py'
       - 'tests/test_dead_signal_production_admission.py'
       - 'tests/test_dead_signal_postrelease_recovery.py'
@@ -22,6 +24,8 @@ on:
     paths:
       - 'scripts/dead_signal_release_guard.py'
       - 'scripts/dead_signal_production_admission.py'
+      - 'scripts/dead_signal_batch2_candidate.py'
+      - 'tests/test_dead_signal_batch2_candidate.py'
       - 'tests/test_dead_signal_production_admission.py'
       - 'games/dead-signal/releases/**'
       - 'tests/test_dead_signal_release_guard.py'
@@ -121,8 +125,15 @@ jobs:
                       postrelease.completion(record, historical, recovery, permissions, acceptance)
                       print('Owner-accepted published recovery and original known-good archive verified; no deploy admitted')
                   admission.verify_ci(record, os.environ['GH_TOKEN'])
-                  admission.verify_builds(record)
-                  print('Historical source CI and eight built hashes verified; no publishing')
+                  batch2_review = Path('games/dead-signal/dev/Reviews/batch2-integration/REVIEWED-RUNTIME.json')
+                  if batch2_review.is_file():
+                      import dead_signal_batch2_candidate as batch2
+                      batch2.verify_historical_builds(record)
+                      batch2.verify_builds()
+                      print('Original Batch 1 eight-build hashes reproduced exactly; separate reviewed Batch 2 eight-build hashes verified; no deploy admitted')
+                  else:
+                      admission.verify_builds(record)
+                      print('Historical source CI and eight built hashes verified; no publishing')
               else:
                   print('Production admission remains not ready; no publication is permitted')
           else:

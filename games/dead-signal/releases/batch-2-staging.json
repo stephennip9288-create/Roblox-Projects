@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-2-private-staging",
+  "issue": 62,
+  "source_sha": null,
+  "owner_staging_authorization": false,
+  "owner_authorization_evidence": null,
+  "ready_for_staging": false,
+  "production_authorization": false,
+  "staging_universe_id": "10771141095",
+  "profile_store": "DeadSignal_Profile_v1",
+  "runtime_manifest_blob": "0c44a7883a966f46402c06e9b4b81938ad9bc695",
+  "build_manifest_blob": "7687038bfa315f50fd6bdac7b0449f526bd0b046",
+  "integrated_heads": {
+    "maps": "7b8c2442530c11afc47cd40f50c03a03349f6c39",
+    "audio": "4807fd25193bc721a3473858d2c744250614aaaf",
+    "enemies": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+    "combat_ui": "26bcbfe5558f6fc0ff6e067c200649578a5502be"
+  },
+  "engine_gameplay_verified": false,
+  "audio": {
+    "asset_count": 16,
+    "fully_approved_assets": 0,
+    "independent_staging_grants_verified": true,
+    "independent_production_grants_verified": true,
+    "owner_listening_accepted": true,
+    "rights_and_source_verified": false,
+    "moderation_and_playback_eligible": false
+  },
+  "ci": {},
+  "staging_binary_sha256": {
+    "dispatch": "c0da0c37f3c1bf9c536d719e0a7194ec9c0525459ee6749351031a0612bc3604",
+    "blackwater": "76d88387d15d27aa39469995f128e2eb471f744b01d6a6934d81e4d07f1d0eed",
+    "cinderworks": "c042a72b84ce765e549a78fc7d5884be81778c41374eed2a9d7d8fba3ff93207",
+    "whiteout": "0d8adac389b7346dc459802ce1098784cd2a2a0abe94504693cefa1deeccf8e7"
+  },
+  "staging_binary_bytes": {
+    "dispatch": 2784227,
+    "blackwater": 2755297,
+    "cinderworks": 2763156,
+    "whiteout": 2764603
+  },
+  "rollback": {
+    "schema": 1,
+    "environment": "staging",
+    "universe_id": "10771141095",
+    "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+    "artifact": {
+      "id": 12545195246,
+      "run_id": 40054332185,
+      "sha256": "09840f969288228cf3dcc0c5a6fb05dfcbb66f152f08fff5d73d2e8ed1214036",
+      "expires_at": "2027-01-22T02:28:53Z",
+      "head_sha": "852c51ef6bba8d59c9dfa2a461e5bd6dbccf3101",
+      "note": "Exact owner-run approved supplemental-audio source uploaded to all4 private staging places; native QA and all6 defect verifications remain pending. No production authorization."
+    },
+    "deployment": {
+      "run_id": 40054332185,
+      "attempt": 1,
+      "versions": {
+        "blackwater": 16,
+        "cinderworks": 16,
+        "whiteout": 16,
+        "dispatch": 20
+      },
+      "workflow_id": 386310450,
+      "control_sha": "852c51ef6bba8d59c9dfa2a461e5bd6dbccf3101"
+    },
+    "places": {
+      "blackwater": {
+        "place_id": "102403661108879",
+        "member": "build/dead-signal-lossless/staging/blackwater.rbxl",
+        "sha256": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747",
+        "bytes": 2731765
+      },
+      "cinderworks": {
+        "place_id": "125712056058975",
+        "member": "build/dead-signal-lossless/staging/cinderworks.rbxl",
+        "sha256": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b",
+        "bytes": 2739610
+      },
+      "whiteout": {
+        "place_id": "122269451559483",
+        "member": "build/dead-signal-lossless/staging/whiteout.rbxl",
+        "sha256": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00",
+        "bytes": 2741069
+      },
+      "dispatch": {
+        "place_id": "117710269155815",
+        "member": "build/dead-signal-lossless/staging/dispatch.rbxl",
+        "sha256": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413",
+        "bytes": 2760685
+      }
+    }
+  },
+  "blockers": [
+    "Separate explicit owner staging authorization has not been given.",
+    "Six physical recording sources/performers/ownership or licenses are missing.",
+    "Uploaded-content equivalence and creator/rights review remain pending.",
+    "Roblox moderation/playback eligibility and native ContentProvider playback are not independently verified.",
+    "Exact source SHA and all five completed CI families must be recorded after review."
+  ],
+  "native_qa": "Not performed; no bug is marked Verified and no device/Studio acceptance inferred from offline tests."
+}

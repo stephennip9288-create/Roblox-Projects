@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       operation:
-        description: "deploy = complete reviewed Batch 1; rollback = exact recorded staging release"
+        description: "deploy = exact owner-authorized reviewed source; rollback = recorded staging release"
         type: choice
         options: [deploy, rollback]
         required: true
@@ -14,7 +14,7 @@ on:
         type: string
         required: true
       source_sha:
-        description: "Deploy: reviewed full 40-character Batch 1 integration SHA; rollback: leave blank"
+        description: "Deploy: reviewed full 40-character source SHA; rollback: leave blank"
         type: string
         required: false
         default: ''
@@ -49,6 +49,7 @@ jobs:
         env:
           SOURCE_SHA: ${{ inputs.source_sha }}
           OPERATION: ${{ inputs.operation }}
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
@@ -94,11 +95,12 @@ jobs:
             echo "::error::Unknown event" >&2
             exit 1
           fi
-      - name: Install trusted controls and enforce complete Batch 1
+      - name: Install trusted controls and enforce complete Batch 1 or exact Batch 2 staging
         working-directory: ${{ github.workspace }}
         env:
           OPERATION: ${{ inputs.operation }}
           SOURCE_SHA: ${{ inputs.source_sha }}
+          GH_TOKEN: ${{ github.token }}
         run: python release-control/scripts/dead_signal_release_guard.py controls --control release-control --candidate candidate --operation "$OPERATION" --source-sha "$SOURCE_SHA" --environment staging
       - name: Fetch and verify the recorded current staging recovery set
         env:
@@ -109,6 +111,9 @@ jobs:
         if: ${{ steps.intent.outputs.operation == 'deploy' }}
         run: |
           python -m unittest discover -s tests -v
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes ffmpeg
+          python -m unittest discover -s games/dead-signal/dev/Tests -v
           python scripts/validate.py
           python scripts/generate_dead_signal_place_configs.py
       - name: Install pinned Lune for candidate tests
@@ -140,6 +145,7 @@ jobs:
         env:
           OPERATION: ${{ inputs.operation }}
           SOURCE_SHA: ${{ inputs.source_sha }}
+          GH_TOKEN: ${{ github.token }}
         run: python release-control/scripts/dead_signal_release_guard.py controls --control release-control --candidate candidate --operation "$OPERATION" --source-sha "$SOURCE_SHA" --environment staging
       - name: Preflight all four candidates and all four rollback binaries
         env:
@@ -165,14 +171,17 @@ jobs:
         if: ${{ steps.intent.outputs.operation == 'deploy' }}
         uses: actions/upload-artifact@v7
         with:
-          name: dead-signal-complete-batch1-staging-${{ github.run_id }}
+          name: dead-signal-reviewed-staging-${{ github.run_id }}
           path: |
             candidate/build/dead-signal-lossless/staging/
             candidate/games/dead-signal/releases/batch-1.json
+            candidate/games/dead-signal/releases/batch-2-staging.json
+            candidate/games/dead-signal/dev/Reviews/batch2-integration/
           retention-days: 90
           if-no-files-found: error
       - name: Upload private staging place files only
         env:
+          GH_TOKEN: ${{ github.token }}
           RELEASE_SOURCE_SHA: ${{ inputs.source_sha }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_REF: ${{ github.ref }}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "recorded_at": "2026-11-08T23:40:34.816445+00:00",
+  "recorded_at": "2026-11-08T23:53:21.651714+00:00",
   "root_python": {
     "tests": 115,
     "passed": 115,
@@ -45,11 +45,14 @@
   "bugs_marked_verified": false,
   "lune": {
     "suites": 48,
-    "status": "Current complete run in progress; no success inferred from prior checkpoint"
+    "passed": 48,
+    "assertions": 1251174,
+    "engine_playtest": false,
+    "physical_device_playtest": false
   },
-  "reviewed_source_sha": null,
-  "github_five_required_families_passed": false,
-  "github_artifacts_independently_downloaded_and_verified": false,
+  "reviewed_source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+  "github_five_required_families_passed": true,
+  "github_artifacts_independently_downloaded_and_verified": true,
   "audio_originals_and_hosted_content_review": {
     "original_wav_hashes_verified": 6,
     "original_music_ogg_hashes_verified": 10,

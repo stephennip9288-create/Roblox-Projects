@@ -160,14 +160,21 @@ class Batch2Candidate(unittest.TestCase):
         finally:
             path.write_text(old)
 
-    def test_real_gameplay_record_is_not_owner_authorized(self):
+    def test_real_gameplay_record_requires_every_separate_authorization(self):
         records = ROOT / 'games/dead-signal/releases'
         record = json.loads((records / gate.GAMEPLAY_RECORD).read_text())
-        self.assertIs(record['owner_staging_authorization'], False)
-        self.assertIs(record['owner_accepts_audio_exclusion'], False)
-        self.assertIs(record['ready_for_staging'], False)
-        with self.assertRaises(ValueError):
+        # Main-trusted controls install the final authorization into the selected
+        # source before running tests. Legitimate owner approval must not require
+        # deleting a test that hard-codes today's unauthorized record forever.
+        required = ('owner_staging_authorization', 'owner_accepts_audio_exclusion', 'ready_for_staging')
+        if all(record.get(key) is True for key in required):
             gate.gameplay_staging_completion(record, record['source_sha'], records)
+        else:
+            with self.assertRaises(ValueError):
+                gate.gameplay_staging_completion(record, record['source_sha'], records)
+        for key in required:
+            with self.subTest(missing=key), self.assertRaises(ValueError):
+                gate.gameplay_staging_completion({**record, key: False}, record['source_sha'], records)
 
     def test_trusted_router_selects_the_distinct_gameplay_record(self):
         import dead_signal_release_guard as release

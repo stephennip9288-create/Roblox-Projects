@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "reviewed_source_sha": null,
-  "reviewed_source_tree": null,
+  "reviewed_source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+  "reviewed_source_tree": "aed66c0b9a344e29e0769d5e1cb939fdfb4a5c75",
   "integration_branch": "integration/dead-signal-batch2",
   "combined_pr": 73,
   "combined_pr_url": "https://github.com/stephennip9288-create/Roblox-Projects/pull/73",
@@ -41,9 +41,13 @@
   "staging_published": false,
   "production_published": false,
   "native_qa_verified": false,
-  "candidate_intent": "Separately reviewed gameplay-only private staging; all sixteen new audio banks disabled; exact immutable commit/CI/artifact provenance pending next metadata checkpoint.",
+  "candidate_intent": "Exact reviewed gameplay-only private-staging candidate. All sixteen new audio banks disabled; separate exact-source owner authorization and reviewed main controls required.",
   "prior_checkpoint": {
     "sha": "fccea067b804933c6d6db936b6332ceb5b662cdb",
     "history": "History/fccea067/"
-  }
+  },
+  "staging_admission": "games/dead-signal/releases/batch-2-gameplay-staging.json",
+  "full_audio_admission_separate_and_blocked": true,
+  "new_audio_enabled_count": 0,
+  "control_followup": "Final branch HEAD records source-specific CI/artifacts and admission; authorization-test compatibility permits a future separately approved main-trusted record without changing game source."
 }

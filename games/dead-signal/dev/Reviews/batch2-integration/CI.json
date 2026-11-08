@@ -1,7 +1,49 @@
 {
   "schema": 1,
-  "source_sha": null,
-  "status": "Pending immutable review commit and all five source-specific no-publish workflow families",
-  "prior_evidence": "History/fccea067/CI.json",
+  "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+  "all_five_families_passed": true,
+  "selected_runs": {
+    "validate.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486273,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536486273"
+    },
+    "dead-signal-staging-preflight.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486281,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536486281"
+    },
+    "dead-signal-production-readiness.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486280,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536486280"
+    },
+    "dead-signal-lossless-patch.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486332,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536486332"
+    },
+    "dead-signal-source-ci.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536481811,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536481811"
+    }
+  },
+  "both_push_and_pull_request_families_passed": true,
   "publication_authorized": false
 }

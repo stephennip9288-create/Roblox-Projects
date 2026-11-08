@@ -161,6 +161,19 @@ function P.sample(model,root,time)
     end
     if kind=="Stalker" and not traversal then out.RootJoint=out.RootJoint*CFrame.Angles(.2,0,0);out.Neck=CFrame.Angles(-.18,0,math.sin(time*2)*.06) end
     if charging then out.RootJoint=out.RootJoint*CFrame.Angles(-.08,0,0) end
+    local awareAge=time-(model:GetAttribute("AwarenessAt") or -100)
+    local awareDuration=math.clamp(model:GetAttribute("AwarenessDuration") or .85,.4,1.2)
+    local awareHitAge=time-(model:GetAttribute("HitAt") or -100)
+    if r6 and not traversal and not charging and age>windup+.4 and time>=(model:GetAttribute("StunnedUntil") or 0)
+        and not (awareHitAge>=0 and awareHitAge<.30)
+        and awareAge>=0 and awareAge<awareDuration then
+        local ease=math.sin(math.pi*awareAge/awareDuration)^2
+        local yaw=math.clamp(model:GetAttribute("AwarenessYaw") or 0,-.55,.55)*ease
+        local pitch=math.clamp(model:GetAttribute("AwarenessPitch") or 0,-.15,.15)*ease
+        local variant=model:GetAttribute("AwarenessVariant") or 1
+        out.Neck=out.Neck*CFrame.Angles(pitch,yaw,variant==2 and .035*ease or 0)
+        out.RootJoint=out.RootJoint*CFrame.Angles(variant==3 and -.025*ease or 0,yaw*.18,0)
+    end
     local hitAge=time-(model:GetAttribute("HitAt") or -100)
     local force=model:GetAttribute("HitVector")
     if not traversal and hitAge>=0 and hitAge<.30 and typeof(force)=="Vector3" then

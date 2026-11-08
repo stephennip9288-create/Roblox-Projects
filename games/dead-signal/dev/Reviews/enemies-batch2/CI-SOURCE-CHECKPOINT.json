@@ -1,0 +1,528 @@
+{
+  "sourceCommit": "836734bf5ea19c45786c3f89aefa935104648355",
+  "workflowRuns": [
+    {
+      "id": 42455301604,
+      "name": "Validate Roblox Cloud Project",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 468,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301604/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301604/logs",
+      "workflow_id": 385102467
+    },
+    {
+      "id": 42455301575,
+      "name": "Dead Signal Work Source CI (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_number": 263,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301575/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301575/logs",
+      "workflow_id": 386218119
+    },
+    {
+      "id": 42455301635,
+      "name": "Dead Signal Production Candidate Readiness (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_number": 218,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301635/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301635/logs",
+      "workflow_id": 386318111
+    },
+    {
+      "id": 42455301554,
+      "name": "Dead Signal Private Staging Preflight (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_number": 223,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301554/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301554/logs",
+      "workflow_id": 386307456
+    },
+    {
+      "id": 42455301572,
+      "name": "Dead Signal Lossless Source Patch (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_number": 232,
+      "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301572/jobs",
+      "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301572/logs",
+      "workflow_id": 386285171
+    }
+  ],
+  "failedJobs": [
+    {
+      "run": {
+        "id": 42455301575,
+        "name": "Dead Signal Work Source CI (No Publish)",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 263,
+        "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301575/jobs",
+        "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301575/logs",
+        "workflow_id": 386218119
+      },
+      "jobs": [
+        {
+          "id": 128652908665,
+          "name": "Python checks, isolated configs and Lune suites",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 42455301575,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout source (no keys)",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Test publisher manifests and configuration isolation",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Generate staging and production PlaceConfigs (no publish)",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 5
+            },
+            {
+              "name": "Install pinned Lune",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Prepare temporary known-good staging fixtures for offline integration",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Run imported Work runtime tests against existing staging baselines",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Archive isolated configs and test report",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Post Set up Python",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Post Checkout source (no keys)",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            }
+          ]
+        }
+      ],
+      "failureExcerpts": [
+        "2026-11-08T06:34:49.3714840Z FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)",
+        "2026-11-08T06:34:49.3729419Z AssertionError: 'e5693aa49fe175fe7e4b6ae417e04779a49076b6' != 'f898217e2aef6d3b785300311d96d93ae3f840d0'",
+        "2026-11-08T06:34:49.3733390Z FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)",
+        "2026-11-08T06:34:49.3741267Z AssertionError: 'e5693aa49fe175fe7e4b6ae417e04779a49076b6' != 'f898217e2aef6d3b785300311d96d93ae3f840d0'",
+        "2026-11-08T06:34:49.3744468Z Ran 28 tests in 0.932s",
+        "2026-11-08T06:34:49.3744875Z FAILED (failures=2, skipped=2)"
+      ]
+    },
+    {
+      "run": {
+        "id": 42455301635,
+        "name": "Dead Signal Production Candidate Readiness (No Publish)",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 218,
+        "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301635/jobs",
+        "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301635/logs",
+        "workflow_id": 386318111
+      },
+      "jobs": [
+        {
+          "id": 128652909238,
+          "name": "Offline source-to-production parity (no publish)",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 42455301635,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v6",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run publisher and production safety tests",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Generate two sets of isolated teleport destinations",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 5
+            },
+            {
+              "name": "Download and verify current production recovery without publishing",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Install Lune 0.11.0",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Run real Work source regressions against native v1.8 fixture",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Build four staging candidates for exact source comparison",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Build four production candidates without changing existing production files",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 10
+            },
+            {
+              "name": "Independently verify raw world/asset preservation in both environments",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 11
+            },
+            {
+              "name": "Verify production teleport IDs, source equivalence, and committed rollback binaries",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 12
+            },
+            {
+              "name": "Verify reviewed production admission and eight pinned builds without publishing",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 13
+            },
+            {
+              "name": "Archive production candidate and safety reports for review only",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 14
+            },
+            {
+              "name": "Post Run actions/setup-python@v6",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 27
+            },
+            {
+              "name": "Post Run actions/checkout@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 28
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 29
+            }
+          ]
+        }
+      ],
+      "failureExcerpts": [
+        "2026-11-08T06:34:50.2661307Z FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)",
+        "2026-11-08T06:34:50.2673403Z AssertionError: 'e5693aa49fe175fe7e4b6ae417e04779a49076b6' != 'f898217e2aef6d3b785300311d96d93ae3f840d0'",
+        "2026-11-08T06:34:50.2676370Z FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)",
+        "2026-11-08T06:34:50.2681223Z AssertionError: 'e5693aa49fe175fe7e4b6ae417e04779a49076b6' != 'f898217e2aef6d3b785300311d96d93ae3f840d0'",
+        "2026-11-08T06:34:50.2683140Z Ran 28 tests in 1.094s",
+        "2026-11-08T06:34:50.2683391Z FAILED (failures=2, skipped=2)"
+      ]
+    },
+    {
+      "run": {
+        "id": 42455301554,
+        "name": "Dead Signal Private Staging Preflight (No Publish)",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 223,
+        "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301554/jobs",
+        "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301554/logs",
+        "workflow_id": 386307456
+      },
+      "jobs": [
+        {
+          "id": 128652908554,
+          "name": "Verify four staging candidates and rollback binaries",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 42455301554,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout private project",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Install Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Verify all repository and rollout safety tests",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Generate staging and production ID configs",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 5
+            },
+            {
+              "name": "Install pinned Lune runtime",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Prepare immutable native Work fixtures and run regressions",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Generate patched candidates with staging-only IDs",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Verify independent raw binary property preservation",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Verify staging-only routes and all rollback files",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 10
+            },
+            {
+              "name": "Archive offline preflight and rollback verification",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 11
+            },
+            {
+              "name": "Post Install Python",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 21
+            },
+            {
+              "name": "Post Checkout private project",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            }
+          ]
+        }
+      ],
+      "failureExcerpts": [
+        "2026-11-08T06:34:47.9925079Z FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)",
+        "2026-11-08T06:34:47.9935218Z AssertionError: 'e5693aa49fe175fe7e4b6ae417e04779a49076b6' != 'f898217e2aef6d3b785300311d96d93ae3f840d0'",
+        "2026-11-08T06:34:47.9937657Z FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)",
+        "2026-11-08T06:34:47.9942376Z AssertionError: 'e5693aa49fe175fe7e4b6ae417e04779a49076b6' != 'f898217e2aef6d3b785300311d96d93ae3f840d0'",
+        "2026-11-08T06:34:47.9944492Z Ran 28 tests in 0.905s",
+        "2026-11-08T06:34:47.9944735Z FAILED (failures=2, skipped=2)"
+      ]
+    },
+    {
+      "run": {
+        "id": 42455301572,
+        "name": "Dead Signal Lossless Source Patch (No Publish)",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 232,
+        "jobs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301572/jobs",
+        "logs_url": "https://api.github.com/repos/stephennip9288-create/Roblox-Projects/actions/runs/42455301572/logs",
+        "workflow_id": 386285171
+      },
+      "jobs": [
+        {
+          "id": 128652908690,
+          "name": "safe-source-patch",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 42455301572,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout known-good complete staging places and editable source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Python setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Validate manifests and established source tests",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Check native v1.8 Work binary baselines are imported",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 5
+            },
+            {
+              "name": "Install pinned Lune for native v1.8 compatibility tests",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Run source regressions against original native Work v1.8 place fixtures",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Patch ONLY Script Source PROP chunks (no full-place serialization)",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Verify raw RBXL class/property fidelity",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Verify patch reports and no unexpected output files",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 10
+            },
+            {
+              "name": "Upload offline-patched staging candidates (REVIEW ONLY)",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 11
+            },
+            {
+              "name": "Post Python setup",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 21
+            },
+            {
+              "name": "Post Checkout known-good complete staging places and editable source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            }
+          ]
+        }
+      ],
+      "failureExcerpts": [
+        "2026-11-08T06:34:56.7591006Z FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)",
+        "2026-11-08T06:34:56.7605481Z AssertionError: 'e5693aa49fe175fe7e4b6ae417e04779a49076b6' != 'f898217e2aef6d3b785300311d96d93ae3f840d0'",
+        "2026-11-08T06:34:56.7608690Z FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)",
+        "2026-11-08T06:34:56.7614184Z AssertionError: 'e5693aa49fe175fe7e4b6ae417e04779a49076b6' != 'f898217e2aef6d3b785300311d96d93ae3f840d0'",
+        "2026-11-08T06:34:56.7618973Z Ran 28 tests in 0.979s",
+        "2026-11-08T06:34:56.7619245Z FAILED (failures=2, skipped=2)"
+      ]
+    }
+  ],
+  "interpretation": "Validate passed. Four no-publish workflows stop at the two unchanged frozen Batch 1 provenance equality assertions before Lune/build stages; skipped stages are not passes."
+}

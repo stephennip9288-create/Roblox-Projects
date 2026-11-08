@@ -1,0 +1,79 @@
+Loading artwork assertions passed: 63
+Studio loading preview assertions passed: 36
+Evolution integration assertions passed: 2959
+Special wave orchestration assertions passed: 18
+Evolution presentation assertions passed: 55
+Difficulty/director policy assertions passed: 431
+Server integration assertions passed: 35
+Navigation scheduling assertions passed: 12
+Navigation fairness total assertions: 13
+Pursuit regression assertions passed: 90
+Rig and collision assertions passed: 222
+Weapon geometry assertions passed: 7929
+Receiver cross-section samples: 4986
+Arrival handoff assertions passed: 28
+Extraction regression assertions passed: 20
+Station map constructed: 5771 parts / 1079 colliders / 0.857 offline seconds
+Foundry map constructed: 6187 parts / 1232 colliders / 1.353 offline seconds
+Frost map constructed: 6415 parts / 1184 colliders / 1.150 offline seconds
+Map remaster contract assertions passed: 23606
+Station Batch 1: 5771 parts, 337 scenery parts, 2 two-ended service walks
+Foundry Batch 1: 6187 parts, 178 scenery parts, 2 two-ended service walks
+Frost Batch 1: 6415 parts, 80 scenery parts, 2 two-ended service walks
+Batch 1 map assertions passed: 235778
+Combined map assertions passed: 259384
+Station: 0 leaking deck wedges; 4 ramps; 5771 parts
+Foundry: 0 leaking deck wedges; 4 ramps; 6187 parts
+Frost: 0 leaking deck wedges; 4 ramps; 6415 parts
+After Batch 1.1 map checks: 26387; failures: 0
+Enemy lifecycle regression assertions passed: 77
+Enemy path recovery regression assertions passed: 48
+Combat/UI geometry and layout assertions passed: 638775
+Weapon/tier models: 80 HUD scenarios: 270
+Combat controller input assertions passed: 44
+Touch behavior and safe-layout assertions passed: 507
+Touch reload continuity total assertions: 512
+Combined integration contract assertions passed: 501
+Batch 1 weapon fidelity assertions passed: 64271
+Native-preserving models: 160 maximum authored viewmodel parts: 231
+Batch 1 infected assertions passed: 2501
+Batch 1 entrance contract assertions passed: 71
+Station: source map built
+Station: 70/70 entry plans; 16 source colliders; 10132 sweeps
+Foundry: source map built
+Foundry: 70/70 entry plans; 12 source colliders; 10237 sweeps
+Frost: source map built
+Frost: 70/70 entry plans; 14 source colliders; 10169 sweeps
+Batch 1 source-geometry assertions passed: 25717
+Batch 1.1 enemy runtime assertions passed: 1069
+Batch 1.1 enemy appearance assertions passed: 6039
+Batch 1.1 admission/accounting assertions passed: 29
+Batch 1.1 spatial parity assertions passed: 3441
+Station: strict physical support audit complete
+Foundry: strict physical support audit complete
+Frost: strict physical support audit complete
+Strict window/profile plans: 210 / 210 windows: 30
+Batch 1.1 enemy geometry assertions passed: 210
+Station: 2330 actual support probes; 0 misses; 0 added landing slabs
+Foundry: 2330 actual support probes; 0 misses; 1 added landing slabs
+Frost: 2330 actual support probes; 0 misses; 0 added landing slabs
+Map window geometry assertions: 7453 failures: 0
+Batch 1 R6 assertions passed: 15359
+Batch 1 entry follow-up assertions passed: 160
+Batch 2 navigation assertions passed: 63
+Batch 2 awareness/diagnostic assertions passed: 34
+40-enemy offline policy benchmark: {"creationMs":211.58007600024575,"diagnostics":false,"maxMs":86.64746300019033,"meanMs":7.5363277875970205,"medianMs":8.425076000094123,"p95Ms":13.48666499961837,"peakOutstanding":3,"requests":474,"served":40}
+40-enemy offline policy benchmark: {"creationMs":211.44159699997545,"diagnostics":true,"maxMs":95.91550800087134,"meanMs":7.558661559593831,"medianMs":8.438046000264876,"p95Ms":13.337041000340832,"peakOutstanding":3,"requests":474,"served":40,"traceEvents":128}
+Batch 2 forty-enemy budget assertions passed: 3432
+Station: graph 64; corridors 126/126; stairs 56/56
+Foundry: graph 64; corridors 126/126; stairs 56/56
+Frost: graph 64; corridors 126/126; stairs 56/56
+Batch 2 actual-map navigation assertions passed: 29044
+Audio runtime assertions passed: 4433
+Audio quality Batch 1.1 assertions passed: 800
+Batch 1 audio correction assertions passed: 2121
+Supplemental audio candidate assertions passed: 417
+Production audio assertions passed: 191
+Batch 1 integration assertions passed: 54
+Runtime scripts compiled: 61 errors: 0
+All offline suites passed. Assertions: 1104536

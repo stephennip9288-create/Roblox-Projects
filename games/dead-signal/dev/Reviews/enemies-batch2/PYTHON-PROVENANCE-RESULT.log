@@ -1,0 +1,63 @@
+Root: python -m unittest discover -s tests -v
+Ran 98 tests; OK. Publisher/rollback cases use mocks; no publish.
+
+Dev: python -m unittest discover -s games/dead-signal/dev/Tests -v
+test_actual_pcm_and_independent_4x_peak (test_audio_corrections_b1.AudioCorrections.test_actual_pcm_and_independent_4x_peak) ... ok
+test_all_14_wavs_and_oggs_match_exact_inventory (test_audio_corrections_b1.AudioCorrections.test_all_14_wavs_and_oggs_match_exact_inventory) ... ok
+test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change) ... FAIL
+test_owner_ids_and_84_original_recordings_unchanged (test_audio_corrections_b1.AudioCorrections.test_owner_ids_and_84_original_recordings_unchanged) ... ok
+test_reproduce_all_14_pcm_files_from_pinned_sources (test_audio_corrections_b1.AudioCorrections.test_reproduce_all_14_pcm_files_from_pinned_sources) ... skipped 'Supply --source-cache for exact PCM reproduction'
+test_supplemental_provenance_and_unapproved_status (test_audio_corrections_b1.AudioCorrections.test_supplemental_provenance_and_unapproved_status) ... ok
+test_compose_preserves_every_non_audio_byte (test_audio_patch.AudioPatch.test_compose_preserves_every_non_audio_byte) ... ok
+test_no_added_runtime_records (test_audio_patch.AudioPatch.test_no_added_runtime_records) ... ok
+test_rejects_concurrent_audio_edits (test_audio_patch.AudioPatch.test_rejects_concurrent_audio_edits) ... ok
+test_rejects_duplicate_application (test_audio_patch.AudioPatch.test_rejects_duplicate_application) ... ok
+test_runtime_matches_reviewed_state (test_audio_patch.AudioPatch.test_runtime_matches_reviewed_state) ... ok
+test_tolerates_separate_vfx_edits_without_rewriting_them (test_audio_patch.AudioPatch.test_tolerates_separate_vfx_edits_without_rewriting_them) ... ok
+test_activation_refuses_unapproved_or_wrong_experience_assets (test_audio_quality_b11.AudioQualityB11.test_activation_refuses_unapproved_or_wrong_experience_assets) ... ok
+test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration) ... FAIL
+test_audition_files_match_the_inventory (test_audio_quality_b11.AudioQualityB11.test_audition_files_match_the_inventory) ... ok
+test_complete_event_fallback_audit (test_audio_quality_b11.AudioQualityB11.test_complete_event_fallback_audit) ... ok
+test_discharge_variants_are_recordings_not_pitch_placeholders (test_audio_quality_b11.AudioQualityB11.test_discharge_variants_are_recordings_not_pitch_placeholders) ... ok
+test_every_recipe_matches_a_real_prepared_record (test_audio_quality_b11.AudioQualityB11.test_every_recipe_matches_a_real_prepared_record) ... ok
+test_frozen_baseline_and_effects_ownership (test_audio_quality_b11.AudioQualityB11.test_frozen_baseline_and_effects_ownership) ... ok
+test_prepared_wav_fidelity_and_transient_timing (test_audio_quality_b11.AudioQualityB11.test_prepared_wav_fidelity_and_transient_timing) ... skipped 'Pass --wav-dir to test actual prepared PCM'
+test_primary_provenance_and_license_inventory (test_audio_quality_b11.AudioQualityB11.test_primary_provenance_and_license_inventory) ... ok
+test_modified_base_is_rejected (test_audio_supplement_intake.AudioSupplementIntake.test_modified_base_is_rejected) ... ok
+test_runtime_inputs_are_exact_reviewed_versions (test_audio_supplement_intake.AudioSupplementIntake.test_runtime_inputs_are_exact_reviewed_versions) ... ok
+test_six_owner_confirmations_and_exact_prepared_files (test_audio_supplement_intake.AudioSupplementIntake.test_six_owner_confirmations_and_exact_prepared_files) ... ok
+test_stored_patch_applies_independently_and_exactly (test_audio_supplement_intake.AudioSupplementIntake.test_stored_patch_applies_independently_and_exactly) ... ok
+test_exact_additive_production_only_source (test_production_audio.ProductionAudio.test_exact_additive_production_only_source) ... ok
+test_owner_acceptance_is_not_invented_production_permission (test_production_audio.ProductionAudio.test_owner_acceptance_is_not_invented_production_permission) ... ok
+test_tampered_source_and_duplicate_production_block_rejected (test_production_audio.ProductionAudio.test_tampered_source_and_duplicate_production_block_rejected) ... ok
+
+======================================================================
+FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/8cb32b7dd166/dead-signal-b2-enemies/games/dead-signal/dev/Tests/test_audio_corrections_b1.py", line 26, in test_only_owned_audio_bytes_change
+    assert_reviewed_runtime(self)
+  File "/workspace/scratch/8cb32b7dd166/dead-signal-b2-enemies/games/dead-signal/dev/Tests/runtime_provenance.py", line 120, in assert_reviewed_runtime
+    test.assertEqual(blob(path.read_bytes()), applied, name + ' current bytes')
+AssertionError: '5dcbf69c029f991bb72624a1a3aad198337aec5c' != 'bc0def04621503103c2c9d792392ee432a8ac40b'
+- 5dcbf69c029f991bb72624a1a3aad198337aec5c
++ bc0def04621503103c2c9d792392ee432a8ac40b
+ : Source/Runtime/server/Navigation.lua current bytes
+
+======================================================================
+FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/8cb32b7dd166/dead-signal-b2-enemies/games/dead-signal/dev/Tests/test_audio_quality_b11.py", line 37, in test_all_runtime_records_match_reviewed_integration
+    assert_reviewed_runtime(self)
+  File "/workspace/scratch/8cb32b7dd166/dead-signal-b2-enemies/games/dead-signal/dev/Tests/runtime_provenance.py", line 120, in assert_reviewed_runtime
+    test.assertEqual(blob(path.read_bytes()), applied, name + ' current bytes')
+AssertionError: '5dcbf69c029f991bb72624a1a3aad198337aec5c' != 'bc0def04621503103c2c9d792392ee432a8ac40b'
+- 5dcbf69c029f991bb72624a1a3aad198337aec5c
++ bc0def04621503103c2c9d792392ee432a8ac40b
+ : Source/Runtime/server/Navigation.lua current bytes
+
+----------------------------------------------------------------------
+Ran 28 tests in 1.058s
+
+FAILED (failures=2, skipped=2)

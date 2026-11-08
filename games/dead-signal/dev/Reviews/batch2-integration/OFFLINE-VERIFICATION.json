@@ -2,8 +2,8 @@
   "schema": 1,
   "recorded_at": "2026-11-08T20:23:08.820312+00:00",
   "root_python": {
-    "tests": 108,
-    "passed": 108,
+    "tests": 109,
+    "passed": 109,
     "failures": 0
   },
   "dev_python": {
@@ -34,7 +34,8 @@
     "deployment_run": 41800682585,
     "metadata_verified": true,
     "expires_at": "2027-02-02T08:35:30Z",
-    "previous_known_good_artifact_preserved": 13283390341
+    "previous_known_good_artifact_preserved": 13283390341,
+    "archive_and_all_four_member_hashes_sizes_sources_verified": true
   },
   "roblox_studio_gameplay_tested": false,
   "physical_device_tested": false,

@@ -4,8 +4,10 @@ import json
 import re
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
+import textwrap
 import unittest
 from unittest.mock import patch
 
@@ -142,6 +144,46 @@ class Batch2Candidate(unittest.TestCase):
         self.assertEqual(len(names), 48)
         self.assertTrue(required.issubset(names))
         self.assertEqual(len(set(names) - required), 39)
+
+    def test_actual_lossless_workflow_loads_and_invokes_the_candidate_guard(self):
+        workflow = (ROOT / '.github/workflows/dead-signal-lossless-patch.yml').read_text()
+        step = workflow.split('      - name: Verify patch reports and no unexpected output files\n', 1)[1]
+        step = step.split('      - name:', 1)[0]
+        program = textwrap.dedent(step.split("python - <<'PY'\n", 1)[1].split('\n          PY', 1)[0])
+        with tempfile.TemporaryDirectory(prefix='dead-signal-workflow-import-') as folder:
+            root = Path(folder)
+            scripts = root / 'scripts'
+            scripts.mkdir()
+            # Isolate the wrapper's module lookup and call contract. Real guard
+            # behavior/native bytes are covered separately; these are mock files.
+            (scripts / 'dead_signal_batch2_candidate.py').write_text(
+                "from pathlib import Path\n"
+                "def verify_builds(*, environments):\n"
+                "    assert environments == ('staging',)\n"
+                "    Path('VERIFIER-CALLED').write_text('yes')\n")
+            review = root / gate.MANIFEST
+            review.parent.mkdir(parents=True)
+            review.write_text('{}')
+            directory = root / 'build/dead-signal-lossless/staging'
+            directory.mkdir(parents=True)
+            report = {}
+            for place in gate.ROLES:
+                (directory / (place + '.rbxl')).write_bytes(b'x' * 100001)
+                report[place] = {'all_untouched_chunks_byte_identical': True,
+                                 'expected_replacement_count': 61,
+                                 'publish_approved': False, 'studio_tested': False}
+            (directory / 'LOSSLESS-REPORT.json').write_text(json.dumps(report))
+            (directory / 'BINARY-FIDELITY-REPORT.json').write_text('{}')
+            result = subprocess.run([sys.executable, '-'], input=program, cwd=root,
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual((root / 'VERIFIER-CALLED').read_text(), 'yes')
+            broken = program.replace("sys.path.insert(0, 'scripts')", '', 1)
+            self.assertNotEqual(broken, program)
+            result = subprocess.run([sys.executable, '-'], input=broken, cwd=root,
+                                    capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('ModuleNotFoundError', result.stderr)
 
 
 if __name__ == '__main__':

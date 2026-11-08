@@ -98,7 +98,8 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import json
+          import json, sys
+          sys.path.insert(0, 'scripts')
           d=Path('build/dead-signal-lossless/staging')
           report=json.loads((d/'LOSSLESS-REPORT.json').read_text())
           expected={'dispatch','blackwater','cinderworks','whiteout'}

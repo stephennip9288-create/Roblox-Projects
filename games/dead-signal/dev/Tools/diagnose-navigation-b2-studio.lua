@@ -52,5 +52,6 @@ connection=Run.Heartbeat:Connect(function(dt)
  end
  folder:SetAttribute("Live",snapshot.live);folder:SetAttribute("Pending",snapshot.pending)
  folder:SetAttribute("ActivePaths",snapshot.activePaths);folder:SetAttribute("PathRequests",snapshot.counters["path-request"] or 0)
+ folder:SetAttribute("RequestsPerSecond",(snapshot.counters["path-request"] or 0)/math.max(.001,snapshot.seconds))
 end)
 print("Studio navigation review enabled (40 labels / 24 segments / 2Hz). Set the folder's InspectEnemyId to select an actor. Diagnostics.navigation() returns capped waypoints, room route, blocked doors and the last128 trace events. Remove the folder to stop. No physics/navmesh/device result is inferred from this tool.")

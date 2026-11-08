@@ -43,13 +43,13 @@ local load=loader.new(dm,{services={Players=Players,UserInputService=UIS,GuiServ
  RunService={PreSimulation=signal(),BindToRenderStep=function(_,_,_,fn) render=fn end},
  TeleportService={GetArrivingTeleportGui=function() end},ReplicatedFirst={RemoveDefaultLoadingScreen=function() end}},
  modules={UI=fakeUI,Effects={new=function() return fx end},MobileControls=fakeMobile,WeaponModels=W,
-  Movement={noJump=function() end},DownedPose={client=function() end},ThirdPerson={client=function() end},
+  Movement=setmetatable({noJump=function() end},{__index=base(f.shared.Movement)}),DownedPose={client=function() end},ThirdPerson={client=function() end},
   Scope={new=function() return {update=function() end} end}},
  globals={os={clock=function() return now end},task={spawn=function() end,delay=function() end}}})
 load(f.client.Controller).start()
 check(render~=nil and bindings.DeadSignal_NoJump~=nil,'controller starts and preserves no-jump binding')
-local function press(name,state)
- return bindings['DeadSignal_'..name](name,state or r.Enum.UserInputState.Begin,{UserInputType=r.Enum.UserInputType.Keyboard,KeyCode=r.Enum.KeyCode.Q})
+local function press(name,state,key)
+ return bindings['DeadSignal_'..name](name,state or r.Enum.UserInputState.Begin,{UserInputType=r.Enum.UserInputType.Keyboard,KeyCode=key or r.Enum.KeyCode.Q})
 end
 local function times(op) local n=0 for _,v in ipairs(requests) do if v.op==op then n+=1 end end return n end
 local function last(op) for i=#requests,1,-1 do if requests[i].op==op then return requests[i].args end end end
@@ -140,4 +140,46 @@ tick(.1);before=#sounds;tick(.8)
 check(#sounds==before+1 and sounds[#sounds].context.phase=='mag-in' and sounds[#sounds].context.token~=oldToken,'resumed reload avoids replay and stale tokens')
 feed.OnClientEvent:fire('Reload',{weapon='Trench',duration=10});tick(1)
 check(ui.ammo.Text~='RELOADING','stale other-weapon reload cannot lock current weapon')
+-- Batch 2: run movement prediction through the actual bound input callbacks.
+local V,CF=r.Vector3,r.CFrame
+local char=r.Instance.new('Model');local root=r.Instance.new('Part');root.Name='HumanoidRootPart';root.Position=V.zero;root.CFrame=CF.identity;root.Parent=char
+local humanoid=r.Instance.new('Humanoid');humanoid.MoveDirection=V.new(0,0,-1);humanoid.Parent=char;player.Character=char
+snapshot=table.clone(snapshot);snapshot.phase='Wave';snapshot.stamina=100;snapshot.maxStamina=100;snapshot.guns={{id='Vandal',tier=0,mag=20,reserve=210,reloadUntil=0}};state()
+press('Fire',r.Enum.UserInputState.End);camera.CFrame=CF.identity
+press('Sprint',nil,r.Enum.KeyCode.LeftShift);for _=1,6 do tick(.1) end
+check(last('Sprint').enabled and humanoid.WalkSpeed==24,'keyboard forward hold predicts sprint')
+humanoid.MoveDirection=V.xAxis;tick(.016)
+check(not last('Sprint').enabled and humanoid.WalkSpeed<=10.5,'strafe cancels sprint on the next render')
+humanoid.MoveDirection=V.new(0,0,-1);tick(.1)
+check(last('Sprint').enabled,'keyboard hold reengages only after returning forward')
+humanoid.MoveDirection=V.new(1,0,-1).Unit;tick(.016)
+check(not last('Sprint').enabled and humanoid.WalkSpeed<16,'diagonal key chord cannot bypass walk caps')
+press('Sprint',r.Enum.UserInputState.End,r.Enum.KeyCode.LeftShift);humanoid.MoveDirection=V.new(0,0,-1);tick(.1)
+check(not last('Sprint').enabled,'keyboard release clears hold request')
+press('Sprint',nil,r.Enum.KeyCode.ButtonL3);tick(.1);check(last('Sprint').enabled,'gamepad toggle starts sprint')
+humanoid.MoveDirection=V.new(0,0,1);tick(.016);check(not last('Sprint').enabled,'gamepad toggle cancels in reverse')
+humanoid.MoveDirection=V.new(0,0,-1);tick(.1);check(not last('Sprint').enabled,'invalid toggle requires a new press')
+mobile.cb.sprint(true);for _=1,5 do tick(.1) end
+check(last('Sprint').enabled,'touch outer-stick callback uses the same forward policy')
+humanoid.MoveDirection=V.xAxis;mobile.cb.sprint(true);tick(.016)
+check(not last('Sprint').enabled,'touch side direction cannot sprint')
+humanoid.MoveDirection=V.new(0,0,-1);mobile.cb.sprint(true);tick(.1)
+camera.CFrame=CF.Angles(0,math.pi,0);tick(.016)
+check(not last('Sprint').enabled and humanoid.WalkSpeed<=9.5,'rapid camera turn reclassifies world movement immediately')
+camera.CFrame=CF.identity;mobile.cb.sprint(false);press('Aim');press('Sprint',nil,r.Enum.KeyCode.LeftShift);tick(.1)
+check(not last('Sprint').enabled and last('Aim').enabled and humanoid.WalkSpeed<=11,'sprint cannot silently override ADS')
+press('Aim',r.Enum.UserInputState.End);press('Sprint',nil,r.Enum.KeyCode.LeftShift);tick(.1);press('Reload');tick(.016)
+check(not last('Sprint').enabled,'reload cancels predicted sprint')
+tick(3);snapshot=table.clone(snapshot);snapshot.stamina=0;state();press('Sprint',nil,r.Enum.KeyCode.LeftShift);tick(.016)
+check(not last('Sprint').enabled,'exhaustion denies predicted sprint')
+check(last('Look').move~=nil and last('Look').blocked==false,'validated intent rides existing Look payload')
+UIS.WindowFocusReleased:fire();check(not last('Sprint').enabled and last('Sprint').blocked==true,'focus reset blocks authoritative input')
+snapshot=table.clone(snapshot);snapshot.stamina=100;snapshot.movement=nil;state();press('Sprint',nil,r.Enum.KeyCode.LeftShift);tick(.1)
+snapshot=table.clone(snapshot);snapshot.stamina=5;snapshot.movement={sprinting=false,reason='stamina',speed=16};state();tick(.016)
+check(humanoid.WalkSpeed<=16,'server exhaustion acknowledgment ends an optimistic sprint')
+snapshot=table.clone(snapshot);snapshot.stamina=100;snapshot.movement=nil;snapshot.perks={Marathon=true};state()
+press('Sprint',nil,r.Enum.KeyCode.LeftShift);for _=1,8 do tick(.1) end
+check(humanoid.WalkSpeed==28,'Marathon prediction retains sprint benefit')
+press('Sprint',r.Enum.UserInputState.End,r.Enum.KeyCode.LeftShift);tick(.016)
+check(humanoid.WalkSpeed<=19,'Marathon release retains walk benefit')
 print('Combat controller input assertions passed:',count)

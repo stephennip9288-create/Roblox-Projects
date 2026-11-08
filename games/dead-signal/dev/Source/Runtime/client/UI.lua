@@ -12,6 +12,7 @@ local PC=require(RS.DeadSignal.PlaceConfig)
 local WeaponModels=require(RS.DeadSignal.WeaponModels)
 local TouchLayout=require(RS.DeadSignal.TouchLayout)
 local ControlSettings=require(RS.DeadSignal.ControlSettings)
+local Movement=require(RS.DeadSignal.Movement)
 local UI={} UI.__index=UI
 local colors={} for key,value in pairs(Presentation.colors) do colors[key]=U.color(value) end
 local function text(parent,txt,size,pos,dims,color,font)
@@ -382,6 +383,15 @@ function UI:open(tab)
         self:choice("BACK",function() self:open(self.state and self.state.participating and "Operation" or "Deploy") end)
     end
     if UIS:GetLastInputType()==Enum.UserInputType.Gamepad1 and self.firstButton then GuiService.SelectedObject=self.firstButton end
+end
+function UI:movement(sprinting,stamina,maximum,reason)
+    if not self.state or self.state.status~="Alive" or not self.state.participating then return end
+    local percent=math.floor(math.clamp(stamina/math.max(1,maximum),0,1)*100+.5)
+    local label=sprinting and "RUN" or reason=="stamina" and "REST" or stamina>=Movement.tuning.startStamina and "READY" or "ST"
+    -- Reuse the existing vitals text row: no new touch-control footprint.
+    self.healthText.Text=self.state.health.." HP · "..label.." "..percent.."%"
+    self.staminaBar.Size=UDim2.fromScale(math.clamp(stamina/math.max(1,maximum),0,1),1)
+    self.staminaBar.BackgroundColor3=sprinting and colors.amber or colors.muted
 end
 function UI:setProfile(profile)
     self.profile=profile

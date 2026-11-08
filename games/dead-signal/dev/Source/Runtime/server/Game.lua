@@ -37,6 +37,7 @@ end
 function G:spawnCharacter(player,position)
     local p=self.ctx.players[player] if not p then return end
     ThirdPerson.clear(player.Character) Downed.clear(p)
+    p.motion=nil p.moveIntent=nil p.moveAt=nil p.inputBlocked=false p.sprintRequested=false p.movementFeedback=nil
     p.spawnToken=(p.spawnToken or 0)+1 local token=p.spawnToken
     task.spawn(function()
         local ok=pcall(function() player:LoadCharacterAsync() end)
@@ -319,8 +320,9 @@ function G:revive(target,reviver)
     local p=self.ctx.players[target] if not p or p.status~="Down" then return end
     Downed.clear(p)
     local root=U.root(target)
-    if root then root.CFrame=root.CFrame+Vector3.new(0,2,0) root.AssemblyLinearVelocity=Vector3.new() end
+    if root then root.CFrame=root.CFrame+Vector3.new(0,2,0) root.AssemblyLinearVelocity=Vector3.new() p.lastPosition=root.Position p.lastSample=os.clock() end
     p.status="Alive" p.selfAt=nil p.health=R.health(p.perks) p.invulnerableUntil=os.clock()+4 p.lastHurt=os.clock()
+    p.motion=nil p.moveIntent=nil p.moveAt=nil p.sprintRequested=false p.sprinting=false p.movementFeedback=nil
     if p.revivePrompt then p.revivePrompt:Destroy() p.revivePrompt=nil end
     local hum=U.humanoid(target) if hum then hum.MaxHealth=p.health hum.Health=p.health hum.JumpPower=0 Movement.noJump(hum) end
     target:SetAttribute("DeadSignalStatus","Alive")
@@ -333,7 +335,7 @@ function G:down(player)
     local solo=self.ctx.run.peak<=1 and self:participantCount()==1
     local automatic=solo and p.perks.Lifeline and C.Modes[self.ctx.run.mode].selfRevive
     p.status="Down" p.health=0 p.downUntil=os.clock()+C.DownTime p.selfAt=automatic and os.clock()+6 or nil
-    p.perks={} p.sprinting=false p.aiming=false
+    p.perks={} p.sprinting=false p.aiming=false p.sprintRequested=false p.movementFeedback=nil
     for _,gun in ipairs(p.guns) do gun.reloadUntil=0 end
     local hum=U.humanoid(player) if hum then hum.Health=1 hum.WalkSpeed=3 hum.JumpPower=0 end
     player:SetAttribute("DeadSignalStatus","Down")
@@ -350,7 +352,7 @@ end
 function G:eliminate(player)
     local p=self.ctx.players[player] if not p or not p.participating or p.status=="Eliminated" then return end
     ThirdPerson.clear(player.Character) Downed.clear(p)
-    p.status="Eliminated" p.perks={} p.selfAt=nil p.sprinting=false
+    p.status="Eliminated" p.perks={} p.selfAt=nil p.sprinting=false p.sprintRequested=false p.movementFeedback=nil
     if p.revivePrompt then p.revivePrompt:Destroy() p.revivePrompt=nil end
     local hum=U.humanoid(player) if hum then hum.WalkSpeed=0 hum.JumpPower=0 end
     player:SetAttribute("DeadSignalStatus","Eliminated")
@@ -493,7 +495,7 @@ function G:finish(win,reason)
     local crew={}
     for player,p in pairs(self.ctx.players) do if p.participating and not p.travelling then
         ThirdPerson.clear(player.Character) Downed.clear(p)
-        local reward=self:award(player,win) p.status="Results" p.sprinting=false
+        local reward=self:award(player,win) p.status="Results" p.sprinting=false p.sprintRequested=false p.movementFeedback=nil
         if p.revivePrompt then p.revivePrompt:Destroy() p.revivePrompt=nil end
         local hum=U.humanoid(player) if hum then hum.WalkSpeed=0 hum.JumpPower=0 end
         table.insert(crew,{name=player.DisplayName,kills=p.stats.kills,headshots=p.stats.headshots,revives=p.stats.revives})
@@ -526,6 +528,55 @@ function G:objective()
     if run.round<15 then return "Signal restored • Rescue available at round 15" end
     return "Vote at the courtyard radio to extract • or keep surviving"
 end
+function G:movementInput(player,args)
+    local p=self.ctx.players[player]
+    if not p or not p.participating or p.status~="Alive" or p.travelling or p.returningBusy then return false end
+    local move=Movement.input(args.move)
+    if not move then return false end
+    p.moveIntent=move p.moveAt=os.clock()
+    if type(args.blocked)=="boolean" then p.inputBlocked=args.blocked end
+    return true
+end
+function G:movePlayer(player,p,hum,root,now,dt)
+    local gun=self.ctx.combat:gun(p)
+    local stale=not p.moveAt or now-p.moveAt>Movement.tuning.inputLifetime
+    local options={alive=p.status=="Alive" and p.participating,blocked=p.inputBlocked or p.travelling or p.returningBusy or not self:isCombat(),
+        aiming=p.aiming,reloading=gun and gun.reloadUntil>now,stamina=p.stamina,marathon=p.perks.Marathon,
+        requested=p.sprintRequested,wasSprinting=p.sprinting,stale=stale}
+    local facing=root.CFrame.LookVector
+    local result=Movement.policy(p.moveIntent or Vector3.zero,facing,options)
+    p.motion=p.motion or {position=p.lastPosition or root.Position,at=p.lastSample or now,debt=0,speed=0}
+    if now>=(p.motion.pingAt or 0) then
+        local ping=0
+        if player.GetNetworkPing then local ok,value=pcall(function() return player:GetNetworkPing() end)
+            if ok and R.finite(value) then ping=math.clamp(value,0,.3) end
+        end
+        p.motion.allowance=Movement.tuning.burstAllowance+Movement.tuning.marathonSprint*ping
+        p.motion.pingAt=now+1
+    end
+    local actual=Movement.flat(root.Position-p.motion.position)
+    -- Observe displacement rather than trusting a client's intended direction.
+    if actual.Magnitude>.05 then
+        local observed=Movement.policy(actual,facing,options)
+        result.speed=math.min(result.speed,observed.speed)
+        if not observed.sprinting then result.sprinting=false result.reason=observed.reason end
+    end
+    if not result.sprinting and (result.reason=="aiming" or result.reason=="reload" or result.reason=="blocked" or result.reason=="stamina") then p.sprintRequested=false end
+    p.sprinting=result.sprinting
+    p.stamina=Movement.stamina(p.stamina,R.stamina(p.perks),p.sprinting,dt)
+    if p.stamina<=1 then p.sprinting=false p.sprintRequested=false result.reason="stamina"
+        options.requested=false result.speed=Movement.policy(p.moveIntent or Vector3.zero,facing,options).speed end
+    local previous=p.motion.speed or 0
+    p.motion.speed=Movement.approach(previous,result.speed,dt) hum.WalkSpeed=p.motion.speed
+    local ok,safe=Movement.audit(p.motion,root.Position,now,p.motion.speed)
+    if not ok and safe then
+        root.CFrame=CFrame.new(safe)*(root.CFrame-root.CFrame.Position) root.AssemblyLinearVelocity=Vector3.zero
+        p.safePosition=p.motion.safePosition or safe
+    else p.motion.safePosition=p.safePosition end
+    p.movementFeedback={sprinting=p.sprinting,speed=p.motion.speed,reason=result.reason}
+    p.lastPosition=root.Position p.lastSample=now
+    ThirdPerson.update(player.Character,p.aiming,now-(p.lookAt or 0)<1 and p.lookPitch or 0,now-(p.lookAt or 0)<1 and p.lookYaw or 0,p.sprinting)
+end
 function G:tick(now,dt)
     local ctx=self.ctx local run=ctx.run
     if run.phase=="Arriving" then return end
@@ -545,22 +596,16 @@ function G:tick(now,dt)
     if run.phase=="Results" then if now>=run.deadline then self:reset() end return end
     for player,p in pairs(ctx.players) do if p.participating then
         local hum=U.humanoid(player) local root=U.root(player)
-        Bounds.enforce(ctx,player,p)
+        if Bounds.enforce(ctx,player,p) and p.motion then
+            -- Rescue rebases position without granting renewable speed credit.
+            p.motion.position=root.Position p.motion.at=now p.motion.safePosition=p.safePosition
+        end
         if p.status=="Down" then
             Downed.step(p,now)
             if p.selfAt and now>=p.selfAt then self:revive(player,nil) elseif now>=p.downUntil then self:eliminate(player) end
         elseif p.status=="Alive" and hum and root then
             if now-p.lastHurt>C.RegenDelay and p.health<R.health(p.perks) then p.health=math.min(R.health(p.perks),p.health+C.RegenRate*dt) hum.MaxHealth=R.health(p.perks) hum.Health=math.max(1,p.health) end
-            local moving=hum.MoveDirection.Magnitude>.1 local gun=ctx.combat:gun(p)
-            local sprint=p.sprinting and moving and not p.aiming and p.stamina>1 and not (gun and gun.reloadUntil>now)
-            if sprint then p.stamina=math.max(0,p.stamina-18*dt) else p.stamina=math.min(R.stamina(p.perks),p.stamina+24*dt) end
-            ThirdPerson.update(player.Character,p.aiming,now-(p.lookAt or 0)<1 and p.lookPitch or 0,now-(p.lookAt or 0)<1 and p.lookYaw or 0,sprint)
-            hum.WalkSpeed=p.aiming and 11 or (sprint and (p.perks.Marathon and 28 or 24) or (p.perks.Marathon and 19 or 16))
-            -- Large unexplained jumps are corrected; authorized spawns reset the sample.
-            if p.lastPosition and now>(p.invulnerableUntil or 0) and (root.Position-p.lastPosition).Magnitude>hum.WalkSpeed*math.max(.2,now-(p.lastSample or now))+14 then
-                root.CFrame=CFrame.new(p.lastPosition) root.AssemblyLinearVelocity=Vector3.new(0,0,0)
-            end
-            p.lastPosition=root.Position p.lastSample=now
+            self:movePlayer(player,p,hum,root,now,dt)
         end
     end end
     if self:aliveCount()==0 then
@@ -622,7 +667,7 @@ function G:snapshot(player)
     for plr,state in pairs(self.ctx.players) do if state.ready then queued=queued+1 end if state.participating then table.insert(team,{id=plr.UserId,name=plr.DisplayName,status=state.status,health=state.health,points=state.points,kills=state.stats.kills}) end end
     self.ctx.feed:FireClient(player,"State",{runId=run.id,phase=run.phase,round=run.round,map=run.map,mode=run.mode,status=p.status,director=run.directorStage,activeCrew=run.activeCrew,
         participating=p.participating,ready=p.ready,queued=queued,team=team,accepted=p.ack or 0,points=p.points,health=math.floor(p.health),maxHealth=R.health(p.perks),
-        stamina=p.stamina,maxStamina=R.stamina(p.perks),perks=U.copy(p.perks),guns=U.copy(p.guns),slot=p.slot,grenades=p.grenades,
+        stamina=p.stamina,maxStamina=R.stamina(p.perks),movement=p.movementFeedback,perks=U.copy(p.perks),guns=U.copy(p.guns),slot=p.slot,grenades=p.grenades,
         left=(run.spawnRemaining or 0)+self.ctx.enemies:count(),timer=math.max(0,math.ceil((run.deadline or 0)-now)),
         objective=self:isCombat() and self:objective() or "Walk into a solo or crew bay at Dispatch",
         effects=U.copy(run.effects),serverTime=now,downLeft=p.status=="Down" and math.max(0,math.ceil(p.downUntil-now)) or 0,

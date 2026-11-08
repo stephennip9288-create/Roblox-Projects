@@ -10,7 +10,7 @@ def binary(value):
     return str(Path(shutil.which(value) or value).resolve())
 lune=binary(args.lune)
 results=[]
-for name in ['loading', 'loadingpreview', 'evolution', 'events', 'presentation', 'director', 'server', 'navigation', 'pursuit', 'rigs', 'weapons', 'arrival', 'extraction', 'map_remaster', 'map_batch11', 'enemy-lifecycle', 'enemy-path-recovery', 'combat-ui', 'combat-input', 'touch', 'integration-contracts', 'weapons-batch1', 'infected-batch1', 'infected-entrances', 'infected-geometry', 'enemy-b11-runtime', 'enemy-b11-appearance', 'enemy-b11-admission', 'enemy-b11-spatial', 'enemy-b11-geometry', 'map-window-geometry', 'enemy-b1-r6', 'enemy-b1-entry-followup', 'audio', 'audio-quality-b11', 'audio-corrections-b1', 'audio-supplement-intake', 'production-audio', 'batch1-integration']:
+for name in ['loading', 'loadingpreview', 'evolution', 'events', 'presentation', 'director', 'server', 'navigation', 'pursuit', 'rigs', 'weapons', 'arrival', 'extraction', 'map_remaster', 'map_batch11', 'enemy-lifecycle', 'enemy-path-recovery', 'combat-ui', 'combat-input', 'touch', 'integration-contracts', 'weapons-batch1', 'infected-batch1', 'infected-entrances', 'infected-geometry', 'enemy-b11-runtime', 'enemy-b11-appearance', 'enemy-b11-admission', 'enemy-b11-spatial', 'enemy-b11-geometry', 'map-window-geometry', 'enemy-b1-r6', 'enemy-b1-entry-followup', 'audio', 'audio-quality-b11', 'audio-corrections-b1', 'audio-supplement-intake', 'production-audio', 'batch1-integration', 'movement-batch2']:
     started=time.monotonic()
     run=subprocess.run([lune,'run',f'Tests/{name}.luau'],cwd=root,capture_output=True,text=True)
     print(run.stdout,end='')

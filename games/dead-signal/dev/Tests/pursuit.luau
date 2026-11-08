@@ -3,7 +3,9 @@ local fs=require('@lune/fs') local r=require('@lune/roblox') local loader=requir
 local dm=r.deserializePlace(fs.readFile('Places/DeadSignal-v1.8.0-Station.rbxl')) local folders=loader.install(dm)
 local V=r.Vector3 local count=0 local function check(ok,msg) assert(ok,msg);count+=1 end
 local blocked=false local floorY=0 local requested={} local queue={} local fail=false local now=10
-local world={Raycast=function(_,pos) return {Position=V.new(pos.X,pos.Y>=floorY and floorY or 0,pos.Z)} end,Blockcast=function() return blocked and {} or nil end}
+-- The returned native waypoints are clear; the long direct player route is blocked.
+-- Invalid short native segments have separate coverage in enemy-b2-navigation.
+local world={Raycast=function(_,pos) return {Position=V.new(pos.X,pos.Y>=floorY and floorY or 0,pos.Z)} end,Blockcast=function(_,_,_,delta) return blocked and delta.Magnitude>20 and {} or nil end}
 local pf={CreatePath=function(_,agent) return {Status=fail and r.Enum.PathStatus.NoPath or r.Enum.PathStatus.Success,
  ComputeAsync=function(_,start,goal) requested[#requested+1]={start=start,goal=goal,agent=agent} end,
  GetWaypoints=function() return {{Position=V.new(0,3,0),Action=r.Enum.PathWaypointAction.Walk},{Position=V.new(12,3,0),Action=r.Enum.PathWaypointAction.Walk}} end} end}

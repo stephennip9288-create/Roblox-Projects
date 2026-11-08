@@ -49,5 +49,8 @@
     "assertions": 1251174,
     "engine_playtest": false,
     "physical_device_playtest": false
-  }
+  },
+  "reviewed_source_sha": "fccea067b804933c6d6db936b6332ceb5b662cdb",
+  "github_five_required_families_passed": true,
+  "github_artifacts_independently_downloaded_and_verified": true
 }

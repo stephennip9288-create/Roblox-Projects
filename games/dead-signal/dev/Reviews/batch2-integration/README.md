@@ -4,7 +4,7 @@ Room pursuit, tactical movement and atmosphere now share one reviewed source can
 
 **Source review/offline builds are complete. Staging publication is blocked.** Six physical recording sources/rights and the remaining creator/moderation/playback evidence are unresolved; no new bank is activated. The owner has already accepted listening quality for all 16 clips. Both experience grants are independently verified. No additional listening confirmation is needed.
 
-See `SOURCE-CHECKPOINT.json` and `CI.json` for immutable source/control SHAs and final GitHub results. `SPECIALIST-MERGES.json` records each exact specialist head, merge commit and reviewed integration tree. These source merges do not authorize a deployment.
+Reviewed source: `fccea067b804933c6d6db936b6332ceb5b662cdb`. All five required workflow families pass on that exact checkpoint. See `SOURCE-CHECKPOINT.json`, `CI.json` and `CI-ARTIFACTS.json` for source provenance, completed runs and independently downloaded artifact checks. `SPECIALIST-MERGES.json` records each exact specialist head, merge commit and reviewed integration tree. These source merges do not authorize a deployment.
 
 ## Reviewed source and preservation
 
@@ -39,7 +39,7 @@ All 39 original suites plus eight specialist suites and the new integrated intak
 
 Both four-place source-only native builds pass independent binary/property fidelity and exact build-hash checks. Only existing script Source chunks change; unchanged chunks are byte-identical. Staging/production teleport destinations remain isolated, and `DeadSignal_Profile_v1` is unchanged. Production-configured outputs are offline artifacts only.
 
-The exact current staging rollback ZIP (artifact `12545195246`, deployment `40054332185`) was downloaded and its archive, four member hashes/sizes and environment-specific scripts verified. It expires January 22, 2027. Production recovery `13309518810` remains available through February 2, 2027; previous known-good `13283390341` is preserved. Latest manual deployment runs still match the recorded staging and production releases. No new deployment was dispatched.
+The exact current staging rollback ZIP (artifact `12545195246`, deployment `40054332185`) was downloaded and its archive, four member hashes/sizes and environment-specific scripts verified. It expires January 22, 2027. Production recovery `13309518810` was independently downloaded and verified, including all four member hashes/sizes, environment sources and profile namespace; it remains available through February 2, 2027; previous known-good `13283390341` is preserved. Latest manual deployment runs still match the recorded staging and production releases. No new deployment was dispatched.
 
 ## Remaining acceptance
 

@@ -46,6 +46,32 @@ local function cast(shape,center,half,delta)
 end
 function B.world(map)
  local world=G.world(map);local original=world.Blockcast
+ -- Lune's Vector3/CFrame arithmetic is float32. Adjacent floor triangles can
+ -- disagree at their shared edge by a few micrometres. Use a 0.0001-stud plane
+ -- tolerance on real convex parts, never a logical polygon or filled hole.
+ local floorBuckets={};local cell=24
+ for _,part in ipairs(map.floorParts) do
+  local h=part.Size*.5;local cf=part.CFrame;local x,y,z=cf.RightVector,cf.UpVector,-cf.LookVector
+  local ex=math.abs(x.X)*h.X+math.abs(y.X)*h.Y+math.abs(z.X)*h.Z+.001
+  local ez=math.abs(x.Z)*h.X+math.abs(y.Z)*h.Y+math.abs(z.Z)*h.Z+.001
+  for bx=math.floor((cf.X-ex)/cell),math.floor((cf.X+ex)/cell) do for bz=math.floor((cf.Z-ez)/cell),math.floor((cf.Z+ez)/cell) do
+   local key=bx..':'..bz;floorBuckets[key]=floorBuckets[key] or {};table.insert(floorBuckets[key],part)
+  end end
+ end
+ local function floorRay(part,origin,direction)
+  local p=part.CFrame:PointToObjectSpace(origin);local v=part.CFrame:VectorToObjectSpace(direction);local h=part.Size*.5
+  local planes={{V.xAxis,h.X},{-V.xAxis,h.X},{V.yAxis,h.Y},{-V.yAxis,h.Y},{V.zAxis,h.Z},{-V.zAxis,h.Z}}
+  if part:IsA('WedgePart') then planes[#planes+1]={V.new(0,1/h.Y,-1/h.Z).Unit,0} end
+  local enter,leave=0,1
+  for _,plane in ipairs(planes) do
+   local a=plane[1];local distance=p.X*a.X+p.Y*a.Y+p.Z*a.Z-plane[2];local speed=v.X*a.X+v.Y*a.Y+v.Z*a.Z
+   if math.abs(speed)<1e-8 then if distance>.0001 then return nil end
+   elseif speed<0 then enter=math.max(enter,-distance/speed)
+   else leave=math.min(leave,-distance/speed) end
+   if enter>leave+1e-7 then return nil end
+  end
+  return enter
+ end
  function world:Blockcast(cf,size,delta,params)
   local hit=original(self,cf,size,delta,params)
   if not hit or not hit.Instance:IsA('WedgePart') then return hit end
@@ -57,12 +83,15 @@ function B.world(map)
   self.lastBlock=part
   return part and {Instance=part,Position=cf.Position+delta*nearest} or nil
  end
- local ray=world.Raycast
  function world:Raycast(origin,direction,params)
   if math.abs(direction.X)+math.abs(direction.Z)>.0001 then
    return self:Blockcast(r.CFrame.new(origin),V.new(.02,.02,.02),direction,params)
   end
-  return ray(self,origin,direction,params)
+  local nearest,part=math.huge,nil
+  for _,p in ipairs(floorBuckets[math.floor(origin.X/cell)..':'..math.floor(origin.Z/cell)] or {}) do if included(p,params) then
+   local t=floorRay(p,origin,direction);if t and t<nearest then nearest=t;part=p end
+  end end
+  return part and {Instance=part,Position=origin+direction*nearest} or nil
  end
  return world
 end

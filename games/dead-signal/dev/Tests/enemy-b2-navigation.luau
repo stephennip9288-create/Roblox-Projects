@@ -99,4 +99,27 @@ do
  owner.ctx.players[near].travelling=true;now+=.1
  check(owner:target(e,now)==far,'travelling target is immediately discarded')
 end
+-- Real convex floor contact may be excluded from a sweep; unrelated solid
+-- surfaces and real missing support must still stop the same full R6 rig.
+do
+ local B=require('./Support/EnemyB2World');local geometry=r.Instance.new('Model')
+ local function part(name,size,position)
+  local p=r.Instance.new('Part');p.Name=name;p.Size=size;p.CFrame=r.CFrame.new(position);p.CanCollide=true;p.Parent=geometry;return p
+ end
+ local ground=part('Ground',V.new(30,1,30),V.new(0,-.5,0))
+ local overlap=part('FlushLanding',V.new(10,1,10),V.new(2,-.5,0))
+ local m={model=geometry,floorParts={ground,overlap},floorRegions={}}
+ local physical=B.world(m)
+ local actual=loader.new(dm,{globals={workspace=physical,RaycastParams={new=function() return {} end}}})(f.server.Navigation)
+ model:PivotTo(r.CFrame.new(0,actual.rootHeight(e),0))
+ check(actual.clearRoute({map=m},e,V.new(8,actual.rootHeight(e),0)),'flush supporting floor pieces never become artificial walls')
+ local wall=part('SolidWall',V.new(1,8,12),V.new(4,4,0))
+ physical=B.world(m);actual=loader.new(dm,{globals={workspace=physical,RaycastParams={new=function() return {} end}}})(f.server.Navigation)
+ check(not actual.clearRoute({map=m},e,V.new(8,actual.rootHeight(e),0)),'support filtering retains a solid wall in the same hierarchy')
+ wall:Destroy();overlap:Destroy();ground.Size=V.new(4,1,30);ground.CFrame=r.CFrame.new(0,-.5,0)
+ local far=part('FarFloor',V.new(4,1,30),V.new(8,-.5,0));m.floorParts={ground,far}
+ physical=B.world(m);actual=loader.new(dm,{globals={workspace=physical,RaycastParams={new=function() return {} end}}})(f.server.Navigation)
+ check(not actual.clearRoute({map=m},e,V.new(8,actual.rootHeight(e),0)),'actual floor gaps are never replaced with logical support')
+ geometry:Destroy()
+end
 print('Batch 2 navigation assertions passed:',count)

@@ -39,8 +39,15 @@ function N:dispatch(player,op,a)
     elseif op=="Reload" then ctx.combat:reload(player)
     elseif op=="Swap" then ctx.combat:swap(player,a.slot)
     elseif op=="Aim" then if p.status=="Alive" and p.participating and type(a.enabled)=="boolean" then p.aiming=a.enabled if p.aiming then p.sprinting=false end end
-    elseif op=="Look" then if p.status=="Alive" and p.participating and R.finite(a.pitch) and R.finite(a.yaw) then p.lookPitch=R.clamp(a.pitch,-.9,.9) p.lookYaw=R.clamp(a.yaw,-1.05,1.05) p.lookAt=os.clock() end
-    elseif op=="Sprint" then if p.status=="Alive" and p.participating and type(a.enabled)=="boolean" then p.sprinting=a.enabled end
+    elseif op=="Look" then if p.status=="Alive" and p.participating and R.finite(a.pitch) and R.finite(a.yaw) then
+        p.lookPitch=R.clamp(a.pitch,-.9,.9) p.lookYaw=R.clamp(a.yaw,-1.05,1.05) p.lookAt=os.clock()
+        if ctx.game.movementInput then ctx.game:movementInput(player,a) end
+    end
+    elseif op=="Sprint" then if p.status=="Alive" and p.participating and type(a.enabled)=="boolean" then
+        if ctx.game.movementInput then ctx.game:movementInput(player,a) end
+        p.sprintRequested=a.enabled
+        if not a.enabled then p.sprinting=false end
+    end
     elseif op=="Melee" then ctx.combat:melee(player)
     elseif op=="Grenade" then ctx.combat:grenade(player,a)
     elseif op=="Leave" then ctx.game:leave(player,false)

@@ -1,0 +1,354 @@
+{
+  "angles": [
+    {
+      "ADS": 11,
+      "Marathon": 19,
+      "degrees": 0,
+      "sprintRequest": 24,
+      "walk": 16
+    },
+    {
+      "ADS": 10.945181057386856,
+      "Marathon": 18.905312735486387,
+      "degrees": 5,
+      "sprintRequest": 23.861494790543826,
+      "walk": 15.920263356199063
+    },
+    {
+      "ADS": 10.787096694135487,
+      "Marathon": 18.632257926234022,
+      "degrees": 10,
+      "sprintRequest": 23.25572859127231,
+      "walk": 15.690322464197072
+    },
+    {
+      "ADS": 10.543069497521017,
+      "Marathon": 18.21075640480903,
+      "degrees": 15,
+      "sprintRequest": 21.767398902562014,
+      "walk": 15.335373814576025
+    },
+    {
+      "ADS": 10.236903621834678,
+      "Marathon": 17.681924437714443,
+      "degrees": 20,
+      "sprintRequest": 19.1675146298154,
+      "walk": 14.89004163175953
+    },
+    {
+      "ADS": 9.893796130377199,
+      "Marathon": 17.08928422519698,
+      "degrees": 25,
+      "sprintRequest": 15.951298275047915,
+      "walk": 14.390976189639561
+    },
+    {
+      "ADS": 9.536421433289249,
+      "Marathon": 16.472000657499613,
+      "degrees": 30,
+      "sprintRequest": 13.871158448420726,
+      "walk": 13.871158448420726
+    },
+    {
+      "ADS": 9.182868150221585,
+      "Marathon": 15.861317714019103,
+      "degrees": 35,
+      "sprintRequest": 13.356899127595034,
+      "walk": 13.356899127595034
+    },
+    {
+      "ADS": 8.846215165301924,
+      "Marathon": 15.279826194612415,
+      "degrees": 40,
+      "sprintRequest": 12.867222058620982,
+      "walk": 12.867222058620982
+    },
+    {
+      "ADS": 8.535090613591784,
+      "Marathon": 14.742429241658535,
+      "degrees": 45,
+      "sprintRequest": 12.414677256133503,
+      "walk": 12.414677256133503
+    },
+    {
+      "ADS": 8.254642171928747,
+      "Marathon": 14.258018296967835,
+      "degrees": 50,
+      "sprintRequest": 12.006752250078177,
+      "walk": 12.006752250078177
+    },
+    {
+      "ADS": 8.007526988221525,
+      "Marathon": 13.83118297965536,
+      "degrees": 55,
+      "sprintRequest": 11.647311982867672,
+      "walk": 11.647311982867672
+    },
+    {
+      "ADS": 7.794762865163216,
+      "Marathon": 13.463681312554646,
+      "degrees": 60,
+      "sprintRequest": 11.33783689478286,
+      "walk": 11.33783689478286
+    },
+    {
+      "ADS": 7.616371646630308,
+      "Marathon": 13.155551025997806,
+      "degrees": 65,
+      "sprintRequest": 11.078358758734995,
+      "walk": 11.078358758734995
+    },
+    {
+      "ADS": 7.471847919450391,
+      "Marathon": 12.905919133596129,
+      "degrees": 70,
+      "sprintRequest": 10.868142428291478,
+      "walk": 10.868142428291478
+    },
+    {
+      "ADS": 7.360471452864631,
+      "Marathon": 12.713541600402543,
+      "degrees": 75,
+      "sprintRequest": 10.706140295075826,
+      "walk": 10.706140295075826
+    },
+    {
+      "ADS": 7.281522942432602,
+      "Marathon": 12.577175991474494,
+      "degrees": 80,
+      "sprintRequest": 10.591306098083784,
+      "walk": 10.591306098083784
+    },
+    {
+      "ADS": 7.234410283374292,
+      "Marathon": 12.495799580373777,
+      "degrees": 85,
+      "sprintRequest": 10.52277859399897,
+      "walk": 10.52277859399897
+    },
+    {
+      "ADS": 7.21875,
+      "Marathon": 12.46875,
+      "degrees": 90,
+      "sprintRequest": 10.5,
+      "walk": 10.5
+    },
+    {
+      "ADS": 7.212681653025885,
+      "Marathon": 12.458268309771983,
+      "degrees": 95,
+      "sprintRequest": 10.491173313492196,
+      "walk": 10.491173313492196
+    },
+    {
+      "ADS": 7.194750732361676,
+      "Marathon": 12.427296719533803,
+      "degrees": 100,
+      "sprintRequest": 10.465091974344256,
+      "walk": 10.465091974344256
+    },
+    {
+      "ADS": 7.1657579164284195,
+      "Marathon": 12.377218219285453,
+      "degrees": 105,
+      "sprintRequest": 10.422920605714065,
+      "walk": 10.422920605714065
+    },
+    {
+      "ADS": 7.126964687179024,
+      "Marathon": 12.310211732400132,
+      "degrees": 110,
+      "sprintRequest": 10.366494090442217,
+      "walk": 10.366494090442217
+    },
+    {
+      "ADS": 7.079995210494696,
+      "Marathon": 12.22908263630902,
+      "degrees": 115,
+      "sprintRequest": 10.298174851628648,
+      "walk": 10.298174851628648
+    },
+    {
+      "ADS": 7.026727637842438,
+      "Marathon": 12.137075010818755,
+      "degrees": 120,
+      "sprintRequest": 10.220694745952636,
+      "walk": 10.220694745952636
+    },
+    {
+      "ADS": 6.969170416602388,
+      "Marathon": 12.037657992313216,
+      "degrees": 125,
+      "sprintRequest": 10.136975151421655,
+      "walk": 10.136975151421655
+    },
+    {
+      "ADS": 6.9093578418991255,
+      "Marathon": 11.934345363280308,
+      "degrees": 130,
+      "sprintRequest": 10.049975042762364,
+      "walk": 10.049975042762364
+    },
+    {
+      "ADS": 6.849255813831646,
+      "Marathon": 11.83053276934557,
+      "degrees": 135,
+      "sprintRequest": 9.962553911027848,
+      "walk": 9.962553911027848
+    },
+    {
+      "ADS": 6.79069613329453,
+      "Marathon": 11.729384230236006,
+      "degrees": 140,
+      "sprintRequest": 9.877376193882952,
+      "walk": 9.877376193882952
+    },
+    {
+      "ADS": 6.7353261036426435,
+      "Marathon": 11.633745088110022,
+      "degrees": 145,
+      "sprintRequest": 9.796837968934755,
+      "walk": 9.796837968934755
+    },
+    {
+      "ADS": 6.684586703252813,
+      "Marathon": 11.546104305618494,
+      "degrees": 150,
+      "sprintRequest": 9.723035204731364,
+      "walk": 9.723035204731364
+    },
+    {
+      "ADS": 6.6396993297287885,
+      "Marathon": 11.468571569531543,
+      "degrees": 155,
+      "sprintRequest": 9.65774447960551,
+      "walk": 9.65774447960551
+    },
+    {
+      "ADS": 6.601670842676035,
+      "Marathon": 11.402886000985879,
+      "degrees": 160,
+      "sprintRequest": 9.602430316619687,
+      "walk": 9.602430316619687
+    },
+    {
+      "ADS": 6.571298173918162,
+      "Marathon": 11.350424118585916,
+      "degrees": 165,
+      "sprintRequest": 9.558251889335509,
+      "walk": 9.558251889335509
+    },
+    {
+      "ADS": 6.549186138301989,
+      "Marathon": 11.312230602521618,
+      "degrees": 170,
+      "sprintRequest": 9.526088928439258,
+      "walk": 9.526088928439258
+    },
+    {
+      "ADS": 6.535754481747279,
+      "Marathon": 11.289030468472573,
+      "degrees": 175,
+      "sprintRequest": 9.506551973450588,
+      "walk": 9.506551973450588
+    },
+    {
+      "ADS": 6.53125,
+      "Marathon": 11.28125,
+      "degrees": 180,
+      "sprintRequest": 9.5,
+      "walk": 9.5
+    }
+  ],
+  "balanceStatus": "Recommended initial values; native gameplay approval pending",
+  "enginePlaytest": false,
+  "pursuit": [
+    {
+      "hound": 8.5,
+      "round": 1,
+      "runner": 9,
+      "shambler": 5
+    },
+    {
+      "hound": 10.9,
+      "round": 5,
+      "runner": 11.4,
+      "shambler": 7.4
+    },
+    {
+      "hound": 13,
+      "round": 8,
+      "runner": 13.5,
+      "shambler": 9.5
+    },
+    {
+      "hound": 14.5,
+      "round": 10,
+      "runner": 15,
+      "shambler": 11
+    },
+    {
+      "hound": 16.5,
+      "round": 15,
+      "runner": 17,
+      "shambler": 13
+    },
+    {
+      "hound": 18,
+      "round": 20,
+      "runner": 18.5,
+      "shambler": 14.5
+    },
+    {
+      "hound": 19.1,
+      "round": 30,
+      "runner": 19.6,
+      "shambler": 15.6
+    },
+    {
+      "hound": 19.5,
+      "round": 40,
+      "runner": 20,
+      "shambler": 16
+    }
+  ],
+  "sourceBaseline": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "speeds": {
+    "ADS": {
+      "backward": 6.53125,
+      "diagonal": 8.535090613591784,
+      "forward": 11,
+      "strafe": 7.21875
+    },
+    "Marathon": {
+      "backward": 11.28125,
+      "diagonal": 14.742429241658535,
+      "forward": 19,
+      "sprint": 28,
+      "strafe": 12.46875
+    },
+    "normal": {
+      "backward": 9.5,
+      "diagonal": 12.414677256133503,
+      "forward": 16,
+      "sprint": 24,
+      "strafe": 10.5
+    }
+  },
+  "tuning": {
+    "acceleration": 40,
+    "ads": 11,
+    "backward": 9.5,
+    "burstAllowance": 4,
+    "drain": 18,
+    "forwardCone": 0.8660254037844387,
+    "inputLifetime": 0.6,
+    "marathonSprint": 28,
+    "marathonWalk": 19,
+    "recover": 24,
+    "sprint": 24,
+    "startStamina": 12,
+    "strafe": 10.5,
+    "walk": 16
+  }
+}

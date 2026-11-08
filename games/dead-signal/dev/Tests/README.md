@@ -1,5 +1,7 @@
 # Offline checks
 
+Batch 2 adds `movement-batch2.luau` and extends the actual Controller callback checks in `combat-input.luau`: directional/rotated/analog caps, sprint hold/toggle/touch, state/ADS/reload/stamina, server movement intent and observed-displacement validation, rate/malformed-input handling, latency bursts and player isolation. All 39 prior suite registrations remain. [Movement recommendations and native checklist](../Reviews/movement-batch2/README.md) separate source tests from engine balance/replication/device acceptance.
+
 Use Lune and optionally the Luau compiler. From the extracted kit:
 
 ```text

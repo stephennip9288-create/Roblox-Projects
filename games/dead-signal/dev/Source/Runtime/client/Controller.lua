@@ -273,8 +273,8 @@ function Controller.start()
     local function resetInput()
         if mobile then mobile:cancel("input reset") end
         cancelPresentation()
-        s.fire=false s.aim=false s.sprint=false s.semi=false
-        send("Aim",{enabled=false}) send("Sprint",{enabled=false})
+        s.fire=false s.aim=false s.sprint=false s.sprintWanted=false s.semi=false s.moveSpeed=0 s.sprintMotion=0
+        send("Aim",{enabled=false}) send("Sprint",{enabled=false,move=Vector3.zero,blocked=true})
     end
     ui=UI.new(send,function(open)
         s.menu=open resetInput()
@@ -335,14 +335,12 @@ function Controller.start()
     end
     ui.cycle=spectate
     local function aim(enabled)
-        s.aim=enabled and living() and os.clock()>=s.reloading or false s.sprint=false
+        s.aim=enabled and living() and os.clock()>=s.reloading or false s.sprint=false s.sprintWanted=false
         send("Aim",{enabled=s.aim}) send("Sprint",{enabled=false})
     end
-    local function sprint(enabled)
-        local value=enabled and living() or false
-        if value==s.sprint then return end
-        s.sprint=value if value then s.aim=false send("Aim",{enabled=false}) end
-        send("Sprint",{enabled=value})
+    local function sprint(enabled,source)
+        s.sprintWanted=enabled and living() or false s.sprintSource=source or "analog"
+        if not s.sprintWanted and s.sprint then s.sprint=false send("Sprint",{enabled=false,move=Vector3.zero}) end
     end
     local function reload()
         local g=gun() if not living() or not g or os.clock()<s.reloading then return end
@@ -354,7 +352,7 @@ function Controller.start()
         s.reloadMissing=math.max(1,stat.mag-displayMag())
         s.reloadAcknowledged=false s.reloadPresentation=true
         if s.vm then W.beginReload(s.vm,s.reloadMissing,false) end
-        s.reloadStarted=os.clock() s.reloadDuration=stat.reload s.reloading=s.reloadStarted+stat.reload s.sprint=false send("Sprint",{enabled=false}) send("Reload",{})
+        s.reloadStarted=os.clock() s.reloadDuration=stat.reload s.reloading=s.reloadStarted+stat.reload s.sprint=false s.sprintWanted=false send("Sprint",{enabled=false}) send("Reload",{})
     end
     local function swap(slot)
         local index=(slot==1 or slot==2) and slot or (s.slot==1 and 2 or 1)
@@ -427,8 +425,8 @@ function Controller.start()
     bind("Grenade",{Enum.KeyCode.G,Enum.KeyCode.ButtonR1},function(state) if state==Enum.UserInputState.Begin then grenade() end end)
     bind("SpectatePrevious",{Enum.KeyCode.LeftBracket,Enum.KeyCode.ButtonL1},function(state) if state==Enum.UserInputState.Begin and s.state and s.state.status=="Eliminated" then spectate(-1) end end)
     bind("Sprint",{Enum.KeyCode.LeftShift,Enum.KeyCode.ButtonL3},function(state,input)
-        if state==Enum.UserInputState.Begin then if input.KeyCode==Enum.KeyCode.ButtonL3 then sprint(not s.sprint) else sprint(true) end
-        elseif state==Enum.UserInputState.End and input.KeyCode==Enum.KeyCode.LeftShift then sprint(false) end
+        if state==Enum.UserInputState.Begin then if input.KeyCode==Enum.KeyCode.ButtonL3 then sprint(not s.sprintWanted,"toggle") else sprint(true,"hold") end
+        elseif (state==Enum.UserInputState.End or state==Enum.UserInputState.Cancel) and input.KeyCode==Enum.KeyCode.LeftShift then sprint(false,"hold") end
     end)
     bind("Menu",{Enum.KeyCode.M,Enum.KeyCode.ButtonSelect},function(state) if state==Enum.UserInputState.Begin then ui:toggle() end end)
     UIS.WindowFocusReleased:Connect(resetInput)
@@ -437,7 +435,7 @@ function Controller.start()
     mobile=MobileControls.new(ui,{
         weapon=function() local g=gun() return g and C.Weapons[g.id] end,
         fire=shoot,
-        stop=function() s.fire=false s.semi=false if s.sprint then sprint(false) end end,
+        stop=function() s.fire=false s.semi=false sprint(false) end,
         sprint=sprint,
         native=function(owned)
             if s.nativeOwned~=owned or s.nativeControls~=controls then
@@ -486,7 +484,12 @@ function Controller.start()
     feed.OnClientEvent:Connect(function(kind,data)
         if kind~="State" and type(data)=="table" and data.runId~=nil and s.state and s.state.runId~=nil and data.runId~=s.state.runId then return end
         if kind=="State" then
-            local old=s.state s.state=data ammo(data)
+            local old=s.state s.state=data s.moveStamina=data.stamina ammo(data)
+            local authority=data.movement
+            if authority and not authority.sprinting and (authority.reason=="stamina" or authority.reason=="reload" or authority.reason=="aiming" or authority.reason=="blocked") then
+                s.sprint=false
+                if s.sprintSource=="toggle" or authority.reason~="stamina" then s.sprintWanted=false end
+            end
             if audioBindings then audioBindings:set(data,s.travelLock or ui.loading.frame.Visible) end
             local held=gun()
             if held and held.reloadUntil<=data.serverTime and os.clock()-s.reloadStarted>.7 then s.reloading=0 end
@@ -604,14 +607,35 @@ function Controller.start()
         if s.menu then UIS.MouseBehavior=Enum.MouseBehavior.Default end
         local hum=U.humanoid(player) if hum then hum.CameraOffset=mode=="Down" and Vector3.new(0,.35,-.25) or Vector3.new(0,0,0) end
         noJump(player.Character)
-        if state and s.sprint and state.stamina<2 then sprint(false) end
         mobile:update(dt,state,s.menu or s.travelLock,s.aim,gun() and W.scoped(gun().id) and s.aim)
+        local root=U.root(player) local move=hum and Movement.flat(hum.MoveDirection) or Vector3.zero
+        local facing=Movement.facing(camera.CFrame.LookVector,root and root.CFrame.LookVector)
+        local allowed=living()
+        if allowed and hum and root then
+            -- All input devices use the same horizontal camera/root basis.
+            hum.AutoRotate=false root.CFrame=CFrame.lookAt(root.Position,root.Position+facing)
+        elseif hum and not mobile.enabled and mode~="Down" then hum.AutoRotate=true end
+        if state and state.status=="Alive" and state.participating then
+            local maximum=state.maxStamina or R.stamina(state.perks)
+            s.moveStamina=s.moveStamina or state.stamina
+            local movement=Movement.policy(move,facing,{alive=true,blocked=not allowed,aiming=s.aim,reloading=now<s.reloading,
+                stamina=s.moveStamina,marathon=state.perks.Marathon,requested=s.sprintWanted,wasSprinting=s.sprint})
+            if not movement.sprinting and (s.sprintSource=="toggle" or movement.reason=="blocked" or movement.reason=="aiming" or movement.reason=="reload") then s.sprintWanted=false end
+            if movement.sprinting~=s.sprint then
+                s.sprint=movement.sprinting send("Sprint",{enabled=s.sprint,move=move,blocked=not allowed})
+            end
+            s.moveStamina=Movement.stamina(s.moveStamina,maximum,s.sprint,dt)
+            s.moveSpeed=Movement.approach(s.moveSpeed or 0,movement.speed,dt)
+            if hum then hum.WalkSpeed=s.moveSpeed end
+            if ui.movement then ui:movement(s.sprint,s.moveStamina,maximum,movement.reason) end
+        else s.sprint=false s.sprintWanted=false s.moveSpeed=0 end
+        s.sprintMotion=(s.sprintMotion or 0)+((s.sprint and 1 or 0)-(s.sprintMotion or 0))*(1-math.exp(-dt*14))
         if s.fire then shoot() end
         local held=gun() local isAiming=s.aim and living() and now>=s.reloading
         if living() and now>(s.lookSentAt or 0) then
             s.lookSentAt=now+.1 local root=U.root(player)
             if root then local look=root.CFrame:VectorToObjectSpace(camera.CFrame.LookVector)
-                send("Look",{pitch=math.asin(math.clamp(look.Y,-1,1)),yaw=math.atan2(-look.X,-look.Z)})
+                send("Look",{pitch=math.asin(math.clamp(look.Y,-1,1)),yaw=math.atan2(-look.X,-look.Z),move=move,blocked=false})
             end
         end
         local aimedFov=held and W.aimFov(held.id) or 57
@@ -624,6 +648,7 @@ function Controller.start()
         s.recoil=s.recoil*math.exp(-dt*15) fx.shake=fx.shake*math.exp(-dt*7)
         local shake=fx.settings.lowEffects and 0 or fx.settings.shake*fx.shake
         if living() then camera.CFrame=camera.CFrame*CFrame.Angles(math.rad(s.recoil),math.sin(now*57)*shake*.005,0) end
+        camera.CFrame=camera.CFrame*CFrame.new(Movement.camera(s.sprint and s.sprintMotion or 0,now,fx.settings.shake,fx.settings.lowEffects,isAiming))
         if s.vm then
             if living() then
                 local moving=hum and hum.MoveDirection.Magnitude or 0

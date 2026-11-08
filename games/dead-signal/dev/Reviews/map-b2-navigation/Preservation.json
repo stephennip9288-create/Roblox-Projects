@@ -1,0 +1,69 @@
+{
+  "base": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "runtime": "82aa087f41683e3d96511da75192fc5433f5851a",
+  "engine": false,
+  "maps": [
+    {
+      "map": "Station",
+      "retainedParts": 5771,
+      "changedParts": 0,
+      "changedMetadata": [],
+      "unchangedSections": [
+        "edges",
+        "mounts",
+        "stairs",
+        "windows"
+      ],
+      "partSignatureSha256": "feae0d5eb4b7671a38b99a8d5cfd023c3c262e4857ae965aee549c15efd900dd"
+    },
+    {
+      "map": "Foundry",
+      "retainedParts": 6187,
+      "changedParts": 0,
+      "changedMetadata": [],
+      "unchangedSections": [
+        "edges",
+        "mounts",
+        "stairs",
+        "windows"
+      ],
+      "partSignatureSha256": "5cacd884928880190e1eee5ea015607c3b6e184af6abb95438d012901a12592b"
+    },
+    {
+      "map": "Frost",
+      "retainedParts": 6415,
+      "changedParts": 0,
+      "changedMetadata": [
+        "doors[7].waypoints[3]",
+        "navigation.nodes.door7p3.position"
+      ],
+      "unchangedSections": [
+        "edges",
+        "mounts",
+        "stairs",
+        "windows"
+      ],
+      "partSignatureSha256": "525a7915548db8bbbd72b1f46036f0f9e101208c960c593e866fa71c32804785"
+    }
+  ],
+  "waypoint": {
+    "before": [
+      214.76217651367188,
+      0,
+      127.29830932617188
+    ],
+    "after": [
+      217.08396911621094,
+      0,
+      126.44103240966797
+    ],
+    "worldDisplacement": 2.4750039597494706,
+    "layoutDisplacement": 2.25
+  },
+  "changedExistingFiles": [
+    "games/dead-signal/dev/Source/Runtime/server/Architecture.lua"
+  ],
+  "protectedInputs": 177,
+  "protectedChanges": [],
+  "protectedInventorySha256": "b6c08bc905d90b2bb689c190197246044816b51104d84d62497f0543a62c943b"
+}

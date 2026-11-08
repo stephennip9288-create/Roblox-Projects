@@ -103,6 +103,34 @@ for key,spec in pairs(audioCatalog) do
         else spec.stock=false end
     end
 end
+-- Batch 2 adds semantic layers to the existing bounded mixer, never fake stock.
+for _,map in ipairs({"Station","Foundry","Frost","Lobby"}) do
+    for _,role in ipairs(map=="Lobby" and {"Calm"} or {"Calm","Pressure"}) do
+        local key="Music."..map.."."..role
+        cue(key,"music",0,nil,1,.075,1e6,0,0)
+        audioCatalog[key].loop=true;audioCatalog[key].music=true;audioCatalog[key].b2Asset=true
+    end
+end
+for _,role in ipairs({"Warden","Extraction"}) do
+    local key="Music."..role;cue(key,"music",0,nil,1,.075,1e6,0,0)
+    audioCatalog[key].loop=true;audioCatalog[key].music=true;audioCatalog[key].b2Asset=true
+end
+local atmospherePools={
+    Station={"Atmosphere.Moan","Atmosphere.Station.Radio","Atmosphere.Station.Creak","Atmosphere.Cry","Atmosphere.Stinger"},
+    Foundry={"Atmosphere.Moan","Atmosphere.Foundry.Machinery","Atmosphere.Foundry.Steam","Atmosphere.Foundry.Impact","Atmosphere.Cry","Atmosphere.Stinger"},
+    Frost={"Atmosphere.Moan","Atmosphere.Frost.Relay","Atmosphere.Frost.Creak","Atmosphere.Cry","Atmosphere.Stinger"},Lobby={},
+}
+local reusedAtmosphere={["Atmosphere.Moan"]="Zombie.Groan",["Atmosphere.Station.Radio"]="World.Station.radio",
+    ["Atmosphere.Foundry.Machinery"]="World.Foundry.machinery",["Atmosphere.Frost.Relay"]="World.Frost.relay",
+    ["Atmosphere.Frost.Creak"]="World.Frost.structure"}
+for _,keys in pairs(atmospherePools) do for _,key in ipairs(keys) do if not audioCatalog[key] then
+    cue(key,"atmosphere",0,nil,1,key=="Atmosphere.Stinger" and .04 or .10,190,25,5)
+    audioCatalog[key].atmosphere=true;audioCatalog[key].reuse=reusedAtmosphere[key]
+    audioCatalog[key].b2Asset=not reusedAtmosphere[key]
+end end end
+semantic("Zombie.Breath","Zombie.Groan",{alias=false,config="Zombie.Breath",stock=false,b2Asset=true,range=25,gain=.09,cooldown=5})
+semantic("Zombie.Drag","Zombie.Gear",{alias=false,config="Zombie.Drag",stock=false,b2Asset=true,range=32,gain=.09,cooldown=.8})
+semantic("Enemy.Awareness","Zombie.Groan",{alias=false,config="Enemy.Awareness",reuse="Zombie.Groan",stock=false,range=65,gain=.14,cooldown=3,priority=2})
 local function mechanismKey(phase,class,weapon)
     local def=type(weapon)=="string" and C.Weapons and C.Weapons[weapon]
     local action=class=="Shotgun" and (not def or not def.auto) and "Weapon.Pump" or "Weapon.Bolt"
@@ -123,7 +151,7 @@ for key,spec in pairs(audioCatalog) do
     if spec.priority>=4 then spec.recordingGain=.42 end
     if spec.report then spec.recordingGain=({Pistol=.35,Rifle=.38,SMG=.32,Shotgun=.43,Heavy=.42,Sniper=.43,Energy=.38})[key] end
 end
-local audioGroups={ambience=true,world=true,weapons=true,mechanics=true,infected=true,ui=true}
+local audioGroups={ambience=true,world=true,weapons=true,mechanics=true,infected=true,ui=true,music=true,atmosphere=true}
 local function finite(value,default,minimum,maximum)
     if type(value)~="number" or value~=value or math.abs(value)==math.huge then return default end
     return math.clamp(value,minimum,maximum)
@@ -251,6 +279,16 @@ end
 -- Completion only caches a silent Sound. It never replays an old game event.
 function FX:audioBank(key,options)
     local spec=audioCatalog[key];local phase=textToken(options.phase) or ""
+    if spec.b2Asset then
+        local policy=C.AudioAtmosphere or {};local entry=(policy.assets or {})[key]
+        local universe=tostring(game.GameId or policy.universeId or 0)
+        -- New IDs cannot bypass creator/rights/moderation/experience intake.
+        if type(entry)~="table" or entry.rightsCleared~=true or entry.creatorReviewed~=true
+            or entry.listeningApproved~=true or entry.robloxApproved~=true
+            or type(entry.permissions)~="table" or entry.permissions[universe]~=true or not asset(entry.id) then return nil end
+        return {id=asset(entry.id),gain=finite(entry.gain,1,0,1)}
+    end
+    if spec.reuse then return (C.SoundIds or {})[spec.reuse] end
     local configKey=spec.config or key
     local ids=C.SoundIds or {};local evolution=C.Evolution and C.Evolution.audio or {}
     local bank
@@ -270,6 +308,9 @@ function FX:audioBank(key,options)
     return bank
 end
 -- Reload acknowledgement is preparation only. Real animation phases own Play.
+function FX:audioAvailable(key)
+    return audioCatalog[key]~=nil and hasBank(self:audioBank(key,{}))
+end
 function FX:audioPrepareMechanics(options)
     local requested,ordered={},{}
     for _,phase in ipairs({"mag-out","mag-in","action-open","action-close","shell-in","feed-open","feed-close","cell-out","cell-in","charge","equip","empty"}) do
@@ -343,6 +384,12 @@ function FX:audioDiagnostics()
     result.cached=0;for _ in pairs(a.ready) do result.cached+=1 end
     result.queued=#a.loadQueue;result.epoch=a.epoch
     result.peakBudget=a.peakSum or 0
+    result.musicMode=a.state.mode;result.scareEvents=a.scareEvents or 0
+    result.nextScare=a.nextScare;result.atmosphereVoices=0;result.musicVoices=0
+    for _,v in ipairs(a.voices) do if not v.retired then
+        if v.spec.music then result.musicVoices+=1 end
+        if v.spec.atmosphere then result.atmosphereVoices+=1 end
+    end end
     return result
 end
 function FX:audioInventory()
@@ -504,6 +551,7 @@ function FX:audioReset(token)
     a.voices={};a.last={};a.lastCount=0;a.world={};a.worldNext={};a.state={};a.token=textToken(token)
     a.epoch+=1;a.cancelled={};a.runId=nil;a.suspended=false
     a.duck=1;a.duckUntil=0;a.nextWorld=0;a.nextActivity=0;a.lastTick=os.clock();a.nextClean=0;a.peakSum=0
+    a.nextMusic=0;a.nextScare=nil;a.lastScare=nil;a.lastScareAnchor=nil;a.lastStinger=nil;a.silenceUntil=0;a.foregroundUntil=0;a.musicLevel=0;a.atmosphereSeed=nil
     a.variation={};a.nextVocal=0;a.nextWarm=0;a.rooms=nil;a.warmed={};a.warmCount=0;a.nextOcclusion=0;a.occlusionCursor=0;a.roomRevision=0
 end
 function FX:audioDestroy()
@@ -514,6 +562,7 @@ function FX:audioDestroy()
     for _,v in ipairs(a.voices) do self:audioRetire(v) end
     self:audioLoadClear()
     a.voices={};a.last={};a.lastCount=0;a.world={};a.state={};a.failed={};a.gains={};a.cancelled={};a.epoch+=1
+    a.nextScare=nil;a.lastScareAnchor=nil;a.atmosphereSeed=nil;a.musicLevel=0
     a.rooms=nil;a.variation={};a.warmed={};a.warmCount=0;a.worldNext={};a.peakSum=0
     a.flat:Destroy();a.spatial:Destroy()
 end
@@ -551,6 +600,7 @@ function FX:audioFailed(id,now)
 end
 local function audioZone(v,state)
     local zone=1
+    if v.spec.music then return 1 end
     if v.spec.loop then
         zone=v.spec.exterior and (state.indoors and .28 or 1) or (state.indoors and 1 or .65)
         zone*=.70+.30*finite(state.intensity,0,0,1)
@@ -561,6 +611,10 @@ function FX:audioGain(v)
     local a=self.audio;local group=v.spec.group;local master=finite(self.settings and self.settings.volume,.65,0,1)
     local zone=v.zoneGain or audioZone(v,a.state)
     local duck=v.priority>=4 and 1 or a.duck
+    if v.spec.music then
+        zone*=a.musicLevel or 0
+        if os.clock()<(a.foregroundUntil or 0) then zone*=.35 end
+    elseif v.spec.atmosphere and os.clock()<(a.foregroundUntil or 0) then zone*=.35 end
     local headroom=v.priority>=4 and math.min(1,math.sqrt(2/math.max(2,a.criticalCount or 0))) or math.min(1,math.sqrt(3/math.max(3,a.routineCount or 0)))
     return math.clamp(master*v.gain*(a.gains[group] or 1)*v.fade*zone*duck*headroom*(v.occlusionGain or 1),0,.65)
 end
@@ -607,6 +661,7 @@ function FX:sound(key,position,options)
     if options.runId~=nil and ((a.runId~=nil and textToken(options.runId)~=a.runId)
         or (a.runId==nil and textToken(options.runId)==a.retiredRunId)) then return false,"epoch" end
     if a.suspended and (spec.group~="ui" or options.runId~=nil) then return false,"inactive" end
+    if (a.state.mode=="results" or a.state.mode=="death") and (spec.group=="infected" or spec.group=="mechanics" or spec.report) then return false,"inactive" end
     local master=finite(self.settings and self.settings.volume,.65,0,1)
     if master==0 or (a.gains[spec.group] or 1)==0 then return false,"muted" end
     if prepare then
@@ -650,7 +705,7 @@ function FX:sound(key,position,options)
     -- Critical cues preempt lower priorities immediately; there is no late queue.
     local low=self.settings and self.settings.lowEffects
     local limit=low and 12 or 20;local reserve=low and 6 or 8
-    local groupCap=({ambience=low and 2 or 3,world=2,weapons=low and 3 or 5,mechanics=low and 2 or 3,infected=low and 2 or 4,ui=3})[spec.group]
+    local groupCap=({ambience=low and 2 or 3,world=2,weapons=low and 3 or 5,mechanics=low and 2 or 3,infected=low and 2 or 4,ui=3,music=low and 1 or 2,atmosphere=1})[spec.group]
     local priority=finite(options.priority,spec.priority,0,spec.priority)
     local retrigger=spec.report or key=="Weapon.Shell" or key=="Weapon.Cartridge"
     local routine,group,total,sourceReports=0,0,0,0
@@ -728,7 +783,10 @@ function FX:sound(key,position,options)
     a.voices[#a.voices+1]=v
     pcall(function() v.connection=sound.Ended:Connect(function() v.nearEnded=true;if not farSound or v.farEnded then self:audioRetire(v) end end) end)
     if farSound then pcall(function() v.farConnection=farSound.Ended:Connect(function() v.farEnded=true;if v.nearEnded then self:audioRetire(v) end end) end) end
-    if priority>=4 then a.duck=.28;a.duckUntil=now+.25 end
+    if spec.group=="mechanics" or spec.report or key=="Radio.Transmission" then
+        a.foregroundUntil=math.max(a.foregroundUntil or 0,now+math.min(spec.seconds,2))
+    end
+    if priority>=4 then a.duck=.28;a.duckUntil=now+.25;a.silenceUntil=math.max(a.silenceUntil or 0,now+12) end
     self:audioUpdate(0,true)
     local ok=pcall(function() sound:Play();if farSound then farSound:Play() end end)
     if not ok then self:audioFailed(sound.SoundId,now);self:audioRetire(v);return false,"playback" end
@@ -747,19 +805,113 @@ function FX:audioState(state)
     if token~=a.token or state.map~=a.state.map or runId~=a.runId or map~=a.map then self:audioReset(token) end
     a.runId=runId;a.map=map
     local anchors={}
+    local scareAnchors={}
+    for i,position in ipairs(type(state.atmosphereAnchors)=="table" and state.atmosphereAnchors or {}) do
+        if i>16 then break end;if validPosition(position) then scareAnchors[#scareAnchors+1]=position end
+    end
     if type(state.anchors)=="table" then
         for _,key in ipairs(worldBeds[state.map] or {}) do if validPosition(state.anchors[key]) then anchors[key]=state.anchors[key] end end
         local event=worldEvents[state.map]
         if event and validPosition(state.anchors[event]) then anchors[event]=state.anchors[event] end
     end
     local room=textToken(state.room);local indoors=state.indoors==true
+    local refresh=room~=a.state.room or indoors~=a.state.indoors
+    for key,position in pairs(anchors) do if not a.state.anchors or a.state.anchors[key]~=position then refresh=true end end
+    for key in pairs(a.state.anchors or {}) do if not anchors[key] then refresh=true end end
+    if refresh then a.nextWorld=0 end
     if room~=a.state.room or indoors~=a.state.indoors then a.roomRevision=(a.roomRevision or 0)+1 end
+    local phase=textToken(state.phase) or "Exploration"
+    local mode=state.status=="Eliminated" and "death" or phase=="Results" and "results"
+        or state.map=="Lobby" and "lobby" or phase=="Exfil" and "extraction"
+        or state.boss==true and "warden" or phase=="Preparing" and state.special==true and "special"
+        or phase=="Wave" and "wave" or phase=="Intermission" and "intermission" or "explore"
+    if mode~=a.state.mode then
+        a.silenceUntil=math.max(a.silenceUntil or 0,os.clock()+12);a.nextMusic=0;a.nextWorld=0
+    end
     a.state={map=state.map,room=room,indoors=indoors,active=state.active~=false,
-        intensity=finite(state.intensity,0,0,1),anchors=anchors}
-    a.nextWorld=0
+        intensity=finite(state.intensity,0,0,1),anchors=anchors,atmosphereAnchors=scareAnchors,phase=phase,mode=mode}
+    if not a.nextScare then a.nextScare=os.clock()+30+self:audioAtmosphereRandom()*35 end
 end
 function FX:audioEvent(key,context)
     return self:sound(key,nil,context)
+end
+-- Separate random stream: firing/reloading cannot make scare timing predictable.
+function FX:audioAtmosphereRandom()
+    local a=self.audio
+    a.atmosphereSeed=((a.atmosphereSeed or (math.floor(os.clock()*1000)+a.epoch*7919+97))%2147483646+1)*48271%2147483647
+    return a.atmosphereSeed/2147483647
+end
+function FX:audioAtmosphere(now,dt)
+    local a=self.audio;local state=a.state;local policy=C.AudioAtmosphere
+    if not policy or policy.enabled~=true or not state.active then return end
+    local low=self.settings and self.settings.lowEffects
+    local muted=finite(self.settings and self.settings.volume,.65,0,1)==0
+    local mode=state.mode or "explore"
+    local levels={lobby=.35,explore=.45,intermission=.25,wave=.70,special=.75,warden=.90,extraction=.85,death=.16,results=.20}
+    local goal=muted and 0 or (levels[mode] or .45)
+    a.musicLevel=(a.musicLevel or 0)+(goal-(a.musicLevel or 0))*(1-math.exp(-dt*.8))
+    if now>=(a.nextMusic or 0) then
+        a.nextMusic=now+.5
+        local role=(mode=="wave" or mode=="special" or mode=="warden" or mode=="extraction") and "Pressure" or "Calm"
+        local desired=state.map=="Lobby" and "Music.Lobby.Calm" or "Music."..state.map.."."..role
+        local special=mode=="warden" and "Music.Warden" or mode=="extraction" and "Music.Extraction"
+        if special and self:audioAvailable(special) then desired=special end
+        if not self:audioAvailable(desired) then desired="Music."..state.map..".Calm" end
+        if muted or (a.gains.music or 1)==0 or not self:audioAvailable(desired) then desired=nil end
+        local playing=false
+        for _,v in ipairs(a.voices) do if v.spec.music and not v.retired and v.key==desired then playing=true end end
+        if desired and not playing then
+            local ids=bankList(self:audioBank(desired,{}));local id=ids[1];local entry=id and a.ready[id]
+            if id and (not entry or not entry.sound.IsLoaded) then
+                self:audioRequest(id);self:audioLoadTick(now);entry=a.ready[id]
+            end
+            if not entry or not entry.sound.IsLoaded then
+                -- Keep a working score while a new state is cold/denied. Preload
+                -- is silent and stays within the existing cache/job bounds.
+                local held
+                for _,v in ipairs(a.voices) do if v.spec.music and not v.retired and (not held or v.fade>held.fade) then held=v end end
+                desired=held and held.key or nil
+            end
+        end
+        local active=0;local found=false
+        for _,v in ipairs(a.voices) do if v.spec.music and not v.retired then
+            active+=1;v.targetFade=v.key==desired and 1 or 0;if v.key==desired then found=true end
+        end end
+        -- Normal crossfades at most two owned voices; Low fades out then in.
+        if desired and not found and active<(low and 1 or 2) then
+            self:sound(desired,nil,{source="score",token=a.token})
+        end
+    end
+    if muted then a.nextScare=now+30;return end
+    if now<(a.nextScare or math.huge) then return end
+    local minimum=finite(policy.minimumInterval,35,30,180)*(low and 1.5 or 1)
+    a.nextScare=now+minimum+self:audioAtmosphereRandom()*minimum
+    if mode~="explore" and mode~="intermission" and mode~="wave" then return end
+    if now<(a.silenceUntil or 0) or (a.criticalCount or 0)>0 or now<(a.foregroundUntil or 0)
+        or state.intensity>.85 then return end
+    for _,v in ipairs(a.voices) do if v.spec.atmosphere and not v.retired then return end end
+    local camera=workspace.CurrentCamera;if not camera then return end
+    local positions={}
+    for _,position in ipairs(state.atmosphereAnchors or {}) do
+        local distance=(position-camera.CFrame.Position).Magnitude
+        if distance>=(low and 80 or 64) and distance<=175 then positions[#positions+1]=position end
+    end
+    if #positions==0 then return end -- No invented close threat direction.
+    if #positions>1 then for i=#positions,1,-1 do if positions[i]==a.lastScareAnchor then table.remove(positions,i) end end end
+    local candidates={}
+    for _,key in ipairs(atmospherePools[state.map] or {}) do
+        if key~=a.lastScare and self:audioAvailable(key) then
+            local rare=key=="Atmosphere.Stinger"
+            if not rare or (now-(a.lastStinger or -1e6)>=180 and self:audioAtmosphereRandom()<.08) then candidates[#candidates+1]=key end
+        end
+    end
+    if #candidates==0 then return end
+    local key=candidates[1+math.floor(self:audioAtmosphereRandom()*#candidates)]
+    local position=positions[1+math.floor(self:audioAtmosphereRandom()*#positions)]
+    local v=self:sound(key,position,{source="atmosphere",token=a.token,occluded=true})
+    if v then a.lastScare=key;a.lastScareAnchor=position;a.scareEvents=(a.scareEvents or 0)+1
+        if key=="Atmosphere.Stinger" then a.lastStinger=now end
+    end
 end
 function FX:audioWorld(now)
     local a=self.audio;local state=a.state
@@ -819,8 +971,9 @@ function FX:audioUpdate(_,skipWorld)
     for i=#a.voices,1,-1 do
         local v=a.voices[i]
         if v.position and camera then v.distance=(v.position-camera.CFrame.Position).Magnitude end
-        if v.targetFade>v.fade then v.fade=math.min(v.targetFade,v.fade+dt/.8)
-        else v.fade=math.max(v.targetFade,v.fade-dt/.8) end
+        local fadeSeconds=v.spec.music and (low and 1.4 or 2.5) or .8
+        if v.targetFade>v.fade then v.fade=math.min(v.targetFade,v.fade+dt/fadeSeconds)
+        else v.fade=math.max(v.targetFade,v.fade-dt/fadeSeconds) end
         local zone=audioZone(v,a.state)
         v.zoneGain=(v.zoneGain or zone)+(zone-(v.zoneGain or zone))*(1-math.exp(-dt*3))
         local unavailable=not v.retired and v.sound.Parent and now>=v.loadUntil and not v.sound.IsLoaded
@@ -860,5 +1013,5 @@ function FX:audioUpdate(_,skipWorld)
         for key,entry in pairs(a.last) do if now>=entry.untilTime then a.last[key]=nil;a.lastCount-=1 end end
         for id,untilTime in pairs(a.failed) do if now>=untilTime then a.failed[id]=nil end end
     end
-    if not skipWorld then self:audioWorld(now) end
+    if not skipWorld then self:audioAtmosphere(now,dt);self:audioWorld(now) end
 end

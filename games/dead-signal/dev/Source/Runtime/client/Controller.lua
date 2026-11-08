@@ -56,7 +56,7 @@ function Controller.audioBindings(fx,player)
     function binding:metadata(map,now)
         if now<self.nextMetadata then return end self.nextMetadata=now+1
         local semantics=map and map:FindFirstChild("MapSemantics")
-        self.zones={} self.anchors={} self.worldEvents={}
+        self.zones={} self.anchors={} self.worldEvents={} self.atmosphereAnchors={}
         if not semantics or semantics:GetAttribute("SchemaVersion")~=1 then return end
         local zones=semantics:FindFirstChild("Zones")
         for index,item in ipairs(zones and zones:GetChildren() or {}) do
@@ -83,7 +83,10 @@ function Controller.audioBindings(fx,player)
         for index,item in ipairs(landmarks and landmarks:GetChildren() or {}) do
             if index>48 then break end
             local position=item:GetAttribute("Position")
-            if U.finiteVector(position) then points[item:GetAttribute("Kind") or item.Name]=position end
+            if U.finiteVector(position) then
+                points[item:GetAttribute("Kind") or item.Name]=position
+                if #self.atmosphereAnchors<16 then self.atmosphereAnchors[#self.atmosphereAnchors+1]=position end
+            end
         end
         self.anchors={
             ["World.Station.radio"]=points.AntennaField,["World.Station.power"]=room("generation"),["World.Station.wind"]=room("antenna"),
@@ -109,7 +112,7 @@ function Controller.audioBindings(fx,player)
             self:clearActors() self.map=map self.character=character self.runId=runId self.mapId=mapId
             self.epoch+=1 self.token="scene:"..player.UserId..":"..self.epoch self.nextMetadata=0 self.events={}
         end
-        local active=not self.blocked and not state.travelling and state.phase~="Results" and state.status~="Eliminated"
+        local active=not self.blocked and not state.travelling
         if not active then
             if self.active~=false then self:clearActors();fx:audioState({active=false,token=self.token}) end
             self.active=false return
@@ -124,7 +127,10 @@ function Controller.audioBindings(fx,player)
             end
         end end
         fx:audioState({map=mapId,runId=runId,token=self.token,active=true,room=room,indoors=indoors==true,
-            intensity=math.clamp((state.round or 0)/30+(state.phase=="Wave" and .15 or 0),0,1),anchors=self.anchors})
+            intensity=math.clamp((state.round or 0)/30+(state.phase=="Wave" and .15 or 0),0,1),anchors=self.anchors,
+            phase=state.phase,status=state.status,boss=type(state.boss)=="table",special=state.special~=nil and state.special~=false,
+            atmosphereAnchors=self.atmosphereAnchors})
+        if state.phase=="Results" or state.status=="Eliminated" then self:clearActors();return end
         -- World activity follows actual visual-event edges. Omit auto-activity
         -- anchors so the mixer cannot also create an unrelated distant cue.
         for _,event in ipairs(self.worldEvents or {}) do
@@ -169,20 +175,41 @@ function Controller.audioBindings(fx,player)
             if model:GetAttribute("Alpha") and not record.alpha and distance<85 then
                 record.alpha=true fx:audioEvent("Enemy.Alpha",self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life}))
             end
+            local awareness=model:GetAttribute("AwarenessAt")
+            if type(awareness)=="number" and awareness==awareness and awareness~=record.awarenessAt then
+                record.awarenessAt=awareness -- Consume even if stale/budgeted: never replay later.
+                if tostring(model:GetAttribute("AwarenessRunId"))==runId
+                    and model:GetAttribute("AwarenessTargetUserId")==player.UserId
+                    and math.abs(serverNow-awareness)<=1.5 and distance<65
+                    and now>=(record.nextAwareness or 0) and now>=(self.nextAwareness or 0) then
+                    record.nextAwareness=now+8;self.nextAwareness=now+2.5
+                    fx:audioEvent(kind=="Hound" and "Hound.Snarl" or "Enemy.Awareness",self:context({position=actorRoot.Position,sourceId=sourceId,
+                        token=record.life,phase=tostring(awareness)}))
+                end
+            end
             if now>=record.nextRoutine and distance<70 and routine<2 then
-                routine+=1 record.nextRoutine=now+4+(enemyId%7)*.5
-                fx:audioEvent(kind=="Hound" and "Hound.Snarl" or "Zombie.Groan",self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life,kind=kind,routine=true}))
+                routine+=1;record.routineSeed=((record.routineSeed or enemyId+1)*48271)%2147483647
+                record.nextRoutine=now+5+record.routineSeed/2147483647*8
+                local cue=kind=="Hound" and "Hound.Snarl" or "Zombie.Groan"
+                if kind~="Hound" and distance<22 and fx.audioAvailable and fx:audioAvailable("Zombie.Breath")
+                    and record.routineSeed%3==0 then cue="Zombie.Breath" end
+                fx:audioEvent(cue,self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life,kind=kind,routine=true}))
             end
             -- NPCs do not receive Roblox's default player-footstep script.
             -- Material slots remain silent until an approved recording is set.
             local hum=model:FindFirstChildOfClass("Humanoid")
             local material=hum and hum.FloorMaterial
-            if distance<38 and (actorRoot.Position-record.position).Magnitude>.15 and now>=(record.stepAt or 0)
+            local moved=(actorRoot.Position-record.position).Magnitude
+            if moved>.03 and moved<10 then record.travel=(record.travel or 0)+moved
+            elseif moved>=10 then record.travel=0 end
+            if distance<38 and moved>.03 and (record.travel or 0)>=2 and now>=(record.stepAt or 0)
                 and material and material~=Enum.Material.Air and footsteps<2 then
-                footsteps+=1 record.stepAt=now+(kind=="Hound" and .35 or .55)
+                footsteps+=1 record.stepAt=now+(kind=="Hound" and .35 or .55);record.travel=0
                 local context=self:context({position=actorRoot.Position,sourceId=sourceId,token=record.life,material=material.Name,kind=kind})
-                fx:audioEvent("Zombie.Footstep",context)
-                if kind~="Hound" then fx:audioEvent("Zombie.Gear",context) end
+                fx:audioEvent(kind=="Crawler" and "Zombie.Drag" or "Zombie.Footstep",context)
+                if kind~="Hound" and now>=(record.gearAt or 0) then
+                    record.gearAt=now+1.5+(enemyId%3)*.3;fx:audioEvent("Zombie.Gear",context)
+                end
             end
             record.position=actorRoot.Position
         end
@@ -202,6 +229,10 @@ function Controller.audioBindings(fx,player)
             fx:audioEvent("Warden.Phase",self:context({sourceId="warden:"..state.boss.phase}))
         end
         self.phase=state.phase self.round=state.round self.signal=state.signal==true self.bossPhase=state.boss and state.boss.phase
+    end
+    function binding:results(state)
+        local result=table.clone(state or {});result.phase="Results";result.travelling=false
+        self:set(result,false)
     end
     function binding:destroy()
         if self.destroyed then return end self:clearActors() fx:audioReset(self.token)
@@ -508,7 +539,7 @@ function Controller.start()
         elseif kind=="Cue" then if not audioBindings or data.name~="Round" then fx:sound(data.name) end
         elseif kind=="Points" then if s.state then s.state.points=data.total ui.points.Text=data.total.."  P" end
         elseif kind=="Boards" then ui.boards=data if ui.tab=="Records" then ui:open("Records") end
-        elseif kind=="Results" then resetInput() ui:results(data) if audioBindings then audioBindings:set(s.state,true) end
+        elseif kind=="Results" then resetInput() ui:results(data) if audioBindings then audioBindings:results(s.state) end
         elseif kind=="Shot" then
             if data.runId~=nil and s.state and data.runId~=s.state.runId then return end
             local own=data.player==player.UserId local origin=data.origin

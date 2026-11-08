@@ -54,6 +54,8 @@ class AudioSupplementIntake(unittest.TestCase):
         expected={'shared/Config.lua':'1c7a4dffde21e4cfd3d383d9a0304d06ceb585b2','client/Effects.lua':'eba3364383e7bef7fc7fbe831287b257bdd0d43a','shared/ControlSettings.lua':'9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996'}
         for name,sha in expected.items():
             source=(DEV/'Source/Runtime'/name).read_bytes()
+            from audio_b2_scope import runtime_baseline
+            source=runtime_baseline('Source/Runtime/'+name,source)
             if name=='shared/Config.lua':source=bindings.baseline(staged_config(source))
             self.assertEqual(bindings.blob(source),sha)
 

@@ -309,4 +309,11 @@ if game.GameId==10770732078 then
     C.SoundIds["Enemy.Entry.Contact"]={gain=1,variants={"rbxassetid://128395906553592","rbxassetid://126280091004313"}}
 end
 -- END DS-B1-001 REVIEWED PRODUCTION AUDIO ACTIVATION
+-- START BATCH 2 AUDIO POLICY
+-- Existing approved SoundIds/permissions are untouched. New assets require intake.
+C.AudioAtmosphere={enabled=true,universeId=game.GameId,minimumInterval=35,assets={}}
+-- Populate assets only after creator/rights/listening/moderation and exact-universe permission review.
+-- {id="rbxassetid://...",rightsCleared=true,creatorReviewed=true,listeningApproved=true,
+--  robloxApproved=true,permissions={["10771141095"]=true},gain=1}
+-- END BATCH 2 AUDIO POLICY
 return C

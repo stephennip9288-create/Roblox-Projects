@@ -6,7 +6,7 @@
   ],
   "design_issue": 62,
   "baseline": "7aaf323de6153134df2154c7ae3b1613a596495b",
-  "candidate_source_commit": "7238fcd303b68c47d95aee0e68d39d0cfa5d15fb",
+  "candidate_source_commit": "528f99c7a0cc5abe031df1ff11ce91064e570022",
   "required_records": 61,
   "retained_records": 56,
   "changes": {
@@ -22,8 +22,8 @@
     },
     "Source/Runtime/server/Game.lua": {
       "base_blob": "8991e4f7c02f614375e4e3d91694bc0fdccae246",
-      "candidate_blob": "05b37df84338e2f862a80358af3601c3d7c1fbd8",
-      "candidate_sha256": "03ba4c8fa087e2eb80549bda9a54e3c8054cfa7f6292f2808716ad6d9e6d3f6d"
+      "candidate_blob": "5ed98222efca69bab5dd570794436d757901475b",
+      "candidate_sha256": "2497a0d8f791a6b07ac0646e494bca4fae8a250d9beda1cfc37deeeeb07c0ab3"
     },
     "Source/Runtime/server/Network.lua": {
       "base_blob": "fac780a6461577066260b21067ee7f6829a9f3fb",

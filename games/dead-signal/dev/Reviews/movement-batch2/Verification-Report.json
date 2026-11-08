@@ -1,250 +1,250 @@
 {
   "baseline": "7aaf323de6153134df2154c7ae3b1613a596495b",
-  "tested_source_commit": "7238fcd303b68c47d95aee0e68d39d0cfa5d15fb",
+  "tested_source_commit": "528f99c7a0cc5abe031df1ff11ce91064e570022",
   "implementation_status": "Ready for MAIN source review/intake; draft PR until reviewed B2 provenance path",
   "suites": [
     {
       "suite": "loading",
       "passed": true,
       "assertions": 63,
-      "seconds": 0.272
+      "seconds": 0.136
     },
     {
       "suite": "loadingpreview",
       "passed": true,
       "assertions": 36,
-      "seconds": 0.212
+      "seconds": 0.132
     },
     {
       "suite": "evolution",
       "passed": true,
       "assertions": 2959,
-      "seconds": 4.333
+      "seconds": 3.566
     },
     {
       "suite": "events",
       "passed": true,
       "assertions": 18,
-      "seconds": 0.198
+      "seconds": 0.146
     },
     {
       "suite": "presentation",
       "passed": true,
       "assertions": 55,
-      "seconds": 0.216
+      "seconds": 0.128
     },
     {
       "suite": "director",
       "passed": true,
       "assertions": 431,
-      "seconds": 0.033
+      "seconds": 0.026
     },
     {
       "suite": "server",
       "passed": true,
       "assertions": 35,
-      "seconds": 0.325
+      "seconds": 0.16
     },
     {
       "suite": "navigation",
       "passed": true,
       "assertions": 13,
-      "seconds": 0.166
+      "seconds": 0.163
     },
     {
       "suite": "pursuit",
       "passed": true,
       "assertions": 90,
-      "seconds": 1.017
+      "seconds": 0.914
     },
     {
       "suite": "rigs",
       "passed": true,
       "assertions": 222,
-      "seconds": 0.169
+      "seconds": 0.162
     },
     {
       "suite": "weapons",
       "passed": true,
       "assertions": 7929,
-      "seconds": 0.584
+      "seconds": 0.442
     },
     {
       "suite": "arrival",
       "passed": true,
       "assertions": 28,
-      "seconds": 0.147
+      "seconds": 0.134
     },
     {
       "suite": "extraction",
       "passed": true,
       "assertions": 20,
-      "seconds": 0.029
+      "seconds": 0.02
     },
     {
       "suite": "map_remaster",
       "passed": true,
       "assertions": 259384,
-      "seconds": 14.204
+      "seconds": 13.246
     },
     {
       "suite": "map_batch11",
       "passed": true,
       "assertions": 26387,
-      "seconds": 32.282
+      "seconds": 29.204
     },
     {
       "suite": "enemy-lifecycle",
       "passed": true,
       "assertions": 77,
-      "seconds": 0.181
+      "seconds": 0.137
     },
     {
       "suite": "enemy-path-recovery",
       "passed": true,
       "assertions": 48,
-      "seconds": 0.133
+      "seconds": 0.123
     },
     {
       "suite": "combat-ui",
       "passed": true,
       "assertions": 638775,
-      "seconds": 20.898
+      "seconds": 16.337
     },
     {
       "suite": "combat-input",
       "passed": true,
       "assertions": 63,
-      "seconds": 0.573
+      "seconds": 0.38
     },
     {
       "suite": "touch",
       "passed": true,
       "assertions": 512,
-      "seconds": 0.041
+      "seconds": 0.031
     },
     {
       "suite": "integration-contracts",
       "passed": true,
       "assertions": 501,
-      "seconds": 4.523
+      "seconds": 3.705
     },
     {
       "suite": "weapons-batch1",
       "passed": true,
       "assertions": 64271,
-      "seconds": 28.515
+      "seconds": 26.513
     },
     {
       "suite": "infected-batch1",
       "passed": true,
       "assertions": 2501,
-      "seconds": 2.684
+      "seconds": 2.443
     },
     {
       "suite": "infected-entrances",
       "passed": true,
       "assertions": 71,
-      "seconds": 1.28
+      "seconds": 1.204
     },
     {
       "suite": "infected-geometry",
       "passed": true,
       "assertions": 25717,
-      "seconds": 35.844
+      "seconds": 31.166
     },
     {
       "suite": "enemy-b11-runtime",
       "passed": true,
       "assertions": 1069,
-      "seconds": 13.231
+      "seconds": 11.364
     },
     {
       "suite": "enemy-b11-appearance",
       "passed": true,
       "assertions": 6039,
-      "seconds": 0.807
+      "seconds": 0.73
     },
     {
       "suite": "enemy-b11-admission",
       "passed": true,
       "assertions": 29,
-      "seconds": 1.027
+      "seconds": 0.918
     },
     {
       "suite": "enemy-b11-spatial",
       "passed": true,
       "assertions": 3441,
-      "seconds": 13.167
+      "seconds": 12.659
     },
     {
       "suite": "enemy-b11-geometry",
       "passed": true,
       "assertions": 210,
-      "seconds": 30.289
+      "seconds": 28.862
     },
     {
       "suite": "map-window-geometry",
       "passed": true,
       "assertions": 7453,
-      "seconds": 13.105
+      "seconds": 12.106
     },
     {
       "suite": "enemy-b1-r6",
       "passed": true,
       "assertions": 15359,
-      "seconds": 0.784
+      "seconds": 0.729
     },
     {
       "suite": "enemy-b1-entry-followup",
       "passed": true,
       "assertions": 160,
-      "seconds": 9.812
+      "seconds": 8.48
     },
     {
       "suite": "audio",
       "passed": true,
       "assertions": 4433,
-      "seconds": 0.497
+      "seconds": 0.474
     },
     {
       "suite": "audio-quality-b11",
       "passed": true,
       "assertions": 800,
-      "seconds": 0.256
+      "seconds": 0.224
     },
     {
       "suite": "audio-corrections-b1",
       "passed": true,
       "assertions": 2121,
-      "seconds": 0.79
+      "seconds": 0.724
     },
     {
       "suite": "audio-supplement-intake",
       "passed": true,
       "assertions": 417,
-      "seconds": 0.092
+      "seconds": 0.084
     },
     {
       "suite": "production-audio",
       "passed": true,
       "assertions": 191,
-      "seconds": 0.121
+      "seconds": 0.12
     },
     {
       "suite": "batch1-integration",
       "passed": true,
       "assertions": 54,
-      "seconds": 3.845
+      "seconds": 3.476
     },
     {
       "suite": "movement-batch2",
       "passed": true,
-      "assertions": 10789,
-      "seconds": 0.456
+      "assertions": 10790,
+      "seconds": 0.302
     }
   ],
-  "unit_assertions": 1082771,
+  "unit_assertions": 1082772,
   "root_python": {
     "total": 98,
     "passed": 98
@@ -284,7 +284,7 @@
     "Source/Runtime/server/Enemies.lua": "6b31c3fbc8405f594b3210c2abbd7ec19713624e92cb3ea8ad8b138d1e8e1dd9",
     "Source/Runtime/server/EnemyRigs.lua": "1d5e592c80f777b24e66c658af37a1ee87e43d42156008833edfbfc85875b4e4",
     "Source/Runtime/server/ExtractionZone.lua": "2bb335006623fb7ccb626d48ad0ec23cd70092de574aa31cb89ad75aec0abd09",
-    "Source/Runtime/server/Game.lua": "03ba4c8fa087e2eb80549bda9a54e3c8054cfa7f6292f2808716ad6d9e6d3f6d",
+    "Source/Runtime/server/Game.lua": "2497a0d8f791a6b07ac0646e494bca4fae8a250d9beda1cfc37deeeeb07c0ab3",
     "Source/Runtime/server/GraphicsService.lua": "908ca31e1fa25895d2d48630873bc3b8cf5e9bf51ac58383abe9c93ac04c7ee1",
     "Source/Runtime/server/HoundRig.lua": "c89a5b40b84413f205e33fed8b63d0035c5ec17710d74684e45d62cf4c1ef2fb",
     "Source/Runtime/server/InfectedWardrobe.lua": "0ad38f8ec3ab02b9a6a2a41e74c14b4df8f7aed4a37ffc10c0b593226af91d8d",
@@ -374,7 +374,7 @@
       "patched_prop_chunk_count": 1,
       "untouched_chunk_count": 1513,
       "source_sha256": "a3fc4cab05e07d9a2901757007a6b52b7cf3e9acf2cbb49858a52d0a961f596c",
-      "candidate_sha256": "b3babbb0a4c46ffb39b103d7b941672265e5bb730f22600b7289942f914eb673",
+      "candidate_sha256": "634238a517761a5437ea2b6747c40e0254e86e88a27aa0923c0678f3a0a12b4d",
       "all_untouched_chunks_byte_identical": true,
       "place": "dispatch",
       "environment": "staging",
@@ -423,7 +423,7 @@
       "patched_prop_chunk_count": 1,
       "untouched_chunk_count": 1496,
       "source_sha256": "b7181f8204d43dcccb37aa79797ff2a7408f4c9bc9751f3d2baf07ebd4d4d515",
-      "candidate_sha256": "d2944e09b39d3ef7b5c7e3306208215285b81a37e61961b7a4de06dca5747041",
+      "candidate_sha256": "3d70ac0c60939cb6a2ec1402507fa308acb2da66d8e0ee2e985733cb19c398b1",
       "all_untouched_chunks_byte_identical": true,
       "place": "blackwater",
       "environment": "staging",
@@ -472,7 +472,7 @@
       "patched_prop_chunk_count": 1,
       "untouched_chunk_count": 1500,
       "source_sha256": "b1b89378c2ed8cc54d5aa3b95ec6419eb4a6e23b687046ef36915d320a02127f",
-      "candidate_sha256": "881c8bee71946858cec551ce177e2e37a718db462b1dea93a8cf9d161ac6016f",
+      "candidate_sha256": "b6011033b0da471b3bed15656d37bd2acbc78ab02e2a68a2a3ba64837515721b",
       "all_untouched_chunks_byte_identical": true,
       "place": "cinderworks",
       "environment": "staging",
@@ -521,7 +521,7 @@
       "patched_prop_chunk_count": 1,
       "untouched_chunk_count": 1500,
       "source_sha256": "445bd3403794f65214822161b14e287363f21d7ff3713ee4079573228d78d168",
-      "candidate_sha256": "c08a049918e7981bfc20c9bffc3b0d5648208e8bd57f532dcced42951ce0ed6e",
+      "candidate_sha256": "de9d46327f3a4ce3b7baa373a641cfac64d2c4cf68ed9f16ace62359df5b41a7",
       "all_untouched_chunks_byte_identical": true,
       "place": "whiteout",
       "environment": "staging",
@@ -584,5 +584,11 @@
     "MAIN reviewed B2 provenance/delta path, shared Controller and test runner intake with #70 and ENEMY/MAP",
     "Native all-map solo/2/4-client latency/replication, controls, stamina, revive/extraction and 40-enemy pursuit",
     "Actual gameplay acceptance of recommended speeds and camera/HUD comfort"
-  ]
+  ],
+  "negative_control": {
+    "prior_source_commit": "006580e75eaeaaf78f8a7a7bc2175fb56c592496",
+    "regression": "exhaustion cannot replace the stricter observed reverse cap",
+    "old_implementation_failed_as_expected": true,
+    "final_movement_assertions": 10790
+  }
 }

@@ -213,8 +213,8 @@ function N.clearRoute(ctx,e,target)
         local collider=e.model:FindFirstChild("BodyCollider")
         depth=math.max(a.AgentRadius*2,collider and collider.Size.Z or 0)
         high=math.max(high,b.high.Y)
-        -- Walkable slope contact needs step skin at the leading sole. Upper
-        -- body, head and full lateral/longitudinal art envelope are still swept.
+        -- Walkable slope contact needs step skin at the leading sole. Head,
+        -- lateral silhouette and retained physical depth are still swept.
         low=-N.rootHeight(e)+math.min(1.2,.35+math.abs(delta.Y)/math.max(.1,distance)*depth*.5)
     end
     local direction=distance>.01 and flat(delta).Unit or (e.root.CFrame and e.root.CFrame.LookVector or Vector3.new(0,0,-1))

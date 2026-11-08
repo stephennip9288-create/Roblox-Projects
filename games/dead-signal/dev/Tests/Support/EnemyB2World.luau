@@ -2,10 +2,14 @@
 -- B1 conservatively boxes ramps. B2 slope tests additionally use actual six-vertex
 -- WedgePart hulls (face normals + edge cross axes), with a swept world-axis box.
 local G=require('./EnemyB11Geometry');local r=require('@lune/roblox');local V=r.Vector3
-local B={};local axes={V.xAxis,V.yAxis,V.zAxis}
+local B={};local axes={V.xAxis,V.yAxis,V.zAxis};local filterSets=setmetatable({},{__mode='k'})
 local function included(part,p)
- local matched=false
- for _,x in ipairs(p.FilterDescendantsInstances or {}) do if part==x or part:IsDescendantOf(x) then matched=true;break end end
+ local cached=filterSets[p];local list=p.FilterDescendantsInstances
+ if not cached or cached.list~=list then
+  cached={list=list,roots={}};for _,x in ipairs(list or {}) do cached.roots[x]=true end;filterSets[p]=cached
+ end
+ local matched=false;local at=part
+ while at do if cached.roots[at] then matched=true;break end;at=at.Parent end
  return p.FilterType==r.Enum.RaycastFilterType.Include and matched or p.FilterType~=r.Enum.RaycastFilterType.Include and not matched
 end
 local function wedge(shape)
@@ -45,11 +49,16 @@ local function cast(shape,center,half,delta)
  return enter
 end
 function B.world(map)
- local world=G.world(map);local original=world.Blockcast
+ local world=G.world(map);local shapeBuckets={};local cell=24
+ for _,shape in ipairs(world.allShapes) do
+  for x=math.floor(shape.xmin/cell),math.floor(shape.xmax/cell) do for z=math.floor(shape.zmin/cell),math.floor(shape.zmax/cell) do
+   local key=x..':'..z;shapeBuckets[key]=shapeBuckets[key] or {};table.insert(shapeBuckets[key],shape)
+  end end
+ end
  -- Lune's Vector3/CFrame arithmetic is float32. Adjacent floor triangles can
  -- disagree at their shared edge by a few micrometres. Use a 0.0001-stud plane
  -- tolerance on real convex parts, never a logical polygon or filled hole.
- local floorBuckets={};local cell=24
+ local floorBuckets={}
  for _,part in ipairs(map.floorParts) do
   local h=part.Size*.5;local cf=part.CFrame;local x,y,z=cf.RightVector,cf.UpVector,-cf.LookVector
   local ex=math.abs(x.X)*h.X+math.abs(y.X)*h.Y+math.abs(z.X)*h.Z+.001
@@ -73,12 +82,22 @@ function B.world(map)
   return enter
  end
  function world:Blockcast(cf,size,delta,params)
-  local hit=original(self,cf,size,delta,params)
-  if not hit or not hit.Instance:IsA('WedgePart') then return hit end
+  self.probes+=1
+  local lo,hi=cf.Position-size*.5,cf.Position+size*.5
+  local x0,x1=math.min(lo.X,lo.X+delta.X),math.max(hi.X,hi.X+delta.X)
+  local y0,y1=math.min(lo.Y,lo.Y+delta.Y),math.max(hi.Y,hi.Y+delta.Y)
+  local z0,z1=math.min(lo.Z,lo.Z+delta.Z),math.max(hi.Z,hi.Z+delta.Z)
   local nearest,part=math.huge,nil
-  for _,shape in ipairs(self.shapes) do if shape.enemyCollide and shape.part.CanCollide and included(shape.part,params) then
-   local t=cast(shape,cf.Position,size*.5,delta)
-   if t and t<nearest then nearest=t;part=shape.part end
+  local seen={}
+  for x=math.floor(x0/cell),math.floor(x1/cell) do for z=math.floor(z0/cell),math.floor(z1/cell) do
+   for _,shape in ipairs(shapeBuckets[x..':'..z] or {}) do if not seen[shape] then
+    seen[shape]=true
+    if shape.enemyCollide and shape.part.CanCollide and x0<shape.xmax and x1>shape.xmin and y0<shape.ymax and y1>shape.ymin
+     and z0<shape.zmax and z1>shape.zmin and included(shape.part,params) then
+     local t=cast(shape,cf.Position,size*.5,delta)
+     if t and t<nearest then nearest=t;part=shape.part end
+    end
+   end end
   end end
   self.lastBlock=part
   return part and {Instance=part,Position=cf.Position+delta*nearest} or nil

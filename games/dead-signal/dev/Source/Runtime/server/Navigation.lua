@@ -204,7 +204,14 @@ function N.clearRoute(ctx,e,target)
     local low=-N.rootHeight(e)+.35;local high=a.AgentHeight-N.rootHeight(e)-.35
     local width,depth=a.AgentRadius*2,.6
     if e.model:FindFirstChild("HumanoidRootPart") then
-        local b=N.rigBounds(e,"Walk","Approach");width=b.high.X-b.low.X;depth=b.high.Z-b.low.Z
+        local b=N.rigBounds(e,"Walk","Approach");width=math.max(width,b.high.X-b.low.X)
+        -- Long noncolliding hands, canine muzzles and tails must not become
+        -- invisible walls against the slope behind/below a walking actor.
+        -- Keep the retained radius and root-bound physical collider for depth;
+        -- retain lateral silhouette/head clearance and the stricter full-rig
+        -- traversal sweeps for accepted window animations.
+        local collider=e.model:FindFirstChild("BodyCollider")
+        depth=math.max(a.AgentRadius*2,collider and collider.Size.Z or 0)
         high=math.max(high,b.high.Y)
         -- Walkable slope contact needs step skin at the leading sole. Upper
         -- body, head and full lateral/longitudinal art envelope are still swept.
@@ -237,6 +244,15 @@ function N.clearRoute(ctx,e,target)
                 local contact=workspace:Raycast(sample.position+UP,Vector3.new(0,-40,0),floorParams)
                 if contact and math.abs(contact.Position.Y-sample.height)<.05 then support[part]=true;break end
             end
+            -- At the foot of a slope the centerline can already be on flat
+            -- ground while the rear of the physical collider still touches
+            -- the ramp. Confirm real support beneath its longitudinal ends,
+            -- within the same bounded step allowance; never ignore a ceiling.
+            if not support[part] then for _,t in ipairs({0,1}) do for _,offset in ipairs({-depth*.5,depth*.5}) do
+                local at=e.root.Position+delta*t+direction*offset
+                local contact=workspace:Raycast(at+UP*2,Vector3.new(0,-40,0),floorParams)
+                if contact and math.abs(contact.Position.Y-(feet+delta.Y*t))<=1.2 then support[part]=true end
+            end end end
         end
         if not support[part] then return false end
         p=supportFilter(ctx.map,support)
@@ -247,7 +263,8 @@ function N.pursuitAgent(e)
     local agent=N.agent(e)
     if e.entered~=false and e.model:FindFirstChild("HumanoidRootPart") then
         local b=N.rigBounds(e,"Walk","Approach")
-        agent.AgentRadius=math.ceil(math.max(agent.AgentRadius,(b.high.X-b.low.X)*.5,(b.high.Z-b.low.Z)*.5))
+        local collider=e.model:FindFirstChild("BodyCollider")
+        agent.AgentRadius=math.ceil(math.max(agent.AgentRadius,collider and math.max(collider.Size.X,collider.Size.Z)*.5 or 0))
         agent.AgentHeight=math.ceil(math.max(agent.AgentHeight,b.high.Y+N.rootHeight(e)))
     end
     return agent

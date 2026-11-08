@@ -66,6 +66,9 @@ for _,id in ipairs(onlyMap and {onlyMap} or {'Station','Foundry','Frost'}) do
   R.evolve(e);model:PivotTo(CF.new(start.X,start.Y+N.rootHeight(e),start.Z))
   local owner={ctx={map=map,run={id=1},players={}},list={[1]=e},pathBudget=4,activePaths=0}
   local arrived=false
+  -- Whiteout's longest real corridor exceeds 240 studs. The bounded mover
+  -- needs enough ticks for that route; a 160-tick cap falsely fails progress.
+  steps=math.max(steps,math.ceil((target-start).Magnitude/1.5)*2+80)
   for tick=1,steps do
    now=tick*.15;owner.pathBudget=4;world.lastBlock=nil
    N.move(owner,e,target+V.yAxis*N.rootHeight(e),now)

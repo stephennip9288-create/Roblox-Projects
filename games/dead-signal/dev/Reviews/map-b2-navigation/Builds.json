@@ -1,0 +1,43 @@
+{
+  "runtimeCommit": "82aa087f41683e3d96511da75192fc5433f5851a",
+  "environment": "staging",
+  "published": false,
+  "builds": [
+    {
+      "place": "dispatch",
+      "bytes": 2761208,
+      "sha256": "149a964bcd7cfe6ffd66f56115edd2c30ae185a48bfd07e6ea5f9cf379452bb6",
+      "records": 61,
+      "unchangedChunks": 1513,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "place": "blackwater",
+      "bytes": 2732287,
+      "sha256": "1f24068fc075485eeb12f5abd0b6114d228ae6aa4398c5c9b2e750a5812906fe",
+      "records": 61,
+      "unchangedChunks": 1496,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "place": "cinderworks",
+      "bytes": 2740132,
+      "sha256": "0a343e7b52d3f304fc943983ef377ff560752518b653ff25dedba1909fb4d5e9",
+      "records": 61,
+      "unchangedChunks": 1500,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    },
+    {
+      "place": "whiteout",
+      "bytes": 2741591,
+      "sha256": "c898fc6be6c9977599c2e875b829390b5c60c7a4db599da53a5533281efafb37",
+      "records": 61,
+      "unchangedChunks": 1500,
+      "rawPreservation": true,
+      "propertyFidelity": true
+    }
+  ]
+}

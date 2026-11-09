@@ -1,13 +1,72 @@
 {
   "schema": 1,
-  "kind": "offline-control-checks-not-a-publication",
-  "full_audio_gate_synthetic_authorization_positive_and_negative_tests_passed": true,
-  "all_sixteen_asset_evidence_required": true,
+  "kind": "offline-immutable-source-control-rehearsal",
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
   "actual_staging_authorization": false,
   "production_authorization": false,
-  "actual_owner_native_report_reviewed": true,
-  "studio_probe_service_double_tests_retained": true,
-  "no_network_publisher_called_by_tests": true,
-  "publishing_attempted": false,
-  "trusted_immutable_source_rehearsal": "Awaiting exact source commit and source-specific CI; before final owner authorization."
+  "network_publish_calls": 0,
+  "CI_boundary": "Current GitHub response snapshot, all five exact source runs; real verifier executed with explicit get callback.",
+  "authorization_boundary": "Synthetic approval only in temporary control copy; real admission unchanged and blocked.",
+  "real_unauthorized_record_rejected": true,
+  "trusted_controls_install_exact_immutable_source": true,
+  "post_test_runtime_tamper_rejected": true,
+  "trusted_controls_reinstalled_after_candidate_tests": true,
+  "real_four_candidate_and_four_recovery_preflight": true,
+  "simulated_success_maps_before_dispatch": [
+    {
+      "place": "blackwater",
+      "mode": "candidate",
+      "sha256": "40ea745ae4126a8259b54eebaac235b8aeaef594234e06891c295d45ed2be695"
+    },
+    {
+      "place": "cinderworks",
+      "mode": "candidate",
+      "sha256": "1ea386060417ff3fc9536a4022c436417a6ce7928bac25252c729cd20faf43fb"
+    },
+    {
+      "place": "whiteout",
+      "mode": "candidate",
+      "sha256": "cf2fda90a203321b33be5c6a29111c875e972b19d373743869f7f63d0c1edf9e"
+    },
+    {
+      "place": "dispatch",
+      "mode": "candidate",
+      "sha256": "c2f1574bb68157f6997aaa250a368fd79f934651a306361e1865963346b518eb"
+    }
+  ],
+  "simulated_partial_failure_restored_all_four_exact_current_rollback_files": [
+    {
+      "place": "blackwater",
+      "mode": "candidate",
+      "sha256": "40ea745ae4126a8259b54eebaac235b8aeaef594234e06891c295d45ed2be695"
+    },
+    {
+      "place": "cinderworks",
+      "mode": "candidate",
+      "sha256": "1ea386060417ff3fc9536a4022c436417a6ce7928bac25252c729cd20faf43fb"
+    },
+    {
+      "place": "blackwater",
+      "mode": "rollback",
+      "sha256": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747"
+    },
+    {
+      "place": "cinderworks",
+      "mode": "rollback",
+      "sha256": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b"
+    },
+    {
+      "place": "whiteout",
+      "mode": "rollback",
+      "sha256": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00"
+    },
+    {
+      "place": "dispatch",
+      "mode": "rollback",
+      "sha256": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413"
+    }
+  ],
+  "real_admission_still_unauthorized": true,
+  "engine_gameplay_verified": false,
+  "publishing_attempted": false
 }

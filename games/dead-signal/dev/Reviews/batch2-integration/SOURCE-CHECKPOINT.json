@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "kind": "audio-active-source-preparation",
-  "reviewed_source_sha": null,
-  "source_SHA_pending_commit": true,
+  "reviewed_source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+  "source_SHA_pending_commit": false,
   "retained_disabled_source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
   "previous_verification_head": "6c2f333de98b078c79c156ce384f80c3cf245532",
   "main_unchanged": "7aaf323de6153134df2154c7ae3b1613a596495b",
@@ -10,5 +10,10 @@
   "gameplay_only_proposal_withdrawn": true,
   "native_asset_evidence_reviewed": true,
   "native_gameplay_verified": false,
-  "publication_authorized": false
+  "publication_authorized": false,
+  "owner_desired_audio_active_source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+  "technical_verification_complete": true,
+  "ready_for_owner_authorization": true,
+  "admission_file": "games/dead-signal/releases/batch-2-staging.json",
+  "source_SHA_is_not_a_branch_or_later_evidence_HEAD": true
 }

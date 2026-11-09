@@ -7,7 +7,7 @@
     "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6729154438",
     "https://github.com/stephennip9288-create/Roblox-Projects/pull/73#issuecomment-6729155085"
   ],
-  "source_sha": null,
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
   "retained_audio_disabled_checkpoint": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
   "main_checkpoint": "7aaf323de6153134df2154c7ae3b1613a596495b",
   "owner_staging_authorization": false,
@@ -452,7 +452,8 @@
     }
   ],
   "blockers": [
-    "New immutable audio-active source SHA, eight native-build pins and all five source-specific CI families are being verified.",
-    "Separate final exact-source owner authorization and main-trusted control merge are still required before any private-staging publication."
-  ]
+    "Separate final exact-source owner authorization and main-trusted control merge before private-staging publication."
+  ],
+  "technical_verification_complete": true,
+  "ready_for_owner_authorization": true
 }

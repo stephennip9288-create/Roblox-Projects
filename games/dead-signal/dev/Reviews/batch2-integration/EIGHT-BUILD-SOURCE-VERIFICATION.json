@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "independent-native-source-extraction-comparison",
-  "source_sha": null,
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
   "builds": {
     "staging": {
       "blackwater": {

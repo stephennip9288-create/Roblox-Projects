@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "production-configured-offline-build-verification",
-  "source_sha": null,
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
   "all_four_native_builds_and_fidelity_verified": true,
   "new_bank_activation_universe_id": "10771141095",
   "new_banks_active_in_production": 0,

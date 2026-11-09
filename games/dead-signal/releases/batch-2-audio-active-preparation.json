@@ -10,8 +10,8 @@
   "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
   "retained_audio_disabled_checkpoint": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
   "main_checkpoint": "7aaf323de6153134df2154c7ae3b1613a596495b",
-  "owner_staging_authorization": false,
-  "ready_for_staging": false,
+  "owner_staging_authorization": true,
+  "ready_for_staging": true,
   "production_authorization": false,
   "profile_store": "DeadSignal_Profile_v1",
   "counts": {
@@ -451,9 +451,9 @@
       "production_bank_activation": false
     }
   ],
-  "blockers": [
-    "Separate final exact-source owner authorization and main-trusted control merge before private-staging publication."
-  ],
+  "blockers": [],
   "technical_verification_complete": true,
-  "ready_for_owner_authorization": true
+  "ready_for_owner_authorization": false,
+  "owner_authorization_evidence": "games/dead-signal/dev/Reviews/batch2-integration/OWNER-STAGING-AUTHORIZATION.json",
+  "deployment_status": "authorized; controlled workflow pending"
 }

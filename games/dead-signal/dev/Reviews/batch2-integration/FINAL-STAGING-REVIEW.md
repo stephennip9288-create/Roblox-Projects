@@ -1,6 +1,6 @@
 # Batch 2 — verified audio-active private-staging candidate
 
-**Ready for final owner authorization. Not authorized to merge or publish.**
+**Owner authorized PR #73 merge and exact-source private-staging deployment. Production remains unauthorized.**
 
 PR #73 remains open/draft on `integration/dead-signal-batch2`. Immutable game source: **`a74a5f524eb0c6ddccb1e19d361d741a127823df`**. The later admission/evidence commit records this source; do not substitute its HEAD or a branch name as the workflow source. Main remains `7aaf323de6153134df2154c7ae3b1613a596495b`.
 
@@ -70,9 +70,9 @@ The offline control rehearsal uses the real immutable source and just-retrieved 
 
 ## Owner-controlled release and remaining work
 
-`batch-2-staging.json` is technically complete, with owner_staging_authorization=false, ready_for_staging=false and production_authorization=false. The remaining authorization is the owner's separate final approval of this exact source and reviewed controls merge. Only then record approval evidence, set the staging authorization/ready fields true, complete final control checks and merge PR #73 onto main. The previously disabled gameplay-only proposal stays withdrawn.
+The owner answered **"Yes"** to the explicit question authorizing PR #73 merge and deployment of this exact source to private staging. See OWNER-STAGING-AUTHORIZATION.json. `batch-2-staging.json` now has owner_staging_authorization=true, ready_for_staging=true and production_authorization=false. Finish the required control checks and trusted main merge, then dispatch only the exact admitted source. The previously disabled gameplay-only proposal stays withdrawn.
 
-After that authorization and trusted merge, the owner-controlled GitHub Actions values are:
+Authorization is recorded. After the trusted merge, use these exact controlled GitHub Actions values:
 
 | Field | Exact value |
 |---|---|

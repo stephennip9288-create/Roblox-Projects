@@ -3,9 +3,9 @@
   "release": "dead-signal-batch-2-private-staging",
   "issue": 62,
   "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
-  "owner_staging_authorization": false,
-  "owner_authorization_evidence": null,
-  "ready_for_staging": false,
+  "owner_staging_authorization": true,
+  "owner_authorization_evidence": "games/dead-signal/dev/Reviews/batch2-integration/OWNER-STAGING-AUTHORIZATION.json; owner answered \"Yes\" to merging PR #73 and deploying exact source a74a5f524eb0c6ddccb1e19d361d741a127823df to private staging.",
+  "ready_for_staging": true,
   "production_authorization": false,
   "staging_universe_id": "10771141095",
   "profile_store": "DeadSignal_Profile_v1",
@@ -137,9 +137,7 @@
       }
     }
   },
-  "blockers": [
-    "Separate final owner authorization for exact source a74a5f524eb0c6ddccb1e19d361d741a127823df and merge of the reviewed controls/admission to main are required before private-staging deployment."
-  ],
+  "blockers": [],
   "native_qa": "Per-ID Studio asset loading/playback supported by reviewed owner export. Full staging gameplay, audio mixing, physical mobile and multiplayer QA remain pending; no new defect marked Verified.",
   "candidate_artifacts": {
     "staging": {
@@ -231,6 +229,8 @@
     }
   },
   "technical_verification_complete": true,
-  "ready_for_owner_authorization": true,
-  "reviewed_at": "2026-11-09T02:39:29.726957+00:00"
+  "ready_for_owner_authorization": false,
+  "reviewed_at": "2026-11-09T02:39:29.726957+00:00",
+  "owner_authorization_recorded_at": "2026-11-09T02:52:21.501044+00:00",
+  "deployment_status": "authorized; final control checks, main-trusted merge and controlled workflow pending"
 }

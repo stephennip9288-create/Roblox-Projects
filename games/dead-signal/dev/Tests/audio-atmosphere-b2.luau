@@ -44,7 +44,8 @@ end
 -- New samples remain silent unless every review/permission flag is explicit.
 do
     local e=setup(false,config());local key='Music.Station.Calm'
-    check(not e.fx:audioAvailable(key),'Unuploaded music is honestly unavailable')
+    e.fx:audioInit()
+    check(e.fx:audioSample(e.config.AudioAtmosphere.assets[key].id,e.service)==nil,'Cold reviewed music remains silent while loading')
     local row=approved(e,key,1)
     for _,flag in ipairs({'rightsCleared','creatorReviewed','listeningApproved','robloxApproved'}) do
         row[flag]=false;check(not e.fx:audioAvailable(key),'Gate '..flag);row[flag]=true
@@ -103,8 +104,11 @@ for _,low in ipairs({false,true}) do
     check(#music(e)==1 and music(e)[1].key=='Music.Station.Pressure','A later successful load follows current state, not a stale event')
     e.fx:audioDestroy();check(e:live('Sound')==0,'Cold/failed transition teardown')
 end
-for _,low in ipairs({false,true}) do for _,map in ipairs({'Station','Foundry','Frost','Lobby'}) do
-    local e=setup(low,config());ready(e,e.config.SoundIds);scene(e,map)
+for _,newAudio in ipairs({false,true}) do for _,low in ipairs({false,true}) do for _,map in ipairs({'Station','Foundry','Frost','Lobby'}) do
+    local e=setup(low,config());ready(e,e.config.SoundIds)
+    if newAudio then ready(e,e.config.AudioAtmosphere.assets)
+    else for _,entry in pairs(e.config.AudioAtmosphere.assets) do entry.robloxApproved=false end end
+    scene(e,map)
     local seen={};local times={};local previous
     for _=1,1800 do
         e:advance(.5)
@@ -120,11 +124,11 @@ for _,low in ipairs({false,true}) do for _,map in ipairs({'Station','Foundry','F
     end
     if map=='Lobby' then check(#times==0,'Dispatch has intentional calm/no scare schedule')
     else
-        check(#times>=3,'Functioning accepted-Batch1 atmosphere fallback '..map)
+        check(#times>=3,(newAudio and 'Functioning reviewed new atmosphere ' or 'Functioning accepted-Batch1 atmosphere fallback ')..map)
         for n=2,#times do check(times[n]-times[n-1]>=35*(low and 1.5 or 1),'Natural minimum intervals') end
     end
     e.fx:audioDestroy();check(e:live('Sound')==0,'Long-session teardown '..map)
-end end
+end end end
 for _,extra in ipairs({{phase='Preparing',special=true},{phase='Wave',boss=true},{phase='Exfil'},{phase='Results'},{status='Eliminated'},{intensity=1}}) do
     local e=setup(false,config());ready(e,e.config.SoundIds);scene(e,'Station',extra.phase,extra);e:advance(180)
     check((e.fx.audio.scareEvents or 0)==0,'No random scares during warnings/end states/high pressure');e.fx:audioDestroy()

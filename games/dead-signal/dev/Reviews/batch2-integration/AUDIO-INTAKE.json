@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "issue": 62,
-  "recorded_at": "2026-11-08T23:36:40.300915+00:00",
+  "recorded_at": "2026-11-09T02:19:49.021848+00:00",
   "owner_listening_reconfirmation_required": false,
   "source_inventory_url": "https://create.roblox.com/dashboard/creations?activeTab=Audio&inventoryView=list",
   "permissions": {
@@ -44,7 +44,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -56,12 +56,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "24e2e36d6899e3c41ca20af4e5ebbea22e75ef23f7cc52fe67befbf2614d0244",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Music.Station.Pressure",
@@ -74,7 +81,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -86,12 +93,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "5100c24ab941c236cd690b32c293347a08facb0d6e56752c8c359ce0ef27196a",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Music.Foundry.Calm",
@@ -104,7 +118,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -116,12 +130,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "fc9bcb4cb825b68c191feefe1a3088847871c15464ecf55505e219fc9a64a2ca",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Music.Foundry.Pressure",
@@ -134,7 +155,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -146,12 +167,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "11487fa8b0446e9457d72d4084edf0147d1fd52b855b3002f7f384a6091db181",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Music.Frost.Calm",
@@ -164,7 +192,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -176,12 +204,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "5289e59780abd1516936ad660ed376e87859630bf588424120fdcc0a291322d2",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Music.Frost.Pressure",
@@ -194,7 +229,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -206,12 +241,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "1e89692105f21330d98fb45dbf71588234b0396550ed7ad3a899e13a2dac43db",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Music.Lobby.Calm",
@@ -224,7 +266,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -236,12 +278,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "f91353f2dc5aab370d0ff0954513a049d589f38133f3cc69b596ba868bb495de",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Music.Warden",
@@ -254,7 +303,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -266,12 +315,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "06b30bba6efbf950ae965201056f0ac20e4167905316152bba5d9075927386e6",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Music.Extraction",
@@ -284,7 +340,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -296,12 +352,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "9a543fed46ed15830e928e82c357be84133ba67acd1671256d55395dd05f1986",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Atmosphere.Stinger",
@@ -314,7 +377,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -326,12 +389,19 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": "cbf6408980063ece96ce4f8de7c90b136f1e1deef55630cdf652cac449c8a90e",
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Atmosphere.Station.Creak",
@@ -344,7 +414,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -356,13 +426,20 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": null,
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
       "source_wav_sha256": "8cdae33e34d33621bae9444b575a3a17b906a7e435d65375039c97336faa3bd1",
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Atmosphere.Foundry.Steam",
@@ -375,7 +452,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -387,13 +464,20 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": null,
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": false,
       "hosted_preview_verified": true,
       "source_wav_sha256": "58a2c1d8f440f8e4646258309ae1cee892c4308882c64206aa14c67e3bd74b64",
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "owner intended-clip confirmation plus documented strong source correspondence; strict/supplemental numeric criteria remain failed"
     },
     {
       "event": "Atmosphere.Foundry.Impact",
@@ -406,7 +490,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -418,13 +502,20 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": null,
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
       "source_wav_sha256": "7b44d408646cd57f9b65446ba0a3b1ba2f7cf01bf5fb841413cefbd404dea439",
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Atmosphere.Cry",
@@ -437,7 +528,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -449,13 +540,20 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": null,
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
       "source_wav_sha256": "22f170aee93e7080d6b4a26c62646640222e1cb4cb20bd1b16522d16dbce6c52",
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Zombie.Breath",
@@ -468,7 +566,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -480,13 +578,20 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": null,
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": true,
       "hosted_preview_verified": true,
       "source_wav_sha256": "69ef7d3c2fb7fa0bd06ef4952c3bf3e726dcbaf5d76bf07bca870186a54123ff",
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "strict full-track comparison"
     },
     {
       "event": "Zombie.Drag",
@@ -499,7 +604,7 @@
       "listening_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6726308792",
       "rightsCleared": true,
       "creatorReviewed": true,
-      "robloxApproved": false,
+      "robloxApproved": true,
       "permissions": {
         "10771141095": true,
         "10770732078": true
@@ -511,27 +616,38 @@
       "source_review": "AUDIO-SOURCE-REVIEW.json; original-source rights/creator review complete; source-equivalence result recorded separately in HOSTED-CONTENT-COMPARISON.json",
       "source_ogg_sha256": null,
       "uploaded_bytes_compared": true,
-      "moderation_status": "Explicit moderationState unavailable: documented asset GET rejected absent asset:read API authentication; working owner preview is recorded separately",
-      "native_playback_verified": false,
-      "activated": false,
+      "moderation_status": "ReviewApproved",
+      "native_playback_verified": true,
+      "activated": true,
       "hosted_content_strict_match": false,
       "hosted_preview_verified": true,
       "source_wav_sha256": "75697dd4d7b5dd1253d59b9bb8bf0edd81461469339a595c6ad912a649738fe5",
-      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json"
+      "source_rights_evidence": "AUDIO-SOURCE-REVIEW.json",
+      "activation_scope": "prepared private-staging configuration only; not yet published",
+      "production_activation_authorized": false,
+      "moderation_evidence": "ROBLOX-REVIEW-STATUS.json; explicit owner-authenticated status field",
+      "native_playback_evidence": "NATIVE-AUDIO-OWNER-REPORT.json; reviewed in NATIVE-AUDIO-REVIEW.json",
+      "owner_native_intended_clip_confirmed": true,
+      "content_correspondence_supported": true,
+      "content_correspondence_basis": "supplemental fixed band/segment comparison plus owner intended-clip confirmation"
     }
   ],
-  "fully_approved_assets": 0,
+  "fully_approved_assets": 16,
   "native_in_game_playback_verified": false,
   "notes": [
     "All six private original WAV hashes independently rechecked against owner GitHub evidence; original bytes never committed publicly.",
-    "Six effect rights are owner attestations; source decoding/hash validation and hosted preview observations were independently executed.",
-    "All ten music OGG hashes and deterministic sample-free generator reviewed.",
-    "All sixteen owner-authenticated hosted previews played; strict full-track decoded comparison passed fourteen, with steam/clothing drag inconclusive.",
-    "Uploaded and experience permissions do not establish moderationState; explicit Roblox moderation and native ContentProvider playback remain unverified.",
-    "All sixteen runtime banks stay disabled through robloxApproved=false. Full-audio admission remains blocked; a distinct gameplay-only admission requires exact source/build/CI/recovery pins and separate owner acceptance of the exclusion."
+    "Six physical-effect rights are owner attestations; source decoding/hash validation and hosted preview observations were independently executed.",
+    "All ten original music OGG hashes and deterministic sample-free generator reviewed.",
+    "Frozen strict comparison remains fourteen passes and two inconclusive results. Clothing drag additionally passed fixed supplemental criteria; steam identity is accepted on owner intended-clip confirmation with strong source correspondence. Numerical failures were not rewritten.",
+    "Explicit Roblox status=ReviewApproved independently observed for all sixteen, correct owner, Audio type, not archived.",
+    "Owner-provided Studio-client report records exact sixteen Success callbacks, loaded finite durations and playback progress. Accepted for per-ID staging asset eligibility; no server/game source or full gameplay/device acceptance implied.",
+    "All sixteen prepared runtime banks have all four review flags true. Mandatory activationUniverseId=10771141095 isolates new banks from production and unknown universes. Both real grant sets are preserved.",
+    "No merge or publication authorized. Full gameplay/audio QA follows separately authorized staging deployment."
   ],
   "rightsCleared_assets": 16,
   "creatorReviewed_assets": 16,
   "hosted_previews_verified": 16,
-  "hosted_content_strict_matches": 14
+  "hosted_content_strict_matches": 14,
+  "activation_universe_id": "10771141095",
+  "native_studio_asset_playback_verified": true
 }

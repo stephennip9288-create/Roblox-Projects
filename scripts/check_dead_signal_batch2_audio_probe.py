@@ -14,12 +14,13 @@ REVIEW = ROOT/'games/dead-signal/dev/Reviews/batch2-integration'
 STAGING_PLACES = {117710269155815, 102403661108879, 125712056058975, 122269451559483}
 
 
-def expected():
-    intake = json.loads((REVIEW/'AUDIO-INTAKE.json').read_text())['recordings']
+def expected(root=ROOT):
+    review = Path(root)/REVIEW.relative_to(ROOT)
+    intake = json.loads((review/'AUDIO-INTAKE.json').read_text())['recordings']
     content = {r['roblox_asset_id']: r for r in json.loads(
-        (REVIEW/'HOSTED-CONTENT-COMPARISON.json').read_text())['recordings']}
+        (review/'HOSTED-CONTENT-COMPARISON.json').read_text())['recordings']}
     physical = {r['filename'].removesuffix('.wav'): r['duration_seconds'] for r in json.loads(
-        (REVIEW/'AUDIO-SOURCE-REVIEW.json').read_text())['physical_recordings']}
+        (review/'AUDIO-SOURCE-REVIEW.json').read_text())['physical_recordings']}
     return {r['event']: (r['roblox_asset_id'], physical.get(r['name'],
                            content[r['roblox_asset_id']]['source_frames_48000']/48000))
             for r in intake}
@@ -29,12 +30,15 @@ def number(value):
     return type(value) in (int, float) and math.isfinite(value)
 
 
-def validate(report):
+def validate(report, root=ROOT):
     if (report.get('schema') != 1 or report.get('kind') != 'dead-signal-b2-native-audio-probe'
             or report.get('probeVersion') != '1' or report.get('studio') is not True
             or report.get('client') is not True or report.get('universeId') != 10771141095
             or report.get('placeId') not in STAGING_PLACES
-            or type(report.get('placeVersion')) is not int or report['placeVersion'] <= 0
+            # PlaceVersion is NotReplicated server metadata. This CLIENT-only
+            # probe can report 0; never substitute the live server version or
+            # treat this field as attesting the installed game source.
+            or type(report.get('placeVersion')) is not int or report['placeVersion'] < 0
             or report.get('probeRunning') is not False
             or not report.get('startedAtUTC') or not report.get('capturedAtUTC')
             or report.get('probeError')):
@@ -53,7 +57,7 @@ def validate(report):
     rows = report.get('records', [])
     if len(rows) != 16 or len({r.get('event') for r in rows}) != 16:
         raise ValueError('Exactly sixteen unique events required')
-    expected_rows = expected()
+    expected_rows = expected(root)
     if {r.get('event') for r in rows} != set(expected_rows):
         raise ValueError('Native report differs from the exact reviewed event inventory')
     for row in rows:
@@ -70,9 +74,12 @@ def validate(report):
                 or row.get('preloadError') or row.get('playError')):
             raise ValueError('Native loading/playback evidence failed or wrong ID/duration: '+event)
         callbacks = row.get('callbackStatuses', [])
-        if not callbacks or callbacks[-1].get('status') != 'Success':
+        if (not callbacks or callbacks[-1].get('status') != 'Success'
+                or callbacks[-1].get('contentId') != 'rbxassetid://'+asset_id):
             raise ValueError('No successful actual ContentProvider callback: '+event)
     return {'validated_asset_count': 16, 'shape_validated': True,
+            'server_place_version_attested': False,
+            'game_source_attested': False,
             'actual_native_execution_independently_established': False,
             'requires_main_review_of_owner_evidence': True,
             'runtime_changed': False, 'publication_authorized': False}

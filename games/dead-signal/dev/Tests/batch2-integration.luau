@@ -1,4 +1,4 @@
--- Actual integrated Config/Effects: accurate owner approvals never unlock missing reviews.
+-- Actual integrated Config/Effects: all sixteen reviewed banks, staging activation only.
 -- Service doubles establish policy behavior, not Roblox moderation or playback.
 local fs=require('@lune/fs') local luau=require('@lune/luau') local serde=require('@lune/serde')
 local setup=require('./Fixtures/audio-corrections-env')
@@ -20,18 +20,31 @@ for _,universe in ipairs({10771141095,10770732078,0,1}) do
     local c=config(universe)
     local before=config(universe,fs.readFile('Reviews/batch2-integration/Baseline/shared/Config.lua.txt'))
     check(same(c.SoundIds,before.SoundIds),'Every accepted Batch1 bank preserved '..universe)
-    local e=setup(false,c);local seen={};local mapped=0
+    local e=setup(false,c);e.fx:audioInit();local seen={};local mapped=0
     for _ in pairs(c.AudioAtmosphere.assets) do mapped+=1 end
     check(mapped==16,'No extra or missing live-ID mappings')
+    check(c.AudioAtmosphere.activationUniverseId==10771141095,'New-bank activation restricted to private staging')
     for _,row in ipairs(intake.recordings) do
         local bank=c.AudioAtmosphere.assets[row.event]
         check(not seen[row.event],'Unique event');seen[row.event]=true
         check(bank.id=='rbxassetid://'..row.roblox_asset_id,'Exact owner ID for '..row.event)
         check(bank.listeningApproved==true,'Existing owner listening acceptance carried forward')
         check(bank.permissions['10771141095']==true and bank.permissions['10770732078']==true,'Both independently exported grants retained')
-        check(bank.rightsCleared==true and bank.creatorReviewed==true and bank.robloxApproved==false,'Reviewed originals and owner rights retained; Roblox approval remains unresolved')
+        check(bank.rightsCleared==true and bank.creatorReviewed==true and bank.robloxApproved==true,'Reviewed source rights, explicit moderation and owner native evidence retained')
+        if universe==10771141095 then
+            check(e.fx:audioSample(bank.id,e.service)==nil,'Cold approved samples remain silent while loading')
+        end
         e.loaded[bank.id]=true
-        check(not e.fx:audioAvailable(row.event),'Even a loaded asset cannot bypass unresolved review gates')
+        check(e.fx:audioAvailable(row.event)==(universe==10771141095),'All sixteen loadable in staging; production and unknown universes denied')
+        if universe==10771141095 then
+            for _,flag in ipairs({'rightsCleared','creatorReviewed','listeningApproved','robloxApproved'}) do
+                bank[flag]=false;check(not e.fx:audioAvailable(row.event),'Every per-asset gate remains mandatory: '..flag);bank[flag]=true
+            end
+            bank.permissions['10771141095']=false
+            check(not e.fx:audioAvailable(row.event),'Actual staging grant remains mandatory');bank.permissions['10771141095']=true
+            c.AudioAtmosphere.activationUniverseId=nil
+            check(not e.fx:audioAvailable(row.event),'Missing activation restriction fails closed');c.AudioAtmosphere.activationUniverseId=10771141095
+        end
     end
     e.fx:audioDestroy()
     c.AudioAtmosphere=nil

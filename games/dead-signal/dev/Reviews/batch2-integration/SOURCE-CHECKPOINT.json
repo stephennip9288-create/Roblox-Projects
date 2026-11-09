@@ -1,56 +1,14 @@
 {
   "schema": 1,
-  "reviewed_source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
-  "reviewed_source_tree": "aed66c0b9a344e29e0769d5e1cb939fdfb4a5c75",
-  "integration_branch": "integration/dead-signal-batch2",
-  "combined_pr": 73,
-  "combined_pr_url": "https://github.com/stephennip9288-create/Roblox-Projects/pull/73",
-  "main_untouched_checkpoint": "7aaf323de6153134df2154c7ae3b1613a596495b",
-  "runtime_records": 61,
-  "reviewed_runtime_deltas": 13,
-  "runtime_manifest_blob": "06d588c5603496b92cfdae123af1add570a4248a",
-  "build_manifest_blob": "b3b2d607b5da267fd518443f9b271ca4af87d684",
-  "specialist_merges": [
-    {
-      "pr": 69,
-      "head": "7b8c2442530c11afc47cd40f50c03a03349f6c39",
-      "merge_sha": "90a09d18539ec0c0071902faa6f12ae754a71680",
-      "tree": "b82be41fbb3a80b29475d91c1c8775567ad99d69"
-    },
-    {
-      "pr": 71,
-      "head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
-      "merge_sha": "03b4cd5bd8bff3df822fe97d1d947478f8583008",
-      "tree": "d2b13970460ef8aeafc22f28bd4438f058c7dbaf"
-    },
-    {
-      "pr": 70,
-      "head": "4807fd25193bc721a3473858d2c744250614aaaf",
-      "merge_sha": "66ed227e4a1d647901a3613ff15522be9abeb91a",
-      "tree": "ebbe8da5d6f963da4ebce2eb321fd839eb3a59ec"
-    },
-    {
-      "pr": 72,
-      "head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
-      "merge_sha": "3d292aec92dffa68ce6080724e32672c71ea810c",
-      "tree": "4d441fd1b79a50705b9468cb367beb333616d911"
-    }
-  ],
-  "staging_authorized": false,
-  "production_authorized": false,
-  "staging_published": false,
-  "production_published": false,
-  "native_qa_verified": false,
-  "candidate_intent": "Retained audio-disabled source checkpoint only. Owner requests all sixteen new audio assets active; final audio-active source is pending native/source intake.",
-  "prior_checkpoint": {
-    "sha": "fccea067b804933c6d6db936b6332ceb5b662cdb",
-    "history": "History/fccea067/"
-  },
-  "staging_admission": "games/dead-signal/releases/batch-2-gameplay-staging.json",
-  "full_audio_admission_separate_and_blocked": true,
-  "new_audio_enabled_count": 0,
-  "control_followup": "Final branch HEAD records source-specific CI/artifacts and admission; authorization-test compatibility permits a future separately approved main-trusted record without changing game source.",
+  "kind": "audio-active-source-preparation",
+  "reviewed_source_sha": null,
+  "source_SHA_pending_commit": true,
+  "retained_disabled_source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+  "previous_verification_head": "6c2f333de98b078c79c156ce384f80c3cf245532",
+  "main_unchanged": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "owner_desired_audio_active": true,
   "gameplay_only_proposal_withdrawn": true,
-  "requested_audio_active_source_sha": null,
-  "latest_audio_evidence": "AUDIO-ACTIVATION-MATRIX.json"
+  "native_asset_evidence_reviewed": true,
+  "native_gameplay_verified": false,
+  "publication_authorized": false
 }

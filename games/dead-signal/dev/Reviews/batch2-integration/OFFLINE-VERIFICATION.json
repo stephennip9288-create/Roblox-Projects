@@ -1,65 +1,18 @@
 {
   "schema": 1,
-  "recorded_at": "2026-11-08T23:53:21.651714+00:00",
-  "root_python": {
-    "tests": 115,
-    "passed": 115,
-    "failures": 0
-  },
-  "dev_python": {
-    "tests": 35,
-    "passed": 33,
-    "failures": 0,
-    "skipped": 2,
-    "skips": "Historical optional original 84-WAV PCM/source-cache fixtures are not available; committed supplemental PCM is checked."
-  },
-  "syntax": {
-    "compiled_luau_files": 138,
-    "runtime_records": 61,
-    "passed": true
-  },
-  "new_integrated_intake_assertions": 398,
-  "four_place_staging_lossless_and_fidelity_passed": true,
-  "four_place_production_artifact_only_lossless_and_fidelity_passed": true,
-  "historical_batch1_eight_exact_build_hashes_reproduced": true,
-  "current_staging_rollback": {
-    "artifact_id": 12545195246,
-    "deployment_run": 40054332185,
-    "archive_sha256": "09840f969288228cf3dcc0c5a6fb05dfcbb66f152f08fff5d73d2e8ed1214036",
-    "all_four_member_hashes_sizes_and_environment_sources_verified": true,
-    "expires_at": "2027-01-22T02:28:53Z"
-  },
-  "current_production_recovery": {
-    "artifact_id": 13309518810,
-    "deployment_run": 41800682585,
-    "metadata_verified": true,
-    "expires_at": "2027-02-02T08:35:30Z",
-    "previous_known_good_artifact_preserved": 13283390341,
-    "archive_and_all_four_member_hashes_sizes_sources_verified": true
-  },
-  "roblox_studio_gameplay_tested": false,
-  "physical_device_tested": false,
-  "native_asset_playback_tested": false,
-  "staging_published": false,
-  "production_published": false,
-  "bugs_marked_verified": false,
-  "lune": {
-    "suites": 48,
-    "passed": 48,
-    "assertions": 1251174,
-    "engine_playtest": false,
-    "physical_device_playtest": false
-  },
-  "reviewed_source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
-  "github_five_required_families_passed": true,
-  "github_artifacts_independently_downloaded_and_verified": true,
-  "audio_originals_and_hosted_content_review": {
-    "original_wav_hashes_verified": 6,
-    "original_music_ogg_hashes_verified": 10,
-    "hosted_previews_played": 16,
-    "strict_decoded_content_matches": 14,
-    "inconclusive": 2,
-    "roblox_moderation_state_verified": false,
-    "new_audio_banks_enabled": 0
-  }
+  "source_sha": null,
+  "root_python_tests": 121,
+  "root_python_passed": 121,
+  "development_python_tests": 35,
+  "development_python_passed": 33,
+  "development_python_optional_historical_pcm_skips": 2,
+  "luau_compile_checks": 140,
+  "all_eight_native_build_and_fidelity_checks_passed": true,
+  "all_393_historical_files_unchanged": true,
+  "historical_Batch1_eight_build_reproduction_passed": true,
+  "local_Lune_full_suite": "running; no old assertion total reused",
+  "GitHub_source_CI": "pending immutable commit",
+  "native_asset_evidence": "owner-supplied sixteen-ID Studio export, separately reviewed",
+  "native_gameplay_verified": false,
+  "publication_authorized": false
 }

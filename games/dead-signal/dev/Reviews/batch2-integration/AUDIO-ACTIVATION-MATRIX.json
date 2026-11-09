@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "kind": "observed-evidence-not-activation-approval",
+  "kind": "reviewed-staging-asset-activation-evidence",
   "counts": {
     "original_source_rights_creator_listening_reviewed": 16,
     "staging_grants_verified": 16,
@@ -8,9 +8,10 @@
     "explicit_roblox_ReviewApproved": 16,
     "strict_content_matches": 14,
     "supplemental_content_matches_added": 1,
-    "content_confirmation_pending": 1,
-    "native_probe_results_received": 0,
-    "new_runtime_banks_enabled": 0
+    "content_confirmation_pending": 0,
+    "native_probe_results_received": 16,
+    "new_runtime_banks_enabled": 16,
+    "owner_native_intended_clip_confirmations": 16
   },
   "recordings": [
     {
@@ -29,11 +30,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Music.Station.Pressure",
@@ -51,11 +56,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Music.Foundry.Calm",
@@ -73,11 +82,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Music.Foundry.Pressure",
@@ -95,11 +108,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Music.Frost.Calm",
@@ -117,11 +134,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Music.Frost.Pressure",
@@ -139,11 +160,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Music.Lobby.Calm",
@@ -161,11 +186,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Music.Warden",
@@ -183,11 +212,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Music.Extraction",
@@ -205,11 +238,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Atmosphere.Stinger",
@@ -227,11 +264,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Atmosphere.Station.Creak",
@@ -249,11 +290,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Atmosphere.Foundry.Steam",
@@ -269,13 +314,17 @@
       "explicit_moderation_approved": true,
       "strict_content_match": false,
       "supplemental_band_limited_content_match": false,
-      "content_correspondence_supported": false,
-      "owner_native_intended_clip_confirmation_pending": true,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "content_correspondence_supported": true,
+      "owner_native_intended_clip_confirmation_pending": false,
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Atmosphere.Foundry.Impact",
@@ -293,11 +342,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Atmosphere.Cry",
@@ -315,11 +368,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Zombie.Breath",
@@ -337,11 +394,15 @@
       "supplemental_band_limited_content_match": false,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     },
     {
       "event": "Zombie.Drag",
@@ -359,13 +420,20 @@
       "supplemental_band_limited_content_match": true,
       "content_correspondence_supported": true,
       "owner_native_intended_clip_confirmation_pending": false,
-      "native_probe_executed": false,
-      "native_loading_verified": false,
-      "native_playback_progress_verified": false,
-      "runtime_robloxApproved": false,
-      "new_bank_active_in_current_runtime": false
+      "native_probe_executed": true,
+      "native_loading_verified": true,
+      "native_playback_progress_verified": true,
+      "runtime_robloxApproved": true,
+      "new_bank_active_in_current_runtime": true,
+      "owner_native_intended_clip_confirmed": true,
+      "native_evidence_origin": "owner-provided Studio export reviewed by MAIN",
+      "new_bank_activation_universe_id": "10771141095",
+      "production_bank_activation": false
     }
   ],
-  "runtime_gate_interpretation": "robloxApproved in the current candidate remains an activation gate. Explicit asset moderation is now independently approved; native/source intake is incomplete, so runtime flags remain false.",
-  "native_or_gameplay_qa_claimed": false
+  "runtime_gate_interpretation": "All sixteen per-asset gates satisfied; new banks enabled only for the prepared private-staging universe configuration. Publishing and full gameplay acceptance remain separate.",
+  "native_asset_evidence_reviewed": true,
+  "engine_gameplay_verified": false,
+  "staging_published": false,
+  "production_authorized": false
 }

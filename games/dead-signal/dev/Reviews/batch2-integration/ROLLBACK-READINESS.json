@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "reviewed_at": "2026-11-09T02:24:42.013254+00:00",
+  "read_only": true,
+  "latest_manual_deployments_independently_rechecked": true,
+  "recovery": {
+    "staging": {
+      "record_unchanged": true,
+      "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+      "universe_id": "10771141095",
+      "artifact_id": 12545195246,
+      "artifact_sha256": "09840f969288228cf3dcc0c5a6fb05dfcbb66f152f08fff5d73d2e8ed1214036",
+      "expires_at": "2027-01-22T02:28:53Z",
+      "current_deployment_run": 40054332185,
+      "versions": {
+        "blackwater": 16,
+        "cinderworks": 16,
+        "whiteout": 16,
+        "dispatch": 20
+      },
+      "remote_artifact_expired": false,
+      "local_archive_and_all_four_members_verified": true,
+      "exact_61_sources_and_environment_ids_verified": true,
+      "profile_store": "DeadSignal_Profile_v1"
+    },
+    "production": {
+      "record_unchanged": true,
+      "source_sha": "c2d4fb020c3893cae569d346d2886862d8fe8401",
+      "universe_id": "10770732078",
+      "artifact_id": 13309518810,
+      "artifact_sha256": "e4e6da7fb0e97aa380a847a27aacea29b704febce166a021c00387233163b06a",
+      "expires_at": "2027-02-02T08:35:30Z",
+      "current_deployment_run": 41800682585,
+      "versions": {
+        "dispatch": 29,
+        "blackwater": 23,
+        "cinderworks": 22,
+        "whiteout": 22
+      },
+      "remote_artifact_expired": false,
+      "local_archive_and_all_four_members_verified": true,
+      "exact_61_sources_and_environment_ids_verified": true,
+      "profile_store": "DeadSignal_Profile_v1"
+    }
+  },
+  "publishing_attempted": false
+}

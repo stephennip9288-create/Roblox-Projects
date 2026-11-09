@@ -290,6 +290,8 @@ function FX:audioBank(key,options)
     if spec.b2Asset then
         local policy=C.AudioAtmosphere or {};local entry=(policy.assets or {})[key]
         local universe=tostring(game.GameId or policy.universeId or 0)
+        -- Experience grants are distinct from this staging-only activation.
+        if tostring(policy.activationUniverseId or 0)~=universe then return nil end
         -- New IDs cannot bypass creator/rights/moderation/experience intake.
         if type(entry)~="table" or entry.rightsCleared~=true or entry.creatorReviewed~=true
             or entry.listeningApproved~=true or entry.robloxApproved~=true

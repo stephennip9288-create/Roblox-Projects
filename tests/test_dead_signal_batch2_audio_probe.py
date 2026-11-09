@@ -38,12 +38,25 @@ class AudioProbe(unittest.TestCase):
 
     def test_wrong_context_overclaim_and_unconfirmed_native_identity_rejected(self):
         changes = {'studio': False, 'client': False, 'universeId': 10770732078, 'placeId': 0,
-            'placeVersion': 0, 'probeRunning': True, 'ownerNativeIntendedClipsConfirmed': False,
+            'placeVersion': -1, 'probeRunning': True, 'ownerNativeIntendedClipsConfirmed': False,
             'moderationVerifiedByThisProbe': True, 'gameplayQualityAccepted': True,
             'productionAuthorized': True, 'playbackAdvancedCount': 15}
         for key, value in changes.items():
             with self.subTest(field=key), self.assertRaises(ValueError):
                 probe.validate({**fixture(), key: value})
+
+    def test_client_zero_version_is_preserved_without_attesting_server_or_game_source(self):
+        report = {**fixture(), 'placeVersion': 0}
+        result = probe.validate(report)
+        self.assertFalse(result['server_place_version_attested'])
+        self.assertFalse(result['game_source_attested'])
+        self.assertEqual(report['placeVersion'], 0)
+        for value in (None, True, 0.0, '20', -1):
+            with self.subTest(version=value), self.assertRaises(ValueError):
+                probe.validate({**fixture(), 'placeVersion': value})
+        for key, value in (('universeId', 10770732078), ('placeId', 0), ('client', False)):
+            with self.subTest(field=key), self.assertRaises(ValueError):
+                probe.validate({**report, key: value})
 
     def test_each_asset_identity_failure_timeout_or_nonfinite_observation_rejected(self):
         changes = {'assetId': '1', 'fetchStatus': 'ProbeTimedOut', 'isLoaded': False,
@@ -54,6 +67,10 @@ class AudioProbe(unittest.TestCase):
                 row = deepcopy(fixture());row['records'][index][key] = value
                 with self.subTest(asset=index, field=key), self.assertRaises(ValueError):
                     probe.validate(row)
+            row = deepcopy(fixture())
+            row['records'][index]['callbackStatuses'] = [{'contentId': 'rbxassetid://1', 'status': 'Success'}]
+            with self.subTest(asset=index, wrong_callback_id=True), self.assertRaises(ValueError):
+                probe.validate(row)
 
     def test_duplicate_or_missing_event_rejected(self):
         row = fixture();row['records'][0] = row['records'][1]

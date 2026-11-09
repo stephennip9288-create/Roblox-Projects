@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+  "artifacts": {
+    "staging": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486332,
+      "artifact_id": 13639882040,
+      "archive_sha256": "882304b9b0b139799956d5d7332daac230abfcab9b82cf23479596d8173b6c71",
+      "members": {
+        "dispatch": {
+          "member": "dispatch.rbxl",
+          "sha256": "f6e551ad1a6842700f53e5b33e62065a4df7b5dad3e819d5f5d8a1c4052c3d93",
+          "bytes": 2784279,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "blackwater": {
+          "member": "blackwater.rbxl",
+          "sha256": "8ab9416564799907680b79677dc260892eaf5a02ff034c135bc9999b18b56af0",
+          "bytes": 2755349,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "cinderworks": {
+          "member": "cinderworks.rbxl",
+          "sha256": "aafb4c48850c9a041c1f2c2c8894a223a037ebfda2fa6eeee4665ac3af4fd83f",
+          "bytes": 2763212,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "whiteout": {
+          "member": "whiteout.rbxl",
+          "sha256": "8c1152fc001864dbf69e68fa3df9ddce5e7208d959d2e154d97857da0d8d6bce",
+          "bytes": 2764655,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        }
+      },
+      "all_four_exact_build_pins_passed": true,
+      "independent_property_fidelity_passed": true,
+      "staging_published": false
+    },
+    "production": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486280,
+      "artifact_id": 13639841226,
+      "archive_sha256": "341f4c98a20588187e2526812f55c204f97891ee58fc4ccd2d15a4826d228407",
+      "members": {
+        "dispatch": {
+          "member": "production/dispatch.rbxl",
+          "sha256": "186eb166df43d9f21ca1de4694c8447daec0cf01700405ad505a4ff5e38be2a9",
+          "bytes": 2784295,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "blackwater": {
+          "member": "production/blackwater.rbxl",
+          "sha256": "caefb22d8ee03526d7c340646f2e57e5df85190a54e8c288cda944469de02c47",
+          "bytes": 2755365,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "cinderworks": {
+          "member": "production/cinderworks.rbxl",
+          "sha256": "940ed0e186a02a1c352209673f7112969b47e7cba1e4b020d59da274c38b4f4b",
+          "bytes": 2763229,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "whiteout": {
+          "member": "production/whiteout.rbxl",
+          "sha256": "651e7b7374d9e982e0f92ef31806f25d8714481efc92392488ff2a3a3c63b9bc",
+          "bytes": 2764672,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        }
+      },
+      "all_four_exact_build_pins_passed": true,
+      "independent_property_fidelity_passed": true,
+      "production_published": false
+    },
+    "source": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536481811,
+      "artifact_id": 13639737438,
+      "archive_sha256": "1dc37fea6d7160cbc24f21a57907cce606ac1a6fa7d9d98c2e74bad98096de58",
+      "suites": 48,
+      "assertions": 1251174,
+      "all_suites_passed": true,
+      "native_engine_qa_claimed": false
+    },
+    "staging_preflight": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486281,
+      "artifact_id": 13639508814,
+      "archive_sha256": "1020838a2dd4d63943be826649f49e1f1058415f30b11eb88af86103e0a5abc8",
+      "four_place_pins_and_latest_recovery_reports_verified": true,
+      "staging_published": false
+    }
+  },
+  "all_eight_native_build_hashes_sizes_and_sources_independently_verified": true,
+  "native_gameplay_verified": false,
+  "publication_authorized": false
+}

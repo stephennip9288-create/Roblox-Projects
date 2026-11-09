@@ -20,8 +20,8 @@ PREFIX = 'games/dead-signal/dev/'
 REVIEW = PREFIX + 'Reviews/batch2-integration/'
 MANIFEST = REVIEW + 'REVIEWED-RUNTIME.json'
 BUILDS = REVIEW + 'REVIEWED-BUILDS.json'
-MANIFEST_BLOB = '06d588c5603496b92cfdae123af1add570a4248a'
-BUILDS_BLOB = 'b3b2d607b5da267fd518443f9b271ca4af87d684'
+MANIFEST_BLOB = 'c35f6dd97ad08af2fa5fc478a116e36ca86cbc80'
+BUILDS_BLOB = '2e9f7429584d1eb9eb21cabb4c83eef963a13425'
 RECORD = 'batch-2-staging.json'
 GAMEPLAY_RECORD = 'batch-2-gameplay-staging.json'
 GAMEPLAY_RELEASE = 'dead-signal-batch-2-gameplay-only-private-staging'
@@ -104,7 +104,12 @@ def verify_audio(root=ROOT, require_active=False):
         raise ValueError('Reviewed sixteen-asset intake changed')
     intake = json.loads(raw)
     for name, key in [('AUDIO-SOURCE-REVIEW.json', 'audio_source_review_blob'),
-                      ('HOSTED-CONTENT-COMPARISON.json', 'hosted_content_comparison_blob')]:
+                      ('HOSTED-CONTENT-COMPARISON.json', 'hosted_content_comparison_blob'),
+                      ('ROBLOX-REVIEW-STATUS.json', 'roblox_review_status_blob'),
+                      ('TRANSCODE-CONTENT-RECHECK.json', 'transcode_content_recheck_blob'),
+                      ('NATIVE-AUDIO-OWNER-REPORT.json', 'native_audio_owner_report_blob'),
+                      ('NATIVE-AUDIO-REVIEW.json', 'native_audio_review_blob'),
+                      ('AUDIO-ACTIVATION-MATRIX.json', 'audio_activation_matrix_blob')]:
         if blob((root / REVIEW / name).read_bytes()) != doc.get(key):
             raise ValueError('Reviewed source/content evidence changed: ' + name)
     rows = intake['recordings']
@@ -134,9 +139,41 @@ def verify_audio(root=ROOT, require_active=False):
     policy = (root / REVIEW / 'CONFIG-POLICY.luau.txt').read_bytes()
     if blob(policy) != doc['config_policy_blob']:
         raise ValueError('Exact reviewed Config intake policy required')
+    config = (root / PREFIX / 'Source/Runtime/shared/Config.lua').read_text()
+    if config.count(policy.decode()) != 1:
+        raise ValueError('Reviewed audio policy is missing from actual runtime Config')
     if require_active and any(not all(r.get(k) is True for k in (
             'rightsCleared', 'creatorReviewed', 'listeningApproved', 'robloxApproved')) for r in rows):
         raise ValueError('Unresolved asset rights/source, creator review or moderation/playback gate')
+    if require_active:
+        from check_dead_signal_batch2_audio_probe import validate
+        native = json.loads((root / REVIEW / 'NATIVE-AUDIO-OWNER-REPORT.json').read_text())
+        validate(native, root)
+        review = json.loads((root / REVIEW / 'NATIVE-AUDIO-REVIEW.json').read_text())
+        moderation = json.loads((root / REVIEW / 'ROBLOX-REVIEW-STATUS.json').read_text())
+        approvals = {str(r['assetId']): r for r in moderation['records']}
+        if (review.get('accepted_for_staging_asset_eligibility') is not True
+                or review.get('owner_intended_clips_confirmed') is not True
+                or review.get('engine_gameplay_verified') is not False
+                or review.get('production_authorized') is not False
+                or review.get('owner_report_sha256') != hashlib.sha256(
+                    (root / REVIEW / 'NATIVE-AUDIO-OWNER-REPORT.json').read_bytes()).hexdigest()
+                or intake.get('activation_universe_id') != '10771141095'
+                or 'activationUniverseId=10771141095,' not in policy.decode()):
+            raise ValueError('Exact reviewed staging-only native asset evidence required')
+        for row in rows:
+            asset = approvals.get(row['roblox_asset_id'], {})
+            line = next((s for s in policy.decode().splitlines() if '["'+row['event']+'"]=' in s), '')
+            if (asset.get('status') != 'ReviewApproved' or asset.get('isArchived') is not False
+                    or asset.get('assetType') != 'Audio' or asset.get('creatorTargetId') != 6206795757
+                    or asset.get('name') != row['name']
+                    or row.get('content_correspondence_supported') is not True
+                    or row.get('native_playback_verified') is not True
+                    or row.get('activated') is not True
+                    or ('id="rbxassetid://'+row['roblox_asset_id']+'"') not in line
+                    or any(flag+'=true' not in line for flag in (
+                        'rightsCleared', 'creatorReviewed', 'listeningApproved', 'robloxApproved'))):
+                raise ValueError('Incomplete exact per-asset activation evidence: '+row['event'])
     return intake
 
 
@@ -240,6 +277,8 @@ def staging_completion(record, source_sha, records, now=None):
     _staging_identity(record, source_sha, 'dead-signal-batch-2-private-staging')
     audio = record.get('audio', {})
     if (audio.get('asset_count') != 16 or audio.get('fully_approved_assets') != 16
+            or audio.get('enabled_new_assets') != 16
+            or audio.get('activation_universe_id') != '10771141095'
             or audio.get('independent_staging_grants_verified') is not True
             or audio.get('rights_and_source_verified') is not True
             or audio.get('moderation_and_playback_eligible') is not True):

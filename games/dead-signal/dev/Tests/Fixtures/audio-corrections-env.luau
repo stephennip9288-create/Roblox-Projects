@@ -57,7 +57,8 @@ local function setup(low,override,candidateOverride)
     local services={ContentProvider=content,ReplicatedStorage=rs,SoundService=soundService,TweenService={},Debris={AddItem=function() end}}
     local clock=table.clone(os);clock.clock=function() return env.now end
     local FX=luau.load(candidateOverride or candidate,{debugName='AudioRuntimeUnderTest',environment={
-        game={GetService=function(_,name) return services[name] end},workspace=world,
+        game={GameId=config.AudioAtmosphere and config.AudioAtmosphere.universeId,
+            GetService=function(_,name) return services[name] end},workspace=world,
         require=function(key) if key=='Config' then return config elseif key=='Util' then return util else return {} end end,
         Vector3=r.Vector3,Enum=r.Enum,os=clock,typeof=typeof,task=scheduler,RaycastParams={new=function() return {} end},
     },injectGlobals=true})()

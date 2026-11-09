@@ -1,17 +1,15 @@
 {
   "schema": 1,
-  "kind": "offline-tools-validation-only",
-  "runtime_changed": false,
-  "root_python_tests": 120,
-  "root_python_passed": 120,
-  "integrated_intake_and_synthetic_probe_assertions": 427,
-  "new_synthetic_probe_assertions": 29,
+  "kind": "offline-tool-and-policy-validation",
+  "runtime_changed": true,
+  "root_python_tests": 121,
+  "root_python_passed": 121,
+  "integrated_intake_and_synthetic_probe_assertions": 543,
   "luau_compiled_files": 140,
-  "actual_studio_probe_executed": false,
+  "actual_studio_probe_evidence_received": true,
+  "native_execution_origin": "owner-provided report; not MAIN native execution",
   "gameplay_native_verified": false,
-  "source_runtime_checkpoint": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
   "eight_build_pins_still_exact": true,
   "historical_files_preserved": 393,
-  "tool_sha256": "50a2ce485b9593e0a86daff376bf87579f646182a23dec57e65de3215e29131d",
-  "source_specific_GitHub_verification": "Follow-up CI runs attach to the saved verification-tools commit and are reported in PR #73; no native execution is inferred."
+  "publication_authorized": false
 }

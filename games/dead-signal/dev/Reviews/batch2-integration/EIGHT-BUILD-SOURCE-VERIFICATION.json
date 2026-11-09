@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "kind": "independent-native-source-extraction-comparison",
+  "source_sha": null,
+  "builds": {
+    "staging": {
+      "blackwater": {
+        "exact_61_sources": true,
+        "correct_environment_place_config": true,
+        "reviewed_profile_namespace": true,
+        "staging_only_new_bank_restriction": true
+      },
+      "cinderworks": {
+        "exact_61_sources": true,
+        "correct_environment_place_config": true,
+        "reviewed_profile_namespace": true,
+        "staging_only_new_bank_restriction": true
+      },
+      "dispatch": {
+        "exact_61_sources": true,
+        "correct_environment_place_config": true,
+        "reviewed_profile_namespace": true,
+        "staging_only_new_bank_restriction": true
+      },
+      "whiteout": {
+        "exact_61_sources": true,
+        "correct_environment_place_config": true,
+        "reviewed_profile_namespace": true,
+        "staging_only_new_bank_restriction": true
+      }
+    },
+    "production": {
+      "blackwater": {
+        "exact_61_sources": true,
+        "correct_environment_place_config": true,
+        "reviewed_profile_namespace": true,
+        "staging_only_new_bank_restriction": true
+      },
+      "cinderworks": {
+        "exact_61_sources": true,
+        "correct_environment_place_config": true,
+        "reviewed_profile_namespace": true,
+        "staging_only_new_bank_restriction": true
+      },
+      "dispatch": {
+        "exact_61_sources": true,
+        "correct_environment_place_config": true,
+        "reviewed_profile_namespace": true,
+        "staging_only_new_bank_restriction": true
+      },
+      "whiteout": {
+        "exact_61_sources": true,
+        "correct_environment_place_config": true,
+        "reviewed_profile_namespace": true,
+        "staging_only_new_bank_restriction": true
+      }
+    }
+  },
+  "native_engine_playtest": false,
+  "publication_authorized": false
+}

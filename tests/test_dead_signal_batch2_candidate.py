@@ -81,21 +81,25 @@ class Batch2Candidate(unittest.TestCase):
     def test_manifest_baseline_and_audio_evidence_cannot_be_rewritten(self):
         for name in (gate.MANIFEST, gate.REVIEW + 'Baseline/client/Controller.lua.txt',
                      gate.REVIEW + 'AUDIO-INTAKE.json', gate.REVIEW + 'STAGING-GRANTS.csv',
-                     gate.REVIEW + 'PRODUCTION-GRANTS.csv', gate.REVIEW + 'CONFIG-POLICY.luau.txt'):
+                     gate.REVIEW + 'PRODUCTION-GRANTS.csv', gate.REVIEW + 'CONFIG-POLICY.luau.txt',
+                     gate.REVIEW + 'ROBLOX-REVIEW-STATUS.json', gate.REVIEW + 'TRANSCODE-CONTENT-RECHECK.json',
+                     gate.REVIEW + 'NATIVE-AUDIO-OWNER-REPORT.json', gate.REVIEW + 'NATIVE-AUDIO-REVIEW.json',
+                     gate.REVIEW + 'AUDIO-ACTIVATION-MATRIX.json'):
             with self.subTest(path=name):
                 self.corrupt(name)
 
-    def test_listening_and_two_grants_do_not_claim_rights_or_native_playback(self):
-        intake = gate.verify_audio()
+    def test_separate_rights_content_moderation_and_owner_native_evidence_are_pinned(self):
+        intake = gate.verify_audio(require_active=True)
         self.assertEqual(len(intake['recordings']), 16)
         self.assertTrue(all(r['listeningApproved'] for r in intake['recordings']))
         self.assertFalse(intake['owner_listening_reconfirmation_required'])
         self.assertTrue(all(r['rightsCleared'] and r['creatorReviewed'] for r in intake['recordings']))
         self.assertEqual(sum(r['hosted_content_strict_match'] for r in intake['recordings']), 14)
-        with self.assertRaisesRegex(ValueError, 'rights/source'):
-            gate.verify_audio(require_active=True)
-        self.assertTrue(all(r['activated'] is False and r['native_playback_verified'] is False
+        self.assertTrue(all(r['activated'] is True and r['native_playback_verified'] is True
                             for r in intake['recordings']))
+        self.assertEqual(intake['activation_universe_id'], '10771141095')
+        self.assertFalse(intake['native_in_game_playback_verified'])
+        self.assertTrue(all(r['production_activation_authorized'] is False for r in intake['recordings']))
 
     def gameplay_fixture(self):
         """Synthetic authorization exercises the gate; never edits a real admission."""
@@ -114,53 +118,59 @@ class Batch2Candidate(unittest.TestCase):
         row['staging_binary_bytes'] = {p: r['bytes'] for p, r in builds.items()}
         return row, source, records
 
-    def test_separate_gameplay_gate_accepts_only_explicit_disabled_audio_scope(self):
+    def staging_fixture(self):
+        """Synthetic final approval exercises full audio, never approves a real release."""
         row, source, records = self.gameplay_fixture()
-        self.assertEqual(gate.gameplay_staging_completion(row, source, records), row)
-        changes = {'owner_staging_authorization': False, 'owner_accepts_audio_exclusion': False,
+        row = json.loads((records / gate.RECORD).read_text())
+        row.update(source_sha=source, owner_staging_authorization=True,
+                   owner_authorization_evidence='synthetic unit-test evidence', ready_for_staging=True)
+        import dead_signal_production_admission as admission
+        row['ci'] = {family: {'source_sha': source, 'conclusion': 'success', 'run_id': 1}
+                     for family in admission.FAMILIES}
+        return row, source, records
+
+    def test_full_audio_gate_accepts_only_explicit_source_authorization_and_all_assets(self):
+        row, source, records = self.staging_fixture()
+        self.assertEqual(gate.staging_completion(row, source, records), row)
+        changes = {'owner_staging_authorization': False,
                    'owner_authorization_evidence': None, 'ready_for_staging': False,
                    'production_authorization': True, 'engine_gameplay_verified': True,
-                   'full_batch2_accepted': True, 'approval_scope': 'FULL_AUDIO',
-                   'proposal_withdrawn': True,
-                   'source_sha': 'main', 'release': 'dead-signal-batch-2-private-staging'}
+                   'source_sha': 'main', 'release': gate.GAMEPLAY_RELEASE}
         for key, value in changes.items():
             with self.subTest(field=key), self.assertRaises(ValueError):
-                gate.gameplay_staging_completion({**row, key: value}, source, records)
-        for key, value in {'enabled_new_assets': 1, 'fully_approved_assets': 16,
-                           'disabled_assets': {}, 'moderation_and_playback_eligible': True}.items():
+                gate.staging_completion({**row, key: value}, source, records)
+        for key, value in {'enabled_new_assets': 15, 'fully_approved_assets': 15,
+                           'activation_universe_id': '10770732078',
+                           'rights_and_source_verified': False,
+                           'moderation_and_playback_eligible': False}.items():
             mutated = deepcopy(row)
             mutated['audio'][key] = value
             with self.subTest(audio=key), self.assertRaises(ValueError):
-                gate.gameplay_staging_completion(mutated, source, records)
+                gate.staging_completion(mutated, source, records)
 
-    def test_gameplay_scope_preserves_ci_build_rollback_and_full_audio_gates(self):
-        row, source, records = self.gameplay_fixture()
+    def test_full_audio_scope_preserves_ci_build_rollback_and_native_evidence_gates(self):
+        row, source, records = self.staging_fixture()
         for key, value in {'ci': {}, 'staging_binary_sha256': {}, 'rollback': {}}.items():
             with self.subTest(field=key), self.assertRaises(ValueError):
-                gate.gameplay_staging_completion({**row, key: value}, source, records)
+                gate.staging_completion({**row, key: value}, source, records)
         from datetime import datetime, timezone
         with self.assertRaisesRegex(ValueError, 'Refresh staging rollback'):
-            gate.gameplay_staging_completion(row, source, records,
+            gate.staging_completion(row, source, records,
                                              now=datetime(2027, 1, 20, tzinfo=timezone.utc))
-        # Renaming gameplay QA to full audio cannot bypass the original 16-asset gate.
-        full = deepcopy(row)
-        full['release'] = 'dead-signal-batch-2-private-staging'
-        full['audio'].update(fully_approved_assets=16, rights_and_source_verified=True,
-                             moderation_and_playback_eligible=True)
-        with self.assertRaisesRegex(ValueError, 'rights/source'):
-            gate.staging_completion(full, source, records)
+        with patch.object(gate, 'verify_audio', side_effect=ValueError('Unresolved native/source evidence')):
+            with self.assertRaisesRegex(ValueError, 'native/source'):
+                gate.staging_completion(row, source, records)
 
-    def test_disabled_policy_is_in_the_actual_pinned_config(self):
-        expected = {r['event']: r['roblox_asset_id'] for r in gate.verify_audio()['recordings']}
-        self.assertEqual(gate.verify_audio_disabled(self.root), expected)
-        path = self.root / gate.PREFIX / 'Source/Runtime/shared/Config.lua'
-        old = path.read_text()
-        try:
-            path.write_text(old.replace('robloxApproved=false', 'robloxApproved=true', 1))
-            with self.assertRaisesRegex(ValueError, 'disabled Config policy'):
-                gate.verify_audio_disabled(self.root)
-        finally:
-            path.write_text(old)
+    def test_active_policy_cannot_enter_the_withdrawn_disabled_audio_release(self):
+        with self.assertRaisesRegex(ValueError, 'disabled Config policy'):
+            gate.verify_audio_disabled(self.root)
+        row, source, records = self.gameplay_fixture()
+        row.update(runtime_manifest_blob=gate.MANIFEST_BLOB, build_manifest_blob=gate.BUILDS_BLOB)
+        with self.assertRaisesRegex(ValueError, 'disabled Config policy'):
+            gate.gameplay_staging_completion(row, source, records)
+        row['proposal_withdrawn'] = True
+        with self.assertRaisesRegex(ValueError, 'withdrawn'):
+            gate.gameplay_staging_completion(row, source, records)
 
     def test_real_gameplay_record_requires_every_separate_authorization(self):
         records = ROOT / 'games/dead-signal/releases'
@@ -207,12 +217,18 @@ class Batch2Candidate(unittest.TestCase):
     def test_staging_is_not_admitted_by_source_review_or_owner_listening(self):
         records = ROOT / 'games/dead-signal/releases'
         record = json.loads((records / gate.RECORD).read_text())
-        self.assertIs(record['owner_staging_authorization'], False)
-        self.assertIs(record['ready_for_staging'], False)
         self.assertIs(record['production_authorization'], False)
-        for sha in ('main', '', '1' * 40, record.get('source_sha')):
+        if record.get('owner_staging_authorization') is True and record.get('ready_for_staging') is True:
+            gate.staging_completion(record, record['source_sha'], records)
+        else:
+            with self.assertRaises(ValueError):
+                gate.staging_completion(record, record.get('source_sha'), records)
+        for sha in ('main', '', '1' * 40):
             with self.subTest(sha=sha), self.assertRaises(ValueError):
                 gate.staging_completion(record, sha, records)
+        for key in ('owner_staging_authorization', 'ready_for_staging'):
+            with self.subTest(missing=key), self.assertRaises(ValueError):
+                gate.staging_completion({**record, key: False}, record.get('source_sha'), records)
 
     def test_wrong_candidate_build_and_forged_build_review_are_rejected(self):
         reviewed = gate.build_record()

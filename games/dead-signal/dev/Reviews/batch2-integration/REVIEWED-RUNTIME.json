@@ -53,7 +53,7 @@
     },
     "Source/Runtime/client/Effects.lua": {
       "base_blob": "eba3364383e7bef7fc7fbe831287b257bdd0d43a",
-      "blob_sha": "636881d017de65ee6711dd5c0d4193b949e33054",
+      "blob_sha": "798246f7be2edb5ba0079af097f827b746f4a5d3",
       "specialist_sources": [
         {
           "lane": "audio",
@@ -63,7 +63,7 @@
         }
       ],
       "baseline_file": "Baseline/client/Effects.lua.txt",
-      "review_reason": "AUDIO bounded atmosphere/music/foley mixer; non-audio prefix and VFX suffix preserved"
+      "review_reason": "AUDIO bounded atmosphere/music/foley mixer plus MAIN mandatory new-bank activation-universe restriction; Batch1 audio route and all existing loader/budget/fallback controls preserved."
     },
     "Source/Runtime/client/MobileControls.lua": {
       "base_blob": "d7632472ce7bf70bfa39a5e70d1174770a28ab64",
@@ -310,7 +310,7 @@
     },
     "Source/Runtime/shared/Config.lua": {
       "base_blob": "8a314e4cec13a3d1f3e231628be203c36a493412",
-      "blob_sha": "65911edd08b084dca2696fd50c41efe24d178776",
+      "blob_sha": "a7586fea19257301c13eebf2d50dc30581a0d510",
       "specialist_sources": [
         {
           "lane": "audio",
@@ -320,7 +320,7 @@
         }
       ],
       "baseline_file": "Baseline/shared/Config.lua.txt",
-      "review_reason": "Exact sixteen owner-approved IDs/grants/listening; original-source creator/rights reviewed; Roblox approval false for every new bank, so gameplay-only QA cannot activate them"
+      "review_reason": "Combined B2 configuration, exact sixteen reviewed audio IDs/gates and mandatory private-staging activationUniverseId; accepted Batch1 policy unchanged."
     },
     "Source/Runtime/shared/ControlSettings.lua": {
       "base_blob": "9a5b6776f258c1c824d2b5b5c2cf5a19a7f70996",
@@ -845,9 +845,14 @@
     "games/dead-signal/releases/recovery-production.json": "b64432e08634a20206cb3ee07ce067221dd8f1f0",
     "games/dead-signal/releases/recovery-staging.json": "92df017b2bef780914db77cc3a1bd4b875cc721e"
   },
-  "config_policy_blob": "06bc5713e6c5dd30c7a88fe3b537235a359df58b",
-  "audio_intake_blob": "87064dbce4e79d73fc70b00d0820dd7ee2f8d061",
+  "config_policy_blob": "b2eda165926f4ec739a5d89ac1b70ad26b9c9ba2",
+  "audio_intake_blob": "e738c55e2125ec7cfb9e441ddb19aae9db3c158a",
   "historical_evidence": "All existing Batch 1 review files, native places, release admissions and recovery records retained byte-for-byte; separate B2 ledger only.",
   "audio_source_review_blob": "eafa9bc353fbf945a95837d1489f46666339a2d2",
-  "hosted_content_comparison_blob": "9c4865f9432cdde21440e0fee71cd018ad78a449"
+  "hosted_content_comparison_blob": "9c4865f9432cdde21440e0fee71cd018ad78a449",
+  "roblox_review_status_blob": "fee2e642dd227fb08c6e09bac94fc22705890cf1",
+  "transcode_content_recheck_blob": "9cae4c3a18666074b95a55f8e57f20aae0b21036",
+  "native_audio_owner_report_blob": "a804af84c4639fa2c001bb6faf9bbb028226ca83",
+  "native_audio_review_blob": "5ac5e558ae59f6c31924ae977f7084ec84597b5d",
+  "audio_activation_matrix_blob": "53cb671d0ed75c0d6004a9f9e9d7b6f3de904eba"
 }

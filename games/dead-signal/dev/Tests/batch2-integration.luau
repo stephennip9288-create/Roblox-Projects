@@ -38,4 +38,5 @@ for _,universe in ipairs({10771141095,10770732078,0,1}) do
     check(same(c,before),'All non-Batch2 Config and profile settings exactly retained')
 end
 check(intake.owner_listening_reconfirmation_required==false,'Do not repeat completed listening acceptance')
+count+=require('./Fixtures/audio-b2-native-probe-test')()
 print('Batch 2 integrated intake assertions passed:',count)

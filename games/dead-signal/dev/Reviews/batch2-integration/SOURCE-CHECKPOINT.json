@@ -41,7 +41,7 @@
   "staging_published": false,
   "production_published": false,
   "native_qa_verified": false,
-  "candidate_intent": "Exact reviewed gameplay-only private-staging candidate. All sixteen new audio banks disabled; separate exact-source owner authorization and reviewed main controls required.",
+  "candidate_intent": "Retained audio-disabled source checkpoint only. Owner requests all sixteen new audio assets active; final audio-active source is pending native/source intake.",
   "prior_checkpoint": {
     "sha": "fccea067b804933c6d6db936b6332ceb5b662cdb",
     "history": "History/fccea067/"
@@ -49,5 +49,8 @@
   "staging_admission": "games/dead-signal/releases/batch-2-gameplay-staging.json",
   "full_audio_admission_separate_and_blocked": true,
   "new_audio_enabled_count": 0,
-  "control_followup": "Final branch HEAD records source-specific CI/artifacts and admission; authorization-test compatibility permits a future separately approved main-trusted record without changing game source."
+  "control_followup": "Final branch HEAD records source-specific CI/artifacts and admission; authorization-test compatibility permits a future separately approved main-trusted record without changing game source.",
+  "gameplay_only_proposal_withdrawn": true,
+  "requested_audio_active_source_sha": null,
+  "latest_audio_evidence": "AUDIO-ACTIVATION-MATRIX.json"
 }

@@ -104,7 +104,8 @@ class Batch2Candidate(unittest.TestCase):
         source = '1' * 40
         row.update(source_sha=source, owner_staging_authorization=True,
                    owner_authorization_evidence='synthetic unit-test evidence',
-                   owner_accepts_audio_exclusion=True, ready_for_staging=True)
+                   owner_accepts_audio_exclusion=True, ready_for_staging=True,
+                   proposal_withdrawn=False)
         import dead_signal_production_admission as admission
         row['ci'] = {family: {'source_sha': source, 'conclusion': 'success', 'run_id': 1}
                      for family in admission.FAMILIES}
@@ -120,6 +121,7 @@ class Batch2Candidate(unittest.TestCase):
                    'owner_authorization_evidence': None, 'ready_for_staging': False,
                    'production_authorization': True, 'engine_gameplay_verified': True,
                    'full_batch2_accepted': True, 'approval_scope': 'FULL_AUDIO',
+                   'proposal_withdrawn': True,
                    'source_sha': 'main', 'release': 'dead-signal-batch-2-private-staging'}
         for key, value in changes.items():
             with self.subTest(field=key), self.assertRaises(ValueError):

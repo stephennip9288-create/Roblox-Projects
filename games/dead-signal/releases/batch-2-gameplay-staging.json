@@ -159,8 +159,8 @@
     }
   },
   "blockers": [
-    "Separate explicit owner authorization for source 60b4a05689a92819f6f31bfe22862deb353fd5c9 and acceptance of all sixteen disabled new audio banks is required.",
-    "Reviewed PR #73 controls/admission must reach main before an authorized dispatch."
+    "Owner requires all sixteen new audio assets enabled. This disabled-audio proposal is withdrawn and is not the requested release.",
+    "A new fully evidenced audio-active runtime source and separate final authorization are required."
   ],
   "native_qa": "Not performed; no bug is marked Verified and no device/Studio acceptance inferred from offline tests.",
   "candidate_artifacts": {
@@ -264,5 +264,8 @@
   "approval_scope": "GAMEPLAY_QA_NEW_AUDIO_DISABLED",
   "owner_accepts_audio_exclusion": false,
   "full_batch2_accepted": false,
-  "technical_preflight_complete": true
+  "technical_preflight_complete": true,
+  "proposal_withdrawn": true,
+  "owner_requested_all_sixteen_new_audio_active": true,
+  "withdrawal_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6729154438"
 }

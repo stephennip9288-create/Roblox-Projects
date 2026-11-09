@@ -250,6 +250,8 @@ def staging_completion(record, source_sha, records, now=None):
 
 def gameplay_staging_completion(record, source_sha, records, now=None):
     """Distinct owner-approved gameplay test, never a full-audio acceptance."""
+    if record.get('proposal_withdrawn') is True:
+        raise ValueError('Gameplay-only proposal withdrawn; owner requires all sixteen new audio assets enabled')
     _staging_identity(record, source_sha, GAMEPLAY_RELEASE)
     disabled = verify_audio_disabled()
     audio = record.get('audio', {})

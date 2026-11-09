@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "deployment_run": 42554354647,
+  "control_sha": "22f53d6489273208791b0284148c1f107665b17b",
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+  "publish_result": {
+    "operation": "deploy",
+    "places": {
+      "blackwater": "published",
+      "cinderworks": "published",
+      "whiteout": "published",
+      "dispatch": "published"
+    },
+    "production_touched": false
+  },
+  "retained_deployed_native_artifact": 13646738026,
+  "deployed_artifact_sha256": "e630daf865cedaf7c7eaa9695449ce94e792cc2bb840982caeb48c439d668d66",
+  "deployed_artifact_expires_at": "2027-02-07T03:04:41Z",
+  "places": {
+    "dispatch": {
+      "member": "build/dead-signal-lossless/staging/dispatch.rbxl",
+      "sha256": "c2f1574bb68157f6997aaa250a368fd79f934651a306361e1865963346b518eb",
+      "bytes": 2784393,
+      "exact_61_sources_verified": true,
+      "staging_ids_verified": true,
+      "all_16_new_asset_gates_active_for_staging": true
+    },
+    "blackwater": {
+      "member": "build/dead-signal-lossless/staging/blackwater.rbxl",
+      "sha256": "40ea745ae4126a8259b54eebaac235b8aeaef594234e06891c295d45ed2be695",
+      "bytes": 2755463,
+      "exact_61_sources_verified": true,
+      "staging_ids_verified": true,
+      "all_16_new_asset_gates_active_for_staging": true
+    },
+    "cinderworks": {
+      "member": "build/dead-signal-lossless/staging/cinderworks.rbxl",
+      "sha256": "1ea386060417ff3fc9536a4022c436417a6ce7928bac25252c729cd20faf43fb",
+      "bytes": 2763322,
+      "exact_61_sources_verified": true,
+      "staging_ids_verified": true,
+      "all_16_new_asset_gates_active_for_staging": true
+    },
+    "whiteout": {
+      "member": "build/dead-signal-lossless/staging/whiteout.rbxl",
+      "sha256": "cf2fda90a203321b33be5c6a29111c875e972b19d373743869f7f63d0c1edf9e",
+      "bytes": 2764769,
+      "exact_61_sources_verified": true,
+      "staging_ids_verified": true,
+      "all_16_new_asset_gates_active_for_staging": true
+    }
+  },
+  "pre_deployment_rollback_manifest_matches_all_four_known_good_files": true,
+  "prior_staging_recovery_artifact_retained": 12545195246,
+  "production_recovery_artifact_retained": 13309518810,
+  "native_gameplay_verified": false,
+  "production_published": false,
+  "recorded_at_utc": "2026-11-09T03:14:48.512956+00:00",
+  "release_status": "PRIVATE_STAGING_PUBLISHED_AWAITING_NATIVE_GAMEPLAY_QA",
+  "staging_universe_id": "10771141095",
+  "pr_number": 73,
+  "pr_merged": true,
+  "authorization_control_head": "33021ee4509dcb3595611a4fc38fcc73cdb6bb70",
+  "merged_main_control_sha": "22f53d6489273208791b0284148c1f107665b17b",
+  "roblox_published_versions": {
+    "blackwater": 17,
+    "cinderworks": 17,
+    "whiteout": 17,
+    "dispatch": 24
+  },
+  "publication_version_evidence": "Roblox versionNumber responses recorded by the four actual publisher calls in controlled-staging job 128956650373; maps first, Dispatch last.",
+  "run_url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42554354647",
+  "artifacts": [
+    {
+      "id": 13646892538,
+      "name": "dead-signal-staging-deployment-result-42554354647",
+      "sha256": "c27d10e7ab7326d3ea7db07713f1123783f8806a69b38a26652ee4b870fa10aa",
+      "bytes": 954,
+      "expires_at": "2027-02-07T03:04:41Z",
+      "expired": false,
+      "control_sha": "22f53d6489273208791b0284148c1f107665b17b"
+    },
+    {
+      "id": 13646738026,
+      "name": "dead-signal-reviewed-staging-42554354647",
+      "sha256": "e630daf865cedaf7c7eaa9695449ce94e792cc2bb840982caeb48c439d668d66",
+      "bytes": 10679646,
+      "expires_at": "2027-02-07T03:04:41Z",
+      "expired": false,
+      "control_sha": "22f53d6489273208791b0284148c1f107665b17b"
+    },
+    {
+      "id": 13646683476,
+      "name": "dead-signal-staging-rollback-manifest-42554354647",
+      "sha256": "bfefb5e1d6c4bf5ee9f05b223f6c8ede7cf7542d1b39df3b88d18e423cc8ceda",
+      "bytes": 707,
+      "expires_at": "2027-02-07T03:04:41Z",
+      "expired": false,
+      "control_sha": "22f53d6489273208791b0284148c1f107665b17b"
+    }
+  ],
+  "all_artifact_archive_sha256_and_CRC_checks_passed": true,
+  "all_four_downloaded_native_fidelity_checks_passed": true,
+  "production_new_bank_activation": false,
+  "profile_store": "DeadSignal_Profile_v1",
+  "production_latest_manual_deployment_unchanged": 41800682585,
+  "known_good_fallback": "Previous Batch1 staging source f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d, artifact 12545195246, retained without replacing frozen historical evidence.",
+  "staging_recovery_followup": "The new reviewed native artifact is retained for recovery. Before any later staging deploy, reconcile current published-state/recovery provenance through the trusted admission; the existing latest-deployment check remains fail closed. Previous Batch1 restoration remains the rollback target.",
+  "native_gameplay_qa": {
+    "status": "pending",
+    "completed": false,
+    "accepted": false,
+    "required_checks": [
+      "All three maps",
+      "Desktop, controller and physical mobile",
+      "Multiplayer",
+      "High-round zombies",
+      "Forward-only sprint and directional movement",
+      "Room navigation and windows",
+      "Warden and extraction",
+      "Dynamic music, atmosphere, spatial mix, mute and Low Effects/audio settings"
+    ],
+    "playtest_instruction": "Start a fresh private-staging session; publishing does not establish that an already-running older server changed version."
+  },
+  "all_16_reviewed_asset_gates_enabled_in_deployed_configuration": true
+}

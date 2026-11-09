@@ -75,13 +75,14 @@ check(entry==4 and alpha==1,'dense entry catch-up is bounded and Alpha is announ
 before=#events;now+=.2;bridge:tick(now);check(#events==before,'unchanged replicated entry facts are one-shot')
 local stepper=npcModels[2]:FindFirstChild('HumanoidRootPart')
 local hum=make('Humanoid','Humanoid',npcModels[2]);hum.FloorMaterial=r.Enum.Material.Concrete
-position(stepper,stepper.Position+r.Vector3.new(1,0,0));now+=.6;before=#events;bridge:tick(now)
+-- Batch2 admits a stride after two studs, rejecting idle/jitter movement.
+position(stepper,stepper.Position+r.Vector3.new(2.5,0,0));now+=.6;before=#events;bridge:tick(now)
 local footstep=false for i=before+1,#events do if events[i].key=='Zombie.Footstep' then footstep=events[i].context.material=='Concrete' end end
 check(footstep,'moving grounded NPC foley uses the physical material and actor lifecycle')
 -- Existing replicated kind is presentation context, not new combat authority.
 local houndRoot=npcModels[1]:FindFirstChild('HumanoidRootPart')
 local houndHum=make('Humanoid','Humanoid',npcModels[1]);houndHum.FloorMaterial=r.Enum.Material.Ice
-position(houndRoot,houndRoot.Position+r.Vector3.new(1,0,0));now+=.6;before=#events;bridge:tick(now)
+position(houndRoot,houndRoot.Position+r.Vector3.new(2.5,0,0));now+=.6;before=#events;bridge:tick(now)
 local houndStep=false
 for i=before+1,#events do local e=events[i]
  if e.key=='Zombie.Footstep' and e.context.sourceId=='npc:7:1' then

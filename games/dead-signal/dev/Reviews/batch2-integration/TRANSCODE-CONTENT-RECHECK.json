@@ -1,0 +1,302 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-09T01:21:56.716213+00:00",
+  "kind": "supplemental-transcode-aware-content-correspondence",
+  "criteria_fixed_before_execution": {
+    "band_hz": [
+      100,
+      6000
+    ],
+    "sample_rate": 48000,
+    "filter_order": 6,
+    "minimum_full_channel_correlation": 0.98,
+    "minimum_half_second_segment_channel_correlation": 0.95,
+    "minimum_source_frame_coverage": 0.99,
+    "maximum_absolute_negative_control_correlation": 0.3,
+    "minimum_positive_negative_correlation_margin": 0.6
+  },
+  "original_strict_criteria_or_results_modified": false,
+  "method": "Both channels, full tracks and half-second segments in fixed 100\u20136000 Hz band; six negative controls per target; same original/hosted hashes; no new time-shift fitting.",
+  "limitations": [
+    "Does not prove compressed-byte identity or preservation above 6 kHz.",
+    "Does not establish Roblox moderation, native loading, audibility or gameplay quality."
+  ],
+  "records": [
+    {
+      "asset_id": "101059835221623",
+      "name": "cinderworks_steam_release_1",
+      "source_sha256": "58a2c1d8f440f8e4646258309ae1cee892c4308882c64206aa14c67e3bd74b64",
+      "hosted_sha256": "0765ffdb9c7c9f22fcf72b42c127dd57a988e53f19b06e7736e59532e3c66bbf",
+      "original_strict_comparison": {
+        "roblox_asset_id": "101059835221623",
+        "name": "cinderworks_steam_release_1",
+        "source_sha256": "58a2c1d8f440f8e4646258309ae1cee892c4308882c64206aa14c67e3bd74b64",
+        "source_bytes": 366414,
+        "hosted_sha256": "0765ffdb9c7c9f22fcf72b42c127dd57a988e53f19b06e7736e59532e3c66bbf",
+        "hosted_bytes": 33109,
+        "byte_identical": false,
+        "lag_samples_48000": 0,
+        "source_frames_48000": 183168,
+        "hosted_frames_48000": 183169,
+        "aligned_frames": 183168,
+        "source_coverage": 1.0,
+        "channel_correlations": [
+          0.911923,
+          0.9053364
+        ],
+        "fitted_gain": 0.87523799,
+        "normalized_rms_error": 0.41752309,
+        "decoded_content_match": false
+      },
+      "original_strict_pass_unchanged": false,
+      "alignment_samples_48000": 0,
+      "source_coverage": 1.0,
+      "band_limited_channel_correlations": [
+        0.9344191872221377,
+        0.9350944794460186
+      ],
+      "worst_segment_correlation": 0.9301241296430054,
+      "strongest_absolute_negative_control_correlation": 0.004255110912095398,
+      "segments": [
+        {
+          "start_seconds": 0.0,
+          "end_seconds": 0.5,
+          "channel_correlations": [
+            0.9746698197548452,
+            0.9644533006963464
+          ]
+        },
+        {
+          "start_seconds": 0.5,
+          "end_seconds": 1.0,
+          "channel_correlations": [
+            0.944914288565369,
+            0.9402926113638042
+          ]
+        },
+        {
+          "start_seconds": 1.0,
+          "end_seconds": 1.5,
+          "channel_correlations": [
+            0.9350356794174071,
+            0.935740209412564
+          ]
+        },
+        {
+          "start_seconds": 1.5,
+          "end_seconds": 2.0,
+          "channel_correlations": [
+            0.9336609879795553,
+            0.934425270754912
+          ]
+        },
+        {
+          "start_seconds": 2.0,
+          "end_seconds": 2.5,
+          "channel_correlations": [
+            0.9332760130704205,
+            0.9350639744102857
+          ]
+        },
+        {
+          "start_seconds": 2.5,
+          "end_seconds": 3.0,
+          "channel_correlations": [
+            0.9301241296430054,
+            0.9336305172333662
+          ]
+        },
+        {
+          "start_seconds": 3.0,
+          "end_seconds": 3.5,
+          "channel_correlations": [
+            0.9713156124861484,
+            0.9650265486038144
+          ]
+        },
+        {
+          "start_seconds": 3.5,
+          "end_seconds": 3.816,
+          "channel_correlations": [
+            0.981656407343582,
+            0.9733759196968488
+          ]
+        }
+      ],
+      "negative_controls": [
+        {
+          "kind": "different owner physical recording",
+          "name": "blackwater_metal_creak_1",
+          "channel_correlations": [
+            0.0020479347614470174,
+            0.002745601757400281
+          ]
+        },
+        {
+          "kind": "different owner physical recording",
+          "name": "cinderworks_steel_impact_1",
+          "channel_correlations": [
+            -0.002771912376942787,
+            -0.0011772831585606252
+          ]
+        },
+        {
+          "kind": "different owner physical recording",
+          "name": "infected_breath_1",
+          "channel_correlations": [
+            0.0008158898327997943,
+            0.001843985852949069
+          ]
+        },
+        {
+          "kind": "different owner physical recording",
+          "name": "infected_clothing_drag_1",
+          "channel_correlations": [
+            -0.0017726787661878187,
+            -0.0041963782309722645
+          ]
+        },
+        {
+          "kind": "different owner physical recording",
+          "name": "infected_distant_cry_1",
+          "channel_correlations": [
+            0.00012553023666072552,
+            0.0013405271027630066
+          ]
+        },
+        {
+          "kind": "same spectrum / randomized phase",
+          "channel_correlations": [
+            -0.0030481420192374794,
+            0.004255110912095398
+          ]
+        }
+      ],
+      "supplemental_content_correspondence_passed": false,
+      "byte_identical": false,
+      "native_playback_verified": false
+    },
+    {
+      "asset_id": "92629845353488",
+      "name": "infected_clothing_drag_1",
+      "source_sha256": "75697dd4d7b5dd1253d59b9bb8bf0edd81461469339a595c6ad912a649738fe5",
+      "hosted_sha256": "8b56b8046855fd054ae852e52ecbeccfdce6ae20d990de5393b08af6028e7e1a",
+      "original_strict_comparison": {
+        "roblox_asset_id": "92629845353488",
+        "name": "infected_clothing_drag_1",
+        "source_sha256": "75697dd4d7b5dd1253d59b9bb8bf0edd81461469339a595c6ad912a649738fe5",
+        "source_bytes": 352778,
+        "hosted_sha256": "8b56b8046855fd054ae852e52ecbeccfdce6ae20d990de5393b08af6028e7e1a",
+        "hosted_bytes": 33322,
+        "byte_identical": false,
+        "lag_samples_48000": 0,
+        "source_frames_48000": 95973,
+        "hosted_frames_48000": 95973,
+        "aligned_frames": 95973,
+        "source_coverage": 1.0,
+        "channel_correlations": [
+          0.96928895,
+          0.99237484
+        ],
+        "fitted_gain": 0.97632884,
+        "normalized_rms_error": 0.1620082,
+        "decoded_content_match": false
+      },
+      "original_strict_pass_unchanged": false,
+      "alignment_samples_48000": 0,
+      "source_coverage": 1.0,
+      "band_limited_channel_correlations": [
+        0.9803536224703526,
+        0.9926504784941196
+      ],
+      "worst_segment_correlation": 0.9789365408986362,
+      "strongest_absolute_negative_control_correlation": 0.018994664068687335,
+      "segments": [
+        {
+          "start_seconds": 0.0,
+          "end_seconds": 0.5,
+          "channel_correlations": [
+            0.990736740125297,
+            0.9958746083821316
+          ]
+        },
+        {
+          "start_seconds": 0.5,
+          "end_seconds": 1.0,
+          "channel_correlations": [
+            0.9789365408986362,
+            0.9920305779954058
+          ]
+        },
+        {
+          "start_seconds": 1.0,
+          "end_seconds": 1.5,
+          "channel_correlations": [
+            0.9812632787154547,
+            0.9929909428048451
+          ]
+        },
+        {
+          "start_seconds": 1.5,
+          "end_seconds": 1.9994375,
+          "channel_correlations": [
+            0.9829115823223624,
+            0.9934453869317545
+          ]
+        }
+      ],
+      "negative_controls": [
+        {
+          "kind": "different owner physical recording",
+          "name": "blackwater_metal_creak_1",
+          "channel_correlations": [
+            -0.004672951730843416,
+            -0.0037023526541659028
+          ]
+        },
+        {
+          "kind": "different owner physical recording",
+          "name": "cinderworks_steam_release_1",
+          "channel_correlations": [
+            -0.004046230074145228,
+            -0.0042178754110651934
+          ]
+        },
+        {
+          "kind": "different owner physical recording",
+          "name": "cinderworks_steel_impact_1",
+          "channel_correlations": [
+            1.919186057491798e-06,
+            3.6550436882259183e-06
+          ]
+        },
+        {
+          "kind": "different owner physical recording",
+          "name": "infected_breath_1",
+          "channel_correlations": [
+            -0.0160897322555881,
+            -0.014171853578244957
+          ]
+        },
+        {
+          "kind": "different owner physical recording",
+          "name": "infected_distant_cry_1",
+          "channel_correlations": [
+            0.005398641026768764,
+            0.005108315229070484
+          ]
+        },
+        {
+          "kind": "same spectrum / randomized phase",
+          "channel_correlations": [
+            0.018994664068687335,
+            0.01081933120539012
+          ]
+        }
+      ],
+      "supplemental_content_correspondence_passed": true,
+      "byte_identical": false,
+      "native_playback_verified": false
+    }
+  ]
+}

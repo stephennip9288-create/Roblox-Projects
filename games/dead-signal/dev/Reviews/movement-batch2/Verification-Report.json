@@ -1,0 +1,594 @@
+{
+  "baseline": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "tested_source_commit": "528f99c7a0cc5abe031df1ff11ce91064e570022",
+  "implementation_status": "Ready for MAIN source review/intake; draft PR until reviewed B2 provenance path",
+  "suites": [
+    {
+      "suite": "loading",
+      "passed": true,
+      "assertions": 63,
+      "seconds": 0.136
+    },
+    {
+      "suite": "loadingpreview",
+      "passed": true,
+      "assertions": 36,
+      "seconds": 0.132
+    },
+    {
+      "suite": "evolution",
+      "passed": true,
+      "assertions": 2959,
+      "seconds": 3.566
+    },
+    {
+      "suite": "events",
+      "passed": true,
+      "assertions": 18,
+      "seconds": 0.146
+    },
+    {
+      "suite": "presentation",
+      "passed": true,
+      "assertions": 55,
+      "seconds": 0.128
+    },
+    {
+      "suite": "director",
+      "passed": true,
+      "assertions": 431,
+      "seconds": 0.026
+    },
+    {
+      "suite": "server",
+      "passed": true,
+      "assertions": 35,
+      "seconds": 0.16
+    },
+    {
+      "suite": "navigation",
+      "passed": true,
+      "assertions": 13,
+      "seconds": 0.163
+    },
+    {
+      "suite": "pursuit",
+      "passed": true,
+      "assertions": 90,
+      "seconds": 0.914
+    },
+    {
+      "suite": "rigs",
+      "passed": true,
+      "assertions": 222,
+      "seconds": 0.162
+    },
+    {
+      "suite": "weapons",
+      "passed": true,
+      "assertions": 7929,
+      "seconds": 0.442
+    },
+    {
+      "suite": "arrival",
+      "passed": true,
+      "assertions": 28,
+      "seconds": 0.134
+    },
+    {
+      "suite": "extraction",
+      "passed": true,
+      "assertions": 20,
+      "seconds": 0.02
+    },
+    {
+      "suite": "map_remaster",
+      "passed": true,
+      "assertions": 259384,
+      "seconds": 13.246
+    },
+    {
+      "suite": "map_batch11",
+      "passed": true,
+      "assertions": 26387,
+      "seconds": 29.204
+    },
+    {
+      "suite": "enemy-lifecycle",
+      "passed": true,
+      "assertions": 77,
+      "seconds": 0.137
+    },
+    {
+      "suite": "enemy-path-recovery",
+      "passed": true,
+      "assertions": 48,
+      "seconds": 0.123
+    },
+    {
+      "suite": "combat-ui",
+      "passed": true,
+      "assertions": 638775,
+      "seconds": 16.337
+    },
+    {
+      "suite": "combat-input",
+      "passed": true,
+      "assertions": 63,
+      "seconds": 0.38
+    },
+    {
+      "suite": "touch",
+      "passed": true,
+      "assertions": 512,
+      "seconds": 0.031
+    },
+    {
+      "suite": "integration-contracts",
+      "passed": true,
+      "assertions": 501,
+      "seconds": 3.705
+    },
+    {
+      "suite": "weapons-batch1",
+      "passed": true,
+      "assertions": 64271,
+      "seconds": 26.513
+    },
+    {
+      "suite": "infected-batch1",
+      "passed": true,
+      "assertions": 2501,
+      "seconds": 2.443
+    },
+    {
+      "suite": "infected-entrances",
+      "passed": true,
+      "assertions": 71,
+      "seconds": 1.204
+    },
+    {
+      "suite": "infected-geometry",
+      "passed": true,
+      "assertions": 25717,
+      "seconds": 31.166
+    },
+    {
+      "suite": "enemy-b11-runtime",
+      "passed": true,
+      "assertions": 1069,
+      "seconds": 11.364
+    },
+    {
+      "suite": "enemy-b11-appearance",
+      "passed": true,
+      "assertions": 6039,
+      "seconds": 0.73
+    },
+    {
+      "suite": "enemy-b11-admission",
+      "passed": true,
+      "assertions": 29,
+      "seconds": 0.918
+    },
+    {
+      "suite": "enemy-b11-spatial",
+      "passed": true,
+      "assertions": 3441,
+      "seconds": 12.659
+    },
+    {
+      "suite": "enemy-b11-geometry",
+      "passed": true,
+      "assertions": 210,
+      "seconds": 28.862
+    },
+    {
+      "suite": "map-window-geometry",
+      "passed": true,
+      "assertions": 7453,
+      "seconds": 12.106
+    },
+    {
+      "suite": "enemy-b1-r6",
+      "passed": true,
+      "assertions": 15359,
+      "seconds": 0.729
+    },
+    {
+      "suite": "enemy-b1-entry-followup",
+      "passed": true,
+      "assertions": 160,
+      "seconds": 8.48
+    },
+    {
+      "suite": "audio",
+      "passed": true,
+      "assertions": 4433,
+      "seconds": 0.474
+    },
+    {
+      "suite": "audio-quality-b11",
+      "passed": true,
+      "assertions": 800,
+      "seconds": 0.224
+    },
+    {
+      "suite": "audio-corrections-b1",
+      "passed": true,
+      "assertions": 2121,
+      "seconds": 0.724
+    },
+    {
+      "suite": "audio-supplement-intake",
+      "passed": true,
+      "assertions": 417,
+      "seconds": 0.084
+    },
+    {
+      "suite": "production-audio",
+      "passed": true,
+      "assertions": 191,
+      "seconds": 0.12
+    },
+    {
+      "suite": "batch1-integration",
+      "passed": true,
+      "assertions": 54,
+      "seconds": 3.476
+    },
+    {
+      "suite": "movement-batch2",
+      "passed": true,
+      "assertions": 10790,
+      "seconds": 0.302
+    }
+  ],
+  "unit_assertions": 1082772,
+  "root_python": {
+    "total": 98,
+    "passed": 98
+  },
+  "dev_python": {
+    "total": 28,
+    "passed": 24,
+    "failed": 2,
+    "skipped": 2,
+    "failures": [
+      "test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change",
+      "test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration"
+    ],
+    "cause": "Historical assert_reviewed_runtime compares approved B2 runtime deltas with immutable Batch1 bytes. MAIN must review combined B2 intake; no guard changed.",
+    "skips": "External source-cache/WAV reproduction fixtures not supplied."
+  },
+  "syntax": {
+    "passed": true,
+    "lua_luau_files": 125,
+    "runtime_records": 61
+  },
+  "runtime_sha256": {
+    "Source/Runtime/client/AimAssist.lua": "27b9e853f84688f99937e9cc178048453c123649c18a2193f11f46182ffb3c4a",
+    "Source/Runtime/client/Bootstrap.client.lua": "6e4d58d43f187e8b5d2545a49c1996dfa4894be8e7fa6cc06698138cae67b6c0",
+    "Source/Runtime/client/Controller.lua": "5d4300db4aa9e36559fc0d4e3f32a1af366c9039185247d79500aeec06b60cf1",
+    "Source/Runtime/client/Effects.lua": "6ee9e4c9b1a353760bdbe9ff1a1077a28061756792d4aa0f1bf15b2121d202ca",
+    "Source/Runtime/client/MobileControls.lua": "92642d1cb4f39de32b1da0c5f143465839a55a4a023b40733cbb467759f5a09c",
+    "Source/Runtime/client/Scope.lua": "25381ace57c241b24fd2a1af4aa64e3b93f5e07507862f4ba3ae366b68dde415",
+    "Source/Runtime/client/UI.lua": "35fc90cee5be38f724c63f0b90c440a0ad759d83ee4106f4d21ef0c7c72e34b2",
+    "Source/Runtime/server/Architecture.lua": "3d3a7b6d11c30cb33abb0e6f6faaae45784bd214a7341b6053ace4b979f7d9cb",
+    "Source/Runtime/server/Bootstrap.server.lua": "a464dae86e04ac0d5cf4ec6bdae8a79ee1079873bf77b36baf4c58996d5cc83f",
+    "Source/Runtime/server/BoundaryGuard.lua": "7cce0a3d7dbb1b0790281b00f300c5f7139ece47cfa0970103bf11d43f5ef8c5",
+    "Source/Runtime/server/CinematicWorld.lua": "376e0cb76c8824256b71c3aae942f565b468cb4403d68bc3a8482ad629269ab2",
+    "Source/Runtime/server/CollisionPolicy.lua": "a6ff8e97dfaf3d0ddf3d62c01177b5915311a1c8dbcf16afbf39437fdd179ee2",
+    "Source/Runtime/server/Combat.lua": "82b8ea0a825a45ac3e74d3a0791a2eaad45a8f5244e6a5be21635fed93aa8adf",
+    "Source/Runtime/server/Diagnostics.lua": "e8eb233e1e3145e6421b7c827b59435431dfbcdd5272629c80f56ed0d02b85d7",
+    "Source/Runtime/server/Enemies.lua": "6b31c3fbc8405f594b3210c2abbd7ec19713624e92cb3ea8ad8b138d1e8e1dd9",
+    "Source/Runtime/server/EnemyRigs.lua": "1d5e592c80f777b24e66c658af37a1ee87e43d42156008833edfbfc85875b4e4",
+    "Source/Runtime/server/ExtractionZone.lua": "2bb335006623fb7ccb626d48ad0ec23cd70092de574aa31cb89ad75aec0abd09",
+    "Source/Runtime/server/Game.lua": "2497a0d8f791a6b07ac0646e494bca4fae8a250d9beda1cfc37deeeeb07c0ab3",
+    "Source/Runtime/server/GraphicsService.lua": "908ca31e1fa25895d2d48630873bc3b8cf5e9bf51ac58383abe9c93ac04c7ee1",
+    "Source/Runtime/server/HoundRig.lua": "c89a5b40b84413f205e33fed8b63d0035c5ec17710d74684e45d62cf4c1ef2fb",
+    "Source/Runtime/server/InfectedWardrobe.lua": "0ad38f8ec3ab02b9a6a2a41e74c14b4df8f7aed4a37ffc10c0b593226af91d8d",
+    "Source/Runtime/server/Interactions.lua": "0bcfa0d33eddb39ab52a928deb520a0ab5e5dbb4763b246b32fa87e80a937f4b",
+    "Source/Runtime/server/LobbyService.lua": "7520795b03c2b44d70dda1790afbfea713250d1ddeb8db158f8f874db3d39f29",
+    "Source/Runtime/server/MapBuilder.lua": "399f53f796f7ac09d6645014ba0cb2b01e06257532e84c89186c0e86a946cb1f",
+    "Source/Runtime/server/MapDetail.lua": "e303104dfca2f7918503c2f62f215777729c634c8d67e77967e784301d8bccd6",
+    "Source/Runtime/server/MapRoutes.lua": "079dc4c91fed3c748bcfa2485fcac412d0c7151eb989c2691befd97f6d3eabc4",
+    "Source/Runtime/server/Navigation.lua": "393208ad72a5694d7126615fad3d466310f15d67b40c309811c50fceb71cf33f",
+    "Source/Runtime/server/Network.lua": "4e77591e7c603ba874ba5168d2455e674ed86023350c851a9e3f16c3d149707b",
+    "Source/Runtime/server/PerkMachines.lua": "9f7431b67b399dd704dccd9f888d59b1f6e4b6f8827f83954cabda46a5d5bea8",
+    "Source/Runtime/server/Persistence.lua": "7beb14e318aeec0c72b23e39fa82c0c83f16142b2f794f28929e9180108e22ab",
+    "Source/Runtime/server/RigAnatomy.lua": "486afc94295448e68e916b63ffbdcce90247711e86d329152c6baa284a9aaf04",
+    "Source/Runtime/server/Travel.lua": "583a21968a5b6022f080cd2f905d00e77851254701c1f37431a8f681ca8901b1",
+    "Source/Runtime/server/TripRegistry.lua": "bead898101148260689682d803edad962b8a21435ab3f79fcd5cd330c8d57547",
+    "Source/Runtime/server/Vehicles.lua": "e6a07f28b2380c11a2753c00442d1344a0c7a3a04e0007df44bf6207c6a744c2",
+    "Source/Runtime/server/VisualPass.lua": "8f6252af65a5b632ec852cbbf90122b317c158811cfa3b2d75a2d839c2417e40",
+    "Source/Runtime/server/WaveDirector.lua": "05492c49b3f5199cf5397851e84cf733c138cfba1f96ee92a11f2d7321d5c898",
+    "Source/Runtime/server/WorldArt.lua": "fb3419f9766214c6064360bab9f853a73a7b7b02de83f6e007f1f7f65f0060b8",
+    "Source/Runtime/server/WorldFinish.lua": "84fae830e105a2915619b4cc83549a3ca2a158500774793ae241ad3793f5a16a",
+    "Source/Runtime/shared/ArrivalRules.lua": "f07b78675b9fdf92c01c63562f7bda27c6306f75170903d3f8e795d4d706aa22",
+    "Source/Runtime/shared/ArtAssets.lua": "f760fe4d3a11ac90aefc78fa6d0798930f7f67cccb749120f5feab99cc6b6f21",
+    "Source/Runtime/shared/Config.lua": "ca5823dc3c84a1d1a827e3ff8c958d26c53ce9da0dba6e4975a6b0da1059d009",
+    "Source/Runtime/shared/ControlSettings.lua": "8a327d1860868691fa0a623a5a08c21736f093416a5ffb946024793cedd5eb1d",
+    "Source/Runtime/shared/DeploymentRules.lua": "3b20963f02268a2f33c98ebd3a9c801ac0a1ea14951e5737d2541bc93b0e2f0b",
+    "Source/Runtime/shared/DirectorRules.lua": "b08a45eb986a629d6e3661c136a6d0645005aeded79918e6b83004abb8f95417",
+    "Source/Runtime/shared/DownedPose.lua": "a1802ad3fe18edc3fe7fdf057a286028cfa3caf0f6e3457825bb8174dd5924b9",
+    "Source/Runtime/shared/Extraction.lua": "985ad88b50657e823f5da0183e0855b636801b760cc4eee28ef402bb6c6b156b",
+    "Source/Runtime/shared/LoadingScreen.lua": "11875290f40aa44f40f02b9acc86a6f34b0be82807a082d035c11b8417997af3",
+    "Source/Runtime/shared/MapLayouts.lua": "38fd46bfc514cc8107ee7b2a9042257313e8abf28c05fcc736a2bee75ecac74e",
+    "Source/Runtime/shared/Movement.lua": "87598d9d4476b6ff00c0a6bcfd9c09f7e7089dfa9c47256346f1fef4525f100d",
+    "Source/Runtime/shared/NPCPose.lua": "1c2e0a3c7fe82bcaa5b2e70bb2b7f22eb5598fe4bfd1f2fe96a39e6dfdd74021",
+    "Source/Runtime/shared/NavigationGraph.lua": "3eb72e1aaf491dc2a4469fc7b96ac8348757686d8637cfb12adcd5fdf6214341",
+    "Source/Runtime/shared/PlaceConfig.lua": "9c6e8ba63a84001708cbf62e8144edaad1133a37ce7ed1ce13da3030a1c8a083",
+    "Source/Runtime/shared/Presentation.lua": "f0a13a5b9f15448b5e09a8da56df8f3cb2b6a01e9147f0a9811783bf0608c98f",
+    "Source/Runtime/shared/Rules.lua": "6ae2dfc5e99d6530be16741db8a6b451333294dda0cc4f5cbc6d6187bffada09",
+    "Source/Runtime/shared/ThirdPerson.lua": "5db093c04473ba13540367c7c0df6d9c237ce89338b53cdafe6d8851bddcbbb8",
+    "Source/Runtime/shared/TouchInput.lua": "f1e784f33cd924ab8238dda2aedeb551d5069a99a1b2af8f9bd251cca56ebe1a",
+    "Source/Runtime/shared/TouchLayout.lua": "af6328df47ed8cf5243aa4760774bc555c0eaec205a72610b466e37d564f647e",
+    "Source/Runtime/shared/Util.lua": "cdc2811eda9ac577b0ee8760fbc9d24ba3fb6ce181ef422600d1407fac5e3ffa",
+    "Source/Runtime/shared/WeaponBlueprints.lua": "dee97fb39657933f9acb53d93deb752b2c33f64764c705c2283311b28b57c2c9",
+    "Source/Runtime/shared/WeaponDetail.lua": "f1f97967da488103338fa44c90817ad22cb85729cb0aa227f20fa33266a4ac11",
+    "Source/Runtime/shared/WeaponModels.lua": "a47939f6a0e47216c1a708df32a3bfbfddafb51c43a425d5a9dfa46511cf8533"
+  },
+  "audio_binding_sha256": "fafb56fb58b26918d419a1eb705386b474e194dfb84c7c2c147a19c5c7963d21",
+  "audio_bindings_preserved": true,
+  "results_audio_call_preserved": true,
+  "config_effects_combat_saved_controls_preserved": true,
+  "lossless": {
+    "dispatch": {
+      "changed_paths": [
+        "ReplicatedStorage/DeadSignal/Config",
+        "ReplicatedStorage/DeadSignal/DirectorRules",
+        "ReplicatedStorage/DeadSignal/LoadingScreen",
+        "ReplicatedStorage/DeadSignal/MapLayouts",
+        "ReplicatedStorage/DeadSignal/Movement",
+        "ReplicatedStorage/DeadSignal/NPCPose",
+        "ReplicatedStorage/DeadSignal/PlaceConfig",
+        "ReplicatedStorage/DeadSignal/Rules",
+        "ReplicatedStorage/DeadSignal/TouchLayout",
+        "ReplicatedStorage/DeadSignal/WeaponBlueprints",
+        "ReplicatedStorage/DeadSignal/WeaponDetail",
+        "ReplicatedStorage/DeadSignal/WeaponModels",
+        "ServerScriptService/DeadSignalServer/Architecture",
+        "ServerScriptService/DeadSignalServer/CinematicWorld",
+        "ServerScriptService/DeadSignalServer/Combat",
+        "ServerScriptService/DeadSignalServer/Enemies",
+        "ServerScriptService/DeadSignalServer/EnemyRigs",
+        "ServerScriptService/DeadSignalServer/Game",
+        "ServerScriptService/DeadSignalServer/HoundRig",
+        "ServerScriptService/DeadSignalServer/InfectedWardrobe",
+        "ServerScriptService/DeadSignalServer/MapBuilder",
+        "ServerScriptService/DeadSignalServer/MapDetail",
+        "ServerScriptService/DeadSignalServer/MapRoutes",
+        "ServerScriptService/DeadSignalServer/Navigation",
+        "ServerScriptService/DeadSignalServer/Network",
+        "ServerScriptService/DeadSignalServer/VisualPass",
+        "ServerScriptService/DeadSignalServer/WaveDirector",
+        "ServerScriptService/DeadSignalServer/WorldArt",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Controller",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Effects",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/MobileControls",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Scope",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/UI"
+      ],
+      "changed_script_count": 33,
+      "patched_prop_chunk_count": 1,
+      "untouched_chunk_count": 1513,
+      "source_sha256": "a3fc4cab05e07d9a2901757007a6b52b7cf3e9acf2cbb49858a52d0a961f596c",
+      "candidate_sha256": "634238a517761a5437ea2b6747c40e0254e86e88a27aa0923c0678f3a0a12b4d",
+      "all_untouched_chunks_byte_identical": true,
+      "place": "dispatch",
+      "environment": "staging",
+      "expected_replacement_count": 61,
+      "publish_approved": false,
+      "studio_tested": false,
+      "warning": "Binary preservation only; Roblox engine and multiplayer tests not yet performed."
+    },
+    "blackwater": {
+      "changed_paths": [
+        "ReplicatedStorage/DeadSignal/Config",
+        "ReplicatedStorage/DeadSignal/DirectorRules",
+        "ReplicatedStorage/DeadSignal/LoadingScreen",
+        "ReplicatedStorage/DeadSignal/MapLayouts",
+        "ReplicatedStorage/DeadSignal/Movement",
+        "ReplicatedStorage/DeadSignal/NPCPose",
+        "ReplicatedStorage/DeadSignal/PlaceConfig",
+        "ReplicatedStorage/DeadSignal/Rules",
+        "ReplicatedStorage/DeadSignal/TouchLayout",
+        "ReplicatedStorage/DeadSignal/WeaponBlueprints",
+        "ReplicatedStorage/DeadSignal/WeaponDetail",
+        "ReplicatedStorage/DeadSignal/WeaponModels",
+        "ServerScriptService/DeadSignalServer/Architecture",
+        "ServerScriptService/DeadSignalServer/CinematicWorld",
+        "ServerScriptService/DeadSignalServer/Combat",
+        "ServerScriptService/DeadSignalServer/Enemies",
+        "ServerScriptService/DeadSignalServer/EnemyRigs",
+        "ServerScriptService/DeadSignalServer/Game",
+        "ServerScriptService/DeadSignalServer/HoundRig",
+        "ServerScriptService/DeadSignalServer/InfectedWardrobe",
+        "ServerScriptService/DeadSignalServer/MapBuilder",
+        "ServerScriptService/DeadSignalServer/MapDetail",
+        "ServerScriptService/DeadSignalServer/MapRoutes",
+        "ServerScriptService/DeadSignalServer/Navigation",
+        "ServerScriptService/DeadSignalServer/Network",
+        "ServerScriptService/DeadSignalServer/VisualPass",
+        "ServerScriptService/DeadSignalServer/WaveDirector",
+        "ServerScriptService/DeadSignalServer/WorldArt",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Controller",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Effects",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/MobileControls",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Scope",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/UI"
+      ],
+      "changed_script_count": 33,
+      "patched_prop_chunk_count": 1,
+      "untouched_chunk_count": 1496,
+      "source_sha256": "b7181f8204d43dcccb37aa79797ff2a7408f4c9bc9751f3d2baf07ebd4d4d515",
+      "candidate_sha256": "3d70ac0c60939cb6a2ec1402507fa308acb2da66d8e0ee2e985733cb19c398b1",
+      "all_untouched_chunks_byte_identical": true,
+      "place": "blackwater",
+      "environment": "staging",
+      "expected_replacement_count": 61,
+      "publish_approved": false,
+      "studio_tested": false,
+      "warning": "Binary preservation only; Roblox engine and multiplayer tests not yet performed."
+    },
+    "cinderworks": {
+      "changed_paths": [
+        "ReplicatedStorage/DeadSignal/Config",
+        "ReplicatedStorage/DeadSignal/DirectorRules",
+        "ReplicatedStorage/DeadSignal/LoadingScreen",
+        "ReplicatedStorage/DeadSignal/MapLayouts",
+        "ReplicatedStorage/DeadSignal/Movement",
+        "ReplicatedStorage/DeadSignal/NPCPose",
+        "ReplicatedStorage/DeadSignal/PlaceConfig",
+        "ReplicatedStorage/DeadSignal/Rules",
+        "ReplicatedStorage/DeadSignal/TouchLayout",
+        "ReplicatedStorage/DeadSignal/WeaponBlueprints",
+        "ReplicatedStorage/DeadSignal/WeaponDetail",
+        "ReplicatedStorage/DeadSignal/WeaponModels",
+        "ServerScriptService/DeadSignalServer/Architecture",
+        "ServerScriptService/DeadSignalServer/CinematicWorld",
+        "ServerScriptService/DeadSignalServer/Combat",
+        "ServerScriptService/DeadSignalServer/Enemies",
+        "ServerScriptService/DeadSignalServer/EnemyRigs",
+        "ServerScriptService/DeadSignalServer/Game",
+        "ServerScriptService/DeadSignalServer/HoundRig",
+        "ServerScriptService/DeadSignalServer/InfectedWardrobe",
+        "ServerScriptService/DeadSignalServer/MapBuilder",
+        "ServerScriptService/DeadSignalServer/MapDetail",
+        "ServerScriptService/DeadSignalServer/MapRoutes",
+        "ServerScriptService/DeadSignalServer/Navigation",
+        "ServerScriptService/DeadSignalServer/Network",
+        "ServerScriptService/DeadSignalServer/VisualPass",
+        "ServerScriptService/DeadSignalServer/WaveDirector",
+        "ServerScriptService/DeadSignalServer/WorldArt",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Controller",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Effects",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/MobileControls",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Scope",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/UI"
+      ],
+      "changed_script_count": 33,
+      "patched_prop_chunk_count": 1,
+      "untouched_chunk_count": 1500,
+      "source_sha256": "b1b89378c2ed8cc54d5aa3b95ec6419eb4a6e23b687046ef36915d320a02127f",
+      "candidate_sha256": "b6011033b0da471b3bed15656d37bd2acbc78ab02e2a68a2a3ba64837515721b",
+      "all_untouched_chunks_byte_identical": true,
+      "place": "cinderworks",
+      "environment": "staging",
+      "expected_replacement_count": 61,
+      "publish_approved": false,
+      "studio_tested": false,
+      "warning": "Binary preservation only; Roblox engine and multiplayer tests not yet performed."
+    },
+    "whiteout": {
+      "changed_paths": [
+        "ReplicatedStorage/DeadSignal/Config",
+        "ReplicatedStorage/DeadSignal/DirectorRules",
+        "ReplicatedStorage/DeadSignal/LoadingScreen",
+        "ReplicatedStorage/DeadSignal/MapLayouts",
+        "ReplicatedStorage/DeadSignal/Movement",
+        "ReplicatedStorage/DeadSignal/NPCPose",
+        "ReplicatedStorage/DeadSignal/PlaceConfig",
+        "ReplicatedStorage/DeadSignal/Rules",
+        "ReplicatedStorage/DeadSignal/TouchLayout",
+        "ReplicatedStorage/DeadSignal/WeaponBlueprints",
+        "ReplicatedStorage/DeadSignal/WeaponDetail",
+        "ReplicatedStorage/DeadSignal/WeaponModels",
+        "ServerScriptService/DeadSignalServer/Architecture",
+        "ServerScriptService/DeadSignalServer/CinematicWorld",
+        "ServerScriptService/DeadSignalServer/Combat",
+        "ServerScriptService/DeadSignalServer/Enemies",
+        "ServerScriptService/DeadSignalServer/EnemyRigs",
+        "ServerScriptService/DeadSignalServer/Game",
+        "ServerScriptService/DeadSignalServer/HoundRig",
+        "ServerScriptService/DeadSignalServer/InfectedWardrobe",
+        "ServerScriptService/DeadSignalServer/MapBuilder",
+        "ServerScriptService/DeadSignalServer/MapDetail",
+        "ServerScriptService/DeadSignalServer/MapRoutes",
+        "ServerScriptService/DeadSignalServer/Navigation",
+        "ServerScriptService/DeadSignalServer/Network",
+        "ServerScriptService/DeadSignalServer/VisualPass",
+        "ServerScriptService/DeadSignalServer/WaveDirector",
+        "ServerScriptService/DeadSignalServer/WorldArt",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Controller",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Effects",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/MobileControls",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/Scope",
+        "StarterPlayer/StarterPlayerScripts/DeadSignalClient/UI"
+      ],
+      "changed_script_count": 33,
+      "patched_prop_chunk_count": 1,
+      "untouched_chunk_count": 1500,
+      "source_sha256": "445bd3403794f65214822161b14e287363f21d7ff3713ee4079573228d78d168",
+      "candidate_sha256": "de9d46327f3a4ce3b7baa373a641cfac64d2c4cf68ed9f16ace62359df5b41a7",
+      "all_untouched_chunks_byte_identical": true,
+      "place": "whiteout",
+      "environment": "staging",
+      "expected_replacement_count": 61,
+      "publish_approved": false,
+      "studio_tested": false,
+      "warning": "Binary preservation only; Roblox engine and multiplayer tests not yet performed."
+    }
+  },
+  "binary_fidelity": {
+    "all_property_signatures_preserved": true,
+    "places": {
+      "blackwater": {
+        "baseline_instances": 6036,
+        "baseline_properties": 1407,
+        "candidate_instances": 6036,
+        "candidate_properties": 1407,
+        "lost_or_changed": [],
+        "new_property_signatures": [],
+        "passed": true
+      },
+      "cinderworks": {
+        "baseline_instances": 6214,
+        "baseline_properties": 1410,
+        "candidate_instances": 6214,
+        "candidate_properties": 1410,
+        "lost_or_changed": [],
+        "new_property_signatures": [],
+        "passed": true
+      },
+      "dispatch": {
+        "baseline_instances": 9771,
+        "baseline_properties": 1422,
+        "candidate_instances": 9771,
+        "candidate_properties": 1422,
+        "lost_or_changed": [],
+        "new_property_signatures": [],
+        "passed": true
+      },
+      "whiteout": {
+        "baseline_instances": 6535,
+        "baseline_properties": 1410,
+        "candidate_instances": 6535,
+        "candidate_properties": 1410,
+        "lost_or_changed": [],
+        "new_property_signatures": [],
+        "passed": true
+      }
+    }
+  },
+  "native_acceptance": {
+    "engine_gameplay": false,
+    "real_multiplayer_replication": false,
+    "physical_phone_controller": false,
+    "balance_accepted": false,
+    "staging_deployed": false,
+    "production_deployed": false
+  },
+  "pending": [
+    "MAIN reviewed B2 provenance/delta path, shared Controller and test runner intake with #70 and ENEMY/MAP",
+    "Native all-map solo/2/4-client latency/replication, controls, stamina, revive/extraction and 40-enemy pursuit",
+    "Actual gameplay acceptance of recommended speeds and camera/HUD comfort"
+  ],
+  "negative_control": {
+    "prior_source_commit": "006580e75eaeaaf78f8a7a7bc2175fb56c592496",
+    "regression": "exhaustion cannot replace the stricter observed reverse cap",
+    "old_implementation_failed_as_expected": true,
+    "final_movement_assertions": 10790
+  }
+}

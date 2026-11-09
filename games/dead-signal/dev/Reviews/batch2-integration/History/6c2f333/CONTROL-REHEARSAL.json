@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "retained_disabled_game_source": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+  "previous_rehearsal": "History/d7608a3/CONTROL-REHEARSAL.json",
+  "owner_requires_all_new_audio_active": true,
+  "gameplay_only_proposal_withdrawn": true,
+  "actual_staging_authorization": false,
+  "production_authorization": false,
+  "studio_probe_control_flow_tested_with_service_doubles": true,
+  "synthetic_probe_assertions": 29,
+  "actual_studio_probe_executed": false,
+  "no_runtime_bytes_changed": true,
+  "publishing_attempted": false
+}

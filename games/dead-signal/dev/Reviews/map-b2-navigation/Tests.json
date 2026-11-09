@@ -1,0 +1,261 @@
+{
+  "runtimeCommit": "82aa087f41683e3d96511da75192fc5433f5851a",
+  "registeredSuites": [
+    {
+      "suite": "loading",
+      "passed": true,
+      "assertions": 63,
+      "seconds": 0.428
+    },
+    {
+      "suite": "loadingpreview",
+      "passed": true,
+      "assertions": 36,
+      "seconds": 0.223
+    },
+    {
+      "suite": "evolution",
+      "passed": true,
+      "assertions": 2959,
+      "seconds": 4.938
+    },
+    {
+      "suite": "events",
+      "passed": true,
+      "assertions": 18,
+      "seconds": 0.288
+    },
+    {
+      "suite": "presentation",
+      "passed": true,
+      "assertions": 55,
+      "seconds": 0.272
+    },
+    {
+      "suite": "director",
+      "passed": true,
+      "assertions": 431,
+      "seconds": 0.035
+    },
+    {
+      "suite": "server",
+      "passed": true,
+      "assertions": 35,
+      "seconds": 0.298
+    },
+    {
+      "suite": "navigation",
+      "passed": true,
+      "assertions": 13,
+      "seconds": 0.406
+    },
+    {
+      "suite": "pursuit",
+      "passed": true,
+      "assertions": 90,
+      "seconds": 1.275
+    },
+    {
+      "suite": "rigs",
+      "passed": true,
+      "assertions": 222,
+      "seconds": 0.469
+    },
+    {
+      "suite": "weapons",
+      "passed": true,
+      "assertions": 7929,
+      "seconds": 0.612
+    },
+    {
+      "suite": "arrival",
+      "passed": true,
+      "assertions": 28,
+      "seconds": 0.431
+    },
+    {
+      "suite": "extraction",
+      "passed": true,
+      "assertions": 20,
+      "seconds": 0.029
+    },
+    {
+      "suite": "map_remaster",
+      "passed": true,
+      "assertions": 259384,
+      "seconds": 16.54
+    },
+    {
+      "suite": "map_batch11",
+      "passed": true,
+      "assertions": 26387,
+      "seconds": 30.892
+    },
+    {
+      "suite": "enemy-lifecycle",
+      "passed": true,
+      "assertions": 77,
+      "seconds": 0.28
+    },
+    {
+      "suite": "enemy-path-recovery",
+      "passed": true,
+      "assertions": 48,
+      "seconds": 0.246
+    },
+    {
+      "suite": "combat-ui",
+      "passed": true,
+      "assertions": 638775,
+      "seconds": 17.827
+    },
+    {
+      "suite": "combat-input",
+      "passed": true,
+      "assertions": 44,
+      "seconds": 0.416
+    },
+    {
+      "suite": "touch",
+      "passed": true,
+      "assertions": 512,
+      "seconds": 0.031
+    },
+    {
+      "suite": "integration-contracts",
+      "passed": true,
+      "assertions": 501,
+      "seconds": 4.207
+    },
+    {
+      "suite": "weapons-batch1",
+      "passed": true,
+      "assertions": 64271,
+      "seconds": 29.629
+    },
+    {
+      "suite": "infected-batch1",
+      "passed": true,
+      "assertions": 2501,
+      "seconds": 2.967
+    },
+    {
+      "suite": "infected-entrances",
+      "passed": true,
+      "assertions": 71,
+      "seconds": 1.808
+    },
+    {
+      "suite": "infected-geometry",
+      "passed": true,
+      "assertions": 25717,
+      "seconds": 42.767
+    },
+    {
+      "suite": "enemy-b11-runtime",
+      "passed": true,
+      "assertions": 1069,
+      "seconds": 13.097
+    },
+    {
+      "suite": "enemy-b11-appearance",
+      "passed": true,
+      "assertions": 6039,
+      "seconds": 0.879
+    },
+    {
+      "suite": "enemy-b11-admission",
+      "passed": true,
+      "assertions": 29,
+      "seconds": 1.274
+    },
+    {
+      "suite": "enemy-b11-spatial",
+      "passed": true,
+      "assertions": 3441,
+      "seconds": 15.078
+    },
+    {
+      "suite": "enemy-b11-geometry",
+      "passed": true,
+      "assertions": 210,
+      "seconds": 33.741
+    },
+    {
+      "suite": "map-window-geometry",
+      "passed": true,
+      "assertions": 7453,
+      "seconds": 13.938
+    },
+    {
+      "suite": "enemy-b1-r6",
+      "passed": true,
+      "assertions": 15359,
+      "seconds": 0.889
+    },
+    {
+      "suite": "enemy-b1-entry-followup",
+      "passed": true,
+      "assertions": 160,
+      "seconds": 11.299
+    },
+    {
+      "suite": "audio",
+      "passed": true,
+      "assertions": 4433,
+      "seconds": 0.571
+    },
+    {
+      "suite": "audio-quality-b11",
+      "passed": true,
+      "assertions": 800,
+      "seconds": 0.271
+    },
+    {
+      "suite": "audio-corrections-b1",
+      "passed": true,
+      "assertions": 2121,
+      "seconds": 0.828
+    },
+    {
+      "suite": "audio-supplement-intake",
+      "passed": true,
+      "assertions": 417,
+      "seconds": 0.102
+    },
+    {
+      "suite": "production-audio",
+      "passed": true,
+      "assertions": 191,
+      "seconds": 0.196
+    },
+    {
+      "suite": "batch1-integration",
+      "passed": true,
+      "assertions": 54,
+      "seconds": 4.854
+    }
+  ],
+  "registeredAssertions": 1071963,
+  "specialistChecks": 119393,
+  "walkingSweeps": 72450,
+  "graphCases": 46080,
+  "turnChecks": 18900,
+  "sourceRayPrecisionDiagnostics": 144,
+  "rootPython": {
+    "passed": 98
+  },
+  "devPython": {
+    "passed": 24,
+    "failed": 2,
+    "skipped": 2
+  },
+  "failingDevTests": [
+    "test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change",
+    "test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration"
+  ],
+  "failureReason": "Both invoke the frozen accepted Batch 1 runtime-equality guard, which rejects the intentional B2 Architecture delta.",
+  "newSuiteRegistered": false,
+  "nativePhysicsTested": false,
+  "physicalDevicesTested": false
+}

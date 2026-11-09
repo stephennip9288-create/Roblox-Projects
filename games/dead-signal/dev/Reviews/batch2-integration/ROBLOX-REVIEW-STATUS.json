@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-09T01:18:13.096091+00:00",
+  "owner_authenticated": true,
+  "owner": "Lenwyrd",
+  "method": "Roblox official Creator Hub Try It Out, Cookie mode; response-body rendered JSON read through the documented browser interface",
+  "documentation_url": "https://create.roblox.com/docs/cloud/reference/domains/itemconfiguration#itemconfiguration_post_v1_creations_get_asset_details",
+  "request": {
+    "method": "POST",
+    "url": "https://itemconfiguration.roblox.com/v1/creations/get-asset-details",
+    "body": {
+      "AssetIds": [
+        138465772345022,
+        130706797589872,
+        127835878664881,
+        136397741479585,
+        76339621502898,
+        76092484114227,
+        78163810591784,
+        125448982783761,
+        99490559372066,
+        79202413557343,
+        128855928185941,
+        101059835221623,
+        123384623508546,
+        124107740668584,
+        122477333598212,
+        92629845353488
+      ]
+    }
+  },
+  "http_status": 200,
+  "actual_asset_review_field": "status",
+  "actual_approved_value": "ReviewApproved",
+  "open_cloud_moderationState_queried": false,
+  "records": [
+    {
+      "assetId": 138465772345022,
+      "name": "blackwater_calm",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 130706797589872,
+      "name": "blackwater_pressure",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 127835878664881,
+      "name": "cinderworks_calm",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 136397741479585,
+      "name": "cinderworks_pressure",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 76339621502898,
+      "name": "whiteout_calm",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 76092484114227,
+      "name": "whiteout_pressure",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 78163810591784,
+      "name": "dispatch_calm",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 125448982783761,
+      "name": "warden_pressure",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 99490559372066,
+      "name": "extraction_pressure",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 79202413557343,
+      "name": "rare_score_stinger",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 128855928185941,
+      "name": "blackwater_metal_creak_1",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 101059835221623,
+      "name": "cinderworks_steam_release_1",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 123384623508546,
+      "name": "cinderworks_steel_impact_1",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 124107740668584,
+      "name": "infected_distant_cry_1",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 122477333598212,
+      "name": "infected_breath_1",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    },
+    {
+      "assetId": 92629845353488,
+      "name": "infected_clothing_drag_1",
+      "status": "ReviewApproved",
+      "creatorType": "User",
+      "creatorTargetId": 6206795757,
+      "isArchived": false,
+      "assetType": "Audio"
+    }
+  ],
+  "verified_exact_requested_IDs_names_and_owner": true,
+  "asset_or_permission_changes_performed": false,
+  "credentials_created_or_exported": false,
+  "native_engine_playback_verified": false,
+  "source": "Transcribed structured values from the actual rendered response; credentials and response authentication headers are excluded."
+}

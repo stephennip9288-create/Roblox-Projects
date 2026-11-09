@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "kind": "explicit-owner-exact-source-staging-authorization",
+  "recorded_at_utc": "2026-11-09T02:52:21.501044+00:00",
+  "method": "Direct private project-conversation reply to the immediately preceding final staging-authorization question.",
+  "question_exact": "Do you authorize merging PR #73 and deploying this exact source to private staging?",
+  "owner_response_exact": "Yes",
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+  "reviewed_evidence_head": "1ce0c246ccb30c0d2b1820c91d6aa2f379106691",
+  "repository": "stephennip9288-create/Roblox-Projects",
+  "pr_number": 73,
+  "merge_reviewed_PR_73_authorized": true,
+  "private_staging_deployment_authorized": true,
+  "staging_universe_id": "10771141095",
+  "workflow": "dead-signal-private-staging.yml",
+  "workflow_branch": "main",
+  "operation": "deploy",
+  "confirmation": "DEPLOY-PRIVATE-STAGING",
+  "production_authorization": false,
+  "engine_gameplay_acceptance": false,
+  "profile_store": "DeadSignal_Profile_v1",
+  "all_existing_source_build_ci_recovery_gates_retained": true
+}

@@ -1,0 +1,11 @@
+﻿filename,event,roblox_asset_id,rightsCleared,creatorReviewed,listeningApproved,robloxApproved,stagingAccess,productionAccess,notes
+blackwater_calm.ogg,Music.Station.Calm,,false,false,false,false,false,false,
+blackwater_pressure.ogg,Music.Station.Pressure,,false,false,false,false,false,false,
+cinderworks_calm.ogg,Music.Foundry.Calm,,false,false,false,false,false,false,
+cinderworks_pressure.ogg,Music.Foundry.Pressure,,false,false,false,false,false,false,
+whiteout_calm.ogg,Music.Frost.Calm,,false,false,false,false,false,false,
+whiteout_pressure.ogg,Music.Frost.Pressure,,false,false,false,false,false,false,
+dispatch_calm.ogg,Music.Lobby.Calm,,false,false,false,false,false,false,
+warden_pressure.ogg,Music.Warden,,false,false,false,false,false,false,
+extraction_pressure.ogg,Music.Extraction,,false,false,false,false,false,false,
+rare_score_stinger.ogg,Atmosphere.Stinger,,false,false,false,false,false,false,

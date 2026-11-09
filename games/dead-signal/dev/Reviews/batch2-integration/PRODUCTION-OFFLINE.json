@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "production-configured-offline-build-verification",
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+  "all_four_native_builds_and_fidelity_verified": true,
+  "new_bank_activation_universe_id": "10771141095",
+  "new_banks_active_in_production": 0,
+  "real_production_grants_retained": 16,
+  "accepted_batch1_banks_unchanged": true,
+  "profile_store": "DeadSignal_Profile_v1",
+  "production_authorized": false,
+  "production_published": false
+}

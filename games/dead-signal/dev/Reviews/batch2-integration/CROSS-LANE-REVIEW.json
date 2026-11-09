@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "reviewed_source_sha": "fccea067b804933c6d6db936b6332ceb5b662cdb",
+  "controller_audio_bindings_exact_audio_head": true,
+  "controller_movement_input_render_exact_combat_head_after_only_audio_overlay_removed": true,
+  "results_dispatch_single_audio_replacement": true,
+  "duplicate_enemy_awareness_feed_audio_handler": false,
+  "config_only_exact_additive_intake_block": true,
+  "unchanged_specialist_files": [
+    {
+      "file": "client/Effects.lua",
+      "source_head": "4807fd25193bc721a3473858d2c744250614aaaf",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "server/Game.lua",
+      "source_head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "server/Network.lua",
+      "source_head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "shared/Movement.lua",
+      "source_head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "client/UI.lua",
+      "source_head": "26bcbfe5558f6fc0ff6e067c200649578a5502be",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "server/Enemies.lua",
+      "source_head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "server/Navigation.lua",
+      "source_head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "server/Diagnostics.lua",
+      "source_head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "shared/NPCPose.lua",
+      "source_head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "shared/NavigationGraph.lua",
+      "source_head": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+      "exact_specialist_bytes": true
+    },
+    {
+      "file": "server/Architecture.lua",
+      "source_head": "7b8c2442530c11afc47cd40f50c03a03349f6c39",
+      "exact_specialist_bytes": true
+    }
+  ],
+  "engine_qa_claimed": false
+}

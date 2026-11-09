@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "kind": "offline-tool-and-policy-validation",
+  "runtime_changed": true,
+  "root_python_tests": 121,
+  "root_python_passed": 121,
+  "integrated_intake_and_synthetic_probe_assertions": 543,
+  "luau_compiled_files": 140,
+  "actual_studio_probe_evidence_received": true,
+  "native_execution_origin": "owner-provided report; not MAIN native execution",
+  "gameplay_native_verified": false,
+  "eight_build_pins_still_exact": true,
+  "historical_files_preserved": 393,
+  "publication_authorized": false
+}

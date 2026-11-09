@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "kind": "reviewed-batch2-source-only-native-builds",
+  "runtime_manifest_blob": "c35f6dd97ad08af2fa5fc478a116e36ca86cbc80",
+  "publication_authorized": false,
+  "engine_gameplay_verified": false,
+  "builds": {
+    "staging": {
+      "dispatch": {
+        "sha256": "c2f1574bb68157f6997aaa250a368fd79f934651a306361e1865963346b518eb",
+        "bytes": 2784393
+      },
+      "blackwater": {
+        "sha256": "40ea745ae4126a8259b54eebaac235b8aeaef594234e06891c295d45ed2be695",
+        "bytes": 2755463
+      },
+      "cinderworks": {
+        "sha256": "1ea386060417ff3fc9536a4022c436417a6ce7928bac25252c729cd20faf43fb",
+        "bytes": 2763322
+      },
+      "whiteout": {
+        "sha256": "cf2fda90a203321b33be5c6a29111c875e972b19d373743869f7f63d0c1edf9e",
+        "bytes": 2764769
+      }
+    },
+    "production": {
+      "dispatch": {
+        "sha256": "2b9980cb73e49205200dae8f5b3d75bd0ba17492fe267505cb4ab5103c0e1c9d",
+        "bytes": 2784409
+      },
+      "blackwater": {
+        "sha256": "2ef8aeaca574aea7cdf4a989d3be0a217ba37523cc15efa5b6090cf4e4822991",
+        "bytes": 2755479
+      },
+      "cinderworks": {
+        "sha256": "e365351f1bda1946691e607b639ac9a8adfb26943b69459eeb2c4144ab84bbb0",
+        "bytes": 2763339
+      },
+      "whiteout": {
+        "sha256": "e7ab0eba679a3acef459c9f87a3d40a06f0abb8c9fefbb90a0adb69aa9f442b7",
+        "bytes": 2764786
+      }
+    }
+  }
+}

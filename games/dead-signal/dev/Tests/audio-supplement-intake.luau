@@ -3,7 +3,7 @@
 local fs=require('@lune/fs') local luau=require('@lune/luau') local r=require('@lune/roblox') local serde=require('@lune/serde')
 local setup=require('./Fixtures/audio-corrections-env')
 local root='Reviews/audio-supplement-intake-b1/'
-local before=fs.readFile('Source/Runtime/shared/Config.lua')
+local before=require('./Fixtures/audio-b2-config').original(fs.readFile('Source/Runtime/shared/Config.lua'))
 local productionBlock=fs.readFile('Reviews/production-batch1/PRODUCTION-BINDINGS.luau.txt')
 local pf,pl=string.find(before,productionBlock,1,true);assert(pf and pl,'Reviewed production block')
 before=string.sub(before,1,pf-1)..string.sub(before,pl+1)

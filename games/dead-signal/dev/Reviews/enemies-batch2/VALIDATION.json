@@ -1,0 +1,88 @@
+{
+  "source_commit": "836734bf5ea19c45786c3f89aefa935104648355",
+  "base_commit": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "branch": "feature/dead-signal-b2-enemies",
+  "pr": 71,
+  "target": "integration/dead-signal-batch2",
+  "map_overlay_architecture_blob": "7ad97ec938268a0dffa4f9cb8d81da491e44ab03",
+  "runtime_records": 61,
+  "runtime_delta_count": 5,
+  "lune_suites": 43,
+  "lune_assertions": 1104536,
+  "lune_all_passed": true,
+  "runtime_compile": {
+    "run": true,
+    "scripts": 61,
+    "passed": true,
+    "errors": []
+  },
+  "all_luau_syntax_files": 129,
+  "map_geometry": {
+    "assertions": 29044,
+    "engine": false,
+    "failures": {},
+    "logicalFloorFill": false,
+    "maps": [
+      {
+        "corridorCases": 126,
+        "corridorPass": 126,
+        "graphCases": 64,
+        "id": "Station",
+        "stairCases": 56,
+        "stairPass": 56
+      },
+      {
+        "corridorCases": 126,
+        "corridorPass": 126,
+        "graphCases": 64,
+        "id": "Foundry",
+        "stairCases": 56,
+        "stairPass": 56
+      },
+      {
+        "corridorCases": 126,
+        "corridorPass": 126,
+        "graphCases": 64,
+        "id": "Frost",
+        "stairCases": 56,
+        "stairPass": 56
+      }
+    ],
+    "sourceStable": true
+  },
+  "python_root": {
+    "passed": 98
+  },
+  "python_dev": {
+    "passed": 24,
+    "failed": 2,
+    "skipped": 2,
+    "blocker": "unchanged frozen Batch 1 provenance guard"
+  },
+  "binary_preservation": {
+    "enemy_staging_configured_local_candidates": 4,
+    "enemy_map_overlay_staging_configured_local_candidates": 4,
+    "all_lossless_and_independent_fidelity_passed": true
+  },
+  "studio_playtest": false,
+  "physical_mobile_test": false,
+  "published": false,
+  "merged": false,
+  "ready_for_MAIN_source_review": true,
+  "merge_ready": false,
+  "dependencies": [
+    "MAP PR #69 exact Architecture blob",
+    "AUDIO PR #70 for audible awareness",
+    "MAIN combined Batch 2 provenance intake and shared registration",
+    "native Studio/multi-client/device acceptance"
+  ],
+  "additional_map_producer_suite": {
+    "test_blob": "61919a6a0e15a3e8e041624537e9bec35147e044",
+    "pr": 69,
+    "assertions": 119393,
+    "passed": true,
+    "door_mask_reachability_cases": 46080,
+    "complete_rig_sweeps": 72450,
+    "runtime_unchanged_during_audit": true
+  }
+}

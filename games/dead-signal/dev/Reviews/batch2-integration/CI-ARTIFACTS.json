@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+  "artifacts": {
+    "staging": {
+      "artifact_id": 13645457849,
+      "run_id": 42551069879,
+      "archive_sha256": "b3b4140201dd0e5a7765150a66e26fb5537481c4146534a3358a5d8255582102",
+      "all_four_exact_build_pins_passed": true,
+      "members": {
+        "dispatch": {
+          "member": "dispatch.rbxl",
+          "sha256": "c2f1574bb68157f6997aaa250a368fd79f934651a306361e1865963346b518eb",
+          "bytes": 2784393,
+          "exact_61_sources_and_environment_ids_verified": true,
+          "passed": true
+        },
+        "blackwater": {
+          "member": "blackwater.rbxl",
+          "sha256": "40ea745ae4126a8259b54eebaac235b8aeaef594234e06891c295d45ed2be695",
+          "bytes": 2755463,
+          "exact_61_sources_and_environment_ids_verified": true,
+          "passed": true
+        },
+        "cinderworks": {
+          "member": "cinderworks.rbxl",
+          "sha256": "1ea386060417ff3fc9536a4022c436417a6ce7928bac25252c729cd20faf43fb",
+          "bytes": 2763322,
+          "exact_61_sources_and_environment_ids_verified": true,
+          "passed": true
+        },
+        "whiteout": {
+          "member": "whiteout.rbxl",
+          "sha256": "cf2fda90a203321b33be5c6a29111c875e972b19d373743869f7f63d0c1edf9e",
+          "bytes": 2764769,
+          "exact_61_sources_and_environment_ids_verified": true,
+          "passed": true
+        }
+      },
+      "staging_published": false,
+      "independent_property_fidelity_passed": true
+    },
+    "source_ci": {
+      "artifact_id": 13645328446,
+      "run_id": 42551069957,
+      "archive_sha256": "f7e623eb9c10f57d6a4dfb507b6f797e102a00fcac802b910ca1fd0740b6567b",
+      "suites": 48,
+      "assertions": 1266143,
+      "all_passed": true,
+      "all_eight_isolated_place_configs_match": true,
+      "native_gameplay_verified": false
+    },
+    "production": {
+      "artifact_id": 13645068379,
+      "run_id": 42551062764,
+      "archive_sha256": "0167bd1ea00a3090f15d2c0149bd63453edbf794535c89f4c1a121f1c04d75cb",
+      "all_four_exact_build_pins_passed": true,
+      "members": {
+        "dispatch": {
+          "member": "production/dispatch.rbxl",
+          "sha256": "2b9980cb73e49205200dae8f5b3d75bd0ba17492fe267505cb4ab5103c0e1c9d",
+          "bytes": 2784409,
+          "exact_61_sources_and_environment_ids_verified": true,
+          "passed": true
+        },
+        "blackwater": {
+          "member": "production/blackwater.rbxl",
+          "sha256": "2ef8aeaca574aea7cdf4a989d3be0a217ba37523cc15efa5b6090cf4e4822991",
+          "bytes": 2755479,
+          "exact_61_sources_and_environment_ids_verified": true,
+          "passed": true
+        },
+        "cinderworks": {
+          "member": "production/cinderworks.rbxl",
+          "sha256": "e365351f1bda1946691e607b639ac9a8adfb26943b69459eeb2c4144ab84bbb0",
+          "bytes": 2763339,
+          "exact_61_sources_and_environment_ids_verified": true,
+          "passed": true
+        },
+        "whiteout": {
+          "member": "production/whiteout.rbxl",
+          "sha256": "e7ab0eba679a3acef459c9f87a3d40a06f0abb8c9fefbb90a0adb69aa9f442b7",
+          "bytes": 2764786,
+          "exact_61_sources_and_environment_ids_verified": true,
+          "passed": true
+        }
+      },
+      "production_published": false,
+      "new_banks_active_in_production": 0,
+      "independent_property_fidelity_passed": true
+    }
+  },
+  "publication_authorized": false,
+  "reviewed_at": "2026-11-09T02:39:29.726957+00:00"
+}

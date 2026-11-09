@@ -1,0 +1,97 @@
+{
+  "nativeListening": false,
+  "independentDecode": "ffprobe + ffmpeg float decode / 4x oversampling",
+  "allPassed": true,
+  "clips": [
+    {
+      "file": "blackwater_calm.ogg",
+      "sha256": "24e2e36d6899e3c41ca20af4e5ebbea22e75ef23f7cc52fe67befbf2614d0244",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.2208242416381836,
+      "passed": true
+    },
+    {
+      "file": "blackwater_pressure.ogg",
+      "sha256": "5100c24ab941c236cd690b32c293347a08facb0d6e56752c8c359ce0ef27196a",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.22529694437980652,
+      "passed": true
+    },
+    {
+      "file": "cinderworks_calm.ogg",
+      "sha256": "fc9bcb4cb825b68c191feefe1a3088847871c15464ecf55505e219fc9a64a2ca",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.22419136762619019,
+      "passed": true
+    },
+    {
+      "file": "cinderworks_pressure.ogg",
+      "sha256": "11487fa8b0446e9457d72d4084edf0147d1fd52b855b3002f7f384a6091db181",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.21606215834617615,
+      "passed": true
+    },
+    {
+      "file": "whiteout_calm.ogg",
+      "sha256": "5289e59780abd1516936ad660ed376e87859630bf588424120fdcc0a291322d2",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.22446945309638977,
+      "passed": true
+    },
+    {
+      "file": "whiteout_pressure.ogg",
+      "sha256": "1e89692105f21330d98fb45dbf71588234b0396550ed7ad3a899e13a2dac43db",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.2210879921913147,
+      "passed": true
+    },
+    {
+      "file": "dispatch_calm.ogg",
+      "sha256": "f91353f2dc5aab370d0ff0954513a049d589f38133f3cc69b596ba868bb495de",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.21966995298862457,
+      "passed": true
+    },
+    {
+      "file": "warden_pressure.ogg",
+      "sha256": "06b30bba6efbf950ae965201056f0ac20e4167905316152bba5d9075927386e6",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.22089633345603943,
+      "passed": true
+    },
+    {
+      "file": "extraction_pressure.ogg",
+      "sha256": "9a543fed46ed15830e928e82c357be84133ba67acd1671256d55395dd05f1986",
+      "seconds": 32.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.22102533280849457,
+      "passed": true
+    },
+    {
+      "file": "rare_score_stinger.ogg",
+      "sha256": "cbf6408980063ece96ce4f8de7c90b136f1e1deef55630cdf652cac449c8a90e",
+      "seconds": 3.0,
+      "channels": 1,
+      "sampleRate": 48000,
+      "peak4x": 0.2194906324148178,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+  "status": "all five required families passed on the exact immutable game source",
+  "families": {
+    "dead-signal-production-readiness.yml": {
+      "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+      "run_id": 42551062764,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42551062764"
+    },
+    "dead-signal-staging-preflight.yml": {
+      "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+      "run_id": 42551062800,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42551062800"
+    },
+    "validate.yml": {
+      "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+      "run_id": 42551062777,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42551062777"
+    },
+    "dead-signal-source-ci.yml": {
+      "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+      "run_id": 42551062778,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42551062778"
+    },
+    "dead-signal-lossless-patch.yml": {
+      "source_sha": "a74a5f524eb0c6ddccb1e19d361d741a127823df",
+      "run_id": 42551062845,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42551062845"
+    }
+  },
+  "publication_authorized": false
+}

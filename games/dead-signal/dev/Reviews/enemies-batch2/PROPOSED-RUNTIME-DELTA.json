@@ -1,0 +1,43 @@
+{
+  "reviewed": false,
+  "purpose": "MAIN review input; not a release approval or replacement for frozen Batch 1 ledgers",
+  "source_commit": "836734bf5ea19c45786c3f89aefa935104648355",
+  "base_commit": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "changes": [
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/Diagnostics.lua",
+      "base_blob": "40a374eadf28a590818d4b3724d9da55dce87ad8",
+      "proposed_blob": "cf2229459ecc724ad53ab0e5709904f42e15e066",
+      "sha256": "90ac403bd1ac81e8639c6f49e2852bc55a98c434fbbfbeb0db829b9892fa0b28",
+      "reviewed": false
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/Enemies.lua",
+      "base_blob": "cfaa77d5d92927a4e0dd561e96569ff510373f50",
+      "proposed_blob": "80764500cdef1e1772ca79344eba1349d5755628",
+      "sha256": "abba1c7120e1188b221ab90c1def69ceaa35d6051115f43f4ebcefae8dc8fd3d",
+      "reviewed": false
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/server/Navigation.lua",
+      "base_blob": "bc0def04621503103c2c9d792392ee432a8ac40b",
+      "proposed_blob": "5dcbf69c029f991bb72624a1a3aad198337aec5c",
+      "sha256": "5f57b3ff9dc93c77bf901e7d0d9e2ba6c3729482f1115b147398cdf73c0569f5",
+      "reviewed": false
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/shared/NPCPose.lua",
+      "base_blob": "3a003e8abaad63c5ffa7c4a19117d28e151771d1",
+      "proposed_blob": "44169a322b4f2fcb9442971074d2df2ea439a839",
+      "sha256": "4278c1d0b04fa14df0c4804c928ea3f9424f30e4f3481b10c071ef666b702c34",
+      "reviewed": false
+    },
+    {
+      "path": "games/dead-signal/dev/Source/Runtime/shared/NavigationGraph.lua",
+      "base_blob": "f898217e2aef6d3b785300311d96d93ae3f840d0",
+      "proposed_blob": "e5693aa49fe175fe7e4b6ae417e04779a49076b6",
+      "sha256": "5f9e9b430c3fa74a4df91a84eb06ba20d67a78369fe18600eb29393747fb81e5",
+      "reviewed": false
+    }
+  ]
+}

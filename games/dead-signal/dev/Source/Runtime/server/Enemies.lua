@@ -200,14 +200,18 @@ end
 function E:target(enemy,now)
     local current=enemy.target local _,root=living(self.ctx,current)
     local replaced=current and enemy.targetRoot and enemy.targetRoot~=root
-    if root and not replaced and now<(enemy.targetAt or 0) then
+    local function reachable(player,pr)
+        if enemy.avoidTarget==player and now<(enemy.avoidTargetUntil or 0) then return false end
+        return not enemy.entered or not Navigation.canPursue or Navigation.canPursue(self,enemy,pr.Position,now)
+    end
+    if root and not replaced and reachable(current,root) and now<(enemy.targetAt or 0) then
         enemy.targetRoot=root return current,(root.Position-enemy.root.Position).Magnitude
     end
     enemy.targetAt=now+DirectorRules.tuning.targetSeconds+(enemy.id%5)*.035
     local target,targetRoot,distance,minimum=nil,nil,math.huge,math.huge
     for plr in pairs(self.ctx.players) do
         local _,pr=living(self.ctx,plr)
-        if pr then
+        if pr and reachable(plr,pr) then
             local d=(pr.Position-enemy.root.Position).Magnitude
             local load=math.max(0,(self.targetLoads[plr] or 0)-(current==plr and 1 or 0))
             local score=d*(1+math.min(load,10)*DirectorRules.tuning.targetLoadWeight)*(current==plr and DirectorRules.tuning.targetStickiness or 1)
@@ -230,6 +234,35 @@ function E:target(enemy,now)
     end
     enemy.targetRoot=targetRoot
     return target,distance
+end
+function E:awareness(e,player,tr,now)
+    if not e.entered or e.traversal or e.windup or e.shockAt or now<(e.stunnedUntil or 0)
+        or now<(e.awarenessCheckAt or 0) or not e.model.GetAttribute or e.model:GetAttribute("PresentationRig")~="R6" then return end
+    e.awarenessCheckAt=now+.35
+    if e.awareRoot==tr or now<(e.awarenessNext or 0) then return end
+    local _,validRoot=living(self.ctx,player)
+    if validRoot~=tr or Navigation.canPursue and not Navigation.canPursue(self,e,tr.Position,now) then return end
+    local head=e.model:FindFirstChild("Head")
+    local distance=head and (tr.Position-head.Position).Magnitude or 0
+    if not head or distance<.05 or distance>65 or not self:clearSight(head.Position,tr.Position+Vector3.yAxis) then return end
+    -- Detection is recorded even if this acquisition gets no presentation slot.
+    -- A delayed token cannot manufacture an alert long after the player was seen.
+    e.awareRoot=tr
+    self.awarenessTokens=math.min(2,(self.awarenessTokens or 2)+math.max(0,now-(self.awarenessTokenAt or now))*2)
+    self.awarenessTokenAt=now
+    if self.awarenessTokens<1 then return end
+    self.awarenessTokens-=1;e.awarenessNext=now+12+e.id%7;e.awarenessSequence=(e.awarenessSequence or 0)+1
+    local direction=e.root.CFrame:VectorToObjectSpace((tr.Position-head.Position).Unit)
+    local yaw=math.clamp(math.atan2(-direction.X,-direction.Z),-.55,.55)
+    local pitch=math.clamp(math.asin(math.clamp(direction.Y,-1,1)),-.15,.15)
+    local at=workspace:GetServerTimeNow();local variant=e.id%3+1
+    e.model:SetAttribute("AwarenessYaw",yaw);e.model:SetAttribute("AwarenessPitch",pitch)
+    e.model:SetAttribute("AwarenessVariant",variant);e.model:SetAttribute("AwarenessDuration",.85)
+    e.model:SetAttribute("AwarenessTargetUserId",player.UserId);e.model:SetAttribute("AwarenessRunId",self.ctx.run.id)
+    e.model:SetAttribute("AwarenessAt",at) -- Publish the timestamp last; AUDIO consumes only fresh coherent facts.
+    local run=tostring(self.ctx.run.id);local source="enemy:"..run..":"..e.id
+    self.ctx.feed:FireAllClients("EnemyAwareness",{runId=self.ctx.run.id,id=e.id,kind=e.kind,position=e.root.Position,
+        variant=variant,sourceId=source,token="awareness:"..run..":"..e.id..":"..e.awarenessSequence})
 end
 function E:cancelActions(e)
     -- Keep nextCharge/nextAmbush: losing a target or being interrupted is not a
@@ -620,6 +653,7 @@ function E:behavior(e,tr,now,distance)
 end
 function E:tick(now)
     if not self.ctx.map then return end
+    if Navigation.beginTick then Navigation.beginTick(self) elseif Navigation.sync then Navigation.sync(self) end
     if self.pending and #self.pending>0 and now>=(self.nextAdmission or 0) and (self.ctx.run.phase=="Wave" or self.ctx.run.phase=="Exfil") then
         self.nextAdmission=now+Navigation.traversalTuning.planInterval
         local ticket=table.remove(self.pending,1)
@@ -691,6 +725,7 @@ function E:tick(now)
         else
             local target,distance=self:target(enemy,now) local tr=target and U.root(target)
             if tr then
+                self:awareness(enemy,target,tr,now)
                 local destination,hold,allowAttack=self:behavior(enemy,tr,now,distance)
                 local stunned=now<(enemy.stunnedUntil or 0)
                 if stunned or not allowAttack then enemy.windup=nil enemy.windupTarget=nil end
@@ -726,17 +761,21 @@ function E:tick(now)
                         self.ctx.feed:FireAllClients("ShockWarning",{id=enemy.id,runId=self.ctx.run.id,position=enemy.shockPosition,radius=20+(enemy.phase-1)*2,duration=1.8})
                     end
                 end
-                if stunned or hold or enemy.shockAt or enemy.windup then enemy.hum:MoveTo(enemy.root.Position) enemy.movingTo=nil enemy.lastMoved=now
+                if stunned or hold or enemy.shockAt or enemy.windup then
+                    enemy.hum:MoveTo(enemy.root.Position);enemy.movingTo=nil;enemy.lastMoved=now
+                    enemy.progressAt=now;enemy.progressPosition=enemy.root.Position
                 else
                     local plan=self.ctx.map.traversals and self.entryPlanBudget>0 and Navigation.contextPlan(self,enemy,destination,now)
                     if plan then self.entryPlanBudget-=1;self:startTraversal(enemy,plan,now)
                     else Navigation.move(self,enemy,destination,now) end
                 end
-                if now-enemy.lastMoved>16 then self:recover(enemy) end
+                -- Entered pursuit uses bounded replanning/target reacquisition.
+                -- It never relocates a live actor back to an exterior window.
             else
                 self:cancelActions(enemy)
                 if enemy.shockAt then enemy.shockAt=nil enemy.model:SetAttribute("Charging",false) end
                 enemy.hum:MoveTo(enemy.root.Position) enemy.movingTo=nil enemy.lastMoved=now
+                enemy.progressAt=now;enemy.progressPosition=enemy.root.Position
             end
         end
     end

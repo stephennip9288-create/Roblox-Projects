@@ -117,4 +117,5 @@ def assert_reviewed_runtime(test):
             expected = {'blob_sha': sha, 'review_pr': pr, 'source_head': head}
         test.assertEqual(lock['records'][name], expected, name + ' reviewed owner/head/blob')
         applied = PRODUCTION_BLOB if name == SUPPLEMENT['path'] else expected['blob_sha']
-        test.assertEqual(blob(path.read_bytes()), applied, name + ' current bytes')
+        from audio_b2_scope import runtime_baseline
+        test.assertEqual(blob(runtime_baseline(name,path.read_bytes())), applied, name + ' current bytes / guarded Batch2 audio lane')

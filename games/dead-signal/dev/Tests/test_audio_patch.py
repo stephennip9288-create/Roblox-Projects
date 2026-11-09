@@ -12,7 +12,8 @@ spec.loader.exec_module(patch)
 
 class AudioPatch(unittest.TestCase):
     def setUp(self):
-        self.actual = patch.RUNTIME.read_text()
+        from batch2_scope import runtime_baseline
+        self.actual = runtime_baseline('Source/Runtime/client/Effects.lua', patch.RUNTIME.read_bytes()).decode()
         self.source = self.actual
         self.snippet = patch.PROPOSAL.read_text()
         if "function FX:audioInit()" in self.actual:

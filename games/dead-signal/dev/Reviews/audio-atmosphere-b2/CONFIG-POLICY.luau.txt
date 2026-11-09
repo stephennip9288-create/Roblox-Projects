@@ -1,0 +1,7 @@
+-- START BATCH 2 AUDIO POLICY
+-- Existing approved SoundIds/permissions are untouched. New assets require intake.
+C.AudioAtmosphere={enabled=true,universeId=game.GameId,minimumInterval=35,assets={}}
+-- Populate assets only after creator/rights/listening/moderation and exact-universe permission review.
+-- {id="rbxassetid://...",rightsCleared=true,creatorReviewed=true,listeningApproved=true,
+--  robloxApproved=true,permissions={["10771141095"]=true},gain=1}
+-- END BATCH 2 AUDIO POLICY

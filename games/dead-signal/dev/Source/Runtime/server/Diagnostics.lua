@@ -24,6 +24,15 @@ function D.status()
     for player,p in pairs(c.players) do table.insert(info.players,{name=player.Name,status=p.status,health=p.health,points=p.points,bay=p.bay,travelling=p.travelling,escapeCorrections=p.escapeCorrections or 0}) end
     print(game:GetService("HttpService"):JSONEncode(info)) return info
 end
+-- Opt-in only. No remote, automatic loop or production-visible attributes.
+function D.navigation(enabled)
+    local c=ready();assert(c.enemies and c.map,"Start a match first.")
+    if enabled==false then c.enemies.navigationDebug=nil
+    elseif enabled==true then
+        c.enemies.navigationDebug={started=os.clock(),events={},cursor=0,count=0,counters={}}
+    end
+    return require(script.Parent.Navigation).snapshot(c.enemies,os.clock())
+end
 function D.start(map,mode)
     local c=ready()
     if c.game:isCombat() or c.run.phase=="Results" then c.game:finish(false,"Studio reset") c.game:reset() end

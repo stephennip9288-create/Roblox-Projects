@@ -1,0 +1,95 @@
+{
+  "runtimeCommit": "82aa087f41683e3d96511da75192fc5433f5851a",
+  "scope": "Source checkpoint; final evidence-only commit does not change these runtime bytes.",
+  "status": "blocked",
+  "waived": false,
+  "expectedArchitectureBlob": "c5b5294dfd7f6f981ef73f17256868d9e5235652",
+  "candidateArchitectureBlob": "7ad97ec938268a0dffa4f9cb8d81da491e44ab03",
+  "runs": [
+    {
+      "id": 42427724136,
+      "name": "Dead Signal Work Source CI (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42427724136",
+      "job": 128569523223,
+      "failedStep": "Test publisher manifests and configuration isolation",
+      "logsInspected": true,
+      "excerpts": [
+        "2026-11-08T00:00:31.0129068Z FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)",
+        "2026-11-08T00:00:31.0138868Z AssertionError: '7ad97ec938268a0dffa4f9cb8d81da491e44ab03' != 'c5b5294dfd7f6f981ef73f17256868d9e5235652'",
+        "2026-11-08T00:00:31.0141449Z FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)",
+        "2026-11-08T00:00:31.0146770Z AssertionError: '7ad97ec938268a0dffa4f9cb8d81da491e44ab03' != 'c5b5294dfd7f6f981ef73f17256868d9e5235652'",
+        "2026-11-08T00:00:31.0149070Z Ran 28 tests in 0.781s",
+        "2026-11-08T00:00:31.0149365Z FAILED (failures=2, skipped=2)"
+      ]
+    },
+    {
+      "id": 42427724049,
+      "name": "Validate Roblox Cloud Project",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42427724049"
+    },
+    {
+      "id": 42427724066,
+      "name": "Dead Signal Private Staging Preflight (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42427724066",
+      "job": 128569523135,
+      "failedStep": "Verify all repository and rollout safety tests",
+      "logsInspected": true,
+      "excerpts": [
+        "2026-11-08T00:00:29.7381616Z FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)",
+        "2026-11-08T00:00:29.7395225Z AssertionError: '7ad97ec938268a0dffa4f9cb8d81da491e44ab03' != 'c5b5294dfd7f6f981ef73f17256868d9e5235652'",
+        "2026-11-08T00:00:29.7398917Z FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)",
+        "2026-11-08T00:00:29.7406540Z AssertionError: '7ad97ec938268a0dffa4f9cb8d81da491e44ab03' != 'c5b5294dfd7f6f981ef73f17256868d9e5235652'",
+        "2026-11-08T00:00:29.7409637Z Ran 28 tests in 0.992s",
+        "2026-11-08T00:00:29.7410008Z FAILED (failures=2, skipped=2)"
+      ]
+    },
+    {
+      "id": 42427724082,
+      "name": "Dead Signal Lossless Source Patch (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42427724082",
+      "job": 128569523079,
+      "failedStep": "Validate manifests and established source tests",
+      "logsInspected": true,
+      "excerpts": [
+        "2026-11-08T00:00:29.2818674Z FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)",
+        "2026-11-08T00:00:29.2831863Z AssertionError: '7ad97ec938268a0dffa4f9cb8d81da491e44ab03' != 'c5b5294dfd7f6f981ef73f17256868d9e5235652'",
+        "2026-11-08T00:00:29.2834875Z FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)",
+        "2026-11-08T00:00:29.2840245Z AssertionError: '7ad97ec938268a0dffa4f9cb8d81da491e44ab03' != 'c5b5294dfd7f6f981ef73f17256868d9e5235652'",
+        "2026-11-08T00:00:29.2842705Z Ran 28 tests in 1.028s",
+        "2026-11-08T00:00:29.2842969Z FAILED (failures=2, skipped=2)"
+      ]
+    },
+    {
+      "id": 42427724078,
+      "name": "Dead Signal Production Candidate Readiness (No Publish)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42427724078",
+      "job": 128569523014,
+      "failedStep": "Run publisher and production safety tests",
+      "logsInspected": true,
+      "excerpts": [
+        "2026-11-08T00:00:31.8348807Z FAIL: test_only_owned_audio_bytes_change (test_audio_corrections_b1.AudioCorrections.test_only_owned_audio_bytes_change)",
+        "2026-11-08T00:00:31.8358848Z AssertionError: '7ad97ec938268a0dffa4f9cb8d81da491e44ab03' != 'c5b5294dfd7f6f981ef73f17256868d9e5235652'",
+        "2026-11-08T00:00:31.8361237Z FAIL: test_all_runtime_records_match_reviewed_integration (test_audio_quality_b11.AudioQualityB11.test_all_runtime_records_match_reviewed_integration)",
+        "2026-11-08T00:00:31.8366184Z AssertionError: '7ad97ec938268a0dffa4f9cb8d81da491e44ab03' != 'c5b5294dfd7f6f981ef73f17256868d9e5235652'",
+        "2026-11-08T00:00:31.8368046Z Ran 28 tests in 1.281s",
+        "2026-11-08T00:00:31.8368279Z FAILED (failures=2, skipped=2)"
+      ]
+    }
+  ],
+  "integrationActions": [
+    "MAIN reviews an explicit Batch 2 development provenance intake without rewriting frozen Batch 1 evidence.",
+    "MAIN/ENEMY registers Tests/map-b2-navigation.luau additively with other specialist suites.",
+    "ENEMY validates its final planner and congestion handling against the exact MAP waypoint metadata.",
+    "MAIN reruns combined CI, lossless native audits and authorized Studio/device acceptance."
+  ]
+}

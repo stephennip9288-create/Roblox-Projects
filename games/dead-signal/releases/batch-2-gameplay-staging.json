@@ -1,0 +1,271 @@
+{
+  "schema": 1,
+  "release": "dead-signal-batch-2-gameplay-only-private-staging",
+  "issue": 62,
+  "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+  "owner_staging_authorization": false,
+  "owner_authorization_evidence": null,
+  "ready_for_staging": false,
+  "production_authorization": false,
+  "staging_universe_id": "10771141095",
+  "profile_store": "DeadSignal_Profile_v1",
+  "runtime_manifest_blob": "06d588c5603496b92cfdae123af1add570a4248a",
+  "build_manifest_blob": "b3b2d607b5da267fd518443f9b271ca4af87d684",
+  "integrated_heads": {
+    "maps": "7b8c2442530c11afc47cd40f50c03a03349f6c39",
+    "audio": "4807fd25193bc721a3473858d2c744250614aaaf",
+    "enemies": "f8b2c49f88046af43a8133f7bfeec5e4437c34a9",
+    "combat_ui": "26bcbfe5558f6fc0ff6e067c200649578a5502be"
+  },
+  "engine_gameplay_verified": false,
+  "audio": {
+    "asset_count": 16,
+    "fully_approved_assets": 0,
+    "independent_staging_grants_verified": true,
+    "independent_production_grants_verified": true,
+    "owner_listening_accepted": true,
+    "rights_and_source_verified": true,
+    "moderation_and_playback_eligible": false,
+    "enabled_new_assets": 0,
+    "disabled_assets": {
+      "Music.Station.Calm": "138465772345022",
+      "Music.Station.Pressure": "130706797589872",
+      "Music.Foundry.Calm": "127835878664881",
+      "Music.Foundry.Pressure": "136397741479585",
+      "Music.Frost.Calm": "76339621502898",
+      "Music.Frost.Pressure": "76092484114227",
+      "Music.Lobby.Calm": "78163810591784",
+      "Music.Warden": "125448982783761",
+      "Music.Extraction": "99490559372066",
+      "Atmosphere.Stinger": "79202413557343",
+      "Atmosphere.Station.Creak": "128855928185941",
+      "Atmosphere.Foundry.Steam": "101059835221623",
+      "Atmosphere.Foundry.Impact": "123384623508546",
+      "Atmosphere.Cry": "124107740668584",
+      "Zombie.Breath": "122477333598212",
+      "Zombie.Drag": "92629845353488"
+    },
+    "hosted_previews_played": 16,
+    "hosted_content_strict_matches": 14,
+    "original_source_rights_and_creator_review_complete": true,
+    "uploaded_content_equivalence_fully_verified": false,
+    "explicit_roblox_moderation_state_verified": false,
+    "native_ContentProvider_verified": false
+  },
+  "ci": {
+    "validate.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486273,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536486273"
+    },
+    "dead-signal-staging-preflight.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486281,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536486281"
+    },
+    "dead-signal-production-readiness.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486280,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536486280"
+    },
+    "dead-signal-lossless-patch.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486332,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536486332"
+    },
+    "dead-signal-source-ci.yml": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536481811,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "url": "https://github.com/stephennip9288-create/Roblox-Projects/actions/runs/42536481811"
+    }
+  },
+  "staging_binary_sha256": {
+    "dispatch": "f6e551ad1a6842700f53e5b33e62065a4df7b5dad3e819d5f5d8a1c4052c3d93",
+    "blackwater": "8ab9416564799907680b79677dc260892eaf5a02ff034c135bc9999b18b56af0",
+    "cinderworks": "aafb4c48850c9a041c1f2c2c8894a223a037ebfda2fa6eeee4665ac3af4fd83f",
+    "whiteout": "8c1152fc001864dbf69e68fa3df9ddce5e7208d959d2e154d97857da0d8d6bce"
+  },
+  "staging_binary_bytes": {
+    "dispatch": 2784279,
+    "blackwater": 2755349,
+    "cinderworks": 2763212,
+    "whiteout": 2764655
+  },
+  "rollback": {
+    "schema": 1,
+    "environment": "staging",
+    "universe_id": "10771141095",
+    "source_sha": "f4a7d6ba0c6981a3ebe3679e64b5eea37e1dce2d",
+    "artifact": {
+      "id": 12545195246,
+      "run_id": 40054332185,
+      "sha256": "09840f969288228cf3dcc0c5a6fb05dfcbb66f152f08fff5d73d2e8ed1214036",
+      "expires_at": "2027-01-22T02:28:53Z",
+      "head_sha": "852c51ef6bba8d59c9dfa2a461e5bd6dbccf3101",
+      "note": "Exact owner-run approved supplemental-audio source uploaded to all4 private staging places; native QA and all6 defect verifications remain pending. No production authorization."
+    },
+    "deployment": {
+      "run_id": 40054332185,
+      "attempt": 1,
+      "versions": {
+        "blackwater": 16,
+        "cinderworks": 16,
+        "whiteout": 16,
+        "dispatch": 20
+      },
+      "workflow_id": 386310450,
+      "control_sha": "852c51ef6bba8d59c9dfa2a461e5bd6dbccf3101"
+    },
+    "places": {
+      "blackwater": {
+        "place_id": "102403661108879",
+        "member": "build/dead-signal-lossless/staging/blackwater.rbxl",
+        "sha256": "4b5c631761dad0c76166a07adfb44429c0d9a808b66c2df96f037ee77a184747",
+        "bytes": 2731765
+      },
+      "cinderworks": {
+        "place_id": "125712056058975",
+        "member": "build/dead-signal-lossless/staging/cinderworks.rbxl",
+        "sha256": "b2d57c6944ea7f33aab49cabba839f31fd540037e45055b846e8499e2c36a28b",
+        "bytes": 2739610
+      },
+      "whiteout": {
+        "place_id": "122269451559483",
+        "member": "build/dead-signal-lossless/staging/whiteout.rbxl",
+        "sha256": "4c1a09f9ebfb50e8f7421e2b4daf26e3d26f352bfa162378dfe6d2c715000d00",
+        "bytes": 2741069
+      },
+      "dispatch": {
+        "place_id": "117710269155815",
+        "member": "build/dead-signal-lossless/staging/dispatch.rbxl",
+        "sha256": "b3587b6530474a4d9ca255da1c03cf976d56558394a608d3075a126b9cf51413",
+        "bytes": 2760685
+      }
+    }
+  },
+  "blockers": [
+    "Owner requires all sixteen new audio assets enabled. This disabled-audio proposal is withdrawn and is not the requested release.",
+    "A new fully evidenced audio-active runtime source and separate final authorization are required."
+  ],
+  "native_qa": "Not performed; no bug is marked Verified and no device/Studio acceptance inferred from offline tests.",
+  "candidate_artifacts": {
+    "staging": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486332,
+      "artifact_id": 13639882040,
+      "archive_sha256": "882304b9b0b139799956d5d7332daac230abfcab9b82cf23479596d8173b6c71",
+      "members": {
+        "dispatch": {
+          "member": "dispatch.rbxl",
+          "sha256": "f6e551ad1a6842700f53e5b33e62065a4df7b5dad3e819d5f5d8a1c4052c3d93",
+          "bytes": 2784279,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "blackwater": {
+          "member": "blackwater.rbxl",
+          "sha256": "8ab9416564799907680b79677dc260892eaf5a02ff034c135bc9999b18b56af0",
+          "bytes": 2755349,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "cinderworks": {
+          "member": "cinderworks.rbxl",
+          "sha256": "aafb4c48850c9a041c1f2c2c8894a223a037ebfda2fa6eeee4665ac3af4fd83f",
+          "bytes": 2763212,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "whiteout": {
+          "member": "whiteout.rbxl",
+          "sha256": "8c1152fc001864dbf69e68fa3df9ddce5e7208d959d2e154d97857da0d8d6bce",
+          "bytes": 2764655,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        }
+      },
+      "all_four_exact_build_pins_passed": true,
+      "independent_property_fidelity_passed": true,
+      "staging_published": false
+    },
+    "production": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486280,
+      "artifact_id": 13639841226,
+      "archive_sha256": "341f4c98a20588187e2526812f55c204f97891ee58fc4ccd2d15a4826d228407",
+      "members": {
+        "dispatch": {
+          "member": "production/dispatch.rbxl",
+          "sha256": "186eb166df43d9f21ca1de4694c8447daec0cf01700405ad505a4ff5e38be2a9",
+          "bytes": 2784295,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "blackwater": {
+          "member": "production/blackwater.rbxl",
+          "sha256": "caefb22d8ee03526d7c340646f2e57e5df85190a54e8c288cda944469de02c47",
+          "bytes": 2755365,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "cinderworks": {
+          "member": "production/cinderworks.rbxl",
+          "sha256": "940ed0e186a02a1c352209673f7112969b47e7cba1e4b020d59da274c38b4f4b",
+          "bytes": 2763229,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        },
+        "whiteout": {
+          "member": "production/whiteout.rbxl",
+          "sha256": "651e7b7374d9e982e0f92ef31806f25d8714481efc92392488ff2a3a3c63b9bc",
+          "bytes": 2764672,
+          "passed": true,
+          "all_61_sources_and_isolated_environment_verified": true
+        }
+      },
+      "all_four_exact_build_pins_passed": true,
+      "independent_property_fidelity_passed": true,
+      "production_published": false
+    },
+    "source": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536481811,
+      "artifact_id": 13639737438,
+      "archive_sha256": "1dc37fea6d7160cbc24f21a57907cce606ac1a6fa7d9d98c2e74bad98096de58",
+      "suites": 48,
+      "assertions": 1251174,
+      "all_suites_passed": true,
+      "native_engine_qa_claimed": false
+    },
+    "staging_preflight": {
+      "source_sha": "60b4a05689a92819f6f31bfe22862deb353fd5c9",
+      "run_id": 42536486281,
+      "artifact_id": 13639508814,
+      "archive_sha256": "1020838a2dd4d63943be826649f49e1f1058415f30b11eb88af86103e0a5abc8",
+      "four_place_pins_and_latest_recovery_reports_verified": true,
+      "staging_published": false
+    }
+  },
+  "approval_scope": "GAMEPLAY_QA_NEW_AUDIO_DISABLED",
+  "owner_accepts_audio_exclusion": false,
+  "full_batch2_accepted": false,
+  "technical_preflight_complete": true,
+  "proposal_withdrawn": true,
+  "owner_requested_all_sixteen_new_audio_active": true,
+  "withdrawal_evidence": "https://github.com/stephennip9288-create/Roblox-Projects/issues/62#issuecomment-6729154438"
+}

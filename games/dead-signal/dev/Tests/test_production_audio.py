@@ -5,7 +5,8 @@ class ProductionAudio(unittest.TestCase):
  def test_exact_additive_production_only_source(self):
   current=(DEV/'Source/Runtime/shared/Config.lua').read_bytes();staged=staged_config(current)
   self.assertEqual(staged,(DEV/'Reviews/production-batch1/STAGED-CONFIG.lua.txt').read_bytes())
-  self.assertEqual(blob(current),PRODUCTION_BLOB)
+  from audio_b2_scope import config_before
+  self.assertEqual(blob(config_before(current)),PRODUCTION_BLOB)
   block=(DEV/'Reviews/production-batch1/PRODUCTION-BINDINGS.luau.txt').read_bytes();self.assertEqual(blob(block),BLOCK_BLOB)
   self.assertIn(b'if game.GameId==10770732078 then',block)
   self.assertNotIn(b'117834744541770',block);self.assertNotIn(b'117522141638495',block)

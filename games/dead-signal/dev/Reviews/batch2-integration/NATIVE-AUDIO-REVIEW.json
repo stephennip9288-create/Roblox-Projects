@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "reviewed-owner-provided-native-asset-evidence",
+  "reviewed_at": "2026-11-09T02:19:49.021848+00:00",
+  "owner_report_file": "NATIVE-AUDIO-OWNER-REPORT.json",
+  "owner_report_sha256": "57a6b7c2f2f4f3c23992c2bbecf43b3438c7b0e6005b89f466aefd7520e61ea9",
+  "probe_source_commit": "6c2f333de98b078c79c156ce384f80c3cf245532",
+  "probe_source_sha256": "50a2ce485b9593e0a86daff376bf87579f646182a23dec57e65de3215e29131d",
+  "evidence_origin": "Owner pasted the complete Studio export in the private project conversation; MAIN reviewed per-ID callbacks, durations and playback progress. MAIN did not operate native Studio.",
+  "owner_attestation_exact": "I confirm all intended clips.",
+  "owner_intended_clips_confirmed": true,
+  "accepted_for_staging_asset_eligibility": true,
+  "asset_count": 16,
+  "native_load_success_count": 16,
+  "native_playback_progress_count": 16,
+  "staging_universe_id": "10771141095",
+  "probe_place_id": "117710269155815",
+  "captured_at_utc": "2026-11-09T02:11:56Z",
+  "reported_place_version": 0,
+  "server_place_version_attested": false,
+  "place_version_review": {
+    "conclusion": "Client metadata unavailable; retain 0 unchanged. This probe does not attest the installed server version or game source.",
+    "original_validator_result": "Rejected only by erroneous positive PlaceVersion prerequisite; all per-asset checks passed after fixing that client-metadata requirement.",
+    "documentation": "https://create.roblox.com/docs/reference/engine/classes/DataModel#PlaceVersion",
+    "documentation_fact": "PlaceVersion describes the server version and is tagged Not Replicated; a positive server version is not a client asset-playback prerequisite.",
+    "other_context_checks_retained": [
+      "Studio",
+      "client",
+      "known staging universe",
+      "known staging place",
+      "sixteen exact event/ID pairs"
+    ]
+  },
+  "content_disposition": {
+    "strict_numeric_matches": 14,
+    "additional_supplemental_match": "Zombie.Drag",
+    "steam": {
+      "event": "Atmosphere.Foundry.Steam",
+      "asset_id": "101059835221623",
+      "source_sha256": "58a2c1d8f440f8e4646258309ae1cee892c4308882c64206aa14c67e3bd74b64",
+      "strict_comparison_passed": false,
+      "supplemental_comparison_passed": false,
+      "intended_clip_accepted_on_owner_confirmation": true,
+      "basis": "Owner explicitly recognizes all intended native clips, including steam, together with unchanged hosted hashes, full-duration alignment and strong source signal correspondence. This is owner-attested identity, not a numerical or byte-identity pass."
+    }
+  },
+  "engine_gameplay_verified": false,
+  "game_source_attested": false,
+  "published_client_verified": false,
+  "physical_mobile_verified": false,
+  "multiplayer_verified": false,
+  "production_authorized": false,
+  "remaining_gameplay_audio_qa": "After separately authorized staging deployment: all maps/events, desktop/mobile, multiplayer, high-round zombies, movement, Warden, extraction, mixing/mute/Low Effects.",
+  "publication_authorized": false
+}

@@ -1,0 +1,47 @@
+{
+  "kind": "specialist-proposal-not-an-accepted-provenance-ledger",
+  "scope": [
+    "B2-01",
+    "B2-06"
+  ],
+  "design_issue": 62,
+  "baseline": "7aaf323de6153134df2154c7ae3b1613a596495b",
+  "candidate_source_commit": "528f99c7a0cc5abe031df1ff11ce91064e570022",
+  "required_records": 61,
+  "retained_records": 56,
+  "changes": {
+    "Source/Runtime/client/Controller.lua": {
+      "base_blob": "8302f9416ed2f0025b3aeed4c78c794020b42af5",
+      "candidate_blob": "6218a493ed0e51cbc24d60d922641c2216fd41ab",
+      "candidate_sha256": "5d4300db4aa9e36559fc0d4e3f32a1af366c9039185247d79500aeec06b60cf1"
+    },
+    "Source/Runtime/client/UI.lua": {
+      "base_blob": "a1c8cf8e26ed70043e0d8b04b80936d9afc3f0c6",
+      "candidate_blob": "24e53c2ab5fd93cdc81def3b94a891a43e59f263",
+      "candidate_sha256": "35fc90cee5be38f724c63f0b90c440a0ad759d83ee4106f4d21ef0c7c72e34b2"
+    },
+    "Source/Runtime/server/Game.lua": {
+      "base_blob": "8991e4f7c02f614375e4e3d91694bc0fdccae246",
+      "candidate_blob": "5ed98222efca69bab5dd570794436d757901475b",
+      "candidate_sha256": "2497a0d8f791a6b07ac0646e494bca4fae8a250d9beda1cfc37deeeeb07c0ab3"
+    },
+    "Source/Runtime/server/Network.lua": {
+      "base_blob": "fac780a6461577066260b21067ee7f6829a9f3fb",
+      "candidate_blob": "8232088e19e5ecb76dd92d7852b19c9cbe8f6fcc",
+      "candidate_sha256": "4e77591e7c603ba874ba5168d2455e674ed86023350c851a9e3f16c3d149707b"
+    },
+    "Source/Runtime/shared/Movement.lua": {
+      "base_blob": "46c11f5a323f78bd4a5860e2b6cd49bc1cceca3a",
+      "candidate_blob": "1d63b83587955a0f406cd03bb59eaabe2d1ddf0b",
+      "candidate_sha256": "87598d9d4476b6ff00c0a6bcfd9c09f7e7089dfa9c47256346f1fef4525f100d"
+    }
+  },
+  "frozen_provenance_retained": {
+    "Tests/runtime_provenance.py": "3dde89947ce6aeb973532c6ebfe2f2b3d31e4707",
+    "Reviews/batch1-1/REVIEWED-RUNTIME.json": "dcf56e871bb56f809df77515b73cfaa60fa32638",
+    "Reviews/audio-corrections-b1/BASELINE-RUNTIME.json": "a5f6c619624fa5a1372327c978cc4df86b08987b",
+    "Reviews/batch1-1-followup/REVIEWED-RUNTIME.json": "2320590827bdd58ad976115728fa9200c7c95c26"
+  },
+  "main_intake_required": true,
+  "pipeline_or_ledger_gate_waived": false
+}

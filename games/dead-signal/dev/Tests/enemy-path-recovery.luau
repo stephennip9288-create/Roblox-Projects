@@ -15,7 +15,9 @@ local pf={CreatePath=function()
     {Position=V.new(10,0,0),Action=selected=='jump' and r.Enum.PathWaypointAction.Jump or r.Enum.PathWaypointAction.Walk}}
   end,Blocked={Connect=function() return {Disconnect=function() disconnected+=1 end} end}}
 end}
-local world={Raycast=function(_,pos) return {Position=V.new(pos.X,0,pos.Z)} end,Blockcast=function() return {} end}
+-- Valid short native segments remain clear; only the long direct goal is blocked.
+-- Blocked native segments are rejected in the dedicated Batch 2 regression.
+local world={Raycast=function(_,pos) return {Position=V.new(pos.X,0,pos.Z)} end,Blockcast=function(_,_,_,delta) return delta.Magnitude>20 and {} or nil end}
 local hints=0 local graph={route=function() hints+=1;return {V.new(8,0,0)} end}
 local load=loader.new(dm,{services={PathfindingService=pf},modules={NavigationGraph=graph},globals={workspace=world,os=testOs,
  RaycastParams={new=function() return {} end},task={spawn=function(fn) queue[#queue+1]=fn end}}})
